@@ -1,0 +1,14 @@
+export { Hero } from "./hero";
+export { TrustStrip } from "./trust-strip";
+export { HowItWorks } from "./how-it-works";
+export { Categories } from "./categories";
+export { FeaturedFreelancers } from "./featured-freelancers";
+export { FeaturedServices } from "./featured-services";
+export { OpenJobs } from "./open-jobs";
+export { WhyKhidma } from "./why-khidma";
+export { PaymentExplainer } from "./payment-explainer";
+export { WithdrawalOptions } from "./withdrawal-options";
+export { Testimonials } from "./testimonials";
+export { StatsBanner } from "./stats-banner";
+export { FAQ } from "./faq";
+export { FinalCTA } from "./final-cta";

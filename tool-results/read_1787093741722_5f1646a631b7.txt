@@ -1,0 +1,2002 @@
+     1→You are GLM 5.2 acting as a:
+     2→
+     3→* Senior Product Architect
+     4→* Senior UX/UI Designer
+     5→* Senior Full-Stack Engineer
+     6→* Backend Architect
+     7→* Database Architect
+     8→* Payment Systems Architect
+     9→* Security Engineer
+    10→* Trust & Safety Engineer
+    11→* QA Engineer
+    12→
+    13→I want you to design and build a production-quality freelance marketplace specifically designed for **Tunisian freelancers and Tunisian/international clients**.
+    14→
+    15→The platform should be inspired by the strongest concepts of:
+    16→
+    17→* Upwork
+    18→* Fiverr
+    19→* 5amsat
+    20→* Other professional freelance marketplaces
+    21→
+    22→But DO NOT clone them.
+    23→
+    24→The platform must be designed around a major problem:
+    25→
+    26→> Tunisian freelancers have skills and talent, but often face difficulties finding trustworthy clients, proving their professionalism, receiving payments, and withdrawing earnings through methods that work for them.
+    27→
+    28→The platform should solve this through:
+    29→
+    30→**Identity + Professional Verification + Portfolio + Contracts + Payment Protection + Reviews + Secure Transactions + Local/International Withdrawal Architecture**
+    31→
+    32→---
+    33→
+    34→# 1. CORE PRODUCT IDEA
+    35→
+    36→The platform is:
+    37→
+    38→> A trusted freelance marketplace connecting verified Tunisian talent with clients in Tunisia and around the world.
+    39→
+    40→The platform should provide two sides:
+    41→
+    42→## Freelancer
+    43→
+    44→A Tunisian freelancer creates an account, builds a professional profile, submits verification information and portfolio work, and waits for admin approval.
+    45→
+    46→After approval, the freelancer can:
+    47→
+    48→* Apply to jobs
+    49→* Create services
+    50→* Communicate with clients
+    51→* Create contracts
+    52→* Complete projects
+    53→* Receive earnings
+    54→* Request withdrawals
+    55→* Build reputation
+    56→
+    57→## Client
+    58→
+    59→A client can:
+    60→
+    61→* Create an account
+    62→* Post jobs
+    63→* Search verified freelancers
+    64→* View portfolios
+    65→* Compare profiles
+    66→* Invite freelancers
+    67→* Create contracts
+    68→* Fund milestones
+    69→* Review work
+    70→* Leave reviews
+    71→
+    72→---
+    73→
+    74→# 2. MOST IMPORTANT TRUST PRINCIPLE
+    75→
+    76→The platform should NOT allow anyone to immediately become a public freelancer.
+    77→
+    78→The process should be:
+    79→
+    80→REGISTER
+    81→↓
+    82→EMAIL VERIFICATION
+    83→↓
+    84→FREELANCER APPLICATION
+    85→↓
+    86→PROFILE COMPLETION
+    87→↓
+    88→PROFESSIONAL INFORMATION
+    89→↓
+    90→IDENTITY / VERIFICATION INFORMATION
+    91→↓
+    92→PORTFOLIO SUBMISSION
+    93→↓
+    94→ADMIN REVIEW
+    95→↓
+    96→APPROVED / REJECTED / MORE INFORMATION REQUIRED
+    97→↓
+    98→PUBLIC FREELANCER PROFILE
+    99→
+   100→Only approved freelancers can:
+   101→
+   102→* Apply to jobs
+   103→* Publish services
+   104→* Receive client invitations
+   105→* Participate in marketplace transactions
+   106→
+   107→This approval process is one of the platform's biggest trust mechanisms.
+   108→
+   109→---
+   110→
+   111→# 3. FREELANCER REGISTRATION
+   112→
+   113→Create a professional registration flow.
+   114→
+   115→The freelancer should register with:
+   116→
+   117→* Email
+   118→* Password
+   119→* Full name
+   120→* Username
+   121→* Phone number
+   122→* Country
+   123→* City
+   124→* Account type
+   125→
+   126→Account type:
+   127→
+   128→FREELANCER
+   129→
+   130→or:
+   131→
+   132→CLIENT
+   133→
+   134→Email verification is required.
+   135→
+   136→Phone verification should also be supported.
+   137→
+   138→---
+   139→
+   140→# 4. FREELANCER APPLICATION
+   141→
+   142→After creating an account, the freelancer enters:
+   143→
+   144→## "Become a Verified Freelancer"
+   145→
+   146→This should open a multi-step onboarding wizard.
+   147→
+   148→Use a progress indicator:
+   149→
+   150→Step 1 — Personal Information
+   151→Step 2 — Professional Information
+   152→Step 3 — Skills
+   153→Step 4 — Experience
+   154→Step 5 — Portfolio
+   155→Step 6 — Profile Photo
+   156→Step 7 — Verification
+   157→Step 8 — Review & Submit
+   158→
+   159→Do NOT overwhelm the user with one enormous form.
+   160→
+   161→Save progress automatically.
+   162→
+   163→Allow:
+   164→
+   165→"Save and continue later."
+   166→
+   167→---
+   168→
+   169→# 5. STEP 1 — PERSONAL INFORMATION
+   170→
+   171→Collect only information that is genuinely necessary.
+   172→
+   173→Fields:
+   174→
+   175→First name
+   176→Last name
+   177→Username
+   178→Date of birth where legally/operationally required
+   179→Country
+   180→City
+   181→Phone
+   182→Email
+   183→Languages
+   184→Short introduction
+   185→
+   186→The profile should distinguish between:
+   187→
+   188→## Public Information
+   189→
+   190→Visible to clients:
+   191→
+   192→* Display name
+   193→* Profile photo
+   194→* Username
+   195→* City/country
+   196→* Professional title
+   197→* Bio
+   198→* Languages
+   199→* Skills
+   200→* Portfolio
+   201→* Experience
+   202→* Reviews
+   203→* Rating
+   204→* Verification badges
+   205→
+   206→## Private Information
+   207→
+   208→Visible only to authorized administrators/providers where necessary:
+   209→
+   210→* Legal name
+   211→* Verification information
+   212→* Identity information
+   213→* Payment information
+   214→* Bank information
+   215→* Internal verification notes
+   216→
+   217→Never expose private information publicly.
+   218→
+   219→---
+   220→
+   221→# 6. PROFILE PHOTO
+   222→
+   223→The freelancer should be able to upload a professional profile photo.
+   224→
+   225→Requirements:
+   226→
+   227→* JPG
+   228→* PNG
+   229→* WebP
+   230→* Reasonable file size limit
+   231→* Image dimension validation
+   232→* Secure upload
+   233→* Image optimization
+   234→* Safe filename handling
+   235→
+   236→The system should allow:
+   237→
+   238→Upload
+   239→Replace
+   240→Remove
+   241→Crop
+   242→
+   243→The profile photo should appear throughout:
+   244→
+   245→* Freelancer profile
+   246→* Search results
+   247→* Job proposals
+   248→* Messages
+   249→* Contracts
+   250→* Reviews
+   251→* Dashboard
+   252→
+   253→A professional profile photo should contribute to trust.
+   254→
+   255→However, do not require an unrealistic "perfect" appearance.
+   256→
+   257→---
+   258→
+   259→# 7. PROFESSIONAL INFORMATION
+   260→
+   261→Freelancer must provide:
+   262→
+   263→Professional title
+   264→
+   265→Examples:
+   266→
+   267→"Full-Stack Web Developer"
+   268→
+   269→"UI/UX Designer"
+   270→
+   271→"Motion Designer"
+   272→
+   273→"Video Editor"
+   274→
+   275→"SEO Specialist"
+   276→
+   277→"Voice Over Artist"
+   278→
+   279→"Copywriter"
+   280→
+   281→"Mobile App Developer"
+   282→
+   283→"Graphic Designer"
+   284→
+   285→"3D Artist"
+   286→
+   287→"Digital Marketer"
+   288→
+   289→Then:
+   290→
+   291→Professional bio
+   292→
+   293→Years of experience
+   294→
+   295→Primary category
+   296→
+   297→Secondary categories
+   298→
+   299→Skills
+   300→
+   301→Languages
+   302→
+   303→Hourly rate
+   304→
+   305→Starting project price
+   306→
+   307→Availability
+   308→
+   309→Typical response time
+   310→
+   311→Location
+   312→
+   313→Work preferences
+   314→
+   315→---
+   316→
+   317→# 8. SKILLS SYSTEM
+   318→
+   319→Create a controlled skill database.
+   320→
+   321→Example categories:
+   322→
+   323→Development
+   324→Design
+   325→Marketing
+   326→Writing
+   327→Translation
+   328→Video
+   329→Audio
+   330→Business
+   331→AI
+   332→Photography
+   333→3D
+   334→Architecture
+   335→Engineering
+   336→
+   337→Skills example:
+   338→
+   339→Next.js
+   340→React
+   341→TypeScript
+   342→Node.js
+   343→Python
+   344→Django
+   345→PHP
+   346→Laravel
+   347→UI Design
+   348→Figma
+   349→Photoshop
+   350→Illustrator
+   351→Video Editing
+   352→After Effects
+   353→Premiere Pro
+   354→SEO
+   355→Google Ads
+   356→Copywriting
+   357→Arabic Translation
+   358→French Translation
+   359→English Translation
+   360→Voice Over
+   361→Sound Design
+   362→
+   363→Admin must be able to:
+   364→
+   365→Create skills
+   366→Edit skills
+   367→Disable skills
+   368→Merge skills
+   369→Categorize skills
+   370→
+   371→Do not allow uncontrolled duplicate skill names.
+   372→
+   373→---
+   374→
+   375→# 9. EXPERIENCE
+   376→
+   377→Freelancer can add professional experience.
+   378→
+   379→Each experience:
+   380→
+   381→Company
+   382→Position
+   383→Start date
+   384→End date
+   385→Current position
+   386→Description
+   387→Skills used
+   388→
+   389→Also allow:
+   390→
+   391→Freelance experience
+   392→
+   393→Personal projects
+   394→
+   395→Open-source projects
+   396→
+   397→Academic projects
+   398→
+   399→The platform should not require fake corporate experience.
+   400→
+   401→---
+   402→
+   403→# 10. EDUCATION
+   404→
+   405→Optional.
+   406→
+   407→Fields:
+   408→
+   409→Institution
+   410→Degree
+   411→Field
+   412→Start year
+   413→End year
+   414→Description
+   415→
+   416→---
+   417→
+   418→# 11. CERTIFICATIONS
+   419→
+   420→Optional.
+   421→
+   422→Freelancer can add:
+   423→
+   424→Certification name
+   425→Issuer
+   426→Issue date
+   427→Expiration date
+   428→Credential ID
+   429→Credential URL
+   430→
+   431→Admin can optionally verify certifications.
+   432→
+   433→Do not automatically mark certificates as verified.
+   434→
+   435→---
+   436→
+   437→# 12. PORTFOLIO — CRITICAL FEATURE
+   438→
+   439→Portfolio is one of the most important parts of freelancer verification.
+   440→
+   441→The freelancer must be able to demonstrate real work.
+   442→
+   443→Create:
+   444→
+   445→PortfolioItem
+   446→
+   447→Each portfolio item:
+   448→
+   449→Title
+   450→Description
+   451→Category
+   452→Skills
+   453→Images
+   454→Video
+   455→Audio
+   456→External URL
+   457→Repository URL where appropriate
+   458→Client/project type
+   459→Completion date
+   460→Role
+   461→Technologies
+   462→Results
+   463→CreatedAt
+   464→
+   465→---
+   466→
+   467→# 13. SUPPORT DIFFERENT PORTFOLIO TYPES
+   468→
+   469→Do NOT limit portfolio to websites.
+   470→
+   471→A freelancer should be able to upload examples based on their domain.
+   472→
+   473→## Web Developer
+   474→
+   475→Examples:
+   476→
+   477→* Landing page
+   478→* SaaS dashboard
+   479→* E-commerce website
+   480→* Mobile application
+   481→* Admin dashboard
+   482→
+   483→## UI/UX Designer
+   484→
+   485→Examples:
+   486→
+   487→* Figma designs
+   488→* Mobile app UI
+   489→* Website UI
+   490→* Design system
+   491→* Prototype
+   492→
+   493→## Video Editor
+   494→
+   495→Examples:
+   496→
+   497→* YouTube video
+   498→* Advertisement
+   499→* Short-form video
+   500→* Motion graphics
+   501→* Reels
+   502→
+   503→## Audio / Sound Designer
+   504→
+   505→Examples:
+   506→
+   507→* Sound effects
+   508→* Podcast editing
+   509→* Music production
+   510→* Voice-over
+   511→* Audio mixing
+   512→* Audio mastering
+   513→
+   514→## Graphic Designer
+   515→
+   516→Examples:
+   517→
+   518→* Logo
+   519→* Brand identity
+   520→* Poster
+   521→* Social media design
+   522→* Packaging
+   523→
+   524→## Photographer
+   525→
+   526→Examples:
+   527→
+   528→* Product photography
+   529→* Portrait photography
+   530→* Commercial photography
+   531→
+   532→## Writer
+   533→
+   534→Examples:
+   535→
+   536→* Articles
+   537→* Blog posts
+   538→* Copywriting
+   539→* Product descriptions
+   540→
+   541→## 3D Artist
+   542→
+   543→Examples:
+   544→
+   545→* 3D models
+   546→* Product renders
+   547→* Architecture visualization
+   548→* Animation
+   549→
+   550→The portfolio system must therefore support:
+   551→
+   552→IMAGE
+   553→VIDEO
+   554→AUDIO
+   555→PDF
+   556→EXTERNAL URL
+   557→
+   558→where technically and legally appropriate.
+   559→
+   560→---
+   561→
+   562→# 14. PORTFOLIO FILE SECURITY
+   563→
+   564→Never allow arbitrary dangerous files.
+   565→
+   566→Implement:
+   567→
+   568→* File type validation
+   569→* MIME validation
+   570→* Extension validation
+   571→* Size limits
+   572→* Secure storage
+   573→* Filename sanitization
+   574→* Upload authorization
+   575→* Malware scanning architecture
+   576→
+   577→Do not allow executable files.
+   578→
+   579→Portfolio content should be moderated.
+   580→
+   581→---
+   582→
+   583→# 15. PORTFOLIO REVIEW
+   584→
+   585→Every portfolio item can have a status:
+   586→
+   587→DRAFT
+   588→PENDING_REVIEW
+   589→APPROVED
+   590→REJECTED
+   591→NEEDS_CHANGES
+   592→
+   593→Admin can review portfolio items independently.
+   594→
+   595→Reasons for rejection can include:
+   596→
+   597→* Fake work
+   598→* Copyright violation
+   599→* Stolen work
+   600→* Offensive content
+   601→* Misleading information
+   602→* Poor evidence
+   603→* Suspicious ownership
+   604→
+   605→---
+   606→
+   607→# 16. PROOF OF OWNERSHIP / WORK AUTHENTICITY
+   608→
+   609→This is very important.
+   610→
+   611→A freelancer should indicate:
+   612→
+   613→"I created this project."
+   614→
+   615→For external projects, allow:
+   616→
+   617→Project role
+   618→Client type
+   619→Technologies
+   620→Approximate completion date
+   621→Public URL
+   622→
+   623→For GitHub projects:
+   624→
+   625→GitHub URL
+   626→
+   627→For websites:
+   628→
+   629→Live URL
+   630→
+   631→For design:
+   632→
+   633→Portfolio files
+   634→
+   635→For video:
+   636→
+   637→Video preview
+   638→
+   639→For audio:
+   640→
+   641→Audio preview
+   642→
+   643→Do not claim that the platform can always prove authorship automatically.
+   644→
+   645→Instead create:
+   646→
+   647→PortfolioVerificationStatus
+   648→
+   649→Possible:
+   650→
+   651→UNVERIFIED
+   652→SELF_DECLARED
+   653→ADMIN_VERIFIED
+   654→EXTERNALLY_VERIFIED
+   655→
+   656→Only ADMIN_VERIFIED should show a strong verification badge.
+   657→
+   658→---
+   659→
+   660→# 17. FREELANCER VERIFICATION SYSTEM
+   661→
+   662→Create a dedicated verification workflow.
+   663→
+   664→Statuses:
+   665→
+   666→DRAFT
+   667→SUBMITTED
+   668→UNDER_REVIEW
+   669→MORE_INFORMATION_REQUIRED
+   670→APPROVED
+   671→REJECTED
+   672→SUSPENDED
+   673→REVOKED
+   674→
+   675→---
+   676→
+   677→# 18. ADMIN REVIEW PROCESS
+   678→
+   679→When freelancer submits application:
+   680→
+   681→Status:
+   682→
+   683→UNDER_REVIEW
+   684→
+   685→Admin receives:
+   686→
+   687→"New Freelancer Application"
+   688→
+   689→Admin can see:
+   690→
+   691→## Profile
+   692→
+   693→Name
+   694→Username
+   695→Photo
+   696→City
+   697→Country
+   698→Bio
+   699→Languages
+   700→
+   701→## Professional
+   702→
+   703→Title
+   704→Skills
+   705→Experience
+   706→Categories
+   707→Rates
+   708→
+   709→## Portfolio
+   710→
+   711→Projects
+   712→Images
+   713→Videos
+   714→Audio
+   715→Links
+   716→
+   717→## Verification
+   718→
+   719→Email status
+   720→Phone status
+   721→Identity verification status
+   722→Additional evidence
+   723→
+   724→## Risk
+   725→
+   726→Duplicate account signals
+   727→Suspicious activity
+   728→Previous rejection
+   729→Reports
+   730→Internal flags
+   731→
+   732→---
+   733→
+   734→# 19. ADMIN DECISION
+   735→
+   736→Admin has three primary choices:
+   737→
+   738→## APPROVE
+   739→
+   740→Freelancer becomes:
+   741→
+   742→VERIFIED FREELANCER
+   743→
+   744→and can access the marketplace.
+   745→
+   746→## REJECT
+   747→
+   748→Freelancer cannot operate as a marketplace freelancer.
+   749→
+   750→Admin must provide a rejection reason.
+   751→
+   752→## REQUEST MORE INFORMATION
+   753→
+   754→The freelancer receives:
+   755→
+   756→"Your application needs additional information."
+   757→
+   758→Admin specifies exactly what is missing.
+   759→
+   760→Example:
+   761→
+   762→"Please provide a clearer portfolio example."
+   763→
+   764→"Please update your professional biography."
+   765→
+   766→"Please provide additional verification information."
+   767→
+   768→"Please replace the current profile photo."
+   769→
+   770→"Please clarify your experience."
+   771→
+   772→---
+   773→
+   774→# 20. NEVER USE AN AUTOMATIC "FAKE DETECTOR" AS THE FINAL AUTHORITY
+   775→
+   776→You may create automated risk signals.
+   777→
+   778→But AI must NOT automatically determine:
+   779→
+   780→"This person is fake."
+   781→
+   782→Instead:
+   783→
+   784→AI/risk system
+   785→→ flags suspicious information
+   786→→ Admin reviews
+   787→→ Admin decides
+   788→
+   789→This prevents unfair rejection.
+   790→
+   791→---
+   792→
+   793→# 21. FAKE INFORMATION / FRAUD
+   794→
+   795→If information appears fraudulent:
+   796→
+   797→Flag account.
+   798→
+   799→Possible status:
+   800→
+   801→REVIEW_REQUIRED
+   802→
+   803→Admin investigates.
+   804→
+   805→If confirmed:
+   806→
+   807→REJECTED
+   808→
+   809→or:
+   810→
+   811→SUSPENDED
+   812→
+   813→or:
+   814→
+   815→BANNED
+   816→
+   817→depending on severity and policy.
+   818→
+   819→Create internal reason codes:
+   820→
+   821→FAKE_IDENTITY
+   822→MISLEADING_PROFILE
+   823→STOLEN_PORTFOLIO
+   824→DUPLICATE_ACCOUNT
+   825→FRAUD_SUSPECTED
+   826→SPAM
+   827→COPYRIGHT_VIOLATION
+   828→INCOMPLETE_INFORMATION
+   829→OTHER
+   830→
+   831→---
+   832→
+   833→# 22. IMPORTANT CLARIFICATION ABOUT "REFUND"
+   834→
+   835→Do NOT automatically "refund" an applicant merely because their freelancer application is rejected.
+   836→
+   837→Account registration should normally be free.
+   838→
+   839→Therefore:
+   840→
+   841→If freelancer registration/application is free:
+   842→
+   843→There is nothing to refund.
+   844→
+   845→If you later introduce a paid verification service or paid feature:
+   846→
+   847→The refund rules must be explicitly defined.
+   848→
+   849→For the MVP:
+   850→
+   851→FREELANCER VERIFICATION = FREE
+   852→
+   853→REJECTION = NO PAYMENT / NO REFUND REQUIRED
+   854→
+   855→This keeps the trust system simple and fair.
+   856→
+   857→---
+   858→
+   859→# 23. VERIFICATION BADGES
+   860→
+   861→Create multiple trust levels.
+   862→
+   863→Example:
+   864→
+   865→Email Verified
+   866→Phone Verified
+   867→Identity Verified
+   868→Portfolio Verified
+   869→Top Freelancer
+   870→Experienced Freelancer
+   871→
+   872→Do not use misleading badges.
+   873→
+   874→Each badge must correspond to a real verification condition.
+   875→
+   876→Example:
+   877→
+   878→✓ Email Verified
+   879→
+   880→✓ Phone Verified
+   881→
+   882→✓ Identity Verified
+   883→
+   884→✓ Portfolio Reviewed
+   885→
+   886→Do not display:
+   887→
+   888→"100% Trusted"
+   889→
+   890→because no platform can guarantee that.
+   891→
+   892→---
+   893→
+   894→# 24. PUBLIC FREELANCER PROFILE
+   895→
+   896→The profile should feel like a professional resume + portfolio + marketplace profile.
+   897→
+   898→Header:
+   899→
+   900→Profile photo
+   901→Name
+   902→Professional title
+   903→Location
+   904→Languages
+   905→Rating
+   906→Completed projects
+   907→Verification badges
+   908→Availability
+   909→
+   910→CTA:
+   911→
+   912→"Invite to Job"
+   913→
+   914→"Contact"
+   915→
+   916→"View Services"
+   917→
+   918→"Request Proposal"
+   919→
+   920→---
+   921→
+   922→# 25. PROFILE TRUST SECTION
+   923→
+   924→Create:
+   925→
+   926→## Why clients can trust this freelancer
+   927→
+   928→Show:
+   929→
+   930→✓ Email verified
+   931→
+   932→✓ Phone verified
+   933→
+   934→✓ Identity verified
+   935→
+   936→✓ Portfolio reviewed
+   937→
+   938→✓ X completed projects
+   939→
+   940→✓ X client reviews
+   941→
+   942→✓ Response rate
+   943→
+   944→✓ Member since [date]
+   945→
+   946→Only show real data.
+   947→
+   948→---
+   949→
+   950→# 26. CLIENT REVIEW SYSTEM
+   951→
+   952→After completed projects:
+   953→
+   954→Client can review freelancer.
+   955→
+   956→Review:
+   957→
+   958→Rating 1-5
+   959→Communication
+   960→Quality
+   961→Delivery
+   962→Professionalism
+   963→Comment
+   964→
+   965→Freelancer can also review client.
+   966→
+   967→This creates a two-sided reputation system.
+   968→
+   969→---
+   970→
+   971→# 27. REVIEW PROTECTION
+   972→
+   973→Reviews must be connected to actual contracts/projects.
+   974→
+   975→Do NOT allow random users to create fake reviews.
+   976→
+   977→A review should require:
+   978→
+   979→Completed contract
+   980→
+   981→and:
+   982→
+   983→Valid participant
+   984→
+   985→Prevent:
+   986→
+   987→Self-review
+   988→Duplicate review
+   989→Review manipulation
+   990→
+   991→---
+   992→
+   993→# 28. PROFILE COMPLETION SCORE
+   994→
+   995→Create:
+   996→
+   997→Profile Completion
+   998→
+   999→Example:
+  1000→
+  1001→Personal information 15%
+  1002→Professional information 20%
+  1003→Skills 15%
+  1004→Experience 10%
+  1005→Portfolio 25%
+  1006→Verification 15%
+  1007→
+  1008→Display:
+  1009→
+  1010→Profile completeness: 85%
+  1011→
+  1012→But do not allow completion percentage to override admin approval.
+  1013→
+  1014→A 100% complete profile is still:
+  1015→
+  1016→PENDING
+  1017→
+  1018→until reviewed.
+  1019→
+  1020→---
+  1021→
+  1022→# 29. FREELANCER APPLICATION TIMELINE
+  1023→
+  1024→The freelancer should see:
+  1025→
+  1026→Application submitted
+  1027→↓
+  1028→Under review
+  1029→↓
+  1030→Admin reviewing profile
+  1031→↓
+  1032→Portfolio reviewed
+  1033→↓
+  1034→Verification checked
+  1035→↓
+  1036→Decision
+  1037→
+  1038→Example:
+  1039→
+  1040→"Your application is currently being reviewed."
+  1041→
+  1042→This prevents confusion.
+  1043→
+  1044→---
+  1045→
+  1046→# 30. ADMIN REVIEW UI
+  1047→
+  1048→Create a professional review interface.
+  1049→
+  1050→Left:
+  1051→
+  1052→Freelancer profile
+  1053→
+  1054→Center:
+  1055→
+  1056→Portfolio
+  1057→
+  1058→Right:
+  1059→
+  1060→Verification / Risk / Decision
+  1061→
+  1062→Admin should be able to:
+  1063→
+  1064→Approve
+  1065→Reject
+  1066→Request Information
+  1067→Suspend
+  1068→Add internal note
+  1069→Flag portfolio item
+  1070→Verify portfolio
+  1071→Verify identity
+  1072→View history
+  1073→
+  1074→---
+  1075→
+  1076→# 31. ADMIN NOTES
+  1077→
+  1078→Create:
+  1079→
+  1080→AdminNote
+  1081→
+  1082→Fields:
+  1083→
+  1084→id
+  1085→adminId
+  1086→userId
+  1087→content
+  1088→createdAt
+  1089→
+  1090→Notes are private.
+  1091→
+  1092→Never expose them to the freelancer.
+  1093→
+  1094→---
+  1095→
+  1096→# 32. ADMIN AUDIT LOG
+  1097→
+  1098→Every important action must be logged.
+  1099→
+  1100→Example:
+  1101→
+  1102→ADMIN_APPROVED_FREELANCER
+  1103→
+  1104→ADMIN_REJECTED_FREELANCER
+  1105→
+  1106→ADMIN_REQUESTED_INFORMATION
+  1107→
+  1108→ADMIN_VERIFIED_PORTFOLIO
+  1109→
+  1110→ADMIN_SUSPENDED_ACCOUNT
+  1111→
+  1112→ADMIN_REVOKED_VERIFICATION
+  1113→
+  1114→Audit fields:
+  1115→
+  1116→Actor
+  1117→Target
+  1118→Action
+  1119→Reason
+  1120→Timestamp
+  1121→IP where appropriate
+  1122→Metadata
+  1123→
+  1124→---
+  1125→
+  1126→# 33. VERIFICATION REVOCATION
+  1127→
+  1128→Approval is not permanent.
+  1129→
+  1130→If a verified freelancer later:
+  1131→
+  1132→* Uses fake information
+  1133→* Steals work
+  1134→* Commits fraud
+  1135→* Receives repeated serious complaints
+  1136→* Violates platform rules
+  1137→
+  1138→Admin can:
+  1139→
+  1140→Suspend
+  1141→Revoke verification
+  1142→Restrict marketplace access
+  1143→Ban account
+  1144→
+  1145→But serious actions should have a documented reason and audit trail.
+  1146→
+  1147→---
+  1148→
+  1149→# 34. APPEAL SYSTEM
+  1150→
+  1151→If rejected or suspended, allow the freelancer to appeal.
+  1152→
+  1153→Create:
+  1154→
+  1155→Appeal
+  1156→
+  1157→Fields:
+  1158→
+  1159→User
+  1160→Decision
+  1161→Reason
+  1162→Evidence
+  1163→Status
+  1164→Admin
+  1165→Resolution
+  1166→CreatedAt
+  1167→
+  1168→Statuses:
+  1169→
+  1170→SUBMITTED
+  1171→UNDER_REVIEW
+  1172→ACCEPTED
+  1173→REJECTED
+  1174→
+  1175→This makes the system fairer.
+  1176→
+  1177→---
+  1178→
+  1179→# 35. FREELANCER TRUST SCORE
+  1180→
+  1181→Do NOT create a mysterious black-box score.
+  1182→
+  1183→Instead calculate visible reputation using understandable metrics:
+  1184→
+  1185→Completed projects
+  1186→Successful projects
+  1187→Average rating
+  1188→Response rate
+  1189→On-time delivery
+  1190→Repeat clients
+  1191→Verified portfolio
+  1192→Verification status
+  1193→
+  1194→Display the underlying metrics.
+  1195→
+  1196→---
+  1197→
+  1198→# 36. CLIENT TRUST SYSTEM
+  1199→
+  1200→The same philosophy should eventually apply to clients.
+  1201→
+  1202→Clients should also have:
+  1203→
+  1204→Email verified
+  1205→Phone verified
+  1206→Company information where applicable
+  1207→Payment verification
+  1208→Completed projects
+  1209→Reviews from freelancers
+  1210→
+  1211→Do not make freelancers verify everything while clients remain completely anonymous.
+  1212→
+  1213→Trust must be two-sided.
+  1214→
+  1215→---
+  1216→
+  1217→# 37. ANTI-SCAM MARKETPLACE DESIGN
+  1218→
+  1219→Before a freelancer can submit a proposal:
+  1220→
+  1221→Freelancer must be approved.
+  1222→
+  1223→Before a client can create a funded contract:
+  1224→
+  1225→Client account must satisfy required verification/payment conditions.
+  1226→
+  1227→Before money is released:
+  1228→
+  1229→Contract and milestone state must be valid.
+  1230→
+  1231→Before a withdrawal:
+  1232→
+  1233→Freelancer must satisfy required verification requirements.
+  1234→
+  1235→---
+  1236→
+  1237→# 38. PAYMENT + VERIFICATION CONNECTION
+  1238→
+  1239→Create business rules such as:
+  1240→
+  1241→UNVERIFIED freelancer:
+  1242→
+  1243→Cannot withdraw.
+  1244→
+  1245→PENDING freelancer:
+  1246→
+  1247→Cannot accept contracts.
+  1248→
+  1249→APPROVED freelancer:
+  1250→
+  1251→Can work.
+  1252→
+  1253→SUSPENDED freelancer:
+  1254→
+  1255→Cannot create new contracts.
+  1256→
+  1257→BANNED freelancer:
+  1258→
+  1259→Cannot access marketplace functionality.
+  1260→
+  1261→These rules must be enforced server-side.
+  1262→
+  1263→---
+  1264→
+  1265→# 39. FREELANCER ONBOARDING UX
+  1266→
+  1267→Create a beautiful onboarding experience.
+  1268→
+  1269→Header:
+  1270→
+  1271→"Build your professional profile"
+  1272→
+  1273→Progress:
+  1274→
+  1275→1 / 8
+  1276→
+  1277→At each step:
+  1278→
+  1279→Short explanation
+  1280→Form
+  1281→Validation
+  1282→Save progress
+  1283→
+  1284→At the end:
+  1285→
+  1286→## "Ready to submit?"
+  1287→
+  1288→Show:
+  1289→
+  1290→Profile preview
+  1291→Portfolio preview
+  1292→Verification checklist
+  1293→
+  1294→Then:
+  1295→
+  1296→"Submit for Review"
+  1297→
+  1298→After submission:
+  1299→
+  1300→"You've submitted your freelancer application."
+  1301→
+  1302→"Most importantly, make sure your information and portfolio accurately represent your work."
+  1303→
+  1304→---
+  1305→
+  1306→# 40. PROFILE PREVIEW
+  1307→
+  1308→Before submitting, freelancer can see exactly what clients will see.
+  1309→
+  1310→Button:
+  1311→
+  1312→"Preview Public Profile"
+  1313→
+  1314→This prevents incomplete or embarrassing profiles.
+  1315→
+  1316→---
+  1317→
+  1318→# 41. PORTFOLIO PREVIEW
+  1319→
+  1320→Portfolio cards should support:
+  1321→
+  1322→Image gallery
+  1323→Video
+  1324→Audio player
+  1325→PDF preview where appropriate
+  1326→External links
+  1327→
+  1328→Example:
+  1329→
+  1330→Project:
+  1331→
+  1332→"Luxury Real Estate Landing Page"
+  1333→
+  1334→Category:
+  1335→
+  1336→Web Development
+  1337→
+  1338→Skills:
+  1339→
+  1340→Next.js
+  1341→TypeScript
+  1342→Tailwind CSS
+  1343→
+  1344→Role:
+  1345→
+  1346→Frontend Developer
+  1347→
+  1348→Description:
+  1349→
+  1350→Professional responsive landing page.
+  1351→
+  1352→Preview:
+  1353→
+  1354→[Image / Video]
+  1355→
+  1356→---
+  1357→
+  1358→# 42. AUDIO PORTFOLIO
+  1359→
+  1360→For audio professionals, create a native audio player.
+  1361→
+  1362→Supported formats:
+  1363→
+  1364→MP3
+  1365→WAV where practical
+  1366→OGG where practical
+  1367→
+  1368→Include:
+  1369→
+  1370→Play
+  1371→Pause
+  1372→Progress
+  1373→Duration
+  1374→Volume
+  1375→
+  1376→Do not force audio freelancers to upload images only.
+  1377→
+  1378→---
+  1379→
+  1380→# 43. VIDEO PORTFOLIO
+  1381→
+  1382→Support:
+  1383→
+  1384→MP4/WebM where appropriate
+  1385→
+  1386→Provide:
+  1387→
+  1388→Thumbnail
+  1389→Play
+  1390→Pause
+  1391→Fullscreen
+  1392→
+  1393→For large videos, architect for object storage/CDN rather than storing huge files directly in the application database.
+  1394→
+  1395→---
+  1396→
+  1397→# 44. PORTFOLIO PRIVACY
+  1398→
+  1399→Freelancer should control whether a portfolio project is:
+  1400→
+  1401→PUBLIC
+  1402→PRIVATE
+  1403→UNLISTED
+  1404→
+  1405→However:
+  1406→
+  1407→Portfolio items submitted for verification can be visible to admins even if not public.
+  1408→
+  1409→---
+  1410→
+  1411→# 45. CLIENT DISCOVERY
+  1412→
+  1413→Only approved freelancers appear in:
+  1414→
+  1415→Search results
+  1416→Category pages
+  1417→Featured freelancers
+  1418→Recommendations
+  1419→Job proposals
+  1420→Public marketplace
+  1421→
+  1422→Pending/rejected freelancers must not appear as active marketplace freelancers.
+  1423→
+  1424→---
+  1425→
+  1426→# 46. ADMIN FEATURED FREELANCERS
+  1427→
+  1428→Admin can feature high-quality freelancers.
+  1429→
+  1430→Featured status should be manually controlled or based on transparent rules.
+  1431→
+  1432→Do not sell fake "featured" status without a clear business model.
+  1433→
+  1434→---
+  1435→
+  1436→# 47. FREELANCER SERVICE CREATION
+  1437→
+  1438→After approval, freelancer can create services.
+  1439→
+  1440→Example:
+  1441→
+  1442→"I will build a professional Next.js landing page"
+  1443→
+  1444→Service:
+  1445→
+  1446→Title
+  1447→Description
+  1448→Category
+  1449→Skills
+  1450→Images
+  1451→Video
+  1452→Starting price
+  1453→Delivery time
+  1454→Revisions
+  1455→Packages
+  1456→FAQ
+  1457→
+  1458→Packages can be:
+  1459→
+  1460→Basic
+  1461→Standard
+  1462→Premium
+  1463→
+  1464→---
+  1465→
+  1466→# 48. SERVICE MODERATION
+  1467→
+  1468→Services should have:
+  1469→
+  1470→DRAFT
+  1471→PENDING_REVIEW
+  1472→PUBLISHED
+  1473→REJECTED
+  1474→SUSPENDED
+  1475→
+  1476→Admin can moderate services.
+  1477→
+  1478→This prevents scams and low-quality listings.
+  1479→
+  1480→---
+  1481→
+  1482→# 49. IMPORTANT DATABASE MODELS
+  1483→
+  1484→Add these models to the previous database architecture:
+  1485→
+  1486→User
+  1487→Profile
+  1488→FreelancerProfile
+  1489→ClientProfile
+  1490→
+  1491→FreelancerApplication
+  1492→
+  1493→FreelancerVerification
+  1494→
+  1495→VerificationDocument
+  1496→VerificationCheck
+  1497→VerificationStatus
+  1498→
+  1499→Portfolio
+  1500→PortfolioItem
+  1501→PortfolioMedia
+  1502→PortfolioVerification
+  1503→
+  1504→Experience
+  1505→Education
+  1506→Certification
+  1507→
+  1508→Skill
+  1509→Category
+  1510→
+  1511→Review
+  1512→ReviewMetric
+  1513→
+  1514→AdminNote
+  1515→AdminDecision
+  1516→Appeal
+  1517→
+  1518→RiskFlag
+  1519→RiskAssessment
+  1520→
+  1521→ProfileBadge
+  1522→
+  1523→ProfileCompletion
+  1524→
+  1525→Service
+  1526→ServicePackage
+  1527→ServiceMedia
+  1528→
+  1529→Contract
+  1530→Milestone
+  1531→Deliverable
+  1532→
+  1533→Payment
+  1534→PaymentAttempt
+  1535→PaymentProvider
+  1536→
+  1537→Wallet
+  1538→LedgerEntry
+  1539→Withdrawal
+  1540→WithdrawalMethod
+  1541→
+  1542→Dispute
+  1543→DisputeEvidence
+  1544→
+  1545→Notification
+  1546→AuditLog
+  1547→
+  1548→---
+  1549→
+  1550→# 50. FREELANCER APPLICATION DATABASE
+  1551→
+  1552→Create a professional model.
+  1553→
+  1554→Example conceptual structure:
+  1555→
+  1556→FreelancerApplication
+  1557→
+  1558→id
+  1559→userId
+  1560→status
+  1561→submittedAt
+  1562→reviewedAt
+  1563→reviewedBy
+  1564→rejectionReason
+  1565→requestedInformation
+  1566→adminDecision
+  1567→createdAt
+  1568→updatedAt
+  1569→
+  1570→Use enums:
+  1571→
+  1572→DRAFT
+  1573→SUBMITTED
+  1574→UNDER_REVIEW
+  1575→MORE_INFORMATION_REQUIRED
+  1576→APPROVED
+  1577→REJECTED
+  1578→SUSPENDED
+  1579→REVOKED
+  1580→
+  1581→---
+  1582→
+  1583→# 51. VERIFICATION DATABASE
+  1584→
+  1585→FreelancerVerification:
+  1586→
+  1587→id
+  1588→userId
+  1589→identityStatus
+  1590→emailStatus
+  1591→phoneStatus
+  1592→portfolioStatus
+  1593→overallStatus
+  1594→reviewedBy
+  1595→reviewedAt
+  1596→expiresAt
+  1597→createdAt
+  1598→updatedAt
+  1599→
+  1600→Do not store sensitive documents directly inside ordinary database fields.
+  1601→
+  1602→Use secure storage references.
+  1603→
+  1604→---
+  1605→
+  1606→# 52. PORTFOLIO DATABASE
+  1607→
+  1608→PortfolioItem:
+  1609→
+  1610→id
+  1611→freelancerId
+  1612→title
+  1613→slug
+  1614→description
+  1615→categoryId
+  1616→role
+  1617→technologies
+  1618→externalUrl
+  1619→repositoryUrl
+  1620→verificationStatus
+  1621→visibility
+  1622→createdAt
+  1623→updatedAt
+  1624→
+  1625→PortfolioMedia:
+  1626→
+  1627→id
+  1628→portfolioItemId
+  1629→type
+  1630→storageKey
+  1631→mimeType
+  1632→size
+  1633→thumbnail
+  1634→duration
+  1635→createdAt
+  1636→
+  1637→---
+  1638→
+  1639→# 53. PROFILE PUBLICATION RULE
+  1640→
+  1641→A freelancer profile can only become:
+  1642→
+  1643→PUBLIC
+  1644→
+  1645→when:
+  1646→
+  1647→* Email verified
+  1648→* Required profile fields completed
+  1649→* Freelancer application approved
+  1650→* Required verification checks passed
+  1651→
+  1652→Otherwise:
+  1653→
+  1654→PRIVATE / APPLICATION_ONLY
+  1655→
+  1656→---
+  1657→
+  1658→# 54. PROFILE QUALITY RULES
+  1659→
+  1660→Create validation rules.
+  1661→
+  1662→Minimum approval requirements can include:
+  1663→
+  1664→* Realistic professional title
+  1665→* Complete bio
+  1666→* At least X relevant skills
+  1667→* At least X portfolio items
+  1668→* Profile photo
+  1669→* Verified email
+  1670→* Verified phone where required
+  1671→* Required verification completed
+  1672→
+  1673→Do NOT make the requirements unnecessarily difficult.
+  1674→
+  1675→The goal is quality, not exclusion.
+  1676→
+  1677→---
+  1678→
+  1679→# 55. ADMIN REVIEW CHECKLIST
+  1680→
+  1681→Create a review checklist:
+  1682→
+  1683→* [ ] Identity information appears consistent
+  1684→* [ ] Email verified
+  1685→* [ ] Phone verified where required
+  1686→* [ ] Profile photo appropriate
+  1687→* [ ] Professional title appropriate
+  1688→* [ ] Biography appears legitimate
+  1689→* [ ] Skills are relevant
+  1690→* [ ] Experience is coherent
+  1691→* [ ] Portfolio contains actual work examples
+  1692→* [ ] Portfolio ownership/evidence reviewed
+  1693→* [ ] No obvious stolen content
+  1694→* [ ] No suspicious information
+  1695→* [ ] No duplicate account concerns
+  1696→* [ ] Freelancer category is appropriate
+  1697→* [ ] Application meets platform standards
+  1698→
+  1699→Admin then chooses:
+  1700→
+  1701→APPROVE
+  1702→
+  1703→REJECT
+  1704→
+  1705→REQUEST INFORMATION
+  1706→
+  1707→---
+  1708→
+  1709→# 56. AUTOMATED QUALITY ASSISTANCE
+  1710→
+  1711→You may build an internal AI-assisted review system.
+  1712→
+  1713→AI can analyze:
+  1714→
+  1715→* Incomplete information
+  1716→* Duplicate descriptions
+  1717→* Suspicious patterns
+  1718→* Portfolio consistency
+  1719→* Spam
+  1720→* Obvious copied content
+  1721→* Risk signals
+  1722→
+  1723→But:
+  1724→
+  1725→AI = ASSISTANT
+  1726→
+  1727→Admin = FINAL DECISION
+  1728→
+  1729→Never automatically reject a freelancer solely because an AI classifier says they are suspicious.
+  1730→
+  1731→---
+  1732→
+  1733→# 57. USER-FACING REJECTION EXPERIENCE
+  1734→
+  1735→Never show:
+  1736→
+  1737→"Your account is fake."
+  1738→
+  1739→Instead:
+  1740→
+  1741→"Your freelancer application could not be approved at this time."
+  1742→
+  1743→Reason:
+  1744→
+  1745→"Some information or portfolio evidence requires improvement."
+  1746→
+  1747→Then explain:
+  1748→
+  1749→"What you can do next"
+  1750→
+  1751→Allow:
+  1752→
+  1753→Update Profile
+  1754→Add Portfolio
+  1755→Submit Appeal
+  1756→
+  1757→This keeps the platform professional.
+  1758→
+  1759→---
+  1760→
+  1761→# 58. USER-FACING APPROVAL EXPERIENCE
+  1762→
+  1763→When approved:
+  1764→
+  1765→## "You're approved!"
+  1766→
+  1767→"You are now a verified freelancer on [Platform Name]."
+  1768→
+  1769→Show:
+  1770→
+  1771→✓ Profile approved
+  1772→✓ Portfolio reviewed
+  1773→✓ Marketplace access enabled
+  1774→
+  1775→CTA:
+  1776→
+  1777→"Find Your First Project"
+  1778→
+  1779→Secondary:
+  1780→
+  1781→"Create Your First Service"
+  1782→
+  1783→---
+  1784→
+  1785→# 59. TRUST-FIRST PUBLIC PROFILE DESIGN
+  1786→
+  1787→The public profile should prioritize:
+  1788→
+  1789→1. Identity
+  1790→2. Professional expertise
+  1791→3. Portfolio
+  1792→4. Reviews
+  1793→5. Verification
+  1794→6. Work history
+  1795→7. Services
+  1796→8. Contact/invite
+  1797→
+  1798→Do not bury the portfolio.
+  1799→
+  1800→The portfolio is the freelancer's strongest proof of ability.
+  1801→
+  1802→---
+  1803→
+  1804→# 60. FULL FREELANCER LIFECYCLE
+  1805→
+  1806→Implement this complete lifecycle:
+  1807→
+  1808→REGISTER
+  1809→↓
+  1810→EMAIL VERIFY
+  1811→↓
+  1812→CREATE FREELANCER PROFILE
+  1813→↓
+  1814→UPLOAD PROFILE PHOTO
+  1815→↓
+  1816→ADD PROFESSIONAL INFORMATION
+  1817→↓
+  1818→ADD SKILLS
+  1819→↓
+  1820→ADD EXPERIENCE
+  1821→↓
+  1822→ADD EDUCATION
+  1823→↓
+  1824→ADD CERTIFICATIONS
+  1825→↓
+  1826→ADD PORTFOLIO
+  1827→↓
+  1828→SUBMIT APPLICATION
+  1829→↓
+  1830→ADMIN REVIEW
+  1831→↓
+  1832→├── REQUEST MORE INFORMATION
+  1833→│       ↓
+  1834→│   FREELANCER UPDATES
+  1835→│       ↓
+  1836→│   ADMIN REVIEW
+  1837→│
+  1838→├── REJECT
+  1839→│       ↓
+  1840→│   APPEAL / UPDATE
+  1841→│
+  1842→└── APPROVE
+  1843→↓
+  1844→VERIFIED FREELANCER
+  1845→↓
+  1846→PUBLIC PROFILE
+  1847→↓
+  1848→APPLY FOR JOBS
+  1849→↓
+  1850→CREATE SERVICES
+  1851→↓
+  1852→GET CLIENT
+  1853→↓
+  1854→CONTRACT
+  1855→↓
+  1856→MILESTONES
+  1857→↓
+  1858→WORK
+  1859→↓
+  1860→APPROVAL
+  1861→↓
+  1862→EARNINGS
+  1863→↓
+  1864→WITHDRAWAL
+  1865→
+  1866→---
+  1867→
+  1868→# 61. PAYMENT MODEL
+  1869→
+  1870→Keep the original business model:
+  1871→
+  1872→Platform is free.
+  1873→
+  1874→No subscription.
+  1875→
+  1876→No proposal credits.
+  1877→
+  1878→No artificial limits.
+  1879→
+  1880→When a project is completed:
+  1881→
+  1882→## Gross project value
+  1883→
+  1884→# 1% platform fee
+  1885→
+  1886→Freelancer net earnings
+  1887→
+  1888→Example:
+  1889→
+  1890→1000 TND
+  1891→
+  1892→1% = 10 TND
+  1893→
+  1894→Freelancer = 990 TND
+  1895→
+  1896→Display this transparently.
+  1897→
+  1898→---
+  1899→
+  1900→# 62. PAYMENT COMPLIANCE
+  1901→
+  1902→Do NOT assume that the platform itself can legally hold and redistribute money.
+  1903→
+  1904→Create a provider-agnostic payment architecture.
+  1905→
+  1906→Potential categories:
+  1907→
+  1908→* Tunisian banks
+  1909→* Licensed Tunisian payment institutions
+  1910→* Tunisian Post / supported services
+  1911→* D17 / supported official mechanisms
+  1912→* International bank transfer
+  1913→* Western Union / supported official services
+  1914→* Future compliant crypto provider
+  1915→
+  1916→Only integrate providers through legitimate official APIs/agreements.
+  1917→
+  1918→If no API exists:
+  1919→
+  1920→Mock provider.
+  1921→
+  1922→Never fake an integration.
+  1923→
+  1924→---
+  1925→
+  1926→# 63. WALLET
+  1927→
+  1928→Use an internal ledger architecture.
+  1929→
+  1930→Statuses:
+  1931→
+  1932→Pending
+  1933→Available
+  1934→Processing
+  1935→Withdrawn
+  1936→Refunded
+  1937→Disputed
+  1938→
+  1939→Never allow frontend JavaScript to modify balances.
+  1940→
+  1941→Every financial change creates a ledger entry.
+  1942→
+  1943→---
+  1944→
+  1945→# 64. SECURITY
+  1946→
+  1947→Because this platform involves identity, reputation and money, security is critical.
+  1948→
+  1949→Implement:
+  1950→
+  1951→RBAC
+  1952→Authentication
+  1953→Authorization
+  1954→Rate limiting
+  1955→Secure sessions
+  1956→Input validation
+  1957→Zod
+  1958→Secure uploads
+  1959→Audit logs
+  1960→Payment idempotency
+  1961→Webhook verification
+  1962→Access control
+  1963→Encryption where appropriate
+  1964→Sensitive-data protection
+  1965→Anti-fraud signals
+  1966→Admin activity logging
+  1967→
+  1968→Test:
+  1969→
+  1970→IDOR
+  1971→Privilege escalation
+  1972→Unauthorized profile editing
+  1973→Unauthorized portfolio access
+  1974→Unauthorized withdrawal
+  1975→Unauthorized contract modification
+  1976→Payment replay
+  1977→Webhook replay
+  1978→Duplicate transactions
+  1979→
+  1980→---
+  1981→
+  1982→65. TECHNOLOGY STACK
+  1983→
+  1984→Build the platform using:
+  1985→
+  1986→Next.js 16
+  1987→TypeScript
+  1988→Tailwind CSS 4
+  1989→shadcn/ui
+  1990→Prisma ORM
+  1991→SQLite for MVP/development
+  1992→Zustand
+  1993→React Hook Form
+  1994→Zod
+  1995→Server Actions
+  1996→Route Handlers / API Routes
+  1997→Lucide Icons
+  1998→Motion
+  1999→GSAP
+  2000→Lenis
+
+[showing lines 1-2000 of 3520; use offset=2001 with limit to continue reading]

@@ -1,0 +1,667 @@
+// Khidma (خدمة) — Prisma schema
+// Trusted Tunisian freelance marketplace.
+// All financial logic is server-side only. Mock providers for development.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// ENUMS (SQLite doesn't have native enums — modeled as strings)
+// =====================================================
+
+// =====================================================
+// USERS & ACCOUNTS
+// =====================================================
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  phone         String?
+  phoneVerified Boolean  @default(false)
+  passwordHash  String
+  fullName      String
+  username      String   @unique
+  accountType   String   @default("CLIENT") // FREELANCER | CLIENT | ADMIN
+  role          String   @default("USER")  // USER | ADMIN
+  avatarUrl     String?
+  status        String   @default("ACTIVE") // ACTIVE | SUSPENDED | BANNED
+  preferredLanguage String @default("en") // en | fr | ar
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  profile              Profile?
+  freelancerProfile    FreelancerProfile?
+  clientProfile        ClientProfile?
+  applications         FreelancerApplication[]
+  portfolioItems       PortfolioItem[]
+  services             Service[]
+  jobsPosted           Job[]                @relation("JobClient")
+  proposals            Proposal[]
+  contractsAsFreelancer Contract[]           @relation("ContractFreelancer")
+  contractsAsClient    Contract[]           @relation("ContractClient")
+  wallet               Wallet?
+  ledgerEntries        LedgerEntry[]
+  withdrawals          Withdrawal[]
+  reviewsGiven         Review[]              @relation("ReviewFrom")
+  reviewsReceived      Review[]              @relation("ReviewTo")
+  adminNotes           AdminNote[]          @relation("AdminNoteTarget")
+  adminNotesWritten    AdminNote[]          @relation("AdminNoteAuthor")
+  auditLogs            AuditLog[]
+  appeals              Appeal[]
+  notifications        Notification[]
+
+  @@index([accountType])
+  @@index([status])
+}
+
+model Profile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio          String?
+  languages    String   @default("") // JSON-encoded array of strings
+  city         String?
+  country      String?
+  dateOfBirth  String?
+  introduction String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model FreelancerProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  professionalTitle String?
+  professionalBio   String?
+  yearsOfExperience Int      @default(0)
+  primaryCategoryId String?
+  secondaryCategories String  @default("") // JSON array
+  hourlyRate        Float?
+  startingPrice     Float?
+  availability      String   @default("AVAILABLE") // AVAILABLE | LIMITED | BOOKED
+  responseTime      String?
+  location          String?
+  workPreferences   String?
+  skillsJson        String   @default("[]") // JSON array of skill IDs
+  experienceJson    String   @default("[]") // JSON array of experience entries
+  educationJson      String   @default("[]")
+  certificationsJson String   @default("[]")
+  profilePhotoUrl   String?
+  completionScore    Int      @default(0) // 0-100
+  isFeatured        Boolean  @default(false)
+  isPublic          Boolean  @default(false)
+  verifiedAt        DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  verification      FreelancerVerification?
+  applications      FreelancerApplication[]
+
+  @@index([primaryCategoryId])
+  @@index([isPublic])
+  @@index([isFeatured])
+}
+
+model ClientProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String?
+  companySize String?
+  website     String?
+  description String?
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// =====================================================
+// FREELANCER APPLICATION & VERIFICATION
+// =====================================================
+
+model FreelancerApplication {
+  id                  String   @id @default(cuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  freelancerProfileId String?
+  freelancerProfile   FreelancerProfile? @relation(fields: [freelancerProfileId], references: [id])
+  status              String   @default("DRAFT")
+  // DRAFT | SUBMITTED | UNDER_REVIEW | MORE_INFORMATION_REQUIRED
+  // | APPROVED | REJECTED | SUSPENDED | REVOKED
+  rejectionReason    String?
+  requestedInformation String?
+  adminDecision       String?
+  submittedAt        DateTime?
+  reviewedAt         DateTime?
+  reviewedById       String?
+  riskLevel          String   @default("LOW") // LOW | MEDIUM | HIGH
+  riskSignalsJson    String   @default("[]")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  adminNotes         AdminNote[]
+  history            ApplicationHistory[]
+  auditLogs          AuditLog[]
+
+  @@index([status])
+  @@index([userId])
+}
+
+model FreelancerVerification {
+  id              String   @id @default(cuid())
+  freelancerProfileId String @unique
+  freelancerProfile   FreelancerProfile @relation(fields: [freelancerProfileId], references: [id], onDelete: Cascade)
+  identityStatus String   @default("UNVERIFIED") // UNVERIFIED | PENDING | VERIFIED | REJECTED
+  emailStatus    String   @default("UNVERIFIED")
+  phoneStatus    String   @default("UNVERIFIED")
+  portfolioStatus String   @default("UNVERIFIED")
+  overallStatus  String   @default("UNVERIFIED") // UNVERIFIED | PENDING | VERIFIED | EXPIRED
+  reviewedById    String?
+  reviewedAt      DateTime?
+  expiresAt       DateTime?
+  documentsJson   String   @default("[]") // list of document references
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ApplicationHistory {
+  id            String   @id @default(cuid())
+  applicationId String
+  application   FreelancerApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  fromStatus    String?
+  toStatus      String
+  actor         String?
+  reason        String?
+  createdAt     DateTime @default(now())
+
+  @@index([applicationId])
+}
+
+model Appeal {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  decisionId   String?
+  reason       String
+  evidenceJson String   @default("[]")
+  status       String   @default("SUBMITTED") // SUBMITTED | UNDER_REVIEW | ACCEPTED | REJECTED
+  adminId      String?
+  resolution   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+// =====================================================
+// PORTFOLIO
+// =====================================================
+
+model PortfolioItem {
+  id                String   @id @default(cuid())
+  freelancerId      String
+  freelancer        User     @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  title             String
+  slug              String
+  description       String
+  categoryId        String?
+  role              String?
+  technologiesJson  String   @default("[]")
+  skillsJson        String   @default("[]")
+  externalUrl       String?
+  repositoryUrl     String?
+  clientType        String?
+  completionDate    String?
+  results           String?
+  verificationStatus String  @default("UNVERIFIED")
+  // UNVERIFIED | SELF_DECLARED | ADMIN_VERIFIED | EXTERNALLY_VERIFIED
+  visibility        String   @default("PUBLIC") // PUBLIC | PRIVATE | UNLISTED
+  reviewStatus      String   @default("DRAFT") // DRAFT | PENDING_REVIEW | APPROVED | REJECTED | NEEDS_CHANGES
+  rejectionReason  String?
+  media             PortfolioMedia[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([freelancerId])
+  @@index([reviewStatus])
+  @@index([visibility])
+}
+
+model PortfolioMedia {
+  id              String   @id @default(cuid())
+  portfolioItemId String
+  portfolioItem   PortfolioItem @relation(fields: [portfolioItemId], references: [id], onDelete: Cascade)
+  type            String   // IMAGE | VIDEO | AUDIO | PDF | URL
+  storageKey      String
+  mimeType        String
+  size            Int
+  thumbnail       String?
+  duration        Int?
+  createdAt       DateTime @default(now())
+
+  @@index([portfolioItemId])
+}
+
+// =====================================================
+// SKILLS & CATEGORIES
+// =====================================================
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  nameAr    String?
+  icon      String?
+  color     String?
+  parentId  String?
+  parent    Category? @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  skills    Skill[]
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isActive   Boolean  @default(true)
+  isFeatured Boolean  @default(false)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([isActive])
+}
+
+// =====================================================
+// SERVICES (Fiverr-style packages)
+// =====================================================
+
+model Service {
+  id            String   @id @default(cuid())
+  freelancerId  String
+  freelancer    User     @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  title         String
+  slug          String
+  description   String
+  categoryId    String?
+  skillsJson    String   @default("[]")
+  coverImageUrl String?
+  startingPrice Float
+  deliveryDays  Int
+  revisions     Int      @default(1)
+  status        String   @default("DRAFT") // DRAFT | PENDING_REVIEW | PUBLISHED | REJECTED | SUSPENDED
+  rating        Float    @default(0)
+  ordersCount   Int      @default(0)
+  faqJson       String   @default("[]")
+  packages      ServicePackage[]
+  media         ServiceMedia[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([freelancerId])
+  @@index([status])
+  @@index([categoryId])
+}
+
+model ServicePackage {
+  id           String   @id @default(cuid())
+  serviceId     String
+  service       Service   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  name          String    // BASIC | STANDARD | PREMIUM
+  price         Float
+  deliveryDays  Int
+  revisions     Int
+  featuresJson  String    @default("[]")
+  sortOrder     Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([serviceId])
+}
+
+model ServiceMedia {
+  id           String   @id @default(cuid())
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  type         String   // IMAGE | VIDEO
+  storageKey   String
+  thumbnail    String?
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([serviceId])
+}
+
+// =====================================================
+// JOBS & PROPOSALS
+// =====================================================
+
+model Job {
+  id              String   @id @default(cuid())
+  clientId        String
+  client          User     @relation("JobClient", fields: [clientId], references: [id], onDelete: Cascade)
+  title           String
+  description     String
+  categoryId      String?
+  skillsJson      String   @default("[]")
+  budgetMin       Float
+  budgetMax       Float
+  type            String   @default("FIXED") // FIXED | HOURLY
+  duration        String?
+  experienceLevel String   @default("Intermediate") // Entry | Intermediate | Expert
+  location        String   @default("Worldwide")
+  status          String   @default("OPEN") // DRAFT | OPEN | CLOSED | AWARDED | COMPLETED | CANCELLED
+  proposalsCount  Int      @default(0)
+  verifiedClientOnly Boolean @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  proposals       Proposal[]
+  contracts       Contract[] @relation("JobContracts")
+
+  @@index([clientId])
+  @@index([status])
+  @@index([categoryId])
+}
+
+model Proposal {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  freelancerId String
+  freelancer  User     @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  coverLetter String
+  bidAmount   Float
+  deliveryDays Int
+  milestonesJson String @default("[]")
+  status      String   @default("PENDING") // PENDING | VIEWED | SHORTLISTED | DECLINED | HIRED | WITHDRAWN
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contract    Contract?
+
+  @@index([jobId])
+  @@index([freelancerId])
+  @@index([status])
+}
+
+// =====================================================
+// CONTRACTS, MILESTONES, DELIVERABLES
+// =====================================================
+
+model Contract {
+  id            String   @id @default(cuid())
+  jobId         String?
+  job           Job?     @relation("JobContracts", fields: [jobId], references: [id])
+  freelancerId  String
+  freelancer    User     @relation("ContractFreelancer", fields: [freelancerId], references: [id])
+  clientId      String
+  client        User     @relation("ContractClient", fields: [clientId], references: [id])
+  title         String
+  description   String
+  totalAmount   Float
+  platformFee   Float    @default(0) // 1% of totalAmount
+  freelancerNet Float    @default(0)
+  type          String   @default("FIXED") // FIXED | HOURLY
+  status        String   @default("DRAFT")
+  // DRAFT | PENDING_FUNDING | FUNDED | IN_PROGRESS | DELIVERED | APPROVED
+  // | COMPLETED | DISPUTED | CANCELLED
+  startDate     DateTime?
+  endDate       DateTime?
+  proposalId    String?  @unique
+  proposal      Proposal? @relation(fields: [proposalId], references: [id])
+  milestones    Milestone[]
+  payments      Payment[]
+  reviews       Review[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([freelancerId])
+  @@index([clientId])
+  @@index([status])
+}
+
+model Milestone {
+  id          String   @id @default(cuid())
+  contractId  String
+  contract    Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  amount      Float
+  dueDate     DateTime?
+  status      String   @default("PENDING") // PENDING | FUNDED | IN_PROGRESS | DELIVERED | APPROVED | RELEASED | DISPUTED
+  fundedAt    DateTime?
+  deliveredAt DateTime?
+  approvedAt  DateTime?
+  releasedAt  DateTime?
+  deliverables Deliverable[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([contractId])
+  @@index([status])
+}
+
+model Deliverable {
+  id          String   @id @default(cuid())
+  milestoneId String
+  milestone   Milestone @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  fileUrl     String?
+  mimeType    String?
+  size        Int?
+  createdAt   DateTime @default(now())
+
+  @@index([milestoneId])
+}
+
+// =====================================================
+// PAYMENTS, WALLET, WITHDRAWALS
+// =====================================================
+
+model Payment {
+  id           String   @id @default(cuid())
+  contractId   String
+  contract     Contract @relation(fields: [contractId], references: [id])
+  milestoneId  String?
+  amount       Float
+  platformFee  Float
+  freelancerNet Float
+  type         String   // ESCROW_FUNDING | MILESTONE_RELEASE | REFUND | ADJUSTMENT
+  status       String   @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED | REFUNDED
+  provider     String?
+  providerTxnId String?
+  idempotencyKey String? @unique
+  metadata     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([contractId])
+  @@index([status])
+}
+
+model Wallet {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  available    Float    @default(0)
+  pending      Float    @default(0)
+  processing   Float    @default(0)
+  withdrawn    Float    @default(0)
+  currency     String   @default("TND")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model LedgerEntry {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         String   // CREDIT | DEBIT
+  amount       Float
+  balanceAfter Float
+  description  String
+  reference    String?  // contract ID, withdrawal ID, etc.
+  status       String   @default("COMPLETED")
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Withdrawal {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount       Float
+  fee          Float
+  methodId     String   // withdrawal method identifier
+  methodName   String
+  status       String   @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED | CANCELLED
+  providerRef  String?
+  metadata     String?
+  createdAt    DateTime @default(now())
+  processedAt  DateTime?
+
+  @@index([userId])
+  @@index([status])
+}
+
+// =====================================================
+// REVIEWS
+// =====================================================
+
+model Review {
+  id           String   @id @default(cuid())
+  contractId   String
+  contract     Contract @relation(fields: [contractId], references: [id])
+  fromUserId   String
+  fromUser     User     @relation("ReviewFrom", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUserId     String
+  toUser       User     @relation("ReviewTo", fields: [toUserId], references: [id], onDelete: Cascade)
+  rating       Int      // 1-5
+  communication Int
+  quality      Int
+  delivery     Int
+  professionalism Int
+  comment      String
+  isPublic     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  metrics      ReviewMetric[]
+
+  @@index([toUserId])
+  @@index([contractId])
+}
+
+model ReviewMetric {
+  id          String   @id @default(cuid())
+  reviewId    String
+  review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  name        String   // communication | quality | delivery | professionalism
+  value       Int
+  createdAt   DateTime @default(now())
+
+  @@index([reviewId])
+}
+
+// =====================================================
+// ADMIN OPERATIONS
+// =====================================================
+
+model AdminNote {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation("AdminNoteTarget", fields: [userId], references: [id], onDelete: Cascade)
+  authorId   String
+  author     User     @relation("AdminNoteAuthor", fields: [authorId], references: [id])
+  applicationId String?
+  application FreelancerApplication? @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  content    String
+  isPinned   Boolean  @default(false)
+  isPrivate  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([applicationId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation(fields: [actorId], references: [id])
+  targetId   String?
+  action     String   // ADMIN_APPROVED_FREELANCER | ADMIN_REJECTED_FREELANCER | etc.
+  reason     String?
+  metadata   String?
+  ip         String?
+  applicationId String?
+  application FreelancerApplication? @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([action])
+  @@index([applicationId])
+}
+
+model RiskFlag {
+  id         String   @id @default(cuid())
+  userId     String
+  reason     String
+  source     String   // AUTOMATED | MANUAL
+  severity   String   @default("LOW") // LOW | MEDIUM | HIGH
+  resolvedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+// =====================================================
+// NOTIFICATIONS
+// =====================================================
+
+model Notification {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       String   // APPLICATION_STATUS | NEW_PROPOSAL | PAYMENT_RECEIVED | etc.
+  title      String
+  body       String
+  link       String?
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+// =====================================================
+// PAYMENT & WITHDRAWAL PROVIDERS (adapters)
+// =====================================================
+
+model PaymentProvider {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  type         String   // BANK | LOCAL | INTERNATIONAL | CRYPTO
+  status       String   @default("ACTIVE") // ACTIVE | INACTIVE | MAINTENANCE | DEVELOPMENT
+  capabilities String   @default("[]") // JSON array
+  configJson   String   @default("{}")
+  isMock       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

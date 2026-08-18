@@ -1,0 +1,3519 @@
+You are GLM 5.2 acting as a:
+
+* Senior Product Architect
+* Senior UX/UI Designer
+* Senior Full-Stack Engineer
+* Backend Architect
+* Database Architect
+* Payment Systems Architect
+* Security Engineer
+* Trust & Safety Engineer
+* QA Engineer
+
+I want you to design and build a production-quality freelance marketplace specifically designed for **Tunisian freelancers and Tunisian/international clients**.
+
+The platform should be inspired by the strongest concepts of:
+
+* Upwork
+* Fiverr
+* 5amsat
+* Other professional freelance marketplaces
+
+But DO NOT clone them.
+
+The platform must be designed around a major problem:
+
+> Tunisian freelancers have skills and talent, but often face difficulties finding trustworthy clients, proving their professionalism, receiving payments, and withdrawing earnings through methods that work for them.
+
+The platform should solve this through:
+
+**Identity + Professional Verification + Portfolio + Contracts + Payment Protection + Reviews + Secure Transactions + Local/International Withdrawal Architecture**
+
+---
+
+# 1. CORE PRODUCT IDEA
+
+The platform is:
+
+> A trusted freelance marketplace connecting verified Tunisian talent with clients in Tunisia and around the world.
+
+The platform should provide two sides:
+
+## Freelancer
+
+A Tunisian freelancer creates an account, builds a professional profile, submits verification information and portfolio work, and waits for admin approval.
+
+After approval, the freelancer can:
+
+* Apply to jobs
+* Create services
+* Communicate with clients
+* Create contracts
+* Complete projects
+* Receive earnings
+* Request withdrawals
+* Build reputation
+
+## Client
+
+A client can:
+
+* Create an account
+* Post jobs
+* Search verified freelancers
+* View portfolios
+* Compare profiles
+* Invite freelancers
+* Create contracts
+* Fund milestones
+* Review work
+* Leave reviews
+
+---
+
+# 2. MOST IMPORTANT TRUST PRINCIPLE
+
+The platform should NOT allow anyone to immediately become a public freelancer.
+
+The process should be:
+
+REGISTER
+↓
+EMAIL VERIFICATION
+↓
+FREELANCER APPLICATION
+↓
+PROFILE COMPLETION
+↓
+PROFESSIONAL INFORMATION
+↓
+IDENTITY / VERIFICATION INFORMATION
+↓
+PORTFOLIO SUBMISSION
+↓
+ADMIN REVIEW
+↓
+APPROVED / REJECTED / MORE INFORMATION REQUIRED
+↓
+PUBLIC FREELANCER PROFILE
+
+Only approved freelancers can:
+
+* Apply to jobs
+* Publish services
+* Receive client invitations
+* Participate in marketplace transactions
+
+This approval process is one of the platform's biggest trust mechanisms.
+
+---
+
+# 3. FREELANCER REGISTRATION
+
+Create a professional registration flow.
+
+The freelancer should register with:
+
+* Email
+* Password
+* Full name
+* Username
+* Phone number
+* Country
+* City
+* Account type
+
+Account type:
+
+FREELANCER
+
+or:
+
+CLIENT
+
+Email verification is required.
+
+Phone verification should also be supported.
+
+---
+
+# 4. FREELANCER APPLICATION
+
+After creating an account, the freelancer enters:
+
+## "Become a Verified Freelancer"
+
+This should open a multi-step onboarding wizard.
+
+Use a progress indicator:
+
+Step 1 — Personal Information
+Step 2 — Professional Information
+Step 3 — Skills
+Step 4 — Experience
+Step 5 — Portfolio
+Step 6 — Profile Photo
+Step 7 — Verification
+Step 8 — Review & Submit
+
+Do NOT overwhelm the user with one enormous form.
+
+Save progress automatically.
+
+Allow:
+
+"Save and continue later."
+
+---
+
+# 5. STEP 1 — PERSONAL INFORMATION
+
+Collect only information that is genuinely necessary.
+
+Fields:
+
+First name
+Last name
+Username
+Date of birth where legally/operationally required
+Country
+City
+Phone
+Email
+Languages
+Short introduction
+
+The profile should distinguish between:
+
+## Public Information
+
+Visible to clients:
+
+* Display name
+* Profile photo
+* Username
+* City/country
+* Professional title
+* Bio
+* Languages
+* Skills
+* Portfolio
+* Experience
+* Reviews
+* Rating
+* Verification badges
+
+## Private Information
+
+Visible only to authorized administrators/providers where necessary:
+
+* Legal name
+* Verification information
+* Identity information
+* Payment information
+* Bank information
+* Internal verification notes
+
+Never expose private information publicly.
+
+---
+
+# 6. PROFILE PHOTO
+
+The freelancer should be able to upload a professional profile photo.
+
+Requirements:
+
+* JPG
+* PNG
+* WebP
+* Reasonable file size limit
+* Image dimension validation
+* Secure upload
+* Image optimization
+* Safe filename handling
+
+The system should allow:
+
+Upload
+Replace
+Remove
+Crop
+
+The profile photo should appear throughout:
+
+* Freelancer profile
+* Search results
+* Job proposals
+* Messages
+* Contracts
+* Reviews
+* Dashboard
+
+A professional profile photo should contribute to trust.
+
+However, do not require an unrealistic "perfect" appearance.
+
+---
+
+# 7. PROFESSIONAL INFORMATION
+
+Freelancer must provide:
+
+Professional title
+
+Examples:
+
+"Full-Stack Web Developer"
+
+"UI/UX Designer"
+
+"Motion Designer"
+
+"Video Editor"
+
+"SEO Specialist"
+
+"Voice Over Artist"
+
+"Copywriter"
+
+"Mobile App Developer"
+
+"Graphic Designer"
+
+"3D Artist"
+
+"Digital Marketer"
+
+Then:
+
+Professional bio
+
+Years of experience
+
+Primary category
+
+Secondary categories
+
+Skills
+
+Languages
+
+Hourly rate
+
+Starting project price
+
+Availability
+
+Typical response time
+
+Location
+
+Work preferences
+
+---
+
+# 8. SKILLS SYSTEM
+
+Create a controlled skill database.
+
+Example categories:
+
+Development
+Design
+Marketing
+Writing
+Translation
+Video
+Audio
+Business
+AI
+Photography
+3D
+Architecture
+Engineering
+
+Skills example:
+
+Next.js
+React
+TypeScript
+Node.js
+Python
+Django
+PHP
+Laravel
+UI Design
+Figma
+Photoshop
+Illustrator
+Video Editing
+After Effects
+Premiere Pro
+SEO
+Google Ads
+Copywriting
+Arabic Translation
+French Translation
+English Translation
+Voice Over
+Sound Design
+
+Admin must be able to:
+
+Create skills
+Edit skills
+Disable skills
+Merge skills
+Categorize skills
+
+Do not allow uncontrolled duplicate skill names.
+
+---
+
+# 9. EXPERIENCE
+
+Freelancer can add professional experience.
+
+Each experience:
+
+Company
+Position
+Start date
+End date
+Current position
+Description
+Skills used
+
+Also allow:
+
+Freelance experience
+
+Personal projects
+
+Open-source projects
+
+Academic projects
+
+The platform should not require fake corporate experience.
+
+---
+
+# 10. EDUCATION
+
+Optional.
+
+Fields:
+
+Institution
+Degree
+Field
+Start year
+End year
+Description
+
+---
+
+# 11. CERTIFICATIONS
+
+Optional.
+
+Freelancer can add:
+
+Certification name
+Issuer
+Issue date
+Expiration date
+Credential ID
+Credential URL
+
+Admin can optionally verify certifications.
+
+Do not automatically mark certificates as verified.
+
+---
+
+# 12. PORTFOLIO — CRITICAL FEATURE
+
+Portfolio is one of the most important parts of freelancer verification.
+
+The freelancer must be able to demonstrate real work.
+
+Create:
+
+PortfolioItem
+
+Each portfolio item:
+
+Title
+Description
+Category
+Skills
+Images
+Video
+Audio
+External URL
+Repository URL where appropriate
+Client/project type
+Completion date
+Role
+Technologies
+Results
+CreatedAt
+
+---
+
+# 13. SUPPORT DIFFERENT PORTFOLIO TYPES
+
+Do NOT limit portfolio to websites.
+
+A freelancer should be able to upload examples based on their domain.
+
+## Web Developer
+
+Examples:
+
+* Landing page
+* SaaS dashboard
+* E-commerce website
+* Mobile application
+* Admin dashboard
+
+## UI/UX Designer
+
+Examples:
+
+* Figma designs
+* Mobile app UI
+* Website UI
+* Design system
+* Prototype
+
+## Video Editor
+
+Examples:
+
+* YouTube video
+* Advertisement
+* Short-form video
+* Motion graphics
+* Reels
+
+## Audio / Sound Designer
+
+Examples:
+
+* Sound effects
+* Podcast editing
+* Music production
+* Voice-over
+* Audio mixing
+* Audio mastering
+
+## Graphic Designer
+
+Examples:
+
+* Logo
+* Brand identity
+* Poster
+* Social media design
+* Packaging
+
+## Photographer
+
+Examples:
+
+* Product photography
+* Portrait photography
+* Commercial photography
+
+## Writer
+
+Examples:
+
+* Articles
+* Blog posts
+* Copywriting
+* Product descriptions
+
+## 3D Artist
+
+Examples:
+
+* 3D models
+* Product renders
+* Architecture visualization
+* Animation
+
+The portfolio system must therefore support:
+
+IMAGE
+VIDEO
+AUDIO
+PDF
+EXTERNAL URL
+
+where technically and legally appropriate.
+
+---
+
+# 14. PORTFOLIO FILE SECURITY
+
+Never allow arbitrary dangerous files.
+
+Implement:
+
+* File type validation
+* MIME validation
+* Extension validation
+* Size limits
+* Secure storage
+* Filename sanitization
+* Upload authorization
+* Malware scanning architecture
+
+Do not allow executable files.
+
+Portfolio content should be moderated.
+
+---
+
+# 15. PORTFOLIO REVIEW
+
+Every portfolio item can have a status:
+
+DRAFT
+PENDING_REVIEW
+APPROVED
+REJECTED
+NEEDS_CHANGES
+
+Admin can review portfolio items independently.
+
+Reasons for rejection can include:
+
+* Fake work
+* Copyright violation
+* Stolen work
+* Offensive content
+* Misleading information
+* Poor evidence
+* Suspicious ownership
+
+---
+
+# 16. PROOF OF OWNERSHIP / WORK AUTHENTICITY
+
+This is very important.
+
+A freelancer should indicate:
+
+"I created this project."
+
+For external projects, allow:
+
+Project role
+Client type
+Technologies
+Approximate completion date
+Public URL
+
+For GitHub projects:
+
+GitHub URL
+
+For websites:
+
+Live URL
+
+For design:
+
+Portfolio files
+
+For video:
+
+Video preview
+
+For audio:
+
+Audio preview
+
+Do not claim that the platform can always prove authorship automatically.
+
+Instead create:
+
+PortfolioVerificationStatus
+
+Possible:
+
+UNVERIFIED
+SELF_DECLARED
+ADMIN_VERIFIED
+EXTERNALLY_VERIFIED
+
+Only ADMIN_VERIFIED should show a strong verification badge.
+
+---
+
+# 17. FREELANCER VERIFICATION SYSTEM
+
+Create a dedicated verification workflow.
+
+Statuses:
+
+DRAFT
+SUBMITTED
+UNDER_REVIEW
+MORE_INFORMATION_REQUIRED
+APPROVED
+REJECTED
+SUSPENDED
+REVOKED
+
+---
+
+# 18. ADMIN REVIEW PROCESS
+
+When freelancer submits application:
+
+Status:
+
+UNDER_REVIEW
+
+Admin receives:
+
+"New Freelancer Application"
+
+Admin can see:
+
+## Profile
+
+Name
+Username
+Photo
+City
+Country
+Bio
+Languages
+
+## Professional
+
+Title
+Skills
+Experience
+Categories
+Rates
+
+## Portfolio
+
+Projects
+Images
+Videos
+Audio
+Links
+
+## Verification
+
+Email status
+Phone status
+Identity verification status
+Additional evidence
+
+## Risk
+
+Duplicate account signals
+Suspicious activity
+Previous rejection
+Reports
+Internal flags
+
+---
+
+# 19. ADMIN DECISION
+
+Admin has three primary choices:
+
+## APPROVE
+
+Freelancer becomes:
+
+VERIFIED FREELANCER
+
+and can access the marketplace.
+
+## REJECT
+
+Freelancer cannot operate as a marketplace freelancer.
+
+Admin must provide a rejection reason.
+
+## REQUEST MORE INFORMATION
+
+The freelancer receives:
+
+"Your application needs additional information."
+
+Admin specifies exactly what is missing.
+
+Example:
+
+"Please provide a clearer portfolio example."
+
+"Please update your professional biography."
+
+"Please provide additional verification information."
+
+"Please replace the current profile photo."
+
+"Please clarify your experience."
+
+---
+
+# 20. NEVER USE AN AUTOMATIC "FAKE DETECTOR" AS THE FINAL AUTHORITY
+
+You may create automated risk signals.
+
+But AI must NOT automatically determine:
+
+"This person is fake."
+
+Instead:
+
+AI/risk system
+→ flags suspicious information
+→ Admin reviews
+→ Admin decides
+
+This prevents unfair rejection.
+
+---
+
+# 21. FAKE INFORMATION / FRAUD
+
+If information appears fraudulent:
+
+Flag account.
+
+Possible status:
+
+REVIEW_REQUIRED
+
+Admin investigates.
+
+If confirmed:
+
+REJECTED
+
+or:
+
+SUSPENDED
+
+or:
+
+BANNED
+
+depending on severity and policy.
+
+Create internal reason codes:
+
+FAKE_IDENTITY
+MISLEADING_PROFILE
+STOLEN_PORTFOLIO
+DUPLICATE_ACCOUNT
+FRAUD_SUSPECTED
+SPAM
+COPYRIGHT_VIOLATION
+INCOMPLETE_INFORMATION
+OTHER
+
+---
+
+# 22. IMPORTANT CLARIFICATION ABOUT "REFUND"
+
+Do NOT automatically "refund" an applicant merely because their freelancer application is rejected.
+
+Account registration should normally be free.
+
+Therefore:
+
+If freelancer registration/application is free:
+
+There is nothing to refund.
+
+If you later introduce a paid verification service or paid feature:
+
+The refund rules must be explicitly defined.
+
+For the MVP:
+
+FREELANCER VERIFICATION = FREE
+
+REJECTION = NO PAYMENT / NO REFUND REQUIRED
+
+This keeps the trust system simple and fair.
+
+---
+
+# 23. VERIFICATION BADGES
+
+Create multiple trust levels.
+
+Example:
+
+Email Verified
+Phone Verified
+Identity Verified
+Portfolio Verified
+Top Freelancer
+Experienced Freelancer
+
+Do not use misleading badges.
+
+Each badge must correspond to a real verification condition.
+
+Example:
+
+✓ Email Verified
+
+✓ Phone Verified
+
+✓ Identity Verified
+
+✓ Portfolio Reviewed
+
+Do not display:
+
+"100% Trusted"
+
+because no platform can guarantee that.
+
+---
+
+# 24. PUBLIC FREELANCER PROFILE
+
+The profile should feel like a professional resume + portfolio + marketplace profile.
+
+Header:
+
+Profile photo
+Name
+Professional title
+Location
+Languages
+Rating
+Completed projects
+Verification badges
+Availability
+
+CTA:
+
+"Invite to Job"
+
+"Contact"
+
+"View Services"
+
+"Request Proposal"
+
+---
+
+# 25. PROFILE TRUST SECTION
+
+Create:
+
+## Why clients can trust this freelancer
+
+Show:
+
+✓ Email verified
+
+✓ Phone verified
+
+✓ Identity verified
+
+✓ Portfolio reviewed
+
+✓ X completed projects
+
+✓ X client reviews
+
+✓ Response rate
+
+✓ Member since [date]
+
+Only show real data.
+
+---
+
+# 26. CLIENT REVIEW SYSTEM
+
+After completed projects:
+
+Client can review freelancer.
+
+Review:
+
+Rating 1-5
+Communication
+Quality
+Delivery
+Professionalism
+Comment
+
+Freelancer can also review client.
+
+This creates a two-sided reputation system.
+
+---
+
+# 27. REVIEW PROTECTION
+
+Reviews must be connected to actual contracts/projects.
+
+Do NOT allow random users to create fake reviews.
+
+A review should require:
+
+Completed contract
+
+and:
+
+Valid participant
+
+Prevent:
+
+Self-review
+Duplicate review
+Review manipulation
+
+---
+
+# 28. PROFILE COMPLETION SCORE
+
+Create:
+
+Profile Completion
+
+Example:
+
+Personal information 15%
+Professional information 20%
+Skills 15%
+Experience 10%
+Portfolio 25%
+Verification 15%
+
+Display:
+
+Profile completeness: 85%
+
+But do not allow completion percentage to override admin approval.
+
+A 100% complete profile is still:
+
+PENDING
+
+until reviewed.
+
+---
+
+# 29. FREELANCER APPLICATION TIMELINE
+
+The freelancer should see:
+
+Application submitted
+↓
+Under review
+↓
+Admin reviewing profile
+↓
+Portfolio reviewed
+↓
+Verification checked
+↓
+Decision
+
+Example:
+
+"Your application is currently being reviewed."
+
+This prevents confusion.
+
+---
+
+# 30. ADMIN REVIEW UI
+
+Create a professional review interface.
+
+Left:
+
+Freelancer profile
+
+Center:
+
+Portfolio
+
+Right:
+
+Verification / Risk / Decision
+
+Admin should be able to:
+
+Approve
+Reject
+Request Information
+Suspend
+Add internal note
+Flag portfolio item
+Verify portfolio
+Verify identity
+View history
+
+---
+
+# 31. ADMIN NOTES
+
+Create:
+
+AdminNote
+
+Fields:
+
+id
+adminId
+userId
+content
+createdAt
+
+Notes are private.
+
+Never expose them to the freelancer.
+
+---
+
+# 32. ADMIN AUDIT LOG
+
+Every important action must be logged.
+
+Example:
+
+ADMIN_APPROVED_FREELANCER
+
+ADMIN_REJECTED_FREELANCER
+
+ADMIN_REQUESTED_INFORMATION
+
+ADMIN_VERIFIED_PORTFOLIO
+
+ADMIN_SUSPENDED_ACCOUNT
+
+ADMIN_REVOKED_VERIFICATION
+
+Audit fields:
+
+Actor
+Target
+Action
+Reason
+Timestamp
+IP where appropriate
+Metadata
+
+---
+
+# 33. VERIFICATION REVOCATION
+
+Approval is not permanent.
+
+If a verified freelancer later:
+
+* Uses fake information
+* Steals work
+* Commits fraud
+* Receives repeated serious complaints
+* Violates platform rules
+
+Admin can:
+
+Suspend
+Revoke verification
+Restrict marketplace access
+Ban account
+
+But serious actions should have a documented reason and audit trail.
+
+---
+
+# 34. APPEAL SYSTEM
+
+If rejected or suspended, allow the freelancer to appeal.
+
+Create:
+
+Appeal
+
+Fields:
+
+User
+Decision
+Reason
+Evidence
+Status
+Admin
+Resolution
+CreatedAt
+
+Statuses:
+
+SUBMITTED
+UNDER_REVIEW
+ACCEPTED
+REJECTED
+
+This makes the system fairer.
+
+---
+
+# 35. FREELANCER TRUST SCORE
+
+Do NOT create a mysterious black-box score.
+
+Instead calculate visible reputation using understandable metrics:
+
+Completed projects
+Successful projects
+Average rating
+Response rate
+On-time delivery
+Repeat clients
+Verified portfolio
+Verification status
+
+Display the underlying metrics.
+
+---
+
+# 36. CLIENT TRUST SYSTEM
+
+The same philosophy should eventually apply to clients.
+
+Clients should also have:
+
+Email verified
+Phone verified
+Company information where applicable
+Payment verification
+Completed projects
+Reviews from freelancers
+
+Do not make freelancers verify everything while clients remain completely anonymous.
+
+Trust must be two-sided.
+
+---
+
+# 37. ANTI-SCAM MARKETPLACE DESIGN
+
+Before a freelancer can submit a proposal:
+
+Freelancer must be approved.
+
+Before a client can create a funded contract:
+
+Client account must satisfy required verification/payment conditions.
+
+Before money is released:
+
+Contract and milestone state must be valid.
+
+Before a withdrawal:
+
+Freelancer must satisfy required verification requirements.
+
+---
+
+# 38. PAYMENT + VERIFICATION CONNECTION
+
+Create business rules such as:
+
+UNVERIFIED freelancer:
+
+Cannot withdraw.
+
+PENDING freelancer:
+
+Cannot accept contracts.
+
+APPROVED freelancer:
+
+Can work.
+
+SUSPENDED freelancer:
+
+Cannot create new contracts.
+
+BANNED freelancer:
+
+Cannot access marketplace functionality.
+
+These rules must be enforced server-side.
+
+---
+
+# 39. FREELANCER ONBOARDING UX
+
+Create a beautiful onboarding experience.
+
+Header:
+
+"Build your professional profile"
+
+Progress:
+
+1 / 8
+
+At each step:
+
+Short explanation
+Form
+Validation
+Save progress
+
+At the end:
+
+## "Ready to submit?"
+
+Show:
+
+Profile preview
+Portfolio preview
+Verification checklist
+
+Then:
+
+"Submit for Review"
+
+After submission:
+
+"You've submitted your freelancer application."
+
+"Most importantly, make sure your information and portfolio accurately represent your work."
+
+---
+
+# 40. PROFILE PREVIEW
+
+Before submitting, freelancer can see exactly what clients will see.
+
+Button:
+
+"Preview Public Profile"
+
+This prevents incomplete or embarrassing profiles.
+
+---
+
+# 41. PORTFOLIO PREVIEW
+
+Portfolio cards should support:
+
+Image gallery
+Video
+Audio player
+PDF preview where appropriate
+External links
+
+Example:
+
+Project:
+
+"Luxury Real Estate Landing Page"
+
+Category:
+
+Web Development
+
+Skills:
+
+Next.js
+TypeScript
+Tailwind CSS
+
+Role:
+
+Frontend Developer
+
+Description:
+
+Professional responsive landing page.
+
+Preview:
+
+[Image / Video]
+
+---
+
+# 42. AUDIO PORTFOLIO
+
+For audio professionals, create a native audio player.
+
+Supported formats:
+
+MP3
+WAV where practical
+OGG where practical
+
+Include:
+
+Play
+Pause
+Progress
+Duration
+Volume
+
+Do not force audio freelancers to upload images only.
+
+---
+
+# 43. VIDEO PORTFOLIO
+
+Support:
+
+MP4/WebM where appropriate
+
+Provide:
+
+Thumbnail
+Play
+Pause
+Fullscreen
+
+For large videos, architect for object storage/CDN rather than storing huge files directly in the application database.
+
+---
+
+# 44. PORTFOLIO PRIVACY
+
+Freelancer should control whether a portfolio project is:
+
+PUBLIC
+PRIVATE
+UNLISTED
+
+However:
+
+Portfolio items submitted for verification can be visible to admins even if not public.
+
+---
+
+# 45. CLIENT DISCOVERY
+
+Only approved freelancers appear in:
+
+Search results
+Category pages
+Featured freelancers
+Recommendations
+Job proposals
+Public marketplace
+
+Pending/rejected freelancers must not appear as active marketplace freelancers.
+
+---
+
+# 46. ADMIN FEATURED FREELANCERS
+
+Admin can feature high-quality freelancers.
+
+Featured status should be manually controlled or based on transparent rules.
+
+Do not sell fake "featured" status without a clear business model.
+
+---
+
+# 47. FREELANCER SERVICE CREATION
+
+After approval, freelancer can create services.
+
+Example:
+
+"I will build a professional Next.js landing page"
+
+Service:
+
+Title
+Description
+Category
+Skills
+Images
+Video
+Starting price
+Delivery time
+Revisions
+Packages
+FAQ
+
+Packages can be:
+
+Basic
+Standard
+Premium
+
+---
+
+# 48. SERVICE MODERATION
+
+Services should have:
+
+DRAFT
+PENDING_REVIEW
+PUBLISHED
+REJECTED
+SUSPENDED
+
+Admin can moderate services.
+
+This prevents scams and low-quality listings.
+
+---
+
+# 49. IMPORTANT DATABASE MODELS
+
+Add these models to the previous database architecture:
+
+User
+Profile
+FreelancerProfile
+ClientProfile
+
+FreelancerApplication
+
+FreelancerVerification
+
+VerificationDocument
+VerificationCheck
+VerificationStatus
+
+Portfolio
+PortfolioItem
+PortfolioMedia
+PortfolioVerification
+
+Experience
+Education
+Certification
+
+Skill
+Category
+
+Review
+ReviewMetric
+
+AdminNote
+AdminDecision
+Appeal
+
+RiskFlag
+RiskAssessment
+
+ProfileBadge
+
+ProfileCompletion
+
+Service
+ServicePackage
+ServiceMedia
+
+Contract
+Milestone
+Deliverable
+
+Payment
+PaymentAttempt
+PaymentProvider
+
+Wallet
+LedgerEntry
+Withdrawal
+WithdrawalMethod
+
+Dispute
+DisputeEvidence
+
+Notification
+AuditLog
+
+---
+
+# 50. FREELANCER APPLICATION DATABASE
+
+Create a professional model.
+
+Example conceptual structure:
+
+FreelancerApplication
+
+id
+userId
+status
+submittedAt
+reviewedAt
+reviewedBy
+rejectionReason
+requestedInformation
+adminDecision
+createdAt
+updatedAt
+
+Use enums:
+
+DRAFT
+SUBMITTED
+UNDER_REVIEW
+MORE_INFORMATION_REQUIRED
+APPROVED
+REJECTED
+SUSPENDED
+REVOKED
+
+---
+
+# 51. VERIFICATION DATABASE
+
+FreelancerVerification:
+
+id
+userId
+identityStatus
+emailStatus
+phoneStatus
+portfolioStatus
+overallStatus
+reviewedBy
+reviewedAt
+expiresAt
+createdAt
+updatedAt
+
+Do not store sensitive documents directly inside ordinary database fields.
+
+Use secure storage references.
+
+---
+
+# 52. PORTFOLIO DATABASE
+
+PortfolioItem:
+
+id
+freelancerId
+title
+slug
+description
+categoryId
+role
+technologies
+externalUrl
+repositoryUrl
+verificationStatus
+visibility
+createdAt
+updatedAt
+
+PortfolioMedia:
+
+id
+portfolioItemId
+type
+storageKey
+mimeType
+size
+thumbnail
+duration
+createdAt
+
+---
+
+# 53. PROFILE PUBLICATION RULE
+
+A freelancer profile can only become:
+
+PUBLIC
+
+when:
+
+* Email verified
+* Required profile fields completed
+* Freelancer application approved
+* Required verification checks passed
+
+Otherwise:
+
+PRIVATE / APPLICATION_ONLY
+
+---
+
+# 54. PROFILE QUALITY RULES
+
+Create validation rules.
+
+Minimum approval requirements can include:
+
+* Realistic professional title
+* Complete bio
+* At least X relevant skills
+* At least X portfolio items
+* Profile photo
+* Verified email
+* Verified phone where required
+* Required verification completed
+
+Do NOT make the requirements unnecessarily difficult.
+
+The goal is quality, not exclusion.
+
+---
+
+# 55. ADMIN REVIEW CHECKLIST
+
+Create a review checklist:
+
+* [ ] Identity information appears consistent
+* [ ] Email verified
+* [ ] Phone verified where required
+* [ ] Profile photo appropriate
+* [ ] Professional title appropriate
+* [ ] Biography appears legitimate
+* [ ] Skills are relevant
+* [ ] Experience is coherent
+* [ ] Portfolio contains actual work examples
+* [ ] Portfolio ownership/evidence reviewed
+* [ ] No obvious stolen content
+* [ ] No suspicious information
+* [ ] No duplicate account concerns
+* [ ] Freelancer category is appropriate
+* [ ] Application meets platform standards
+
+Admin then chooses:
+
+APPROVE
+
+REJECT
+
+REQUEST INFORMATION
+
+---
+
+# 56. AUTOMATED QUALITY ASSISTANCE
+
+You may build an internal AI-assisted review system.
+
+AI can analyze:
+
+* Incomplete information
+* Duplicate descriptions
+* Suspicious patterns
+* Portfolio consistency
+* Spam
+* Obvious copied content
+* Risk signals
+
+But:
+
+AI = ASSISTANT
+
+Admin = FINAL DECISION
+
+Never automatically reject a freelancer solely because an AI classifier says they are suspicious.
+
+---
+
+# 57. USER-FACING REJECTION EXPERIENCE
+
+Never show:
+
+"Your account is fake."
+
+Instead:
+
+"Your freelancer application could not be approved at this time."
+
+Reason:
+
+"Some information or portfolio evidence requires improvement."
+
+Then explain:
+
+"What you can do next"
+
+Allow:
+
+Update Profile
+Add Portfolio
+Submit Appeal
+
+This keeps the platform professional.
+
+---
+
+# 58. USER-FACING APPROVAL EXPERIENCE
+
+When approved:
+
+## "You're approved!"
+
+"You are now a verified freelancer on [Platform Name]."
+
+Show:
+
+✓ Profile approved
+✓ Portfolio reviewed
+✓ Marketplace access enabled
+
+CTA:
+
+"Find Your First Project"
+
+Secondary:
+
+"Create Your First Service"
+
+---
+
+# 59. TRUST-FIRST PUBLIC PROFILE DESIGN
+
+The public profile should prioritize:
+
+1. Identity
+2. Professional expertise
+3. Portfolio
+4. Reviews
+5. Verification
+6. Work history
+7. Services
+8. Contact/invite
+
+Do not bury the portfolio.
+
+The portfolio is the freelancer's strongest proof of ability.
+
+---
+
+# 60. FULL FREELANCER LIFECYCLE
+
+Implement this complete lifecycle:
+
+REGISTER
+↓
+EMAIL VERIFY
+↓
+CREATE FREELANCER PROFILE
+↓
+UPLOAD PROFILE PHOTO
+↓
+ADD PROFESSIONAL INFORMATION
+↓
+ADD SKILLS
+↓
+ADD EXPERIENCE
+↓
+ADD EDUCATION
+↓
+ADD CERTIFICATIONS
+↓
+ADD PORTFOLIO
+↓
+SUBMIT APPLICATION
+↓
+ADMIN REVIEW
+↓
+├── REQUEST MORE INFORMATION
+│       ↓
+│   FREELANCER UPDATES
+│       ↓
+│   ADMIN REVIEW
+│
+├── REJECT
+│       ↓
+│   APPEAL / UPDATE
+│
+└── APPROVE
+↓
+VERIFIED FREELANCER
+↓
+PUBLIC PROFILE
+↓
+APPLY FOR JOBS
+↓
+CREATE SERVICES
+↓
+GET CLIENT
+↓
+CONTRACT
+↓
+MILESTONES
+↓
+WORK
+↓
+APPROVAL
+↓
+EARNINGS
+↓
+WITHDRAWAL
+
+---
+
+# 61. PAYMENT MODEL
+
+Keep the original business model:
+
+Platform is free.
+
+No subscription.
+
+No proposal credits.
+
+No artificial limits.
+
+When a project is completed:
+
+## Gross project value
+
+# 1% platform fee
+
+Freelancer net earnings
+
+Example:
+
+1000 TND
+
+1% = 10 TND
+
+Freelancer = 990 TND
+
+Display this transparently.
+
+---
+
+# 62. PAYMENT COMPLIANCE
+
+Do NOT assume that the platform itself can legally hold and redistribute money.
+
+Create a provider-agnostic payment architecture.
+
+Potential categories:
+
+* Tunisian banks
+* Licensed Tunisian payment institutions
+* Tunisian Post / supported services
+* D17 / supported official mechanisms
+* International bank transfer
+* Western Union / supported official services
+* Future compliant crypto provider
+
+Only integrate providers through legitimate official APIs/agreements.
+
+If no API exists:
+
+Mock provider.
+
+Never fake an integration.
+
+---
+
+# 63. WALLET
+
+Use an internal ledger architecture.
+
+Statuses:
+
+Pending
+Available
+Processing
+Withdrawn
+Refunded
+Disputed
+
+Never allow frontend JavaScript to modify balances.
+
+Every financial change creates a ledger entry.
+
+---
+
+# 64. SECURITY
+
+Because this platform involves identity, reputation and money, security is critical.
+
+Implement:
+
+RBAC
+Authentication
+Authorization
+Rate limiting
+Secure sessions
+Input validation
+Zod
+Secure uploads
+Audit logs
+Payment idempotency
+Webhook verification
+Access control
+Encryption where appropriate
+Sensitive-data protection
+Anti-fraud signals
+Admin activity logging
+
+Test:
+
+IDOR
+Privilege escalation
+Unauthorized profile editing
+Unauthorized portfolio access
+Unauthorized withdrawal
+Unauthorized contract modification
+Payment replay
+Webhook replay
+Duplicate transactions
+
+---
+
+65. TECHNOLOGY STACK
+
+Build the platform using:
+
+Next.js 16
+TypeScript
+Tailwind CSS 4
+shadcn/ui
+Prisma ORM
+SQLite for MVP/development
+Zustand
+React Hook Form
+Zod
+Server Actions
+Route Handlers / API Routes
+Lucide Icons
+Motion
+GSAP
+Lenis
+Magic UI where appropriate
+React Bits where appropriate
+Radix UI primitives
+Three.js where genuinely useful
+React Three Fiber where genuinely useful
+
+Architecture must be:
+
+Modular
+Maintainable
+Type-safe
+Secure
+Responsive
+Accessible
+Production-oriented
+
+Do not add dependencies simply because they are available.
+
+Every dependency must have a clear purpose.
+
+66. IMPORTANT LIBRARIES AND DESIGN SKILLS
+
+Use these repositories as implementation/design references.
+
+Landing Page Design Skill
+
+https://github.com/MengTo/Skills/blob/main/agent-skills/web-design/landing-page/SKILL.md
+
+Use this for:
+
+Landing page composition
+Hero hierarchy
+Visual storytelling
+CTA placement
+Conversion-focused sections
+Responsive design
+Premium landing-page structure
+Tailwind Design System Skill
+
+https://github.com/wshobson/agents/blob/main/plugins/frontend-mobile-development/skills/tailwind-design-system/SKILL.md
+
+Use this to establish:
+
+Design tokens
+Spacing
+Typography
+Responsive breakpoints
+Component consistency
+Tailwind architecture
+Reusable patterns
+UI Design System Skill
+
+https://github.com/davila7/claude-code-templates/blob/main/cli-tool/components/skills/creative-design/ui-design-system/SKILL.md
+
+Use this to establish:
+
+Visual hierarchy
+Component consistency
+Interaction design
+Professional UI patterns
+Layout systems
+Design quality standards
+67. MAGIC UI
+
+Use:
+
+https://github.com/magicuidesign/magicui
+
+Use Magic UI selectively for premium visual components such as:
+
+Hero effects
+Animated cards
+Marquee sections
+Shimmer effects
+Interactive backgrounds
+Premium CTA sections
+Trust sections
+Animated statistics
+
+Do not use Magic UI everywhere.
+
+The platform must remain professional rather than looking like an animation showcase.
+
+68. REACT BITS
+
+Use:
+
+https://github.com/DavidHDev/react-bits
+
+Use React Bits selectively for:
+
+Text animation
+Hero interactions
+Micro-interactions
+Creative background effects
+Animated navigation
+Interactive components
+
+Only use components that fit the Khidma design language.
+
+Do not blindly copy demos.
+
+Customize components to match the brand.
+
+69. MOTION
+
+Use:
+
+https://github.com/motiondivision/motion
+
+Use Motion for normal application animations.
+
+Use it for:
+
+Modal animations
+Dialog animations
+Dropdowns
+Navigation
+Page transitions
+Layout transitions
+Card interactions
+Hover interactions
+Toasts
+Notifications
+Micro-interactions
+
+Use the current Motion API.
+
+Do NOT use outdated:
+
+framer-motion
+
+patterns if the current Motion package/API provides the correct implementation.
+
+70. GSAP
+
+Use:
+
+https://github.com/greensock/GSAP
+
+Use GSAP for advanced animation sequences.
+
+Use it for:
+
+Hero storytelling
+ScrollTrigger
+Complex timelines
+SVG animations
+Logo animation
+Landing-page transitions
+Advanced portfolio interactions
+Premium marketing sections
+
+Do not use GSAP for simple button hover effects.
+
+Use:
+
+CSS → simple animations
+
+Motion → application/component animation
+
+GSAP → complex timelines and cinematic experiences
+
+71. LENIS
+
+Use:
+
+https://github.com/darkroomengineering/lenis
+
+Use Lenis primarily on:
+
+Landing page
+Marketing pages
+Public portfolio pages
+Storytelling pages
+
+The scrolling experience should feel:
+
+Smooth
+Natural
+Premium
+Fast
+Responsive
+
+Do not force smooth scrolling everywhere.
+
+Avoid using Lenis unnecessarily in:
+
+Admin dashboard
+Messaging
+Forms
+Complex tables
+Financial dashboards
+
+Performance and usability always have priority.
+
+72. SHADCN/UI
+
+Use:
+
+https://github.com/shadcn-ui/ui
+
+Use shadcn/ui as the primary application component foundation.
+
+Create reusable components for:
+
+Buttons
+Inputs
+Forms
+Dialogs
+Dropdowns
+Tabs
+Tables
+Cards
+Tooltips
+Select
+Command menus
+Sheets
+Alerts
+Toasts
+Navigation
+Pagination
+Data tables
+
+Customize the components to match Khidma.
+
+Do not leave the default shadcn appearance unchanged throughout the entire product.
+
+73. RADIX UI
+
+Use:
+
+https://github.com/radix-ui/primitives
+
+Prioritize Radix primitives for accessible interactions.
+
+Ensure:
+
+Keyboard navigation
+Focus management
+ARIA
+Screen-reader support
+Dialog accessibility
+Dropdown accessibility
+Popover accessibility
+Correct focus trapping
+
+Accessibility is mandatory.
+
+74. LUCIDE ICONS
+
+Use:
+
+https://github.com/lucide-icons/lucide
+
+Use Lucide as the primary icon system.
+
+Do not randomly mix:
+
+Font Awesome
+Emoji
+Material icons
+Random SVG libraries
+Multiple icon systems
+
+Maintain a consistent visual language.
+
+Use icons for:
+
+Search
+Jobs
+Services
+Portfolio
+Messages
+Notifications
+Wallet
+Payments
+Verification
+Settings
+Admin
+Users
+Contracts
+Withdrawals
+75. THREE.JS + REACT THREE FIBER
+
+Use:
+
+https://github.com/mrdoob/three.js
+
+and:
+
+https://github.com/pmndrs/react-three-fiber
+
+ONLY where 3D genuinely improves the experience.
+
+Possible use cases:
+
+Premium landing-page hero
+Interactive Khidma logo
+3D brand presentation
+Abstract background
+Premium portfolio experience
+
+Do NOT add 3D to:
+
+Every dashboard
+Forms
+Payment screens
+Admin tables
+Messaging
+Simple profile pages
+
+The product is a professional freelance marketplace, not a gaming website.
+
+Use 3D as a premium accent.
+
+Lazy-load heavy 3D components.
+
+76. KHIDMA DESIGN SYSTEM
+
+Brand name:
+
+Khidma
+
+Arabic:
+
+خدمة
+
+Meaning:
+
+Work / Service
+
+The brand should represent:
+
+Work
+Opportunity
+Connection
+Trust
+Professionalism
+Growth
+Tunisian talent
+Global opportunity
+
+The visual identity should feel:
+
+Premium + Trustworthy + Modern + Human + Professional
+
+77. KHIDMA COLOR PALETTE
+
+Primary brand palette:
+
+#475959
+#2b3d3d
+#748684
+#192d2f
+#32504d
+#6e8580
+#ffffff
+
+Create semantic design tokens:
+
+background
+foreground
+primary
+primary-foreground
+secondary
+secondary-foreground
+muted
+muted-foreground
+card
+card-foreground
+border
+input
+ring
+success
+warning
+destructive
+info
+
+Do not randomly apply colors.
+
+Use the darker colors for:
+
+Navigation
+Branding
+Primary actions
+Trust indicators
+Important headings
+
+Use white and lighter tones for:
+
+Background
+Cards
+Content
+Space
+Contrast
+78. KHIDMA TYPOGRAPHY
+
+Typography must look premium.
+
+Do not use random fonts.
+
+Use a carefully selected font system supporting:
+
+English
+French
+Arabic
+RTL
+
+Evaluate these Latin fonts:
+
+Manrope
+Inter
+Plus Jakarta Sans
+DM Sans
+Geist
+Sora
+
+Evaluate these Arabic fonts:
+
+IBM Plex Sans Arabic
+Noto Sans Arabic
+Noto Kufi Arabic
+Tajawal
+Cairo
+
+Preferred starting combination:
+
+Latin
+
+Manrope
+
+Arabic
+
+IBM Plex Sans Arabic
+
+But test the visual result before finalizing.
+
+Optionally use:
+
+Sora
+
+as a display font for selected hero headings.
+
+Do NOT use many fonts.
+
+Maximum recommended:
+
+1 primary UI font
++
+1 optional display font
++
+1 Arabic counterpart
+
+79. TYPOGRAPHY HIERARCHY
+
+Create a professional type scale.
+
+Use:
+
+Display
+H1
+H2
+H3
+H4
+Body Large
+Body
+Body Small
+Caption
+Label
+
+Recommended weights:
+
+400 Regular
+500 Medium
+600 Semibold
+700 Bold
+800 Extra Bold
+
+Use typography consistently throughout:
+
+Landing page
+Dashboard
+Freelancer profiles
+Job pages
+Admin
+Payment screens
+Forms
+Messaging
+80. ARABIC / RTL SYSTEM
+
+Support:
+
+English
+French
+Arabic
+
+Arabic must use RTL.
+
+When Arabic is active:
+
+Layout direction becomes RTL
+Navigation reverses correctly
+Icons remain logically positioned
+Forms support RTL
+Tables support RTL
+Cards support RTL
+Dialogs support RTL
+Pagination supports RTL
+
+Arabic numbers MUST use Western digits:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+NOT:
+
+١
+٢
+٣
+٤
+٥
+٦
+٧
+٨
+٩
+١٠
+
+This rule applies everywhere:
+
+Prices
+Dates
+Statistics
+Ratings
+Steps
+Pagination
+Dashboard numbers
+Notifications
+
+Do not hard-code translations inside React components.
+
+Create a proper internationalization architecture.
+
+81. KHIDMA LOGO SYSTEM
+
+Use the provided Khidma logo concept as the official brand direction.
+
+Brand lockup:
+
+Khidma | خدمة
+
+The logo system must contain:
+
+Full Logo
+
+Symbol + Khidma + خدمة
+
+Symbol Logo
+
+Symbol only
+
+Wordmark
+
+Khidma | خدمة
+
+Favicon
+
+Symbol only
+
+App Icon
+
+Symbol only
+
+The symbol must remain recognizable without text.
+
+82. KHIDMA APP ICON
+
+The symbol-only Khidma icon must work at:
+
+16px
+32px
+64px
+128px
+192px
+512px
+
+It must work for:
+
+Browser favicon
+Website header
+Mobile app icon
+PWA icon
+Social avatar
+Loading screen
+Notification icon
+
+Do not make the icon dependent on tiny text.
+
+The symbol must be recognizable independently.
+
+83. KHIDMA HEADER
+
+Create a clean header inspired by the simplicity of modern products such as:
+
+YouTube
+ChatGPT
+Linear
+Stripe
+
+But DO NOT copy their interfaces.
+
+Desktop:
+
+Left:
+
+Khidma icon + wordmark
+
+Center:
+
+Global search
+
+Navigation:
+
+Find Work
+Find Talent
+Services
+How It Works
+
+Right:
+
+Messages
+Notifications
+Login
+Join Khidma
+
+Mobile:
+
+Khidma icon
+Search
+Menu
+
+Keep the header clean.
+
+84. PREMIUM LANDING PAGE
+
+Create a high-quality startup landing page.
+
+Hero should communicate the core proposition immediately.
+
+Example:
+
+Find trusted talent. Build your career.
+
+Supporting message:
+
+A professional marketplace connecting verified Tunisian freelancers with clients locally and globally.
+
+Primary CTA:
+
+Find a Freelancer
+
+Secondary CTA:
+
+Start Freelancing
+
+Hero visual:
+
+Use subtle premium animation.
+
+Possible technologies:
+
+Motion
+GSAP
+Magic UI
+React Bits
+
+Do not use all of them simultaneously.
+
+85. LANDING PAGE STRUCTURE
+
+Create:
+
+Hero
+Trust indicators
+How Khidma works
+Popular categories
+Featured freelancers
+Featured services
+Why Khidma
+Secure payment explanation
+Local withdrawal options
+International work
+Freelancer success stories
+Client testimonials
+FAQ
+Final CTA
+Footer
+86. TRUST-FIRST DESIGN
+
+The website deals with:
+
+Freelancers
+Clients
+Contracts
+Money
+Verification
+Withdrawals
+
+Therefore trust must be visually obvious.
+
+Show:
+
+✓ Verified freelancers
+
+✓ Portfolio reviewed
+
+✓ Secure contracts
+
+✓ Transparent 1% platform fee
+
+✓ Multiple withdrawal options
+
+✓ Client reviews
+
+✓ Freelancer reviews
+
+Never invent statistics.
+
+Only display real database-backed values.
+
+87. ANIMATION RULES
+
+Animation must improve UX.
+
+Use:
+
+CSS
+
+For:
+
+Hover
+Focus
+Color transitions
+Small transforms
+Motion
+
+For:
+
+Components
+Dialogs
+Navigation
+Layout transitions
+Micro-interactions
+GSAP
+
+For:
+
+Complex timelines
+ScrollTrigger
+Hero storytelling
+Logo animation
+Lenis
+
+For:
+
+Marketing page smooth scrolling
+Three.js
+
+For:
+
+Special 3D experiences
+Magic UI / React Bits
+
+For:
+
+Premium visual components
+
+Never use animation just because it looks impressive.
+
+88. REDUCED MOTION
+
+Respect:
+
+prefers-reduced-motion
+
+Users who prefer reduced motion must receive a simplified experience.
+
+Never make critical functionality dependent on animation.
+
+89. PERFORMANCE
+
+Performance is more important than visual effects.
+
+Protect:
+
+LCP
+CLS
+INP
+FPS
+Memory
+Mobile battery
+
+Use:
+
+Lazy loading
+Dynamic imports
+Code splitting
+Optimized images
+Optimized fonts
+Server components where appropriate
+Streaming where useful
+Efficient database queries
+
+Lazy-load:
+
+Three.js
+React Three Fiber
+Large video
+Heavy animations
+Large portfolio media
+90. RESPONSIVE DESIGN
+
+Design mobile-first.
+
+Support:
+
+320px
+375px
+390px
+414px
+768px
+1024px
+1280px
+1440px
+1920px
+
+Do not simply shrink desktop.
+
+Create intentional layouts for:
+
+Mobile
+Tablet
+Laptop
+Desktop
+Large screens
+91. PROFESSIONAL FREELANCER PROFILE
+
+The freelancer profile should feel like:
+
+Professional resume
++
+Portfolio
++
+Marketplace profile
++
+Trust profile
+
+Display:
+
+Profile photo
+Name
+Professional title
+Location
+Languages
+Rating
+Completed projects
+Verification
+Skills
+Portfolio
+Experience
+Services
+Reviews
+Availability
+
+CTA:
+
+Invite to Job
+
+Contact
+
+View Services
+
+92. PORTFOLIO EXPERIENCE
+
+Make portfolio visually impressive.
+
+Support:
+
+Images
+Video
+Audio
+PDF
+External URL
+GitHub
+Live website
+
+Portfolio cards should have:
+
+Thumbnail
+Title
+Category
+Skills
+Description
+Role
+Results
+Verification status
+
+For video:
+
+Native video preview.
+
+For audio:
+
+Professional audio player.
+
+For websites:
+
+Live preview where safe.
+
+93. ADMIN EXPERIENCE
+
+The admin dashboard should not look like a generic CRUD panel.
+
+Create a professional operational dashboard.
+
+Main areas:
+
+Dashboard
+Users
+Freelancer Applications
+Freelancers
+Clients
+Verification
+Portfolio Review
+Services
+Jobs
+Proposals
+Contracts
+Payments
+Transactions
+Withdrawals
+Disputes
+Risk
+Appeals
+Reports
+Categories
+Skills
+Payment Providers
+Monetization
+Analytics
+Settings
+Audit Logs
+
+94. ADMIN FREELANCER REVIEW
+
+The review interface is one of the most important pages.
+
+Layout:
+
+Left
+
+Freelancer information
+
+Center
+
+Portfolio
+
+Right
+
+Verification + Risk + Decision
+
+Bottom
+
+Admin notes
+History
+Audit log
+
+Actions:
+
+Approve
+Reject
+Request Information
+Suspend
+Flag
+Verify Portfolio
+Revoke Verification
+
+95. MONETIZATION ARCHITECTURE
+
+The platform remains free to use.
+
+Primary revenue:
+
+1% marketplace transaction fee
+
+Example:
+
+Project:
+
+1000 TND
+
+Platform:
+
+10 TND
+
+Freelancer:
+
+990 TND
+
+The fee must be clearly displayed before confirmation.
+
+96. ADVERTISING
+
+Support optional advertising architecture.
+
+Possible future integration:
+
+Google AdSense / Google Ads or another compliant advertising provider.
+
+Ads should be limited primarily to:
+
+Public landing pages
+Blog
+Educational resources
+Public guides
+Public category pages
+
+Do NOT place distracting advertisements inside:
+
+Messaging
+Payment
+Contracts
+Wallet
+Withdrawal
+Freelancer onboarding
+Admin
+Verification
+
+The marketplace must feel premium.
+
+Advertising is a secondary revenue stream, not the core business model.
+
+97. PREMIUM REVENUE OPTIONS
+
+Architect the platform so future monetization can include:
+
+Featured freelancers
+Featured services
+Sponsored listings
+Premium freelancer tools
+Business plans
+Advanced recruitment
+Analytics
+Professional profile enhancements
+
+Do not activate all of these in MVP.
+
+Keep the core marketplace free.
+
+98. PAYMENT ARCHITECTURE
+
+Maintain provider-agnostic architecture.
+
+Potential payment/withdrawal categories:
+
+Tunisian banks
+BIAT
+TIJARI
+ZITOUNA
+Tunisian Post
+D17
+International bank transfer
+Western Union where officially supported
+Future compliant crypto provider
+
+IMPORTANT:
+
+Do NOT invent APIs.
+
+Do NOT pretend that a provider has an API if it does not.
+
+Do NOT fake successful transactions.
+
+Use adapters:
+
+PaymentProvider
+WithdrawalProvider
+VerificationProvider
+
+Each provider can have:
+
+name
+type
+status
+configuration
+capabilities
+99. FINANCIAL SAFETY
+
+Because the platform involves real money:
+
+Never allow frontend code to modify:
+
+Wallet balance
+Earnings
+Withdrawal amount
+Transaction status
+
+All financial calculations must happen server-side.
+
+Use:
+
+Ledger
+Idempotency
+Transaction states
+Webhook verification
+Audit logs
+Permission checks
+100. WITHDRAWAL EXPERIENCE
+
+Freelancer should see:
+
+Available balance
+
+Pending balance
+
+Processing
+
+Withdrawn
+
+Transaction history
+
+Withdrawal methods:
+
+Bank
+Supported local payment method
+International transfer
+Other officially supported methods
+
+The available methods must depend on actual provider capabilities.
+
+101. SECURITY
+
+Implement:
+
+Authentication
+Authorization
+RBAC
+Rate limiting
+Zod validation
+Secure sessions
+CSRF protection where applicable
+Secure uploads
+Audit logging
+Payment idempotency
+Webhook validation
+Access control
+Sensitive-data protection
+Server-side authorization
+
+Test:
+
+IDOR
+Privilege escalation
+Unauthorized withdrawal
+Unauthorized profile modification
+Unauthorized portfolio access
+Payment replay
+Webhook replay
+Duplicate transactions
+Role bypass
+Admin endpoint exposure
+102. DESIGN QUALITY STANDARD
+
+Do not create:
+
+Generic AI SaaS UI
+Excessive glassmorphism
+Excessive gradients
+Excessive rounded cards
+Excessive shadows
+Excessive animation
+Random fonts
+Random icon styles
+
+Instead create:
+
+Calm + Premium + Trustworthy + Modern + Human
+
+The platform should feel like a serious financial/work platform.
+
+103. PRODUCT REFERENCES
+
+Take inspiration from:
+
+Upwork → marketplace structure
+
+Fiverr → service marketplace
+
+5amsat → Arabic freelance marketplace concepts
+
+Stripe → financial trust
+
+Linear → product polish
+
+Notion → clarity
+
+YouTube → simple navigation
+
+ChatGPT → clean product interaction
+
+But NEVER clone them.
+
+Khidma must have its own identity.
+
+104. TRUST PRINCIPLE
+
+The platform should prioritize:
+
+TRUST > NUMBER OF USERS
+
+It is better to have:
+
+1000 verified freelancers
+
+than:
+
+100000 unverified accounts.
+
+The marketplace should become known for:
+
+REAL PEOPLE.
+REAL SKILLS.
+REAL PORTFOLIOS.
+REAL WORK.
+REAL TRUST.
+105. FINAL MVP
+
+P0:
+
+Authentication
+Email verification
+Freelancer onboarding
+Freelancer profile
+Profile photo
+Skills
+Experience
+Portfolio
+Freelancer application
+Admin approval
+Verification
+Portfolio moderation
+Public freelancer profiles
+Job marketplace
+Proposals
+Contracts
+Milestones
+Messaging
+Reviews
+Wallet architecture
+Ledger
+Withdrawal architecture
+Admin dashboard
+Security
+
+P1:
+
+Services marketplace
+Client verification
+Appeals
+Risk system
+Advanced search
+Notifications
+Email system
+Analytics
+Monetization architecture
+
+P2:
+
+AI matching
+Advanced fraud detection
+Real payment integrations
+Advanced portfolio analysis
+Mobile applications
+Crypto provider
+Recommendation engine
+Advanced advertising
+106. END-TO-END TEST
+
+Test this complete scenario:
+
+Freelancer registers
+Email verified
+Phone verified
+Profile created
+Photo uploaded
+Skills added
+Experience added
+Portfolio added
+Application submitted
+Admin receives application
+Admin reviews profile
+Admin reviews portfolio
+Admin requests information
+Freelancer updates information
+Admin reviews again
+Admin approves
+Public profile becomes visible
+Freelancer applies for job
+Client accepts
+Contract created
+Milestone funded
+Freelancer completes work
+Client approves
+1% fee calculated
+Freelancer balance updated
+Freelancer requests withdrawal
+Withdrawal processed
+Transaction recorded
+Client leaves review
+Freelancer leaves review
+
+Every step must be tested.
+
+107. IMPLEMENTATION METHOD
+
+Do NOT immediately start generating hundreds of files.
+
+First:
+
+PHASE 0 — ANALYSIS
+
+Analyze the complete requirements.
+
+Then produce:
+
+Product architecture
+User flows
+System architecture
+Database ERD
+Prisma schema plan
+Folder structure
+UI architecture
+Design system
+Payment architecture
+Security architecture
+Role/permission matrix
+MVP roadmap
+
+Then:
+
+PHASE 1
+
+Foundation
+
+PHASE 2
+
+Authentication
+
+PHASE 3
+
+Freelancer onboarding
+
+PHASE 4
+
+Verification
+
+PHASE 5
+
+Portfolio
+
+PHASE 6
+
+Admin
+
+PHASE 7
+
+Marketplace
+
+PHASE 8
+
+Contracts
+
+PHASE 9
+
+Payments
+
+PHASE 10
+
+Withdrawals
+
+PHASE 11
+
+Reviews
+
+PHASE 12
+
+Polishing
+
+PHASE 13
+
+Testing
+
+PHASE 14
+
+Security audit
+
+PHASE 15
+
+Production readiness
+
+108. QUALITY GATE
+
+At the end of every phase:
+
+STOP.
+
+Check:
+
+TypeScript errors
+ESLint
+Build
+Database migrations
+Security
+Responsive UI
+Accessibility
+Loading states
+Error states
+Empty states
+Authentication
+Authorization
+Mobile experience
+Performance
+
+Only continue after the current phase is stable.
+
+Do not accumulate technical debt.
+
+109. NO FAKE IMPLEMENTATION
+
+Never create fake functionality simply to make the UI look complete.
+
+If a real integration is unavailable:
+
+Build:
+
+Provider Adapter + Mock Provider
+
+and clearly label it internally as:
+
+DEVELOPMENT / MOCK
+
+Never tell the user that a real payment has occurred when it has not.
+
+110. FINAL PRODUCT VISION
+
+Khidma should become:
+
+The trusted bridge between Tunisian talent and the global freelance economy.
+
+A freelancer should feel:
+
+"I can build my career here."
+
+A client should feel:
+
+"I can find real Tunisian talent here."
+
+And after a successful project:
+
+"I can get paid through a method that works for me."
+
+The platform should combine:
+
+Trust
+
+Talent
+
+Work
+
+Payment
+
+Professionalism
+
+Growth
+
+into one ecosystem.
+
+KHIDMA
+خدمة
+Work. Earn. Grow.
+
+
+Then implement the project phase by phase.
+
+Do not skip the architecture phase.
+
+Do not fake external financial integrations.
+
+Do not invent APIs.
+
+Do not create fake verification.
+
+Do not automatically reject users based solely on AI.
+
+Do not allow unapproved freelancers to participate in the marketplace.
+
+Do not expose private verification/payment information.
+
+Build the platform around one central principle:
+
+# REAL PEOPLE. REAL SKILLS. REAL PORTFOLIOS. REAL WORK. REAL TRUST.

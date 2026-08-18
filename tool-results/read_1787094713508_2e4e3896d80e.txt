@@ -1,0 +1,602 @@
+    60→    60→    60→export type JobStatus = "DRAFT" | "OPEN" | "CLOSED" | "AWARDED" | "COMPLETED" | "CANCELLED";
+    61→    61→    61→
+    62→    62→    62→export interface Category {
+    63→    63→    63→  id: string;
+    64→    64→    64→  name: string;
+    65→    65→    65→  nameAr: string;
+    66→    66→    66→  icon: LucideIcon;
+    67→    67→    67→  color: string;
+    68→    68→    68→  count: number;
+    69→    69→    69→  skills: string[];
+    70→    70→    70→}
+    71→    71→    71→
+    72→    72→    72→export interface Skill {
+    73→    73→    73→  id: string;
+    74→    74→    74→  name: string;
+    75→    75→    75→  categoryId: string;
+    76→    76→    76→}
+    77→    77→    77→
+    78→    78→    78→export interface Freelancer {
+    79→    79→    79→  id: string;
+    80→    80→    80→  name: string;
+    81→    81→    81→  username: string;
+    82→    82→    82→  title: string;
+    83→    83→    83→  avatar: string;
+    84→    84→    84→  location: { city: string; country: string };
+    85→    85→    85→  rating: number;
+    86→    86→    86→  reviewsCount: number;
+    87→    87→    87→  completedProjects: number;
+    88→    88→    88→  hourlyRate: number;
+    89→    89→    89→  responseTime: string;
+    90→    90→    90→  languages: string[];
+    91→    91→    91→  skills: string[];
+    92→    92→    92→  bio: string;
+    93→    93→    93→  verified: {
+    94→    94→    94→    email: boolean;
+    95→    95→    95→    phone: boolean;
+    96→    96→    96→    identity: boolean;
+    97→    97→    97→    portfolio: boolean;
+    98→    98→    98→  };
+    99→    99→    99→  badges: string[];
+   100→   100→   100→  availability: "available" | "limited" | "booked";
+   101→   101→   101→  memberSince: string;
+   102→   102→   102→  portfolio: PortfolioItem[];
+   103→   103→   103→  services: Service[];
+   104→   104→   104→  topRated: boolean;
+   105→   105→   105→  featured: boolean;
+   106→   106→   106→}
+   107→   107→   107→
+   108→   108→   108→export interface PortfolioItem {
+   109→   109→   109→  id: string;
+   110→   110→   110→  title: string;
+   111→   111→   111→  category: string;
+   112→   112→   112→  cover: string;
+   113→   113→   113→  type: "image" | "video" | "audio" | "url" | "github";
+   114→   114→   114→  description: string;
+   115→   115→   115→  skills: string[];
+   116→   116→   116→  role: string;
+   117→   117→   117→  verification: "UNVERIFIED" | "SELF_DECLARED" | "ADMIN_VERIFIED" | "EXTERNALLY_VERIFIED";
+   118→   118→   118→  visibility: "PUBLIC" | "PRIVATE" | "UNLISTED";
+   119→   119→   119→  results?: string;
+   120→   120→   120→  liveUrl?: string;
+   121→   121→   121→  repoUrl?: string;
+   122→   122→   122→}
+   123→   123→   123→
+   124→   124→   124→export interface Service {
+   125→   125→   125→  id: string;
+   126→   126→   126→  freelancerId: string;
+   127→   127→   127→  title: string;
+   128→   128→   128→  description: string;
+   129→   129→   129→  cover: string;
+   130→   130→   130→  category: string;
+   131→   131→   131→  skills: string[];
+   132→   132→   132→  startingPrice: number;
+   133→   133→   133→  deliveryDays: number;
+   134→   134→   134→  revisions: number;
+   135→   135→   135→  rating: number;
+   136→   136→   136→  ordersCount: number;
+   137→   137→   137→  packages: {
+   138→   138→   138→    basic: { name: string; price: number; deliveryDays: number; revisions: number; features: string[] };
+   139→   139→   139→    standard: { name: string; price: number; deliveryDays: number; revisions: number; features: string[] };
+   140→   140→   140→    premium: { name: string; price: number; deliveryDays: number; revisions: number; features: string[] };
+   141→   141→   141→  };
+   142→   142→   142→}
+   143→   143→   143→
+   144→   144→   144→export interface Job {
+   145→   145→   145→  id: string;
+   146→   146→   146→  title: string;
+   147→   147→   147→  description: string;
+   148→   148→   148→  category: string;
+   149→   149→   149→  budget: { min: number; max: number };
+   150→   150→   150→  type: "FIXED" | "HOURLY";
+   151→   151→   151→  duration: string;
+   152→   152→   152→  postedBy: string;
+   153→   153→   153→  postedAt: string;
+   154→   154→   154→  proposals: number;
+   155→   155→   155→  skills: string[];
+   156→   156→   156→  experienceLevel: "Entry" | "Intermediate" | "Expert";
+   157→   157→   157→  location: "Tunisia" | "Worldwide" | "Remote";
+   158→   158→   158→  verifiedClient: boolean;
+   159→   159→   159→}
+   160→   160→   160→
+   161→   161→   161→export interface Review {
+   162→   162→   162→  id: string;
+   163→   163→   163→  fromName: string;
+   164→   164→   164→  fromAvatar: string;
+   165→   165→   165→  rating: number;
+   166→   166→   166→  metrics: { communication: number; quality: number; delivery: number; professionalism: number };
+   167→   167→   167→  comment: string;
+   168→   168→   168→  date: string;
+   169→   169→   169→  project: string;
+   170→   170→   170→}
+   171→   171→   171→
+   172→   172→   172→// === CATEGORIES ===
+   173→   173→   173→export const categories: Category[] = [
+   174→   174→   174→  {
+   175→   175→   175→    id: "development",
+   176→   176→   176→    name: "Development",
+   177→   177→   177→    nameAr: "تطوير",
+   178→   178→   178→    icon: Code2,
+   179→   179→   179→    color: "#2b3d3d",
+   180→   180→   180→    count: 1248,
+   181→   181→   181→    skills: ["Next.js", "React", "TypeScript", "Node.js", "Python", "Django", "PHP", "Laravel", "Mobile App"],
+   182→   182→   182→  },
+   183→   183→   183→  {
+   184→   184→   184→    id: "design",
+   185→   185→   185→    name: "Design",
+   186→   186→   186→    nameAr: "تصميم",
+   187→   187→   187→    icon: Palette,
+   188→   188→   188→    color: "#32504d",
+   189→   189→   189→    count: 892,
+   190→   190→   190→    skills: ["UI Design", "UX Design", "Figma", "Photoshop", "Illustrator", "Brand Identity"],
+   191→   191→   191→  },
+   192→   192→   192→  {
+   193→   193→   193→    id: "video",
+   194→   194→   194→    name: "Video",
+   195→   195→   195→    nameAr: "فيديو",
+   196→   196→   196→    icon: Video,
+   197→   197→   197→    color: "#475959",
+   198→   198→   198→    count: 412,
+   199→   199→   199→    skills: ["Video Editing", "After Effects", "Premiere Pro", "Motion Graphics", "Reels"],
+   200→   200→   200→  },
+   201→   201→   201→  {
+   202→   202→   202→    id: "audio",
+   203→   203→   203→    name: "Audio",
+   204→   204→   204→    nameAr: "صوت",
+   205→   205→   205→    icon: Music,
+   206→   206→   206→    color: "#6e8580",
+   207→   207→   207→    count: 198,
+   208→   208→   208→    skills: ["Voice Over", "Sound Design", "Music Production", "Podcast Editing", "Audio Mastering"],
+   209→   209→   209→  },
+   210→   210→   210→  {
+   211→   211→   211→    id: "writing",
+   212→   212→   212→    name: "Writing",
+   213→   213→   213→    nameAr: "كتابة",
+   214→   214→   214→    icon: PenTool,
+   215→   215→   215→    color: "#748684",
+   216→   216→   216→    count: 547,
+   217→   217→   217→    skills: ["Copywriting", "Articles", "Blog Posts", "Product Descriptions", "Scriptwriting"],
+   218→   218→   218→  },
+   219→   219→   219→  {
+   220→   220→   220→    id: "translation",
+   221→   221→   221→    name: "Translation",
+   222→   222→   222→    nameAr: "ترجمة",
+   223→   223→   223→    icon: Languages,
+   224→   224→   224→    color: "#192d2f",
+   225→   225→   225→    count: 286,
+   226→   226→   226→    skills: ["Arabic Translation", "French Translation", "English Translation", "Subtitling"],
+   227→   227→   227→  },
+   228→   228→   228→  {
+   229→   229→   229→    id: "marketing",
+   230→   230→   230→    name: "Marketing",
+   231→   231→   231→    nameAr: "تسويق",
+   232→   232→   232→    icon: Megaphone,
+   233→   233→   233→    color: "#32504d",
+   234→   234→   234→    count: 364,
+   235→   235→   235→    skills: ["SEO", "Google Ads", "Social Media", "Email Marketing", "Content Strategy"],
+   236→   236→   236→  },
+   237→   237→   237→  {
+   238→   238→   238→    id: "photography",
+   239→   239→   239→    name: "Photography",
+   240→   240→   240→    nameAr: "تصوير",
+   241→   241→   241→    icon: Camera,
+   242→   242→   242→    color: "#475959",
+   243→   243→   243→    count: 156,
+   244→   244→   244→    skills: ["Product Photography", "Portrait", "Commercial", "Event Photography"],
+   245→   245→   245→  },
+   246→   246→   246→  {
+   247→   247→   247→    id: "3d",
+   248→   248→   248→    name: "3D & Architecture",
+   249→   249→   249→    nameAr: "ثري دي",
+   250→   250→   250→    icon: Box,
+   251→   251→   251→    color: "#2b3d3d",
+   252→   252→   252→    count: 124,
+   253→   253→   253→    skills: ["3D Models", "Product Renders", "Architecture Visualization", "3D Animation"],
+   254→   254→   254→  },
+   255→   255→   255→  {
+   256→   256→   256→    id: "business",
+   257→   257→   257→    name: "Business",
+   258→   258→   258→    nameAr: "أعمال",
+   259→   259→   259→    icon: Building2,
+   260→   260→   260→    color: "#6e8580",
+   261→   261→   261→    count: 213,
+   262→   262→   262→    skills: ["Business Plans", "Market Research", "Financial Modeling", "Consulting"],
+   263→   263→   263→  },
+   264→   264→   264→  {
+   265→   265→   265→    id: "ai",
+   266→   266→   266→    name: "AI",
+   267→   267→   267→    nameAr: "ذكاء اصطناعي",
+   268→   268→   268→    icon: Sparkles,
+   269→   269→   269→    color: "#32504d",
+   270→   270→   270→    count: 87,
+   271→   271→   271→    skills: ["Machine Learning", "LLM Integration", "Computer Vision", "AI Automation"],
+   272→   272→   272→  },
+   273→   273→   273→];
+   274→   274→   274→
+   275→   275→   275→// === AVATARS (using DiceBear / UI avatars URLs for demo) ===
+   276→   276→   276→const avatarSeed = (s: string) =>
+   277→   277→   277→  `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(s)}&backgroundColor=2b3d3d,32504d,475959,6e8580&radius=50`;
+   278→   278→   278→
+   279→   279→   279→const coverSeed = (s: string, w = 600, h = 400) =>
+   280→   280→   280→  `https://picsum.photos/seed/${encodeURIComponent(s)}/${w}/${h}`;
+   281→   281→   281→
+   282→   282→   282→// === FREELANCERS ===
+   283→   283→   283→export const freelancers: Freelancer[] = [
+   284→   284→   284→  {
+   285→   285→   285→    id: "f1",
+   286→   286→   286→    name: "Amira Ben Salah",
+   287→   287→   287→    username: "@amira.codes",
+   288→   288→   288→    title: "Full-Stack Web Developer",
+   289→   289→   289→    avatar: avatarSeed("Amira Ben Salah"),
+   290→   290→   290→    location: { city: "Tunis", country: "Tunisia" },
+   291→   291→   291→    rating: 4.9,
+   292→   292→   292→    reviewsCount: 87,
+   293→   293→   293→    completedProjects: 142,
+   294→   294→   294→    hourlyRate: 45,
+   295→   295→   295→    responseTime: "~1 hour",
+   296→   296→   296→    languages: ["Arabic", "French", "English"],
+   297→   297→   297→    skills: ["Next.js", "React", "TypeScript", "Node.js", "Prisma", "Tailwind CSS"],
+   298→   298→   298→    bio: "Senior full-stack engineer specializing in production Next.js applications. 7+ years building SaaS platforms, e-commerce, and admin dashboards. Focused on performance, accessibility, and clean architecture.",
+   299→   299→   299→    verified: { email: true, phone: true, identity: true, portfolio: true },
+   300→   300→   300→    badges: ["Top Rated", "Identity Verified", "Portfolio Reviewed"],
+   301→   301→   301→    availability: "available",
+   302→   302→   302→    memberSince: "2022",
+   303→   303→   303→    topRated: true,
+   304→   304→   304→    featured: true,
+   305→   305→   305→    portfolio: [
+   306→   306→   306→      {
+   307→   307→   307→        id: "p1",
+   308→   308→   308→        title: "Luxury Real Estate Landing Page",
+   309→   309→   309→        category: "Web Development",
+   310→   310→   310→        cover: coverSeed("real-estate"),
+   311→   311→   311→        type: "image",
+   312→   312→   312→        description:
+   313→   313→   313→          "Premium responsive landing page for a Tunisian luxury real estate developer. Featured animated hero, interactive 3D property tours, and lead capture forms.",
+   314→   314→   314→        skills: ["Next.js", "GSAP", "Three.js", "Tailwind"],
+   315→   315→   315→        role: "Frontend Developer",
+   316→   316→   316→        verification: "ADMIN_VERIFIED",
+   317→   317→   317→        visibility: "PUBLIC",
+   318→   318→   318→        results: "320% increase in qualified leads in 60 days",
+   319→   319→   319→        liveUrl: "https://example.com",
+   320→   320→   320→      },
+   321→   321→   321→      {
+   322→   322→   322→        id: "p2",
+   323→   323→   323→        title: "SaaS Analytics Dashboard",
+   324→   324→   324→        category: "Web Development",
+   325→   325→   325→        cover: coverSeed("saas-dashboard"),
+   326→   326→   326→        type: "image",
+   327→   327→   327→        description:
+   328→   328→   328→          "Multi-tenant SaaS dashboard with real-time charts, role-based access, and Stripe billing integration.",
+   329→   329→   329→        skills: ["Next.js", "TypeScript", "Recharts", "Prisma"],
+   330→   330→   330→        role: "Lead Engineer",
+   331→   331→   331→        verification: "ADMIN_VERIFIED",
+   332→   332→   332→        visibility: "PUBLIC",
+   333→   333→   333→        liveUrl: "https://example.com",
+   334→   334→   334→      },
+   335→   335→   335→      {
+   336→   336→   336→        id: "p3",
+   337→   337→   337→        title: "E-commerce Marketplace — Crafts of Tunisia",
+   338→   338→   338→        category: "Web Development",
+   339→   339→   339→        cover: coverSeed("ecommerce-crafts"),
+   340→   340→   340→        type: "image",
+   341→   341→   341→        description:
+   342→   342→   342→          "Two-sided marketplace connecting Tunisian artisans with international buyers. Includes escrow payments and multi-currency support.",
+   343→   343→   343→        skills: ["Next.js", "Stripe", "PostgreSQL", "Tailwind"],
+   344→   344→   344→        role: "Full-Stack Developer",
+   345→   345→   345→        verification: "EXTERNALLY_VERIFIED",
+   346→   346→   346→        visibility: "PUBLIC",
+   347→   347→   347→        repoUrl: "https://github.com/example",
+   348→   348→   348→      },
+   349→   349→   349→    ],
+   350→   350→   350→    services: [
+   351→   351→   351→      {
+   352→   352→   352→        id: "s1",
+   353→   353→   353→        freelancerId: "f1",
+   354→   354→   354→        title: "I will build a professional Next.js landing page",
+   355→   355→   355→        description:
+   356→   356→   356→          "Premium responsive landing page with animations, SEO optimization, and lead capture. Trusted by 80+ clients.",
+   357→   357→   357→        cover: coverSeed("landing-service"),
+   358→   358→   358→        category: "Web Development",
+   359→   359→   359→        skills: ["Next.js", "Tailwind", "GSAP"],
+   360→   360→   360→        startingPrice: 350,
+   361→   361→   361→        deliveryDays: 5,
+   362→   362→   362→        revisions: 3,
+   363→   363→   363→        rating: 4.9,
+   364→   364→   364→        ordersCount: 142,
+   365→   365→   365→        packages: {
+   366→   366→   366→          basic: { name: "Basic", price: 350, deliveryDays: 5, revisions: 2, features: ["1 page", "Responsive", "Contact form", "2 revisions"] },
+   367→   367→   367→          standard: { name: "Standard", price: 750, deliveryDays: 7, revisions: 4, features: ["3 pages", "Animations", "SEO basics", "Lead capture", "4 revisions"] },
+   368→   368→   368→          premium: { name: "Premium", price: 1500, deliveryDays: 14, revisions: 6, features: ["Up to 7 pages", "Premium animations", "Full SEO", "CMS integration", "1 month support", "6 revisions"] },
+   369→   369→   369→        },
+   370→   370→   370→      },
+   371→   371→   371→      {
+   372→   372→   372→        id: "s2",
+   373→   373→   373→        freelancerId: "f1",
+   374→   374→   374→        title: "I will develop a complete SaaS dashboard",
+   375→   375→   375→        description:
+   376→   376→   376→          "Multi-tenant admin dashboard with auth, role-based access, real-time charts, and API integrations.",
+   377→   377→   377→        cover: coverSeed("saas-service"),
+   378→   378→   378→        category: "Web Development",
+   379→   379→   379→        skills: ["Next.js", "Prisma", "TypeScript", "Recharts"],
+   380→   380→   380→        startingPrice: 1200,
+   381→   381→   381→        deliveryDays: 14,
+   382→   382→   382→        revisions: 5,
+   383→   383→   383→        rating: 5.0,
+   384→   384→   384→        ordersCount: 38,
+   385→   385→   385→        packages: {
+   386→   386→   386→          basic: { name: "Basic", price: 1200, deliveryDays: 14, revisions: 3, features: ["Auth", "5 dashboard pages", "Charts", "3 revisions"] },
+   387→   387→   387→          standard: { name: "Standard", price: 2500, deliveryDays: 21, revisions: 5, features: ["Auth + RBAC", "10 dashboard pages", "Real-time data", "API integration", "5 revisions"] },
+   388→   388→   388→          premium: { name: "Premium", price: 4500, deliveryDays: 30, revisions: 8, features: ["Full RBAC", "Unlimited pages", "Real-time + WebSockets", "Stripe billing", "3 months support", "8 revisions"] },
+   389→   389→   389→        },
+   390→   390→   390→      },
+   391→   391→   391→    ],
+   392→   392→   392→  },
+   393→   393→   393→  {
+   394→   394→   394→    id: "f2",
+   395→   395→   395→    name: "Yassine Gharbi",
+   396→   396→   396→    username: "@yassine.design",
+   397→   397→   397→    title: "UI/UX Designer & Brand Identity",
+   398→   398→   398→    avatar: avatarSeed("Yassine Gharbi"),
+   399→   399→   399→    location: { city: "Sfax", country: "Tunisia" },
+   400→   400→   400→    rating: 5.0,
+   401→   401→   401→    reviewsCount: 124,
+   402→   402→   402→    completedProjects: 203,
+   403→   403→   403→    hourlyRate: 38,
+   404→   404→   404→    responseTime: "~2 hours",
+   405→   405→   405→    languages: ["Arabic", "French", "English"],
+   406→   406→   406→    skills: ["UI Design", "UX Design", "Figma", "Brand Identity", "Design Systems", "Prototype"],
+   407→   407→   407→    bio: "Product designer focused on clean, conversion-driven interfaces. Built design systems for fintech, healthcare, and SaaS startups across MENA and Europe.",
+   408→   408→   408→    verified: { email: true, phone: true, identity: true, portfolio: true },
+   409→   409→   409→    badges: ["Top Rated", "Identity Verified", "Portfolio Reviewed"],
+   410→   410→   410→    availability: "limited",
+   411→   411→   411→    memberSince: "2021",
+   412→   412→   412→    topRated: true,
+   413→   413→   413→    featured: true,
+   414→   414→   414→    portfolio: [
+   415→   415→   415→      {
+   416→   416→   416→        id: "p4",
+   417→   417→   417→        title: "Fintech Mobile App — Design System",
+   418→   418→   418→        category: "UI/UX Design",
+   419→   419→   419→        cover: coverSeed("fintech-ui"),
+   420→   420→   420→        type: "image",
+   421→   421→   421→        description:
+   422→   422→   422→          "Complete design system for a Tunisian fintech app including 80+ components, dark mode, and accessibility guidelines.",
+   423→   423→   423→        skills: ["Figma", "Design System", "Mobile UI"],
+   424→   424→   424→        role: "Lead Designer",
+   425→   425→   425→        verification: "ADMIN_VERIFIED",
+   426→   426→   426→        visibility: "PUBLIC",
+   427→   427→   427→        results: "Reduced design-to-dev time by 60%",
+   428→   428→   428→      },
+   429→   429→   429→      {
+   430→   430→   430→        id: "p5",
+   431→   431→   431→        title: "Brand Identity — Café Restaurant",
+   432→   432→   432→        category: "Brand Identity",
+   433→   433→   433→        cover: coverSeed("brand-cafe"),
+   434→   434→   434→        type: "image",
+   435→   435→   435→        description:
+   436→   436→   436→          "End-to-end brand identity including logo, typography, packaging, and social media templates.",
+   437→   437→   437→        skills: ["Illustrator", "Photoshop", "Branding"],
+   438→   438→   438→        role: "Brand Designer",
+   439→   439→   439→        verification: "ADMIN_VERIFIED",
+   440→   440→   440→        visibility: "PUBLIC",
+   441→   441→   441→      },
+   442→   442→   442→    ],
+   443→   443→   443→    services: [
+   444→   444→   444→      {
+   445→   445→   445→        id: "s3",
+   446→   446→   446→        freelancerId: "f2",
+   447→   447→   447→        title: "I will design a modern UI for your web or mobile app",
+   448→   448→   448→        description:
+   449→   449→   449→          "Pixel-perfect, modern UI design in Figma. Includes design system, components, and developer handoff.",
+   450→   450→   450→        cover: coverSeed("ui-service"),
+   451→   451→   451→        category: "UI/UX Design",
+   452→   452→   452→        skills: ["Figma", "UI Design", "Design System"],
+   453→   453→   453→        startingPrice: 250,
+   454→   454→   454→        deliveryDays: 5,
+   455→   455→   455→        revisions: 3,
+   456→   456→   456→        rating: 5.0,
+   457→   457→   457→        ordersCount: 203,
+   458→   458→   458→        packages: {
+   459→   459→   459→          basic: { name: "Basic", price: 250, deliveryDays: 5, revisions: 2, features: ["3 screens", "Mobile", "Source file", "2 revisions"] },
+   460→   460→   460→          standard: { name: "Standard", price: 600, deliveryDays: 8, revisions: 4, features: ["8 screens", "Mobile + Web", "Design system", "Prototype", "4 revisions"] },
+   461→   461→   461→          premium: { name: "Premium", price: 1200, deliveryDays: 14, revisions: 6, features: ["Unlimited screens", "Full design system", "Interactive prototype", "Dev handoff", "1 month support", "6 revisions"] },
+   462→   462→   462→        },
+   463→   463→   463→      },
+   464→   464→   464→    ],
+   465→   465→   465→  },
+   466→   466→   466→  {
+   467→   467→   467→    id: "f3",
+   468→   468→   468→    name: "Syrine Mansri",
+   469→   469→   469→    username: "@syrine.motion",
+   470→   470→   470→    title: "Motion Designer & Video Editor",
+   471→   471→   471→    avatar: avatarSeed("Syrine Mansri"),
+   472→   472→   472→    location: { city: "Sousse", country: "Tunisia" },
+   473→   473→   473→    rating: 4.8,
+   474→   474→   474→    reviewsCount: 64,
+   475→   475→   475→    completedProjects: 91,
+   476→   476→   476→    hourlyRate: 35,
+   477→   477→   477→    responseTime: "~3 hours",
+   478→   478→   478→    languages: ["Arabic", "French", "English"],
+   479→   479→   479→    skills: ["After Effects", "Premiere Pro", "Motion Graphics", "Video Editing", "Reels"],
+   480→   480→   480→    bio: "Motion designer specializing in brand animations, social media reels, and explainer videos. Worked with 30+ Tunisian and European brands.",
+   481→   481→   481→    verified: { email: true, phone: true, identity: true, portfolio: true },
+   482→   482→   482→    badges: ["Portfolio Reviewed", "Identity Verified"],
+   483→   483→   483→    availability: "available",
+   484→   484→   484→    memberSince: "2023",
+   485→   485→   485→    topRated: false,
+   486→   486→   486→    featured: true,
+   487→   487→   487→    portfolio: [
+   488→   488→   488→      {
+   489→   489→   489→        id: "p6",
+   490→   490→   490→        title: "Brand Animation Reel — 5 Brands",
+   491→   491→   491→        category: "Motion Graphics",
+   492→   492→   492→        cover: coverSeed("motion-reel"),
+   493→   493→   493→        type: "video",
+   494→   494→   494→        description:
+   495→   495→   495→          "Collection of brand animation intros and logos stings for 5 different companies across industries.",
+   496→   496→   496→        skills: ["After Effects", "Motion Graphics"],
+   497→   497→   497→        role: "Motion Designer",
+   498→   498→   498→        verification: "ADMIN_VERIFIED",
+   499→   499→   499→        visibility: "PUBLIC",
+   500→   500→   500→      },
+   501→   501→   501→    ],
+   502→   502→   502→    services: [
+   503→   503→   503→      {
+   504→   504→   504→        id: "s4",
+   505→   505→   505→        freelancerId: "f3",
+   506→   506→   506→        title: "I will create professional motion graphics for your brand",
+   507→   507→   507→        description:
+   508→   508→   508→          "Animated logos, social media reels, and explainer videos that capture attention and elevate your brand.",
+   509→   509→   509→        cover: coverSeed("motion-service"),
+   510→   510→   510→        category: "Motion Graphics",
+   511→   511→   511→        skills: ["After Effects", "Motion Graphics", "Video Editing"],
+   512→   512→   512→        startingPrice: 180,
+   513→   513→   513→        deliveryDays: 4,
+   514→   514→   514→        revisions: 3,
+   515→   515→   515→        rating: 4.8,
+   516→   516→   516→        ordersCount: 91,
+   517→   517→   517→        packages: {
+   518→   518→   518→          basic: { name: "Basic", price: 180, deliveryDays: 4, revisions: 2, features: ["15s video", "1080p", "2 revisions", "1 format"] },
+   519→   519→   519→          standard: { name: "Standard", price: 420, deliveryDays: 6, revisions: 3, features: ["30s video", "1080p + vertical", "Voice over", "3 revisions"] },
+   520→   520→   520→          premium: { name: "Premium", price: 850, deliveryDays: 10, revisions: 5, features: ["60s video", "4K + all formats", "Pro voice over", "Custom illustration", "5 revisions"] },
+   521→   521→   521→        },
+   522→   522→   522→      },
+   523→   523→   523→    ],
+   524→   524→   524→  },
+   525→   525→   525→  {
+   526→   526→   526→    id: "f4",
+   527→   527→   527→    name: "Mehdi Trabelsi",
+   528→   528→   528→    username: "@mehdi.voice",
+   529→   529→   529→    title: "Voice Over Artist & Sound Designer",
+   530→   530→   530→    avatar: avatarSeed("Mehdi Trabelsi"),
+   531→   531→   531→    location: { city: "Tunis", country: "Tunisia" },
+   532→   532→   532→    rating: 4.9,
+   533→   533→   533→    reviewsCount: 51,
+   534→   534→   534→    completedProjects: 78,
+   535→   535→   535→    hourlyRate: 50,
+   536→   536→   536→    responseTime: "~1 hour",
+   537→   537→   537→    languages: ["Arabic", "French", "English"],
+   538→   538→   538→    skills: ["Voice Over", "Sound Design", "Podcast Editing", "Audio Mastering"],
+   539→   539→   539→    bio: "Professional voice over artist for Arabic and French content. Worked with radio, audiobooks, ads, and corporate videos.",
+   540→   540→   540→    verified: { email: true, phone: true, identity: true, portfolio: true },
+   541→   541→   541→    badges: ["Identity Verified", "Portfolio Reviewed"],
+   542→   542→   542→    availability: "available",
+   543→   543→   543→    memberSince: "2022",
+   544→   544→   544→    topRated: false,
+   545→   545→   545→    featured: false,
+   546→   546→   546→    portfolio: [
+   547→   547→   547→      {
+   548→   548→   548→        id: "p7",
+   549→   549→   549→        title: "Arabic Audiobook Sample",
+   550→   550→   550→        category: "Voice Over",
+   551→   551→   551→        cover: coverSeed("audiobook"),
+   552→   552→   552→        type: "audio",
+   553→   553→   553→        description: "Sample chapter from a published Arabic audiobook narration.",
+   554→   554→   554→        skills: ["Voice Over", "Arabic"],
+   555→   555→   555→        role: "Narrator",
+   556→   556→   556→        verification: "ADMIN_VERIFIED",
+   557→   557→   557→        visibility: "PUBLIC",
+   558→   558→   558→      },
+   559→   559→   559→    ],
+   560→   560→   560→    services: [
+   561→   561→   561→      {
+   562→   562→   562→        id: "s5",
+   563→   563→   563→        freelancerId: "f4",
+   564→   564→   564→        title: "I will record a professional Arabic or French voice over",
+   565→   565→   565→        description:
+   566→   566→   566→          "Studio-quality voice over for ads, videos, audiobooks, and corporate content. Arabic and French native.",
+   567→   567→   567→        cover: coverSeed("voice-service"),
+   568→   568→   568→        category: "Voice Over",
+   569→   569→   569→        skills: ["Voice Over", "Arabic", "French"],
+   570→   570→   570→        startingPrice: 80,
+   571→   571→   571→        deliveryDays: 2,
+   572→   572→   572→        revisions: 2,
+   573→   573→   573→        rating: 4.9,
+   574→   574→   574→        ordersCount: 78,
+   575→   575→   575→        packages: {
+   576→   576→   576→          basic: { name: "Basic", price: 80, deliveryDays: 2, revisions: 1, features: ["Up to 100 words", "MP3", "1 revision"] },
+   577→   577→   577→          standard: { name: "Standard", price: 200, deliveryDays: 3, revisions: 2, features: ["Up to 400 words", "WAV + MP3", "Commercial rights", "2 revisions"] },
+   578→   578→   578→          premium: { name: "Premium", price: 450, deliveryDays: 5, revisions: 3, features: ["Up to 1000 words", "WAV + MP3", "Full rights", "Background music", "3 revisions"] },
+   579→   579→   579→        },
+   580→   580→   580→      },
+   581→   581→   581→    ],
+   582→   582→   582→  },
+   583→   583→   583→  {
+   584→   584→   584→    id: "f5",
+   585→   585→   585→    name: "Rania Khelifi",
+   586→   586→   586→    username: "@rania.copy",
+   587→   587→   587→    title: "Copywriter & Content Strategist",
+   588→   588→   588→    avatar: avatarSeed("Rania Khelifi"),
+   589→   589→   589→    location: { city: "Nabeul", country: "Tunisia" },
+   590→   590→   590→    rating: 4.7,
+   591→   591→   591→    reviewsCount: 38,
+   592→   592→   592→    completedProjects: 56,
+   593→   593→   593→    hourlyRate: 30,
+   594→   594→   594→    responseTime: "~4 hours",
+   595→   595→   595→    languages: ["Arabic", "French", "English"],
+   596→   596→   596→    skills: ["Copywriting", "SEO Writing", "Blog Posts", "Product Descriptions", "Scriptwriting"],
+   597→   597→   597→    bio: "Bilingual copywriter creating conversion-focused content for SaaS, e-commerce, and education brands. Specializes in MENA market positioning.",
+   598→   598→   598→    verified: { email: true, phone: true, identity: false, portfolio: true },
+   599→   599→   599→    badges: ["Email Verified", "Portfolio Reviewed"],
+   600→   600→   600→    availability: "available",
+   601→   601→   601→    memberSince: "2023",
+   602→   602→   602→    topRated: false,
+   603→   603→   603→    featured: false,
+   604→   604→   604→    portfolio: [
+   605→   605→   605→      {
+   606→   606→   606→        id: "p8",
+   607→   607→   607→        title: "SaaS Landing Page Copy — Series",
+   608→   608→   608→        category: "Copywriting",
+   609→   609→   609→        cover: coverSeed("copywriting"),
+   610→   610→   610→        type: "url",
+   611→   611→   611→        description: "Series of high-converting landing pages written for a B2B SaaS company.",
+   612→   612→   612→        skills: ["Copywriting", "Conversion"],
+   613→   613→   613→        role: "Copywriter",
+   614→   614→   614→        verification: "SELF_DECLARED",
+   615→   615→   615→        visibility: "PUBLIC",
+   616→   616→   616→        results: "27% average conversion rate",
+   617→   617→   617→        liveUrl: "https://example.com",
+   618→   618→   618→      },
+   619→   619→   619→    ],
+   620→   620→   620→    services: [
+   621→   621→   621→      {
+   622→   622→   622→        id: "s6",
+   623→   623→   623→        freelancerId: "f5",
+   624→   624→   624→        title: "I will write SEO-optimized blog articles in Arabic, French, or English",
+   625→   625→   625→        description:
+   626→   626→   626→          "High-quality, research-backed articles optimized for search engines and reader engagement.",
+   627→   627→   627→        cover: coverSeed("writing-service"),
+   628→   628→   628→        category: "Writing",
+   629→   629→   629→        skills: ["Copywriting", "SEO", "Blog"],
+   630→   630→   630→        startingPrice: 60,
+   631→   631→   631→        deliveryDays: 3,
+   632→   632→   632→        revisions: 2,
+   633→   633→   633→        rating: 4.7,
+   634→   634→   634→        ordersCount: 56,
+   635→   635→   635→        packages: {
+   636→   636→   636→          basic: { name: "Basic", price: 60, deliveryDays: 3, revisions: 1, features: ["500 words", "SEO basic", "1 revision"] },
+   637→   637→   637→          standard: { name: "Standard", price: 140, deliveryDays: 5, revisions: 2, features: ["1500 words", "Full SEO", "Images", "2 revisions"] },
+   638→   638→   638→          premium: { name: "Premium", price: 320, deliveryDays: 7, revisions: 3, features: ["3000 words", "Full SEO", "Images + meta", "Topic cluster", "3 revisions"] },
+   639→   639→   639→        },
+   640→   640→   640→      },
+   641→   641→   641→    ],
+   642→   642→   642→  },
+   643→   643→   643→  {
+   644→   644→   644→    id: "f6",
+   645→   645→   645→    name: "Omar Jlassi",
+   646→   646→   646→    username: "@omar.3d",
+   647→   647→   647→    title: "3D Artist & Product Renderer",
+   648→   648→   648→    avatar: avatarSeed("Omar Jlassi"),
+   649→   649→   649→    location: { city: "Monastir", country: "Tunisia" },
+   650→   650→   650→    rating: 4.9,
+   651→   651→   651→    reviewsCount: 42,
+   652→   652→   652→    completedProjects: 68,
+   653→   653→   653→    hourlyRate: 55,
+   654→   654→   654→    responseTime: "~2 hours",
+   655→   655→   655→    languages: ["Arabic", "French", "English"],
+   656→   656→   656→    skills: ["Blender", "3D Modeling", "Product Renders", "Architecture Visualization", "3D Animation"],
+   657→   657→   657→    bio: "3D artist creating photorealistic product renders and architectural visualizations for e-commerce, real estate, and advertising.",
+   658→   658→   658→    verified: { email: true, phone: true, identity: true, portfolio: true },
+   659→   659→   659→    badges: ["Top Rated", "Identity Verified", "Portfolio Reviewed"],
+
+[showing lines 60-659 of 894; use offset=660 with limit to continue reading]
