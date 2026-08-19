@@ -7,3 +7,5 @@ export { WalletModal } from "./wallet-modal";
 export { MessagingModal } from "./messaging-modal";
 export { PostJobModal } from "./post-job-modal";
 export { CreateServiceModal } from "./create-service-modal";
+export { CompareModal } from "./compare-modal";
+export { FavoritesModal } from "./favorites-modal";

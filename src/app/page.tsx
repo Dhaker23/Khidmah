@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/components/khidma/header";
 import { Footer } from "@/components/khidma/footer";
+import { CursorGlow } from "@/components/khidma/cursor-glow";
+import { FreelancerGridSkeleton } from "@/components/khidma/skeletons";
 import {
   Hero,
   TrustStrip,
@@ -22,6 +24,7 @@ import {
 } from "@/components/sections";
 import { AuthModal, OnboardingWizard } from "@/components/modals";
 import { CommandPalette } from "@/components/khidma/command-palette";
+import { BackToTop } from "@/components/khidma/back-to-top";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -87,23 +90,23 @@ const CreateServiceModal = dynamic(
     ),
   { ssr: false }
 );
+const CompareModalDynamic = dynamic(
+  () => import("@/components/modals/compare-modal").then((m) => m.CompareModal),
+  { ssr: false }
+);
+const FavoritesModalDynamic = dynamic(
+  () => import("@/components/modals/favorites-modal").then((m) => m.FavoritesModal),
+  { ssr: false }
+);
 
 function ViewLoading() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <div className="space-y-4">
-        <div className="h-8 w-1/3 rounded-lg bg-muted animate-pulse" />
-        <div className="h-4 w-1/2 rounded bg-muted/70 animate-pulse" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-64 rounded-xl bg-muted/60 shimmer"
-              style={{ animationDelay: `${i * 0.05}s` }}
-            />
-          ))}
-        </div>
+      <div className="space-y-3 mb-8" aria-hidden="true">
+        <div className="h-8 w-1/3 rounded-lg bg-muted shimmer" />
+        <div className="h-4 w-1/2 rounded bg-muted/70 shimmer" />
       </div>
+      <FreelancerGridSkeleton count={8} />
     </div>
   );
 }
@@ -114,6 +117,9 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
+
+      {/* Cursor-following glow — only visible over [data-cursor-glow] areas */}
+      <CursorGlow />
 
       <main className="flex-1">
         <AnimatePresence mode="wait">
@@ -155,6 +161,9 @@ export default function Home() {
 
       <Footer />
 
+      {/* Floating back-to-top button with scroll progress ring */}
+      <BackToTop />
+
       {/* Global command palette — self-renders on ⌘K */}
       <CommandPalette />
 
@@ -168,6 +177,8 @@ export default function Home() {
       <MessagingModal />
       <PostJobModal />
       <CreateServiceModal />
+      <CompareModalDynamic />
+      <FavoritesModalDynamic />
     </div>
   );
 }

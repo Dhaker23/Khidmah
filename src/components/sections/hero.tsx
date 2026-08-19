@@ -1,7 +1,14 @@
 "use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { useRef, useEffect, useState, type ReactNode } from "react";
 import {
   Search,
   Rocket,
@@ -64,6 +71,67 @@ const SKILLS_MARQUEE = [
   "Node.js", "Illustrator", "Photoshop", "Mobile App", "3D Rendering",
 ];
 
+/**
+ * MagneticCard — wrapper that makes its content subtly follow the cursor
+ * when hovered (max 8px translate), with a springy reset on mouse leave.
+ *
+ * Uses `useMotionValue` + `useSpring` so there are NO React re-renders on
+ * `mousemove`. Falls back to a plain wrapper when `prefers-reduced-motion`
+ * is set (no magnetic effect).
+ */
+function MagneticCard({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const prefersReduced = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springConfig = { stiffness: 200, damping: 15, mass: 0.3 };
+  const sx = useSpring(x, springConfig);
+  const sy = useSpring(y, springConfig);
+
+  if (prefersReduced) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      style={{ x: sx, y: sy }}
+      onMouseMove={(e) => {
+        const el = ref.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        // Normalized direction (-1..1), clamped to [-1, 1] for safety.
+        const dx = Math.max(
+          -1,
+          Math.min(1, (e.clientX - cx) / (rect.width / 2))
+        );
+        const dy = Math.max(
+          -1,
+          Math.min(1, (e.clientY - cy) / (rect.height / 2))
+        );
+        // Max translate: 8px.
+        x.set(dx * 8);
+        y.set(dy * 8);
+      }}
+      onMouseLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export function Hero() {
   const { setView, openOnboarding } = useApp();
   const featured = freelancers.slice(0, 3);
@@ -112,7 +180,7 @@ export function Hero() {
     },
     {
       icon: Wallet,
-      label: `TND ${(counters.pay * 1000).toLocaleString("en-US")} paid out`,
+      label: `TND ${(counters.paid * 1000).toLocaleString("en-US")} paid out`,
     },
   ];
 
@@ -126,6 +194,7 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
+      data-cursor-glow
       className="relative overflow-hidden bg-khidma-radial bg-dot-grid"
     >
       {/* Animated gradient mesh blobs */}
@@ -206,18 +275,40 @@ export function Hero() {
               </span>
             </motion.div>
 
-            <motion.h1
-              variants={itemVariants}
-              className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05]"
-            >
-              Find trusted talent.
-              <br />
-              <span className="text-khidma-gradient">Build your career.</span>
-            </motion.h1>
+            <motion.div variants={itemVariants} className="relative mt-5">
+              {/* Radial glow behind headline — soft pulse, reduced-motion safe */}
+              <motion.div
+                aria-hidden
+                className={
+                  "pointer-events-none absolute left-1/2 top-1/2 size-[600px] " +
+                  "max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+                }
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(116,134,132,0.25) 0%, transparent 60%)",
+                }}
+                animate={
+                  prefersReducedMotion ? undefined : { opacity: [0.6, 0.9, 0.6] }
+                }
+                transition={
+                  prefersReducedMotion
+                    ? undefined
+                    : { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                }
+              />
+              <h1
+                className="relative font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05]"
+                style={{ textShadow: "0 2px 24px rgba(0,0,0,0.3)" }}
+              >
+                Find trusted talent.
+                <br />
+                <span className="text-khidma-gradient">Build your career.</span>
+              </h1>
+            </motion.div>
 
             <motion.p
               variants={itemVariants}
-              className="mt-5 max-w-xl text-base sm:text-lg text-white/75 leading-relaxed"
+              className="mt-6 max-w-xl text-base sm:text-lg text-white/75 leading-relaxed"
             >
               A professional marketplace connecting verified Tunisian freelancers
               with clients locally and globally.{" "}
@@ -233,7 +324,7 @@ export function Hero() {
               <Button
                 size="lg"
                 onClick={() => setView("freelancers")}
-                className="group h-12 px-6 bg-white text-[#192d2f] hover:bg-white hover:shadow-[0_8px_30px_-4px_rgba(255,255,255,0.4)] hover:shadow-lg transition-all"
+                className="group h-12 px-6 bg-white text-[#192d2f] hover:bg-white hover:shadow-[0_8px_40px_-4px_rgba(255,255,255,0.5)] transition-all"
               >
                 <Search className="size-4 transition-transform group-hover:scale-110" />
                 Find a Freelancer
@@ -285,21 +376,24 @@ export function Hero() {
               className="relative space-y-4"
             >
               {featured.map((f, i) => (
-                <motion.button
+                <MagneticCard
                   key={f.id}
-                  onClick={() => useApp.getState().openFreelancer(f.id)}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.55,
-                    delay: 0.35 + i * 0.15,
-                    ease: [0.22, 1, 0.36, 1] as const,
-                  }}
-                  whileHover={{ y: -4, scale: 1.01 }}
-                  className={`group w-full text-left rounded-2xl border border-white/10 bg-white/[0.07] backdrop-blur-md p-4 shadow-2xl transition-colors hover:border-white/25 ${
+                  className={
                     i === 1 ? "lg:ml-8" : i === 2 ? "lg:mr-4" : ""
-                  }`}
+                  }
                 >
+                  <motion.button
+                    onClick={() => useApp.getState().openFreelancer(f.id)}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.55,
+                      delay: 0.35 + i * 0.15,
+                      ease: [0.22, 1, 0.36, 1] as const,
+                    }}
+                    whileHover={{ y: -4, scale: 1.01 }}
+                    className="group w-full text-left rounded-2xl border border-white/10 bg-white/[0.07] backdrop-blur-md p-4 shadow-2xl transition-colors hover:border-white/25"
+                  >
                   <div className="flex items-start gap-3">
                     <Avatar className="size-12 border border-white/20 shrink-0">
                       <AvatarImage src={f.avatar} alt={f.name} />
@@ -349,7 +443,8 @@ export function Hero() {
                       </div>
                     </div>
                   </div>
-                </motion.button>
+                  </motion.button>
+                </MagneticCard>
               ))}
 
               {/* Floating trust-score badge */}

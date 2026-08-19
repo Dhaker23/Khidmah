@@ -27,6 +27,21 @@ interface ModalState {
   postJobOpen: boolean;
   createServiceOpen: boolean;
   commandPaletteOpen: boolean;
+  compareOpen: boolean;
+  favoritesOpen: boolean;
+}
+
+export type FavoriteType = "freelancer" | "service" | "job";
+export interface FavoriteItem {
+  id: string;
+  type: FavoriteType;
+  savedAt: number;
+}
+
+export interface RecentlyViewedItem {
+  id: string;
+  type: FavoriteType;
+  viewedAt: number;
 }
 
 interface Notification {
@@ -66,6 +81,10 @@ interface AppState {
   closeCreateService: () => void;
   openCommandPalette: () => void;
   closeCommandPalette: () => void;
+  openCompare: () => void;
+  closeCompare: () => void;
+  openFavorites: () => void;
+  closeFavorites: () => void;
   // demo logged-in user (no real auth)
   currentUser: { name: string; type: "freelancer" | "client"; avatar: string } | null;
   login: (name: string, type: "freelancer" | "client") => void;
@@ -83,6 +102,22 @@ interface AppState {
   markAllNotificationsRead: () => void;
   clearNotifications: () => void;
   pushNotification: (n: Omit<Notification, "id" | "time" | "read">) => void;
+  // favorites (persisted to localStorage)
+  favorites: FavoriteItem[];
+  toggleFavorite: (id: string, type: FavoriteType) => void;
+  isFavorite: (id: string, type: FavoriteType) => boolean;
+  removeFavorite: (id: string, type: FavoriteType) => void;
+  clearFavorites: () => void;
+  favoritesCount: number;
+  // compare queue (max 3)
+  compareIds: string[];
+  toggleCompare: (id: string) => void;
+  removeFromCompare: (id: string) => void;
+  clearCompare: () => void;
+  // recently viewed (max 8)
+  recentlyViewed: RecentlyViewedItem[];
+  trackView: (id: string, type: FavoriteType) => void;
+  clearRecentlyViewed: () => void;
 }
 
 const DEFAULT_NOTIFICATIONS: Notification[] = [
@@ -151,6 +186,8 @@ export const useApp = create<AppState>((set) => ({
     postJobOpen: false,
     createServiceOpen: false,
     commandPaletteOpen: false,
+    compareOpen: false,
+    favoritesOpen: false,
   },
   openAuth: (mode = "login") =>
     set((s) => ({ modal: { ...s.modal, authOpen: true, authMode: mode } })),
@@ -182,6 +219,10 @@ export const useApp = create<AppState>((set) => ({
   closeCreateService: () => set((s) => ({ modal: { ...s.modal, createServiceOpen: false } })),
   openCommandPalette: () => set((s) => ({ modal: { ...s.modal, commandPaletteOpen: true } })),
   closeCommandPalette: () => set((s) => ({ modal: { ...s.modal, commandPaletteOpen: false } })),
+  openCompare: () => set((s) => ({ modal: { ...s.modal, compareOpen: true } })),
+  closeCompare: () => set((s) => ({ modal: { ...s.modal, compareOpen: false } })),
+  openFavorites: () => set((s) => ({ modal: { ...s.modal, favoritesOpen: true } })),
+  closeFavorites: () => set((s) => ({ modal: { ...s.modal, favoritesOpen: false } })),
   currentUser: null,
   login: (name, type) =>
     set({
@@ -223,7 +264,119 @@ export const useApp = create<AppState>((set) => ({
       const notifications = [notif, ...s.notifications];
       return { notifications, unreadCount: notifications.filter((x) => !x.read).length };
     }),
+  // === Favorites ===
+  favorites: [],
+  favoritesCount: 0,
+  toggleFavorite: (id, type) =>
+    set((s) => {
+      const exists = s.favorites.some((f) => f.id === id && f.type === type);
+      const favorites = exists
+        ? s.favorites.filter((f) => !(f.id === id && f.type === type))
+        : [{ id, type, savedAt: Date.now() }, ...s.favorites];
+      // Persist to localStorage
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem("khidma:favorites", JSON.stringify(favorites));
+        } catch {
+          /* ignore */
+        }
+      }
+      return { favorites, favoritesCount: favorites.length };
+    }),
+  isFavorite: (id, type) =>
+    useApp.getState().favorites.some((f) => f.id === id && f.type === type),
+  removeFavorite: (id, type) =>
+    set((s) => {
+      const favorites = s.favorites.filter(
+        (f) => !(f.id === id && f.type === type)
+      );
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem("khidma:favorites", JSON.stringify(favorites));
+        } catch {
+          /* ignore */
+        }
+      }
+      return { favorites, favoritesCount: favorites.length };
+    }),
+  clearFavorites: () => {
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.removeItem("khidma:favorites");
+      } catch {
+        /* ignore */
+      }
+    }
+    set({ favorites: [], favoritesCount: 0 });
+  },
+  // === Compare queue (max 3) ===
+  compareIds: [],
+  toggleCompare: (id) =>
+    set((s) => {
+      if (s.compareIds.includes(id)) {
+        return { compareIds: s.compareIds.filter((x) => x !== id) };
+      }
+      if (s.compareIds.length >= 3) {
+        return s; // max 3
+      }
+      return { compareIds: [...s.compareIds, id] };
+    }),
+  removeFromCompare: (id) =>
+    set((s) => ({ compareIds: s.compareIds.filter((x) => x !== id) })),
+  clearCompare: () => set({ compareIds: [] }),
+  // === Recently viewed (max 8) ===
+  recentlyViewed: [],
+  trackView: (id, type) =>
+    set((s) => {
+      const filtered = s.recentlyViewed.filter(
+        (r) => !(r.id === id && r.type === type)
+      );
+      const recentlyViewed = [
+        { id, type, viewedAt: Date.now() },
+        ...filtered,
+      ].slice(0, 8);
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem("khidma:recently-viewed", JSON.stringify(recentlyViewed));
+        } catch {
+          /* ignore */
+        }
+      }
+      return { recentlyViewed };
+    }),
+  clearRecentlyViewed: () => {
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.removeItem("khidma:recently-viewed");
+      } catch {
+        /* ignore */
+      }
+    }
+    set({ recentlyViewed: [] });
+  },
 }));
+
+// Hydrate favorites + recently-viewed from localStorage on first load
+if (typeof window !== "undefined") {
+  try {
+    const fav = window.localStorage.getItem("khidma:favorites");
+    if (fav) {
+      const parsed = JSON.parse(fav) as FavoriteItem[];
+      useApp.setState({ favorites: parsed, favoritesCount: parsed.length });
+    }
+  } catch {
+    /* ignore */
+  }
+  try {
+    const rv = window.localStorage.getItem("khidma:recently-viewed");
+    if (rv) {
+      const parsed = JSON.parse(rv) as RecentlyViewedItem[];
+      useApp.setState({ recentlyViewed: parsed });
+    }
+  } catch {
+    /* ignore */
+  }
+}
 
 // Dev-only helper: expose the store on the window object so the agent-browser
 // E2E verification can trigger modal actions from outside React.

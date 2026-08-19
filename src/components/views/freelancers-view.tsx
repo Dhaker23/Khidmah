@@ -61,6 +61,7 @@ import {
   FreelancerCard,
   FreelancerListRow,
 } from "@/components/khidma/freelancer-card";
+import { RecentlyViewedPanel } from "@/components/khidma/recently-viewed-panel";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -645,6 +646,9 @@ export function FreelancersView() {
                 onClear={clearFilters}
               />
             </Card>
+            <div className="mt-5">
+              <RecentlyViewedPanel />
+            </div>
           </div>
         </aside>
 

@@ -1,0 +1,806 @@
+     1→"use client";
+     2→
+     3→import { useMemo, useState } from "react";
+     4→import { motion } from "framer-motion";
+     5→import {
+     6→  ArrowLeft,
+     7→  Search,
+     8→  SlidersHorizontal,
+     9→  LayoutGrid,
+    10→  List as ListIcon,
+    11→  Users,
+    12→  X,
+    13→  RotateCcw,
+    14→  ChevronDown,
+    15→  CheckCircle2,
+    16→  Mail,
+    17→  Phone,
+    18→  ShieldCheck,
+    19→  Briefcase,
+    20→  Star,
+    21→  Globe,
+    22→  MapPin,
+    23→} from "lucide-react";
+    24→import { Button } from "@/components/ui/button";
+    25→import { Input } from "@/components/ui/input";
+    26→import { Card } from "@/components/ui/card";
+    27→import { Badge } from "@/components/ui/badge";
+    28→import { Checkbox } from "@/components/ui/checkbox";
+    29→import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+    30→import { Slider } from "@/components/ui/slider";
+    31→import { Separator } from "@/components/ui/separator";
+    32→import { Label } from "@/components/ui/label";
+    33→import {
+    34→  Select,
+    35→  SelectContent,
+    36→  SelectItem,
+    37→  SelectTrigger,
+    38→  SelectValue,
+    39→} from "@/components/ui/select";
+    40→import {
+    41→  Sheet,
+    42→  SheetContent,
+    43→  SheetTrigger,
+    44→  SheetHeader,
+    45→  SheetTitle,
+    46→  SheetDescription,
+    47→} from "@/components/ui/sheet";
+    48→import {
+    49→  DropdownMenu,
+    50→  DropdownMenuTrigger,
+    51→  DropdownMenuContent,
+    52→  DropdownMenuItem,
+    53→} from "@/components/ui/dropdown-menu";
+    54→import {
+    55→  categories,
+    56→  freelancers,
+    57→  formatTND,
+    58→  type Freelancer,
+    59→} from "@/lib/khidma-data";
+    60→import {
+    61→  FreelancerCard,
+    62→  FreelancerListRow,
+    63→} from "@/components/khidma/freelancer-card";
+    64→import { useApp } from "@/lib/store";
+    65→import { cn } from "@/lib/utils";
+    66→
+    67→/* ---------- types & constants ---------- */
+    68→
+    69→type SortKey =
+    70→  | "topRated"
+    71→  | "newest"
+    72→  | "mostReviews"
+    73→  | "rateLow"
+    74→  | "rateHigh";
+    75→
+    76→type AvailabilityFilter = "any" | "available" | "limited";
+    77→type CountryFilter = "all" | "Tunisia" | "Worldwide";
+    78→
+    79→interface FilterState {
+    80→  search: string;
+    81→  categoryIds: string[];
+    82→  skills: string[];
+    83→  rateRange: [number, number];
+    84→  availability: AvailabilityFilter;
+    85→  verifications: {
+    86→    email: boolean;
+    87→    phone: boolean;
+    88→    identity: boolean;
+    89→    portfolio: boolean;
+    90→    topRated: boolean;
+    91→  };
+    92→  country: CountryFilter;
+    93→}
+    94→
+    95→const RATE_MIN = 20;
+    96→const RATE_MAX = 100;
+    97→const RATE_STEP = 5;
+    98→
+    99→const DEFAULT_FILTERS: FilterState = {
+   100→  search: "",
+   101→  categoryIds: [],
+   102→  skills: [],
+   103→  rateRange: [RATE_MIN, RATE_MAX],
+   104→  availability: "any",
+   105→  verifications: {
+   106→    email: false,
+   107→    phone: false,
+   108→    identity: false,
+   109→    portfolio: false,
+   110→    topRated: false,
+   111→  },
+   112→  country: "all",
+   113→};
+   114→
+   115→const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+   116→  { key: "topRated", label: "Top Rated" },
+   117→  { key: "newest", label: "Newest" },
+   118→  { key: "mostReviews", label: "Most Reviews" },
+   119→  { key: "rateLow", label: "Hourly: Low → High" },
+   120→  { key: "rateHigh", label: "Hourly: High → Low" },
+   121→];
+   122→
+   123→// Skills derived from categories' skills
+   124→const ALL_SKILLS: string[] = Array.from(
+   125→  new Set(categories.flatMap((c) => c.skills))
+   126→).sort();
+   127→
+   128→const VERIFICATION_OPTIONS: {
+   129→  key: keyof FilterState["verifications"];
+   130→  label: string;
+   131→  icon: typeof Mail;
+   132→}[] = [
+   133→  { key: "email", label: "Email Verified", icon: Mail },
+   134→  { key: "phone", label: "Phone Verified", icon: Phone },
+   135→  { key: "identity", label: "Identity Verified", icon: ShieldCheck },
+   136→  { key: "portfolio", label: "Portfolio Reviewed", icon: Briefcase },
+   137→  { key: "topRated", label: "Top Rated", icon: Star },
+   138→];
+   139→
+   140→/* ---------- filter helpers ---------- */
+   141→
+   142→function applyFilters(list: Freelancer[], f: FilterState): Freelancer[] {
+   143→  const q = f.search.trim().toLowerCase();
+   144→  return list.filter((fl) => {
+   145→    // search
+   146→    if (q) {
+   147→      const hay = `${fl.name} ${fl.title} ${fl.skills.join(" ")} ${fl.bio} ${fl.location.city} ${fl.location.country}`.toLowerCase();
+   148→      if (!hay.includes(q)) return false;
+   149→    }
+   150→    // categories — match if any of the freelancer's skills appear in any selected category's skill list
+   151→    if (f.categoryIds.length > 0) {
+   152→      const allowedSkills = new Set(
+   153→        f.categoryIds.flatMap((id) => categories.find((c) => c.id === id)?.skills ?? [])
+   154→      );
+   155→      const hasMatch = fl.skills.some((s) => allowedSkills.has(s));
+   156→      if (!hasMatch) return false;
+   157→    }
+   158→    // skills (intersection)
+   159→    if (f.skills.length > 0) {
+   160→      const has = f.skills.some((s) => fl.skills.includes(s));
+   161→      if (!has) return false;
+   162→    }
+   163→    // rate range
+   164→    if (fl.hourlyRate < f.rateRange[0] || fl.hourlyRate > f.rateRange[1]) return false;
+   165→    // availability
+   166→    if (f.availability !== "any" && fl.availability !== f.availability) return false;
+   167→    // verifications
+   168→    const v = f.verifications;
+   169→    if (v.email && !fl.verified.email) return false;
+   170→    if (v.phone && !fl.verified.phone) return false;
+   171→    if (v.identity && !fl.verified.identity) return false;
+   172→    if (v.portfolio && !fl.verified.portfolio) return false;
+   173→    if (v.topRated && !fl.topRated) return false;
+   174→    // country
+   175→    if (f.country !== "all" && fl.location.country !== f.country) return false;
+   176→    return true;
+   177→  });
+   178→}
+   179→
+   180→function sortFreelancers(list: Freelancer[], key: SortKey): Freelancer[] {
+   181→  const copy = [...list];
+   182→  switch (key) {
+   183→    case "topRated":
+   184→      return copy.sort((a, b) => {
+   185→        if (a.topRated !== b.topRated) return a.topRated ? -1 : 1;
+   186→        return b.rating - a.rating;
+   187→      });
+   188→    case "newest":
+   189→      return copy.sort((a, b) => Number(b.memberSince) - Number(a.memberSince));
+   190→    case "mostReviews":
+   191→      return copy.sort((a, b) => b.reviewsCount - a.reviewsCount);
+   192→    case "rateLow":
+   193→      return copy.sort((a, b) => a.hourlyRate - b.hourlyRate);
+   194→    case "rateHigh":
+   195→      return copy.sort((a, b) => b.hourlyRate - a.hourlyRate);
+   196→    default:
+   197→      return copy;
+   198→  }
+   199→}
+   200→
+   201→/* ---------- filter panel (shared by desktop sidebar + mobile sheet) ---------- */
+   202→
+   203→function FilterSection({
+   204→  title,
+   205→  children,
+   206→}: {
+   207→  title: string;
+   208→  children: React.ReactNode;
+   209→}) {
+   210→  return (
+   211→    <div className="space-y-3">
+   212→      <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#748684]">
+   213→        {title}
+   214→      </h4>
+   215→      {children}
+   216→    </div>
+   217→  );
+   218→}
+   219→
+   220→interface FiltersPanelProps {
+   221→  filters: FilterState;
+   222→  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+   223→  onClear: () => void;
+   224→}
+   225→
+   226→function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
+   227→  const toggleArrayValue = (key: "categoryIds" | "skills", value: string) => {
+   228→    setFilters((p) => {
+   229→      const arr = p[key];
+   230→      const next = arr.includes(value)
+   231→        ? arr.filter((v) => v !== value)
+   232→        : [...arr, value];
+   233→      return { ...p, [key]: next };
+   234→    });
+   235→  };
+   236→
+   237→  const toggleVerification = (key: keyof FilterState["verifications"]) => {
+   238→    setFilters((p) => ({
+   239→      ...p,
+   240→      verifications: { ...p.verifications, [key]: !p.verifications[key] },
+   241→    }));
+   242→  };
+   243→
+   244→  const activeFilterCount =
+   245→    filters.categoryIds.length +
+   246→    filters.skills.length +
+   247→    (filters.availability !== "any" ? 1 : 0) +
+   248→    (filters.country !== "all" ? 1 : 0) +
+   249→    (filters.rateRange[0] !== RATE_MIN || filters.rateRange[1] !== RATE_MAX ? 1 : 0) +
+   250→    Object.values(filters.verifications).filter(Boolean).length;
+   251→
+   252→  return (
+   253→    <div className="space-y-6">
+   254→      {/* top row: title + clear */}
+   255→      <div className="flex items-center justify-between">
+   256→        <div className="flex items-center gap-2">
+   257→          <SlidersHorizontal className="size-4 text-[#32504d]" />
+   258→          <span className="font-display text-sm font-semibold">Filters</span>
+   259→          {activeFilterCount > 0 && (
+   260→            <Badge className="bg-[#32504d] text-white hover:bg-[#32504d] text-[10px] h-5 px-1.5">
+   261→              {activeFilterCount}
+   262→            </Badge>
+   263→          )}
+   264→        </div>
+   265→        <Button
+   266→          variant="ghost"
+   267→          size="sm"
+   268→          onClick={onClear}
+   269→          disabled={activeFilterCount === 0}
+   270→          className="h-7 text-xs text-muted-foreground hover:text-[#32504d]"
+   271→        >
+   272→          <RotateCcw className="size-3" />
+   273→          Clear all
+   274→        </Button>
+   275→      </div>
+   276→
+   277→      <Separator />
+   278→
+   279→      {/* categories */}
+   280→      <FilterSection title="Categories">
+   281→        <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+   282→          {categories.map((cat) => {
+   283→            const checked = filters.categoryIds.includes(cat.id);
+   284→            return (
+   285→              <label
+   286→                key={cat.id}
+   287→                className="flex items-center gap-2.5 cursor-pointer group"
+   288→              >
+   289→                <Checkbox
+   290→                  checked={checked}
+   291→                  onCheckedChange={() => toggleArrayValue("categoryIds", cat.id)}
+   292→                  className="data-[state=checked]:bg-[#32504d] data-[state=checked]:border-[#32504d]"
+   293→                />
+   294→                <span className="text-sm flex-1 group-hover:text-[#2b3d3d]">
+   295→                  {cat.name}
+   296→                </span>
+   297→                <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+   298→                  {cat.count}
+   299→                </Badge>
+   300→              </label>
+   301→            );
+   302→          })}
+   303→        </div>
+   304→      </FilterSection>
+   305→
+   306→      <Separator />
+   307→
+   308→      {/* skills */}
+   309→      <FilterSection title="Skills">
+   310→        <div className="flex flex-wrap gap-1.5 max-h-44 overflow-y-auto pr-1">
+   311→          {ALL_SKILLS.map((skill) => {
+   312→            const active = filters.skills.includes(skill);
+   313→            return (
+   314→              <button
+   315→                key={skill}
+   316→                type="button"
+   317→                onClick={() => toggleArrayValue("skills", skill)}
+   318→                className={cn(
+   319→                  "text-[11px] px-2.5 py-1 rounded-full border transition-colors",
+   320→                  active
+   321→                    ? "bg-[#32504d] border-[#32504d] text-white"
+   322→                    : "border-border text-muted-foreground hover:border-[#32504d]/50 hover:text-[#2b3d3d] bg-background"
+   323→                )}
+   324→              >
+   325→                {skill}
+   326→              </button>
+   327→            );
+   328→          })}
+   329→        </div>
+   330→      </FilterSection>
+   331→
+   332→      <Separator />
+   333→
+   334→      {/* hourly rate */}
+   335→      <FilterSection title="Hourly Rate (TND/hr)">
+   336→        <div className="px-1">
+   337→          <Slider
+   338→            value={filters.rateRange}
+   339→            min={RATE_MIN}
+   340→            max={RATE_MAX}
+   341→            step={RATE_STEP}
+   342→            onValueChange={(v) =>
+   343→              setFilters((p) => ({
+   344→                ...p,
+   345→                rateRange: [v[0] ?? RATE_MIN, v[1] ?? RATE_MAX],
+   346→              }))
+   347→            }
+   348→            className="[&_span[data-slot=slider-range]]:bg-[#32504d] [&_span[data-slot=slider-thumb]]:border-[#32504d]"
+   349→          />
+   350→          <div className="flex items-center justify-between mt-3 text-xs">
+   351→            <span className="font-medium">{formatTND(filters.rateRange[0])}</span>
+   352→            <span className="text-muted-foreground">to</span>
+   353→            <span className="font-medium">{formatTND(filters.rateRange[1])}</span>
+   354→          </div>
+   355→        </div>
+   356→      </FilterSection>
+   357→
+   358→      <Separator />
+   359→
+   360→      {/* availability */}
+   361→      <FilterSection title="Availability">
+   362→        <RadioGroup
+   363→          value={filters.availability}
+   364→          onValueChange={(v) =>
+   365→            setFilters((p) => ({
+   366→              ...p,
+   367→              availability: v as AvailabilityFilter,
+   368→            }))
+   369→          }
+   370→          className="gap-2"
+   371→        >
+   372→          {[
+   373→            { value: "any", label: "Any availability" },
+   374→            { value: "available", label: "Available now" },
+   375→            { value: "limited", label: "Limited capacity" },
+   376→          ].map((opt) => (
+   377→            <label
+   378→              key={opt.value}
+   379→              className="flex items-center gap-2.5 cursor-pointer text-sm"
+   380→            >
+   381→              <RadioGroupItem
+   382→                value={opt.value}
+   383→                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d]"
+   384→              />
+   385→              {opt.label}
+   386→            </label>
+   387→          ))}
+   388→        </RadioGroup>
+   389→      </FilterSection>
+   390→
+   391→      <Separator />
+   392→
+   393→      {/* verification */}
+   394→      <FilterSection title="Verification Level">
+   395→        <div className="space-y-2.5">
+   396→          {VERIFICATION_OPTIONS.map((opt) => {
+   397→            const Icon = opt.icon;
+   398→            const checked = filters.verifications[opt.key];
+   399→            return (
+   400→              <label
+   401→                key={opt.key}
+   402→                className="flex items-center gap-2.5 cursor-pointer group"
+   403→              >
+   404→                <Checkbox
+   405→                  checked={checked}
+   406→                  onCheckedChange={() => toggleVerification(opt.key)}
+   407→                  className="data-[state=checked]:bg-[#32504d] data-[state=checked]:border-[#32504d]"
+   408→                />
+   409→                <Icon className="size-3.5 text-[#748684] group-hover:text-[#32504d]" />
+   410→                <span className="text-sm group-hover:text-[#2b3d3d]">
+   411→                  {opt.label}
+   412→                </span>
+   413→              </label>
+   414→            );
+   415→          })}
+   416→        </div>
+   417→      </FilterSection>
+   418→
+   419→      <Separator />
+   420→
+   421→      {/* country */}
+   422→      <FilterSection title="Country">
+   423→        <Select
+   424→          value={filters.country}
+   425→          onValueChange={(v) =>
+   426→            setFilters((p) => ({ ...p, country: v as CountryFilter }))
+   427→          }
+   428→        >
+   429→          <SelectTrigger className="w-full h-9 text-sm">
+   430→            <SelectValue placeholder="All countries" />
+   431→          </SelectTrigger>
+   432→          <SelectContent>
+   433→            <SelectItem value="all">All countries</SelectItem>
+   434→            <SelectItem value="Tunisia">Tunisia</SelectItem>
+   435→            <SelectItem value="Worldwide">Worldwide</SelectItem>
+   436→          </SelectContent>
+   437→        </Select>
+   438→      </FilterSection>
+   439→    </div>
+   440→  );
+   441→}
+   442→
+   443→/* ---------- empty state ---------- */
+   444→
+   445→function EmptyState({ onClear }: { onClear: () => void }) {
+   446→  return (
+   447→    <Card className="p-12 text-center border-dashed">
+   448→      <div className="size-16 rounded-full bg-[#32504d]/10 mx-auto flex items-center justify-center">
+   449→        <Users className="size-8 text-[#32504d]" />
+   450→      </div>
+   451→      <h3 className="font-display text-lg font-semibold mt-4 text-foreground">
+   452→        No freelancers match your filters
+   453→      </h3>
+   454→      <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+   455→        Try removing some filters or searching with different keywords to
+   456→        expand your results.
+   457→      </p>
+   458→      <Button variant="outline" className="mt-5" onClick={onClear}>
+   459→        <RotateCcw className="size-4" />
+   460→        Clear all filters
+   461→      </Button>
+   462→    </Card>
+   463→  );
+   464→}
+   465→
+   466→/* ---------- skeleton (visual only) ---------- */
+   467→
+   468→function FreelancerSkeleton() {
+   469→  return (
+   470→    <div className="rounded-xl border border-border/60 overflow-hidden">
+   471→      <div className="h-20 bg-muted shimmer" />
+   472→      <div className="p-4 space-y-3">
+   473→        <div className="flex items-start gap-3">
+   474→          <div className="size-14 rounded-full bg-muted shimmer -mt-10 border-2 border-background" />
+   475→          <div className="space-y-2 pt-7 flex-1">
+   476→            <div className="h-3 w-2/3 bg-muted shimmer rounded" />
+   477→            <div className="h-2.5 w-1/2 bg-muted shimmer rounded" />
+   478→          </div>
+   479→        </div>
+   480→        <div className="h-2 w-full bg-muted shimmer rounded" />
+   481→        <div className="h-2 w-3/4 bg-muted shimmer rounded" />
+   482→      </div>
+   483→    </div>
+   484→  );
+   485→}
+   486→
+   487→/* ---------- main view ---------- */
+   488→
+   489→export function FreelancersView() {
+   490→  const { setView, searchQuery, setSearchQuery } = useApp();
+   491→  const [filters, setFilters] = useState<FilterState>({
+   492→    ...DEFAULT_FILTERS,
+   493→    search: searchQuery,
+   494→  });
+   495→  const [sort, setSort] = useState<SortKey>("topRated");
+   496→  const [layout, setLayout] = useState<"grid" | "list">("grid");
+   497→  const [visibleCount, setVisibleCount] = useState(9);
+   498→  const [sheetOpen, setSheetOpen] = useState(false);
+   499→
+   500→  // keep search synced with global store
+   501→  const updateSearch = (v: string) => {
+   502→    setFilters((p) => ({ ...p, search: v }));
+   503→    setSearchQuery(v);
+   504→  };
+   505→
+   506→  const filtered = useMemo(
+   507→    () => applyFilters(freelancers, filters),
+   508→    [filters]
+   509→  );
+   510→  const sorted = useMemo(() => sortFreelancers(filtered, sort), [filtered, sort]);
+   511→  const visible = sorted.slice(0, visibleCount);
+   512→
+   513→  const clearFilters = () => {
+   514→    setFilters({ ...DEFAULT_FILTERS, search: "" });
+   515→    setSearchQuery("");
+   516→    setVisibleCount(9);
+   517→  };
+   518→
+   519→  const sortLabel = SORT_OPTIONS.find((s) => s.key === sort)?.label ?? "Sort";
+   520→
+   521→  return (
+   522→    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+   523→      {/* header */}
+   524→      <motion.div
+   525→        initial={{ opacity: 0, y: 12 }}
+   526→        animate={{ opacity: 1, y: 0 }}
+   527→        transition={{ duration: 0.4 }}
+   528→        className="mb-8 sm:mb-10"
+   529→      >
+   530→        <Button
+   531→          variant="ghost"
+   532→          size="sm"
+   533→          onClick={() => setView("home")}
+   534→          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] -ml-2"
+   535→        >
+   536→          <ArrowLeft className="size-4" />
+   537→          Back to home
+   538→        </Button>
+   539→        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+   540→          <div>
+   541→            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
+   542→              Browse Talent
+   543→            </span>
+   544→            <h1 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+   545→              Find Verified Talent
+   546→            </h1>
+   547→            <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+   548→              Browse our 1,248+ approved Tunisian freelancers
+   549→            </p>
+   550→          </div>
+   551→          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+   552→            <Users className="size-4 text-[#32504d]" />
+   553→            <span>
+   554→              Showing{" "}
+   555→              <span className="font-semibold text-foreground">
+   556→                {visible.length}
+   557→              </span>{" "}
+   558→              of{" "}
+   559→              <span className="font-semibold text-foreground">
+   560→                {sorted.length}
+   561→              </span>{" "}
+   562→              freelancers
+   563→            </span>
+   564→          </div>
+   565→        </div>
+   566→      </motion.div>
+   567→
+   568→      {/* mobile search bar */}
+   569→      <div className="lg:hidden mb-4 flex items-center gap-2">
+   570→        <div className="relative flex-1">
+   571→          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+   572→          <Input
+   573→            value={filters.search}
+   574→            onChange={(e) => updateSearch(e.target.value)}
+   575→            placeholder="Search freelancers, skills…"
+   576→            className="pl-9 h-10"
+   577→          />
+   578→          {filters.search && (
+   579→            <button
+   580→              onClick={() => updateSearch("")}
+   581→              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+   582→              aria-label="Clear search"
+   583→            >
+   584→              <X className="size-4" />
+   585→            </button>
+   586→          )}
+   587→        </div>
+   588→        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+   589→          <SheetTrigger asChild>
+   590→            <Button variant="outline" size="icon" className="h-10 w-10 shrink-0">
+   591→              <SlidersHorizontal className="size-4" />
+   592→            </Button>
+   593→          </SheetTrigger>
+   594→          <SheetContent
+   595→            side="left"
+   596→            className="w-[88%] sm:max-w-md overflow-y-auto p-4"
+   597→          >
+   598→            <SheetHeader>
+   599→              <SheetTitle className="font-display">Filter Freelancers</SheetTitle>
+   600→              <SheetDescription>
+   601→                Narrow down to the perfect talent for your project.
+   602→              </SheetDescription>
+   603→            </SheetHeader>
+   604→            <div className="mt-2">
+   605→              <FiltersPanel
+   606→                filters={filters}
+   607→                setFilters={setFilters}
+   608→                onClear={() => {
+   609→                  clearFilters();
+   610→                  setSheetOpen(false);
+   611→                }}
+   612→              />
+   613→            </div>
+   614→          </SheetContent>
+   615→        </Sheet>
+   616→      </div>
+   617→
+   618→      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
+   619→        {/* desktop sidebar */}
+   620→        <aside className="hidden lg:block">
+   621→          <div className="sticky top-24">
+   622→            {/* search */}
+   623→            <div className="relative mb-5">
+   624→              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+   625→              <Input
+   626→                value={filters.search}
+   627→                onChange={(e) => updateSearch(e.target.value)}
+   628→                placeholder="Search freelancers…"
+   629→                className="pl-9 h-10"
+   630→              />
+   631→              {filters.search && (
+   632→                <button
+   633→                  onClick={() => updateSearch("")}
+   634→                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+   635→                  aria-label="Clear search"
+   636→                >
+   637→                  <X className="size-4" />
+   638→                </button>
+   639→              )}
+   640→            </div>
+   641→            <Card className="p-5">
+   642→              <FiltersPanel
+   643→                filters={filters}
+   644→                setFilters={setFilters}
+   645→                onClear={clearFilters}
+   646→              />
+   647→            </Card>
+   648→          </div>
+   649→        </aside>
+   650→
+   651→        {/* main column */}
+   652→        <div>
+   653→          {/* toolbar: sort + layout toggle */}
+   654→          <div className="flex items-center justify-between gap-3 mb-5">
+   655→            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+   656→              <span>Sort by</span>
+   657→              <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
+   658→                <SelectTrigger className="h-9 w-[180px] text-sm">
+   659→                  <SelectValue>{sortLabel}</SelectValue>
+   660→                </SelectTrigger>
+   661→                <SelectContent>
+   662→                  {SORT_OPTIONS.map((opt) => (
+   663→                    <SelectItem key={opt.key} value={opt.key}>
+   664→                      {opt.label}
+   665→                    </SelectItem>
+   666→                  ))}
+   667→                </SelectContent>
+   668→              </Select>
+   669→            </div>
+   670→
+   671→            <div className="flex items-center gap-1.5">
+   672→              {/* layout toggle (dropdown variant for accessibility) */}
+   673→              <DropdownMenu>
+   674→                <DropdownMenuTrigger asChild>
+   675→                  <Button variant="outline" size="sm" className="h-9 px-3">
+   676→                    {layout === "grid" ? (
+   677→                      <LayoutGrid className="size-4" />
+   678→                    ) : (
+   679→                      <ListIcon className="size-4" />
+   680→                    )}
+   681→                    <span className="hidden sm:inline text-xs">
+   682→                      {layout === "grid" ? "Grid" : "List"}
+   683→                    </span>
+   684→                    <ChevronDown className="size-3 opacity-60" />
+   685→                  </Button>
+   686→                </DropdownMenuTrigger>
+   687→                <DropdownMenuContent align="end" className="w-40">
+   688→                  <DropdownMenuItem
+   689→                    onClick={() => setLayout("grid")}
+   690→                    className={cn(
+   691→                      "gap-2 cursor-pointer",
+   692→                      layout === "grid" && "bg-accent text-[#32504d]"
+   693→                    )}
+   694→                  >
+   695→                    <LayoutGrid className="size-4" />
+   696→                    Grid view
+   697→                    {layout === "grid" && (
+   698→                      <CheckCircle2 className="size-3.5 ml-auto text-[#32504d]" />
+   699→                    )}
+   700→                  </DropdownMenuItem>
+   701→                  <DropdownMenuItem
+   702→                    onClick={() => setLayout("list")}
+   703→                    className={cn(
+   704→                      "gap-2 cursor-pointer",
+   705→                      layout === "list" && "bg-accent text-[#32504d]"
+   706→                    )}
+   707→                  >
+   708→                    <ListIcon className="size-4" />
+   709→                    List view
+   710→                    {layout === "list" && (
+   711→                      <CheckCircle2 className="size-3.5 ml-auto text-[#32504d]" />
+   712→                    )}
+   713→                  </DropdownMenuItem>
+   714→                </DropdownMenuContent>
+   715→              </DropdownMenu>
+   716→            </div>
+   717→          </div>
+   718→
+   719→          {/* results */}
+   720→          {visible.length === 0 ? (
+   721→            <EmptyState onClear={clearFilters} />
+   722→          ) : layout === "grid" ? (
+   723→            <motion.div
+   724→              initial="hidden"
+   725→              animate="show"
+   726→              variants={{
+   727→                hidden: {},
+   728→                show: { transition: { staggerChildren: 0.05 } },
+   729→              }}
+   730→              className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
+   731→            >
+   732→              {visible.map((f, i) => (
+   733→                <motion.div
+   734→                  key={f.id}
+   735→                  variants={{
+   736→                    hidden: { opacity: 0, y: 14 },
+   737→                    show: { opacity: 1, y: 0, transition: { duration: 0.35 } },
+   738→                  }}
+   739→                >
+   740→                  <FreelancerCard freelancer={f} index={0} />
+   741→                  <span className="sr-only">{i + 1}</span>
+   742→                </motion.div>
+   743→              ))}
+   744→            </motion.div>
+   745→          ) : (
+   746→            <motion.div
+   747→              initial="hidden"
+   748→              animate="show"
+   749→              variants={{
+   750→                hidden: {},
+   751→                show: { transition: { staggerChildren: 0.04 } },
+   752→              }}
+   753→              className="space-y-3"
+   754→            >
+   755→              {visible.map((f, i) => (
+   756→                <motion.div
+   757→                  key={f.id}
+   758→                  variants={{
+   759→                    hidden: { opacity: 0, y: 8 },
+   760→                    show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+   761→                  }}
+   762→                >
+   763→                  <FreelancerListRow freelancer={f} index={0} />
+   764→                  <span className="sr-only">{i + 1}</span>
+   765→                </motion.div>
+   766→              ))}
+   767→            </motion.div>
+   768→          )}
+   769→
+   770→          {/* skeletons + load more (visual only) */}
+   771→          {visible.length > 0 && visible.length < sorted.length && (
+   772→            <div className="mt-8 flex flex-col items-center gap-6">
+   773→              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 w-full">
+   774→                {Array.from({ length: 3 }).map((_, i) => (
+   775→                  <FreelancerSkeleton key={`sk-${i}`} />
+   776→                ))}
+   777→              </div>
+   778→              <Button
+   779→                variant="outline"
+   780→                onClick={() => setVisibleCount((c) => c + 6)}
+   781→                className="group"
+   782→              >
+   783→                Load more freelancers
+   784→                <ChevronDown className="size-4 transition-transform group-hover:translate-y-0.5" />
+   785→              </Button>
+   786→            </div>
+   787→          )}
+   788→
+   789→          {visible.length > 0 && visible.length >= sorted.length && (
+   790→            <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+   791→              <Globe className="size-3.5" />
+   792→              You&apos;ve reached the end —{" "}
+   793→              <span className="font-medium text-foreground">
+   794→                {sorted.length}
+   795→              </span>{" "}
+   796→              verified freelancers
+   797→            </div>
+   798→          )}
+   799→        </div>
+   800→      </div>
+   801→    </div>
+   802→  );
+   803→}
+   804→
+   805→export default FreelancersView;
+   806→

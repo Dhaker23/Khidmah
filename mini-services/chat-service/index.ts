@@ -214,7 +214,7 @@ io.on("connection", (socket: Socket) => {
         for (const pid of conv.participantIds) {
           io.to(`user:${pid}`).emit("message:received", { conversationId, message: botMsg });
         }
-        sendConversationList(io, currentUserId);
+        sendConversationList(io, currentUserId!);
       }, 1400 + Math.random() * 1200);
     }
   });
