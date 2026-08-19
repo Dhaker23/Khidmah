@@ -8,6 +8,7 @@ export { FeaturedServices } from "./featured-services";
 export { OpenJobs } from "./open-jobs";
 export { WhyKhidma } from "./why-khidma";
 export { TrustCenter } from "./trust-center";
+export { TunisianCities } from "./tunisian-cities";
 export { PaymentExplainer } from "./payment-explainer";
 export { WithdrawalOptions } from "./withdrawal-options";
 export { Pricing } from "./pricing";

@@ -20,6 +20,7 @@ import {
   HelpCircle,
   LayoutDashboard,
   Shield,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -59,7 +60,8 @@ type View =
   | "jobs"
   | "how-it-works"
   | "dashboard"
-  | "admin";
+  | "admin"
+  | "stats";
 
 interface PaletteItem {
   id: string;
@@ -349,6 +351,14 @@ function CommandPaletteImpl() {
         title: "Admin Review Console",
         subtitle: "Review freelancer applications",
         action: () => navigateTo("admin"),
+      },
+      {
+        id: "nv-stats",
+        groupId: "nv",
+        icon: BarChart3,
+        title: "Platform Stats",
+        subtitle: "Real-time marketplace analytics",
+        action: () => navigateTo("stats"),
       },
     ];
 

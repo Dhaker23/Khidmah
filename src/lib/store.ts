@@ -9,7 +9,8 @@ type View =
   | "jobs"
   | "how-it-works"
   | "dashboard"
-  | "admin";
+  | "admin"
+  | "stats";
 
 type Theme = "light" | "dark";
 type Lang = "en" | "fr" | "ar";

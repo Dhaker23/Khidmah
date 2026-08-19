@@ -47,6 +47,7 @@ import {
 import { Reveal, SectionHeading, Section } from "@/components/khidma/reveal";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useApp } from "@/lib/store";
 import {
   trustStats,
   formatNumber,
@@ -523,6 +524,7 @@ function MiniStat({
 
 export function StatsDashboard() {
   const prefersReduced = useReducedMotion();
+  const setView = useApp((s) => s.setView);
   return (
     <Section className="bg-gradient-to-b from-background to-muted/30">
       <SectionHeading
@@ -574,17 +576,27 @@ export function StatsDashboard() {
         whileInView={prefersReduced ? undefined : { opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mt-8 flex items-center justify-center gap-2 text-[11px] text-muted-foreground"
+        className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 text-[11px] text-muted-foreground"
       >
-        <motion.span
-          className="size-1.5 rounded-full bg-emerald-500"
-          animate={
-            prefersReduced ? undefined : { scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }
-          }
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          aria-hidden
-        />
-        <span>Live · last sync just now</span>
+        <div className="flex items-center gap-2">
+          <motion.span
+            className="size-1.5 rounded-full bg-emerald-500"
+            animate={
+              prefersReduced ? undefined : { scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }
+            }
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            aria-hidden
+          />
+          <span>Live · last sync just now</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setView("stats")}
+          className="group inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/30 bg-[#32504d]/5 px-3 py-1.5 text-xs font-semibold text-[#32504d] transition-colors hover:bg-[#32504d]/10 hover:border-[#32504d]/50"
+        >
+          View full stats
+          <TrendingUp className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+        </button>
       </motion.div>
     </Section>
   );

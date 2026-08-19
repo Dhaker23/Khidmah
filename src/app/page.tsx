@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Header } from "@/components/khidma/header";
 import { Footer } from "@/components/khidma/footer";
 import { CursorGlow } from "@/components/khidma/cursor-glow";
+import { ScrollProgress } from "@/components/khidma/scroll-progress";
 import { FreelancerGridSkeleton } from "@/components/khidma/skeletons";
 import { PageTransition } from "@/components/khidma/page-transition";
 import {
@@ -17,6 +18,7 @@ import {
   OpenJobs,
   WhyKhidma,
   TrustCenter,
+  TunisianCities,
   PaymentExplainer,
   WithdrawalOptions,
   Pricing,
@@ -39,6 +41,11 @@ import { CommandPalette } from "@/components/khidma/command-palette";
 import { BackToTop } from "@/components/khidma/back-to-top";
 import { CompareTray } from "@/components/khidma/compare-tray";
 import { LiveNotifications } from "@/components/khidma/live-notifications";
+import {
+  WaveDivider,
+  DotGridDivider,
+  GradientDivider,
+} from "@/components/khidma/section-rhythm";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -65,6 +72,10 @@ const DashboardView = dynamic(
 );
 const AdminView = dynamic(
   () => import("@/components/views/admin-view").then((m) => m.default),
+  { ssr: false, loading: () => <ViewLoading /> }
+);
+const StatsView = dynamic(
+  () => import("@/components/views/stats-view").then((m) => m.StatsView),
   { ssr: false, loading: () => <ViewLoading /> }
 );
 
@@ -178,6 +189,9 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      {/* Premium scroll-progress bar — fixed at top, above header (z-[60] > z-50) */}
+      <ScrollProgress />
+
       <Header />
 
       {/* Cursor-following glow — only visible over [data-cursor-glow] areas */}
@@ -191,6 +205,7 @@ export default function Home() {
           {view === "home" && (
             <>
               <Hero />
+              <WaveDivider />
               <FeaturedThisWeek />
               <TrustStrip />
               <HowItWorks />
@@ -200,18 +215,24 @@ export default function Home() {
               <OpenJobs />
               <StatsBanner />
               <StatsDashboard />
+              <DotGridDivider />
               <WhyKhidma />
               <TrustCenter />
+              <TunisianCities />
               <PaymentExplainer />
+              <GradientDivider />
               <WithdrawalOptions />
               <Pricing />
               <Testimonials />
+              <DotGridDivider />
               <TestimonialCarousel />
               <SuccessStories />
               <BlogSection />
               <MobileAppPromo />
+              <WaveDivider />
               <CommunitySection />
               <AwardsSection />
+              <GradientDivider />
               <AcademySection />
               <PodcastSection />
               <FAQ />
@@ -224,6 +245,7 @@ export default function Home() {
           {view === "how-it-works" && <HowItWorksView />}
           {view === "dashboard" && <DashboardView />}
           {view === "admin" && <AdminView />}
+          {view === "stats" && <StatsView />}
         </PageTransition>
       </main>
 

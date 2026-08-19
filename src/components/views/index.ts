@@ -4,6 +4,8 @@ export { JobsView } from "./jobs-view";
 export { HowItWorksView } from "./how-it-works-view";
 export { DashboardView } from "./dashboard-view";
 export { default as AdminView } from "./admin-view";
+export { StatsView } from "./stats-view";
+export { default as StatsViewDefault } from "./stats-view";
 
 export { default as FreelancersViewDefault } from "./freelancers-view";
 export { default as ServicesViewDefault } from "./services-view";
