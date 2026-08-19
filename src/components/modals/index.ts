@@ -11,3 +11,7 @@ export { CompareModal } from "./compare-modal";
 export { FavoritesModal } from "./favorites-modal";
 export { ShareModal } from "./share-modal";
 export { ReportModal } from "./report-modal";
+export { HelpModal } from "./help-modal";
+export { ProModal } from "./pro-modal";
+export { ReferralModal } from "./referral-modal";
+export { PrivacyModal } from "./privacy-modal";

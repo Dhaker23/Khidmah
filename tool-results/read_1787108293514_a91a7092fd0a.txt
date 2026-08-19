@@ -1,0 +1,2002 @@
+     1→"use client";
+     2→
+     3→import { useState, useMemo, type ComponentType } from "react";
+     4→import Image from "next/image";
+     5→import { motion, AnimatePresence } from "framer-motion";
+     6→import {
+     7→  LayoutDashboard,
+     8→  User,
+     9→  Briefcase,
+    10→  Sparkles,
+    11→  FileText,
+    12→  FileSignature,
+    13→  Wallet,
+    14→  Star,
+    15→  Settings,
+    16→  Bell,
+    17→  ArrowLeft,
+    18→  Menu,
+    19→  ChevronRight,
+    20→  Pencil,
+    21→  Plus,
+    22→  Trash2,
+    23→  Pause,
+    24→  Eye,
+    25→  CheckCircle2,
+    26→  Clock,
+    27→  TrendingUp,
+    28→  ArrowUpRight,
+    29→  ArrowDownLeft,
+    30→  ShieldCheck,
+    31→  Mail,
+    32→  Phone,
+    33→  Banknote,
+    34→  PiggyBank,
+    35→  MapPin,
+    36→  Globe,
+    37→  Calendar,
+    38→  Search,
+    39→  LogOut,
+    40→  ExternalLink,
+    41→  MessageSquare,
+    42→  Award,
+    43→  Lock,
+    44→  BellRing,
+    45→  EyeOff,
+    46→  CreditCard,
+    47→  ChevronDown,
+    48→  type LucideIcon,
+    49→} from "lucide-react";
+    50→
+    51→import { Button } from "@/components/ui/button";
+    52→import { Card } from "@/components/ui/card";
+    53→import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+    54→import { Badge } from "@/components/ui/badge";
+    55→import { Progress } from "@/components/ui/progress";
+    56→import { Separator } from "@/components/ui/separator";
+    57→import { Input } from "@/components/ui/input";
+    58→import { Label } from "@/components/ui/label";
+    59→import { Switch } from "@/components/ui/switch";
+    60→import {
+    61→  Table,
+    62→  TableBody,
+    63→  TableCell,
+    64→  TableHead,
+    65→  TableHeader,
+    66→  TableRow,
+    67→} from "@/components/ui/table";
+    68→import {
+    69→  Sheet,
+    70→  SheetContent,
+    71→  SheetTitle,
+    72→} from "@/components/ui/sheet";
+    73→import {
+    74→  Select,
+    75→  SelectContent,
+    76→  SelectItem,
+    77→  SelectTrigger,
+    78→  SelectValue,
+    79→} from "@/components/ui/select";
+    80→import {
+    81→  AreaChart,
+    82→  Area,
+    83→  BarChart,
+    84→  Bar,
+    85→  XAxis,
+    86→  YAxis,
+    87→  ResponsiveContainer,
+    88→  Tooltip,
+    89→  CartesianGrid,
+    90→} from "recharts";
+    91→
+    92→import { useApp } from "@/lib/store";
+    93→import {
+    94→  freelancers,
+    95→  formatTND,
+    96→  formatNumber,
+    97→  withdrawalMethods,
+    98→  reviews,
+    99→  type PortfolioItem,
+   100→} from "@/lib/khidma-data";
+   101→import {
+   102→  VerificationBadge,
+   103→  VerificationChecklist,
+   104→} from "@/components/khidma/verification";
+   105→import {
+   106→  kpis,
+   107→  earningsMonthly,
+   108→  activityFeed,
+   109→  profileCompletion,
+   110→  proposals,
+   111→  contracts,
+   112→  walletBalances,
+   113→  walletTransactions,
+   114→  ratingMetrics,
+   115→  applicationStatus,
+   116→  notificationDefaults,
+   117→  quickActions,
+   118→  proposalStatusStyles,
+   119→  contractStatusStyles,
+   120→  milestoneStatusStyles,
+   121→  txnStatusStyles,
+   122→  type ActivityType,
+   123→  type ProposalStatus,
+   124→} from "@/lib/dashboard-mock";
+   125→import { toast } from "sonner";
+   126→import { cn } from "@/lib/utils";
+   127→
+   128→// ============================================================================
+   129→// Types & config
+   130→// ============================================================================
+   131→
+   132→type TabKey =
+   133→  | "overview"
+   134→  | "profile"
+   135→  | "portfolio"
+   136→  | "services"
+   137→  | "proposals"
+   138→  | "contracts"
+   139→  | "wallet"
+   140→  | "reviews"
+   141→  | "settings";
+   142→
+   143→interface NavItem {
+   144→  key: TabKey;
+   145→  label: string;
+   146→  icon: LucideIcon;
+   147→  badge?: number;
+   148→}
+   149→
+   150→const NAV_ITEMS: NavItem[] = [
+   151→  { key: "overview", label: "Overview", icon: LayoutDashboard },
+   152→  { key: "profile", label: "My Profile", icon: User },
+   153→  { key: "portfolio", label: "Portfolio", icon: Briefcase, badge: 3 },
+   154→  { key: "services", label: "Services", icon: Sparkles, badge: 2 },
+   155→  { key: "proposals", label: "Proposals & Applications", icon: FileText, badge: 4 },
+   156→  { key: "contracts", label: "Contracts", icon: FileSignature, badge: 3 },
+   157→  { key: "wallet", label: "Wallet & Earnings", icon: Wallet },
+   158→  { key: "reviews", label: "Reviews", icon: Star },
+   159→  { key: "settings", label: "Settings", icon: Settings },
+   160→];
+   161→
+   162→const ACTIVITY_ICONS: Record<ActivityType, LucideIcon> = {
+   163→  proposal: FileText,
+   164→  milestone: ShieldCheck,
+   165→  payment: Banknote,
+   166→  review: Star,
+   167→  portfolio: Briefcase,
+   168→};
+   169→
+   170→const ACTIVITY_COLORS: Record<ActivityType, string> = {
+   171→  proposal: "#32504d",
+   172→  milestone: "#475959",
+   173→  payment: "#15803d",
+   174→  review: "#b45309",
+   175→  portfolio: "#2b3d3d",
+   176→};
+   177→
+   178→const QUICK_ACTION_ICONS: Record<string, LucideIcon> = {
+   179→  User,
+   180→  Plus,
+   181→  Sparkles,
+   182→  Search,
+   183→};
+   184→
+   185→// ============================================================================
+   186→// Small shared bits
+   187→// ============================================================================
+   188→
+   189→function StatPill({
+   190→  icon: Icon,
+   191→  value,
+   192→  label,
+   193→  color,
+   194→}: {
+   195→  icon: LucideIcon;
+   196→  value: string;
+   197→  label: string;
+   198→  color: string;
+   199→}) {
+   200→  return (
+   201→    <div className="flex items-center gap-2">
+   202→      <span
+   203→        className="size-8 rounded-lg flex items-center justify-center"
+   204→        style={{ backgroundColor: `${color}15` }}
+   205→      >
+   206→        <Icon className="size-4" style={{ color }} />
+   207→      </span>
+   208→      <div className="leading-tight">
+   209→        <div className="text-sm font-bold text-foreground">{value}</div>
+   210→        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+   211→          {label}
+   212→        </div>
+   213→      </div>
+   214→    </div>
+   215→  );
+   216→}
+   217→
+   218→function SectionTitle({
+   219→  title,
+   220→  subtitle,
+   221→  action,
+   222→}: {
+   223→  title: string;
+   224→  subtitle?: string;
+   225→  action?: React.ReactNode;
+   226→}) {
+   227→  return (
+   228→    <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
+   229→      <div>
+   230→        <h2 className="font-display text-xl font-bold text-foreground tracking-tight">
+   231→          {title}
+   232→        </h2>
+   233→        {subtitle && (
+   234→          <p className="text-sm text-muted-foreground mt-0.5">{subtitle}</p>
+   235→        )}
+   236→      </div>
+   237→      {action}
+   238→    </div>
+   239→  );
+   240→}
+   241→
+   242→function ChartTooltip({ active, payload, label }: any) {
+   243→  if (!active || !payload?.length) return null;
+   244→  return (
+   245→    <div className="rounded-lg border border-border/60 bg-card px-3 py-2 shadow-md">
+   246→      <p className="text-[11px] text-muted-foreground mb-1">{label}</p>
+   247→      {payload.map((p: any) => (
+   248→        <p
+   249→          key={p.dataKey}
+   250→          className="text-xs font-semibold"
+   251→          style={{ color: p.color }}
+   252→        >
+   253→          {p.name}: {formatTND(p.value)}
+   254→        </p>
+   255→      ))}
+   256→    </div>
+   257→  );
+   258→}
+   259→
+   260→// ============================================================================
+   261→// Top bar
+   262→// ============================================================================
+   263→
+   264→function TopBar({ me }: { me: (typeof freelancers)[number] }) {
+   265→  const { setView, openWallet } = useApp();
+   266→  const [bellOpen, setBellOpen] = useState(false);
+   267→
+   268→  return (
+   269→    <header className="sticky top-0 z-30 bg-background/85 backdrop-blur-md border-b border-border/60">
+   270→      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-3">
+   271→        {/* Back */}
+   272→        <Button
+   273→          variant="ghost"
+   274→          size="sm"
+   275→          className="text-muted-foreground hover:text-foreground gap-1 -ml-2"
+   276→          onClick={() => setView("home")}
+   277→        >
+   278→          <ArrowLeft className="size-4" />
+   279→          <span className="hidden sm:inline">Back to Home</span>
+   280→        </Button>
+   281→
+   282→        <Separator orientation="vertical" className="hidden sm:block h-6" />
+   283→
+   284→        {/* Welcome */}
+   285→        <div className="flex items-center gap-2.5 min-w-0">
+   286→          <Avatar className="size-8 border border-border/60 shrink-0">
+   287→            <AvatarImage src={me.avatar} alt={me.name} />
+   288→            <AvatarFallback>{me.name.charAt(0)}</AvatarFallback>
+   289→          </Avatar>
+   290→          <div className="min-w-0 hidden sm:block">
+   291→            <p className="text-sm font-semibold text-foreground truncate leading-tight">
+   292→              Welcome back, {me.name.split(" ")[0]}
+   293→            </p>
+   294→            <p className="text-[10px] text-muted-foreground truncate leading-tight">
+   295→              {me.title}
+   296→            </p>
+   297→          </div>
+   298→        </div>
+   299→
+   300→        {/* Right side */}
+   301→        <div className="ml-auto flex items-center gap-2 sm:gap-3">
+   302→          {/* Bell */}
+   303→          <div className="relative">
+   304→            <Button
+   305→              variant="outline"
+   306→              size="icon"
+   307→              className="relative size-9 rounded-full border-border/60 bg-card"
+   308→              onClick={() => setBellOpen((p) => !p)}
+   309→              aria-label="Notifications"
+   310→            >
+   311→              <Bell className="size-4 text-foreground" />
+   312→              <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-rose-500 ring-2 ring-card" />
+   313→            </Button>
+   314→            <AnimatePresence>
+   315→              {bellOpen && (
+   316→                <motion.div
+   317→                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+   318→                  animate={{ opacity: 1, y: 0, scale: 1 }}
+   319→                  exit={{ opacity: 0, y: -8, scale: 0.96 }}
+   320→                  transition={{ duration: 0.15 }}
+   321→                  className="absolute right-0 mt-2 w-72 rounded-xl border border-border/60 bg-card shadow-xl p-2 z-40"
+   322→                >
+   323→                  <div className="px-2 py-2 flex items-center justify-between">
+   324→                    <span className="text-xs font-semibold">
+   325→                      Notifications
+   326→                    </span>
+   327→                    <Badge
+   328→                      variant="outline"
+   329→                      className="text-[9px] h-4 px-1 border-[#32504d]/30 text-[#32504d]"
+   330→                    >
+   331→                      3 new
+   332→                    </Badge>
+   333→                  </div>
+   334→                  <Separator className="mb-1" />
+   335→                  <ul className="space-y-0.5 max-h-64 overflow-y-auto">
+   336→                    {activityFeed.slice(0, 3).map((a) => {
+   337→                      const Icon = ACTIVITY_ICONS[a.type];
+   338→                      return (
+   339→                        <li
+   340→                          key={a.id}
+   341→                          className="flex items-start gap-2 p-2 rounded-lg hover:bg-muted/60 cursor-pointer"
+   342→                        >
+   343→                          <span
+   344→                            className="size-7 rounded-md flex items-center justify-center shrink-0"
+   345→                            style={{
+   346→                              backgroundColor: `${ACTIVITY_COLORS[a.type]}15`,
+   347→                            }}
+   348→                          >
+   349→                            <Icon
+   350→                              className="size-3.5"
+   351→                              style={{ color: ACTIVITY_COLORS[a.type] }}
+   352→                            />
+   353→                          </span>
+   354→                          <div className="min-w-0">
+   355→                            <p className="text-xs font-semibold truncate">
+   356→                              {a.title}
+   357→                            </p>
+   358→                            <p className="text-[10px] text-muted-foreground line-clamp-2">
+   359→                              {a.description}
+   360→                            </p>
+   361→                            <p className="text-[10px] text-muted-foreground/70 mt-0.5">
+   362→                              {a.time}
+   363→                            </p>
+   364→                          </div>
+   365→                        </li>
+   366→                      );
+   367→                    })}
+   368→                  </ul>
+   369→                </motion.div>
+   370→              )}
+   371→            </AnimatePresence>
+   372→          </div>
+   373→
+   374→          {/* Wallet mini-card */}
+   375→          <button
+   376→            onClick={openWallet}
+   377→            className="flex items-center gap-2.5 rounded-xl border border-border/60 bg-card pl-2.5 pr-3 py-1.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+   378→            aria-label="Open wallet"
+   379→          >
+   380→            <span className="size-7 rounded-lg bg-khidma-gradient flex items-center justify-center">
+   381→              <Wallet className="size-3.5 text-white" />
+   382→            </span>
+   383→            <div className="text-left leading-tight">
+   384→              <div className="text-[9px] uppercase tracking-wider text-muted-foreground">
+   385→                Available
+   386→              </div>
+   387→              <div className="text-sm font-bold text-foreground">
+   388→                {formatTND(kpis.availableBalance)}
+   389→              </div>
+   390→            </div>
+   391→          </button>
+   392→        </div>
+   393→      </div>
+   394→    </header>
+   395→  );
+   396→}
+   397→
+   398→// ============================================================================
+   399→// Sidebar
+   400→// ============================================================================
+   401→
+   402→function SidebarContent({
+   403→  activeTab,
+   404→  onTabChange,
+   405→  me,
+   406→}: {
+   407→  activeTab: TabKey;
+   408→  onTabChange: (t: TabKey) => void;
+   409→  me: (typeof freelancers)[number];
+   410→}) {
+   411→  return (
+   412→    <div className="flex flex-col gap-4 h-full">
+   413→      {/* Profile mini */}
+   414→      <div className="rounded-xl border border-border/60 bg-card p-3 flex items-center gap-3">
+   415→        <Avatar className="size-10 border border-border/60">
+   416→          <AvatarImage src={me.avatar} alt={me.name} />
+   417→          <AvatarFallback>{me.name.charAt(0)}</AvatarFallback>
+   418→        </Avatar>
+   419→        <div className="min-w-0">
+   420→          <div className="flex items-center gap-1">
+   421→            <p className="text-sm font-semibold truncate">{me.name}</p>
+   422→            {me.topRated && (
+   423→              <Star className="size-3 fill-amber-400 text-amber-400 shrink-0" />
+   424→            )}
+   425→          </div>
+   426→          <p className="text-[10px] text-muted-foreground truncate">
+   427→            {me.username}
+   428→          </p>
+   429→        </div>
+   430→      </div>
+   431→
+   432→      {/* Nav */}
+   433→      <nav className="flex flex-col gap-0.5">
+   434→        {NAV_ITEMS.map((item) => {
+   435→          const Icon = item.icon;
+   436→          const active = activeTab === item.key;
+   437→          return (
+   438→            <button
+   439→              key={item.key}
+   440→              onClick={() => onTabChange(item.key)}
+   441→              className={cn(
+   442→                "group relative flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors",
+   443→                active
+   444→                  ? "bg-[#2b3d3d] text-white"
+   445→                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+   446→              )}
+   447→            >
+   448→              <Icon
+   449→                className={cn(
+   450→                  "size-4 shrink-0",
+   451→                  active ? "text-white" : "group-hover:text-[#32504d]"
+   452→                )}
+   453→              />
+   454→              <span className="truncate">{item.label}</span>
+   455→              {item.badge ? (
+   456→                <Badge
+   457→                  variant="outline"
+   458→                  className={cn(
+   459→                    "ml-auto h-5 px-1.5 text-[10px] font-semibold",
+   460→                    active
+   461→                      ? "bg-white/15 text-white border-white/20"
+   462→                      : "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/25"
+   463→                  )}
+   464→                >
+   465→                  {item.badge}
+   466→                </Badge>
+   467→              ) : null}
+   468→            </button>
+   469→          );
+   470→        })}
+   471→      </nav>
+   472→
+   473→      <div className="mt-auto">
+   474→        <Separator className="mb-3" />
+   475→        {/* Submit for Review status */}
+   476→        <div className="rounded-xl border border-emerald-200/60 bg-emerald-50/60 dark:bg-emerald-500/5 dark:border-emerald-500/20 p-3">
+   477→          <div className="flex items-center gap-2">
+   478→            <span className="size-7 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+   479→              <CheckCircle2 className="size-4 text-emerald-700" />
+   480→            </span>
+   481→            <div className="flex-1">
+   482→              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+   483→                Application
+   484→              </p>
+   485→              <p className="text-xs font-semibold text-foreground">Approved</p>
+   486→            </div>
+   487→            <Badge className="bg-emerald-500/15 text-emerald-700 border-emerald-200 hover:bg-emerald-500/15 text-[9px]">
+   488→              LIVE
+   489→            </Badge>
+   490→          </div>
+   491→          <p className="text-[10px] text-muted-foreground mt-2 leading-relaxed">
+   492→            Approved on {applicationStatus.approvedAt}. Your profile is visible
+   493→            to clients worldwide.
+   494→          </p>
+   495→        </div>
+   496→      </div>
+   497→    </div>
+   498→  );
+   499→}
+   500→
+   501→function DesktopSidebar({
+   502→  activeTab,
+   503→  onTabChange,
+   504→  me,
+   505→}: {
+   506→  activeTab: TabKey;
+   507→  onTabChange: (t: TabKey) => void;
+   508→  me: (typeof freelancers)[number];
+   509→}) {
+   510→  return (
+   511→    <aside className="hidden lg:block w-60 shrink-0">
+   512→      <div className="sticky top-20 h-[calc(100vh-6rem)]">
+   513→        <SidebarContent
+   514→          activeTab={activeTab}
+   515→          onTabChange={onTabChange}
+   516→          me={me}
+   517→        />
+   518→      </div>
+   519→    </aside>
+   520→  );
+   521→}
+   522→
+   523→function MobileSidebar({
+   524→  activeTab,
+   525→  onTabChange,
+   526→  me,
+   527→  open,
+   528→  setOpen,
+   529→}: {
+   530→  activeTab: TabKey;
+   531→  onTabChange: (t: TabKey) => void;
+   532→  me: (typeof freelancers)[number];
+   533→  open: boolean;
+   534→  setOpen: (o: boolean) => void;
+   535→}) {
+   536→  return (
+   537→    <Sheet open={open} onOpenChange={setOpen}>
+   538→      <SheetContent
+   539→        side="left"
+   540→        className="w-[280px] p-4 bg-background"
+   541→        aria-describedby={undefined}
+   542→      >
+   543→        <SheetTitle className="sr-only">Dashboard navigation</SheetTitle>
+   544→        <div
+   545→          onClick={() => setOpen(false)}
+   546→          className="contents"
+   547→        >
+   548→          <SidebarContent
+   549→            activeTab={activeTab}
+   550→            onTabChange={onTabChange}
+   551→            me={me}
+   552→          />
+   553→        </div>
+   554→      </SheetContent>
+   555→    </Sheet>
+   556→  );
+   557→}
+   558→
+   559→// ============================================================================
+   560→// 1. Overview tab
+   561→// ============================================================================
+   562→
+   563→function OverviewTab({
+   564→  me,
+   565→  onTabChange,
+   566→}: {
+   567→  me: (typeof freelancers)[number];
+   568→  onTabChange: (t: TabKey) => void;
+   569→}) {
+   570→  const { openWallet, setView } = useApp();
+   571→
+   572→  const kpiCards = [
+   573→    {
+   574→      label: "Available Balance",
+   575→      value: formatTND(kpis.availableBalance),
+   576→      sub: "Ready to withdraw",
+   577→      icon: Wallet,
+   578→      color: "#32504d",
+   579→      action: () => openWallet(),
+   580→    },
+   581→    {
+   582→      label: "Pending Clearance",
+   583→      value: formatTND(kpis.pendingClearance),
+   584→      sub: "In 7-day escrow",
+   585→      icon: Clock,
+   586→      color: "#475959",
+   587→    },
+   588→    {
+   589→      label: "Active Contracts",
+   590→      value: formatNumber(kpis.activeContracts),
+   591→      sub: "2 milestones due this week",
+   592→      icon: FileSignature,
+   593→      color: "#748684",
+   594→    },
+   595→    {
+   596→      label: "Completed Projects",
+   597→      value: formatNumber(kpis.completedProjects),
+   598→      sub: "+8 this quarter",
+   599→      icon: Award,
+   600→      color: "#192d2f",
+   601→    },
+   602→  ];
+   603→
+   604→  return (
+   605→    <div className="space-y-6">
+   606→      {/* KPI cards */}
+   607→      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+   608→        {kpiCards.map((k, i) => {
+   609→          const Icon = k.icon;
+   610→          return (
+   611→            <motion.div
+   612→              key={k.label}
+   613→              initial={{ opacity: 0, y: 12 }}
+   614→              animate={{ opacity: 1, y: 0 }}
+   615→              transition={{ duration: 0.3, delay: i * 0.05 }}
+   616→            >
+   617→              <Card className="p-4 border-border/60 hover:border-[#32504d]/30 transition-colors h-full">
+   618→                <div className="flex items-start justify-between">
+   619→                  <span
+   620→                    className="size-9 rounded-lg flex items-center justify-center"
+   621→                    style={{ backgroundColor: `${k.color}15` }}
+   622→                  >
+   623→                    <Icon className="size-4" style={{ color: k.color }} />
+   624→                  </span>
+   625→                  {k.action ? (
+   626→                    <Button
+   627→                      variant="ghost"
+   628→                      size="icon"
+   629→                      className="size-7 -mt-1 -mr-1"
+   630→                      onClick={k.action}
+   631→                    >
+   632→                      <ChevronRight className="size-3.5 text-muted-foreground" />
+   633→                    </Button>
+   634→                  ) : null}
+   635→                </div>
+   636→                <div className="mt-3 text-2xl font-bold text-foreground font-display">
+   637→                  {k.value}
+   638→                </div>
+   639→                <div className="text-xs text-muted-foreground mt-0.5">
+   640→                  {k.label}
+   641→                </div>
+   642→                <div className="text-[10px] text-muted-foreground/80 mt-1">
+   643→                  {k.sub}
+   644→                </div>
+   645→              </Card>
+   646→            </motion.div>
+   647→          );
+   648→        })}
+   649→      </div>
+   650→
+   651→      {/* Earnings chart + Activity feed */}
+   652→      <div className="grid lg:grid-cols-3 gap-4">
+   653→        <Card className="lg:col-span-2 p-5 border-border/60">
+   654→          <div className="flex items-start justify-between gap-3 mb-4">
+   655→            <div>
+   656→              <h3 className="font-display text-lg font-bold">Earnings</h3>
+   657→              <p className="text-xs text-muted-foreground">
+   658→                Last 6 months · {formatTND(kpis.monthlyEarningsTotal)} this
+   659→                month
+   660→              </p>
+   661→            </div>
+   662→            <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-200 gap-0.5">
+   663→              <TrendingUp className="size-3" />+{kpis.monthlyGrowth}%
+   664→            </Badge>
+   665→          </div>
+   666→          <div className="h-[260px] w-full">
+   667→            <ResponsiveContainer width="100%" height="100%">
+   668→              <AreaChart
+   669→                data={earningsMonthly}
+   670→                margin={{ top: 8, right: 8, left: -8, bottom: 0 }}
+   671→              >
+   672→                <defs>
+   673→                  <linearGradient
+   674→                    id="earningsGrad"
+   675→                    x1="0"
+   676→                    y1="0"
+   677→                    x2="0"
+   678→                    y2="1"
+   679→                  >
+   680→                    <stop
+   681→                      offset="5%"
+   682→                      stopColor="#32504d"
+   683→                      stopOpacity={0.4}
+   684→                    />
+   685→                    <stop
+   686→                      offset="95%"
+   687→                      stopColor="#32504d"
+   688→                      stopOpacity={0}
+   689→                    />
+   690→                  </linearGradient>
+   691→                </defs>
+   692→                <CartesianGrid
+   693→                  strokeDasharray="3 3"
+   694→                  stroke="#e3e8e6"
+   695→                  vertical={false}
+   696→                />
+   697→                <XAxis
+   698→                  dataKey="month"
+   699→                  stroke="#6e8580"
+   700→                  fontSize={11}
+   701→                  tickLine={false}
+   702→                  axisLine={false}
+   703→                />
+   704→                <YAxis
+   705→                  stroke="#6e8580"
+   706→                  fontSize={11}
+   707→                  tickFormatter={(v) => `${v / 1000}k`}
+   708→                  tickLine={false}
+   709→                  axisLine={false}
+   710→                />
+   711→                <Tooltip content={<ChartTooltip />} />
+   712→                <Area
+   713→                  type="monotone"
+   714→                  dataKey="earnings"
+   715→                  name="Earnings"
+   716→                  stroke="#2b3d3d"
+   717→                  strokeWidth={2.5}
+   718→                  fill="url(#earningsGrad)"
+   719→                  dot={{ r: 3, fill: "#2b3d3d", strokeWidth: 0 }}
+   720→                  activeDot={{ r: 5, fill: "#2b3d3d", strokeWidth: 2, stroke: "#fff" }}
+   721→                />
+   722→              </AreaChart>
+   723→            </ResponsiveContainer>
+   724→          </div>
+   725→        </Card>
+   726→
+   727→        <Card className="p-5 border-border/60">
+   728→          <div className="flex items-center justify-between mb-4">
+   729→            <h3 className="font-display text-lg font-bold">Recent Activity</h3>
+   730→            <button className="text-[11px] text-[#32504d] hover:underline">
+   731→              View all
+   732→            </button>
+   733→          </div>
+   734→          <ul className="space-y-1 max-h-[260px] overflow-y-auto pr-1">
+   735→            {activityFeed.map((a, i) => {
+   736→              const Icon = ACTIVITY_ICONS[a.type];
+   737→              return (
+   738→                <motion.li
+   739→                  key={a.id}
+   740→                  initial={{ opacity: 0, x: -8 }}
+   741→                  animate={{ opacity: 1, x: 0 }}
+   742→                  transition={{ delay: i * 0.05 }}
+   743→                  className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50"
+   744→                >
+   745→                  <span
+   746→                    className="size-8 rounded-lg flex items-center justify-center shrink-0"
+   747→                    style={{
+   748→                      backgroundColor: `${ACTIVITY_COLORS[a.type]}15`,
+   749→                    }}
+   750→                  >
+   751→                    <Icon
+   752→                      className="size-3.5"
+   753→                      style={{ color: ACTIVITY_COLORS[a.type] }}
+   754→                    />
+   755→                  </span>
+   756→                  <div className="min-w-0 flex-1">
+   757→                    <p className="text-xs font-semibold text-foreground">
+   758→                      {a.title}
+   759→                    </p>
+   760→                    <p className="text-[11px] text-muted-foreground line-clamp-2">
+   761→                      {a.description}
+   762→                    </p>
+   763→                    <p className="text-[10px] text-muted-foreground/70 mt-0.5">
+   764→                      {a.time}
+   765→                    </p>
+   766→                  </div>
+   767→                </motion.li>
+   768→              );
+   769→            })}
+   770→          </ul>
+   771→        </Card>
+   772→      </div>
+   773→
+   774→      {/* Quick actions */}
+   775→      <Card className="p-5 border-border/60">
+   776→        <SectionTitle
+   777→          title="Quick Actions"
+   778→          subtitle="Jump back into your workflow"
+   779→        />
+   780→        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+   781→          {quickActions.map((q, i) => {
+   782→            const Icon = QUICK_ACTION_ICONS[q.icon] ?? Sparkles;
+   783→            return (
+   784→              <motion.button
+   785→                key={q.key}
+   786→                initial={{ opacity: 0, y: 8 }}
+   787→                animate={{ opacity: 1, y: 0 }}
+   788→                transition={{ delay: i * 0.04 }}
+   789→                whileHover={{ y: -2 }}
+   790→                onClick={() => {
+   791→                  if (q.target === "browse") {
+   792→                    setView("jobs");
+   793→                  } else {
+   794→                    onTabChange(q.target as TabKey);
+   795→                  }
+   796→                  toast.info(`${q.label} — coming up`);
+   797→                }}
+   798→                className="text-left rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:bg-[#32504d]/5 p-3 transition-colors"
+   799→              >
+   800→                <span className="size-9 rounded-lg bg-[#2b3d3d] flex items-center justify-center mb-2">
+   801→                  <Icon className="size-4 text-white" />
+   802→                </span>
+   803→                <p className="text-sm font-semibold text-foreground">
+   804→                  {q.label}
+   805→                </p>
+   806→                <p className="text-[11px] text-muted-foreground line-clamp-2">
+   807→                  {q.description}
+   808→                </p>
+   809→              </motion.button>
+   810→            );
+   811→          })}
+   812→        </div>
+   813→      </Card>
+   814→
+   815→      {/* Profile completion + verification */}
+   816→      <div className="grid lg:grid-cols-2 gap-4">
+   817→        <Card className="p-5 border-border/60">
+   818→          <SectionTitle
+   819→            title="Profile Completion"
+   820→            subtitle={`${profileCompletion.total}% — keep going to rank higher in search`}
+   821→            action={
+   822→              <Button
+   823→                size="sm"
+   824→                variant="outline"
+   825→                className="h-8 text-xs"
+   826→                onClick={() => onTabChange("profile")}
+   827→              >
+   828→                <Pencil className="size-3" /> Edit
+   829→              </Button>
+   830→            }
+   831→          />
+   832→          <div className="space-y-3">
+   833→            <Progress
+   834→              value={profileCompletion.total}
+   835→              className="h-2 bg-muted [&>div]:bg-[#32504d]"
+   836→            />
+   837→            <ul className="grid sm:grid-cols-2 gap-x-4 gap-y-2">
+   838→              {profileCompletion.items.map((it) => (
+   839→                <li
+   840→                  key={it.label}
+   841→                  className="flex items-center gap-2 text-xs"
+   842→                >
+   843→                  <CheckCircle2
+   844→                    className={cn(
+   845→                      "size-3.5 shrink-0",
+   846→                      it.done
+   847→                        ? "text-emerald-600"
+   848→                        : "text-muted-foreground/40"
+   849→                    )}
+   850→                  />
+   851→                  <span
+   852→                    className={cn(
+   853→                      "truncate",
+   854→                      it.done
+   855→                        ? "text-foreground"
+   856→                        : "text-muted-foreground"
+   857→                    )}
+   858→                  >
+   859→                    {it.label}
+   860→                  </span>
+   861→                  <span className="ml-auto text-[10px] text-muted-foreground">
+   862→                    {it.value}%
+   863→                  </span>
+   864→                </li>
+   865→              ))}
+   866→            </ul>
+   867→          </div>
+   868→        </Card>
+   869→
+   870→        <Card className="p-5 border-border/60">
+   871→          <SectionTitle
+   872→            title="Verification Status"
+   873→            subtitle="Build trust, win more contracts"
+   874→          />
+   875→          <div className="space-y-3">
+   876→            <div className="flex flex-wrap gap-1.5">
+   877→              {me.verified.email && (
+   878→                <VerificationBadge type="email" size="md" />
+   879→              )}
+   880→              {me.verified.phone && (
+   881→                <VerificationBadge type="phone" size="md" />
+   882→              )}
+   883→              {me.verified.identity && (
+   884→                <VerificationBadge type="identity" size="md" />
+   885→              )}
+   886→              {me.verified.portfolio && (
+   887→                <VerificationBadge type="portfolio" size="md" />
+   888→              )}
+   889→              {me.topRated && (
+   890→                <VerificationBadge type="topRated" size="md" />
+   891→              )}
+   892→            </div>
+   893→            <Separator />
+   894→            <VerificationChecklist
+   895→              verified={me.verified}
+   896→              completed={me.completedProjects}
+   897→              reviews={me.reviewsCount}
+   898→              memberSince={me.memberSince}
+   899→            />
+   900→          </div>
+   901→        </Card>
+   902→      </div>
+   903→    </div>
+   904→  );
+   905→}
+   906→
+   907→// ============================================================================
+   908→// 2. My Profile tab
+   909→// ============================================================================
+   910→
+   911→function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
+   912→  const { openFreelancer } = useApp();
+   913→
+   914→  const sections = [
+   915→    {
+   916→      key: "personal",
+   917→      title: "Personal Information",
+   918→      icon: User,
+   919→      fields: [
+   920→        { label: "Full name", value: me.name },
+   921→        { label: "Username", value: me.username },
+   922→        { label: "Location", value: `${me.location.city}, ${me.location.country}` },
+   923→        { label: "Member since", value: me.memberSince },
+   924→      ],
+   925→    },
+   926→    {
+   927→      key: "professional",
+   928→      title: "Professional Information",
+   929→      icon: Briefcase,
+   930→      fields: [
+   931→        { label: "Title", value: me.title },
+   932→        { label: "Years of experience", value: "7+ years" },
+   933→        { label: "Response time", value: me.responseTime },
+   934→        { label: "Availability", value: me.availability },
+   935→      ],
+   936→    },
+   937→    {
+   938→      key: "languages",
+   939→      title: "Languages",
+   940→      icon: Globe,
+   941→      custom: (
+   942→        <div className="flex flex-wrap gap-1.5">
+   943→          {me.languages.map((l) => (
+   944→            <Badge
+   945→              key={l}
+   946→              variant="secondary"
+   947→              className="bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20"
+   948→            >
+   949→              {l} — Native / Fluent
+   950→            </Badge>
+   951→          ))}
+   952→        </div>
+   953→      ),
+   954→    },
+   955→    {
+   956→      key: "skills",
+   957→      title: "Skills",
+   958→      icon: Sparkles,
+   959→      custom: (
+   960→        <div className="flex flex-wrap gap-1.5">
+   961→          {me.skills.map((s) => (
+   962→            <Badge
+   963→              key={s}
+   964→              variant="outline"
+   965→              className="border-border/60 bg-card"
+   966→            >
+   967→              {s}
+   968→            </Badge>
+   969→          ))}
+   970→        </div>
+   971→      ),
+   972→    },
+   973→    {
+   974→      key: "rates",
+   975→      title: "Rates",
+   976→      icon: Banknote,
+   977→      fields: [
+   978→        { label: "Hourly rate", value: `${formatTND(me.hourlyRate)}/hr` },
+   979→        { label: "Starting price", value: formatTND(me.services[0]?.startingPrice ?? 0) },
+   980→        { label: "Project minimum", value: formatTND(350) },
+   981→        { label: "Currency", value: "TND" },
+   982→      ],
+   983→    },
+   984→    {
+   985→      key: "availability",
+   986→      title: "Availability",
+   987→      icon: Calendar,
+   988→      fields: [
+   989→        { label: "Status", value: me.availability },
+   990→        { label: "Weekly hours", value: "30-40 hrs" },
+   991→        { label: "Timezone", value: "Tunis (UTC+1)" },
+   992→        { label: "Next opening", value: "Aug 25, 2025" },
+   993→      ],
+   994→    },
+   995→  ];
+   996→
+   997→  return (
+   998→    <div className="space-y-6">
+   999→      {/* Header */}
+  1000→      <Card className="overflow-hidden border-border/60 p-0">
+  1001→        <div className="h-28 bg-khidma-gradient relative">
+  1002→          <div className="absolute inset-0 bg-dot-grid opacity-30" />
+  1003→        </div>
+  1004→        <div className="p-5 sm:p-6 -mt-12 relative">
+  1005→          <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+  1006→            <Avatar className="size-20 border-4 border-card shrink-0">
+  1007→              <AvatarImage src={me.avatar} alt={me.name} />
+  1008→              <AvatarFallback>{me.name.charAt(0)}</AvatarFallback>
+  1009→            </Avatar>
+  1010→            <div className="flex-1 min-w-0">
+  1011→              <div className="flex items-center gap-2 flex-wrap">
+  1012→                <h2 className="font-display text-2xl font-bold tracking-tight">
+  1013→                  {me.name}
+  1014→                </h2>
+  1015→                {me.verified.identity && (
+  1016→                  <VerificationBadge type="identity" size="md" />
+  1017→                )}
+  1018→                {me.verified.portfolio && (
+  1019→                  <VerificationBadge type="portfolio" size="md" />
+  1020→                )}
+  1021→                {me.topRated && (
+  1022→                  <VerificationBadge type="topRated" size="md" />
+  1023→                )}
+  1024→              </div>
+  1025→              <p className="text-sm text-muted-foreground mt-1">{me.title}</p>
+  1026→              <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+  1027→                <span className="flex items-center gap-1">
+  1028→                  <MapPin className="size-3" /> {me.location.city},{" "}
+  1029→                  {me.location.country}
+  1030→                </span>
+  1031→                <span className="flex items-center gap-1">
+  1032→                  <Star className="size-3 fill-amber-400 text-amber-400" />
+  1033→                  {me.rating.toFixed(1)} ({formatNumber(me.reviewsCount)})
+  1034→                </span>
+  1035→                <span className="hidden sm:flex items-center gap-1">
+  1036→                  <Globe className="size-3" /> {me.languages.join(", ")}
+  1037→                </span>
+  1038→              </div>
+  1039→            </div>
+  1040→            <Button
+  1041→              className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+  1042→              onClick={() => openFreelancer("f1")}
+  1043→            >
+  1044→              <ExternalLink className="size-4" /> Preview Public Profile
+  1045→            </Button>
+  1046→          </div>
+  1047→        </div>
+  1048→      </Card>
+  1049→
+  1050→      {/* Bio */}
+  1051→      <Card className="p-5 border-border/60">
+  1052→        <div className="flex items-center justify-between mb-2">
+  1053→          <h3 className="font-display text-lg font-bold">About</h3>
+  1054→          <Button
+  1055→            variant="outline"
+  1056→            size="sm"
+  1057→            className="h-8 text-xs"
+  1058→            onClick={() => toast.info("Edit mode — coming up")}
+  1059→          >
+  1060→            <Pencil className="size-3" /> Edit
+  1061→          </Button>
+  1062→        </div>
+  1063→        <p className="text-sm text-muted-foreground leading-relaxed">
+  1064→          {me.bio}
+  1065→        </p>
+  1066→      </Card>
+  1067→
+  1068→      {/* Sections grid */}
+  1069→      <div className="grid sm:grid-cols-2 gap-4">
+  1070→        {sections.map((s) => {
+  1071→          const Icon = s.icon;
+  1072→          return (
+  1073→            <Card key={s.key} className="p-5 border-border/60">
+  1074→              <div className="flex items-center justify-between mb-3">
+  1075→                <div className="flex items-center gap-2">
+  1076→                  <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
+  1077→                    <Icon className="size-4 text-[#32504d]" />
+  1078→                  </span>
+  1079→                  <h3 className="font-display text-base font-semibold">
+  1080→                    {s.title}
+  1081→                  </h3>
+  1082→                </div>
+  1083→                <Button
+  1084→                  variant="ghost"
+  1085→                  size="sm"
+  1086→                  className="h-8 text-xs"
+  1087→                  onClick={() => toast.info(`Editing ${s.title} — coming up`)}
+  1088→                >
+  1089→                  <Pencil className="size-3" /> Edit
+  1090→                </Button>
+  1091→              </div>
+  1092→              {s.custom ? (
+  1093→                <div className="mt-1">{s.custom}</div>
+  1094→              ) : (
+  1095→                <dl className="grid grid-cols-2 gap-x-4 gap-y-3">
+  1096→                  {s.fields?.map((f) => (
+  1097→                    <div key={f.label}>
+  1098→                      <dt className="text-[10px] uppercase tracking-wider text-muted-foreground">
+  1099→                        {f.label}
+  1100→                      </dt>
+  1101→                      <dd className="text-sm font-medium text-foreground capitalize">
+  1102→                        {f.value}
+  1103→                      </dd>
+  1104→                    </div>
+  1105→                  ))}
+  1106→                </dl>
+  1107→              )}
+  1108→            </Card>
+  1109→          );
+  1110→        })}
+  1111→      </div>
+  1112→    </div>
+  1113→  );
+  1114→}
+  1115→
+  1116→// ============================================================================
+  1117→// 3. Portfolio tab
+  1118→// ============================================================================
+  1119→
+  1120→function PortfolioTab({ me }: { me: (typeof freelancers)[number] }) {
+  1121→  const items: PortfolioItem[] = me.portfolio;
+  1122→
+  1123→  if (items.length === 0) {
+  1124→    return (
+  1125→      <Card className="p-10 border-dashed border-border/60 text-center">
+  1126→        <div className="size-14 rounded-xl bg-muted mx-auto flex items-center justify-center mb-3">
+  1127→          <Briefcase className="size-6 text-muted-foreground" />
+  1128→        </div>
+  1129→        <h3 className="font-display text-lg font-semibold mb-1">
+  1130→          No portfolio items yet
+  1131→        </h3>
+  1132→        <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
+  1133→          Showcase your best work to win more clients. Add your first portfolio
+  1134→          item to get verified and rank higher.
+  1135→        </p>
+  1136→        <Button className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white">
+  1137→          <Plus className="size-4" /> Add your first portfolio item
+  1138→        </Button>
+  1139→      </Card>
+  1140→    );
+  1141→  }
+  1142→
+  1143→  return (
+  1144→    <div className="space-y-4">
+  1145→      <SectionTitle
+  1146→        title="Portfolio"
+  1147→        subtitle={`${items.length} items · ${items.filter((p) => p.verification === "ADMIN_VERIFIED").length} admin-verified`}
+  1148→        action={
+  1149→          <Button
+  1150→            className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+  1151→            onClick={() => toast.success("Opening portfolio editor — demo")}
+  1152→          >
+  1153→            <Plus className="size-4" /> Add Portfolio Item
+  1154→          </Button>
+  1155→        }
+  1156→      />
+  1157→      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  1158→        {items.map((p, i) => (
+  1159→          <motion.div
+  1160→            key={p.id}
+  1161→            initial={{ opacity: 0, y: 12 }}
+  1162→            animate={{ opacity: 1, y: 0 }}
+  1163→            transition={{ duration: 0.3, delay: i * 0.05 }}
+  1164→          >
+  1165→            <Card className="khidma-card overflow-hidden border-border/60 p-0 group">
+  1166→              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+  1167→                <Image
+  1168→                  src={p.cover}
+  1169→                  alt={p.title}
+  1170→                  fill
+  1171→                  sizes="(max-width: 640px) 100vw, 33vw"
+  1172→                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+  1173→                />
+  1174→                <div className="absolute top-2 left-2 flex gap-1">
+  1175→                  <Badge className="bg-black/60 text-white border-0 backdrop-blur-sm text-[10px]">
+  1176→                    {p.type.toUpperCase()}
+  1177→                  </Badge>
+  1178→                </div>
+  1179→                <div className="absolute top-2 right-2 flex gap-1">
+  1180→                  {p.verification === "ADMIN_VERIFIED" && (
+  1181→                    <Badge className="bg-[#32504d] text-white border-0 text-[10px] gap-0.5">
+  1182→                      <ShieldCheck className="size-2.5" /> Verified
+  1183→                    </Badge>
+  1184→                  )}
+  1185→                  {p.verification === "EXTERNALLY_VERIFIED" && (
+  1186→                    <Badge className="bg-[#475959] text-white border-0 text-[10px] gap-0.5">
+  1187→                      <ExternalLink className="size-2.5" /> External
+  1188→                    </Badge>
+  1189→                  )}
+  1190→                  {p.verification === "SELF_DECLARED" && (
+  1191→                    <Badge className="bg-amber-500/90 text-white border-0 text-[10px]">
+  1192→                      Self-declared
+  1193→                    </Badge>
+  1194→                  )}
+  1195→                </div>
+  1196→              </div>
+  1197→              <div className="p-4 space-y-2">
+  1198→                <div className="flex items-start justify-between gap-2">
+  1199→                  <h3 className="font-semibold text-sm leading-tight line-clamp-2">
+  1200→                    {p.title}
+  1201→                  </h3>
+  1202→                </div>
+  1203→                <p className="text-[11px] text-muted-foreground">
+  1204→                  {p.category} · {p.role}
+  1205→                </p>
+  1206→                <p className="text-xs text-muted-foreground line-clamp-2">
+  1207→                  {p.description}
+  1208→                </p>
+  1209→                <div className="flex flex-wrap gap-1">
+  1210→                  {p.skills.slice(0, 3).map((s) => (
+  1211→                    <Badge
+  1212→                      key={s}
+  1213→                      variant="secondary"
+  1214→                      className="text-[10px] h-5"
+  1215→                    >
+  1216→                      {s}
+  1217→                    </Badge>
+  1218→                  ))}
+  1219→                </div>
+  1220→                {p.results && (
+  1221→                  <div className="rounded-md bg-emerald-500/10 px-2 py-1.5 text-[11px] text-emerald-700">
+  1222→                    📈 {p.results}
+  1223→                  </div>
+  1224→                )}
+  1225→                <div className="flex items-center justify-between pt-2 border-t border-border/60">
+  1226→                  <Badge
+  1227→                    variant="outline"
+  1228→                    className="text-[10px] h-5 border-border/60"
+  1229→                  >
+  1230→                    <Eye className="size-2.5 mr-1" /> {p.visibility}
+  1231→                  </Badge>
+  1232→                  <div className="flex gap-1">
+  1233→                    <Button
+  1234→                      variant="ghost"
+  1235→                      size="icon"
+  1236→                      className="size-7"
+  1237→                      onClick={() => toast.info("Edit — demo")}
+  1238→                    >
+  1239→                      <Pencil className="size-3.5" />
+  1240→                    </Button>
+  1241→                    <Button
+  1242→                      variant="ghost"
+  1243→                      size="icon"
+  1244→                      className="size-7 text-rose-600 hover:text-rose-700"
+  1245→                      onClick={() => toast.error("Delete blocked in demo")}
+  1246→                    >
+  1247→                      <Trash2 className="size-3.5" />
+  1248→                    </Button>
+  1249→                  </div>
+  1250→                </div>
+  1251→              </div>
+  1252→            </Card>
+  1253→          </motion.div>
+  1254→        ))}
+  1255→      </div>
+  1256→    </div>
+  1257→  );
+  1258→}
+  1259→
+  1260→// ============================================================================
+  1261→// 4. Services tab
+  1262→// ============================================================================
+  1263→
+  1264→function ServicesTab({ me }: { me: (typeof freelancers)[number] }) {
+  1265→  const services = me.services;
+  1266→
+  1267→  return (
+  1268→    <div className="space-y-4">
+  1269→      <SectionTitle
+  1270→        title="Your Services"
+  1271→        subtitle={`${services.length} services · ${services.reduce(
+  1272→          (acc, s) => acc + s.ordersCount,
+  1273→          0
+  1274→        )} total orders`}
+  1275→        action={
+  1276→          <Button
+  1277→            className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+  1278→            onClick={() => toast.success("Service editor — demo")}
+  1279→          >
+  1280→            <Plus className="size-4" /> Create Service
+  1281→          </Button>
+  1282→        }
+  1283→      />
+  1284→      <div className="grid sm:grid-cols-2 gap-4">
+  1285→        {services.map((s, i) => (
+  1286→          <motion.div
+  1287→            key={s.id}
+  1288→            initial={{ opacity: 0, y: 12 }}
+  1289→            animate={{ opacity: 1, y: 0 }}
+  1290→            transition={{ delay: i * 0.05 }}
+  1291→          >
+  1292→            <Card className="khidma-card border-border/60 p-0 overflow-hidden">
+  1293→              <div className="flex">
+  1294→                <div className="relative w-32 shrink-0 bg-muted">
+  1295→                  <Image
+  1296→                    src={s.cover}
+  1297→                    alt={s.title}
+  1298→                    fill
+  1299→                    sizes="128px"
+  1300→                    className="object-cover"
+  1301→                  />
+  1302→                </div>
+  1303→                <div className="flex-1 p-4 min-w-0">
+  1304→                  <div className="flex items-start justify-between gap-2">
+  1305→                    <h3 className="font-semibold text-sm leading-tight line-clamp-2">
+  1306→                      {s.title}
+  1307→                    </h3>
+  1308→                    <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-200 text-[10px] h-5 shrink-0">
+  1309→                      PUBLISHED
+  1310→                    </Badge>
+  1311→                  </div>
+  1312→                  <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2">
+  1313→                    {s.description}
+  1314→                  </p>
+  1315→                  <div className="flex items-center gap-3 mt-3 text-[11px] text-muted-foreground">
+  1316→                    <span className="flex items-center gap-1">
+  1317→                      <Star className="size-3 fill-amber-400 text-amber-400" />
+  1318→                      {s.rating.toFixed(1)}
+  1319→                    </span>
+  1320→                    <span className="flex items-center gap-1">
+  1321→                      <FileText className="size-3" />
+  1322→                      {s.ordersCount} orders
+  1323→                    </span>
+  1324→                    <span className="flex items-center gap-1">
+  1325→                      <Clock className="size-3" />
+  1326→                      {s.deliveryDays}d delivery
+  1327→                    </span>
+  1328→                  </div>
+  1329→                  <div className="flex items-center justify-between pt-3 mt-2 border-t border-border/60">
+  1330→                    <div>
+  1331→                      <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+  1332→                        Starting at
+  1333→                      </div>
+  1334→                      <div className="text-sm font-bold text-foreground">
+  1335→                        {formatTND(s.startingPrice)}
+  1336→                      </div>
+  1337→                    </div>
+  1338→                    <div className="flex gap-1">
+  1339→                      <Button
+  1340→                        variant="ghost"
+  1341→                        size="icon"
+  1342→                        className="size-7"
+  1343→                        onClick={() => toast.info("Edit service — demo")}
+  1344→                      >
+  1345→                        <Pencil className="size-3.5" />
+  1346→                      </Button>
+  1347→                      <Button
+  1348→                        variant="ghost"
+  1349→                        size="icon"
+  1350→                        className="size-7"
+  1351→                        onClick={() => toast.info("Service paused — demo")}
+  1352→                      >
+  1353→                        <Pause className="size-3.5" />
+  1354→                      </Button>
+  1355→                      <Button
+  1356→                        variant="ghost"
+  1357→                        size="icon"
+  1358→                        className="size-7 text-rose-600 hover:text-rose-700"
+  1359→                        onClick={() => toast.error("Delete blocked in demo")}
+  1360→                      >
+  1361→                        <Trash2 className="size-3.5" />
+  1362→                      </Button>
+  1363→                    </div>
+  1364→                  </div>
+  1365→                </div>
+  1366→              </div>
+  1367→            </Card>
+  1368→          </motion.div>
+  1369→        ))}
+  1370→      </div>
+  1371→    </div>
+  1372→  );
+  1373→}
+  1374→
+  1375→// ============================================================================
+  1376→// 5. Proposals tab
+  1377→// ============================================================================
+  1378→
+  1379→type ProposalFilter = "all" | "active" | "awarded" | "declined";
+  1380→
+  1381→function ProposalsTab() {
+  1382→  const [filter, setFilter] = useState<ProposalFilter>("all");
+  1383→
+  1384→  const filtered = useMemo(() => {
+  1385→    if (filter === "all") return proposals;
+  1386→    if (filter === "active")
+  1387→      return proposals.filter((p) =>
+  1388→        ["PENDING", "VIEWED", "SHORTLISTED"].includes(p.status)
+  1389→      );
+  1390→    if (filter === "awarded") return proposals.filter((p) => p.status === "HIRED");
+  1391→    if (filter === "declined")
+  1392→      return proposals.filter((p) => p.status === "DECLINED");
+  1393→    return proposals;
+  1394→  }, [filter]);
+  1395→
+  1396→  const filters: { key: ProposalFilter; label: string; count: number }[] = [
+  1397→    { key: "all", label: "All", count: proposals.length },
+  1398→    {
+  1399→      key: "active",
+  1400→      label: "Active",
+  1401→      count: proposals.filter((p) =>
+  1402→        ["PENDING", "VIEWED", "SHORTLISTED"].includes(p.status)
+  1403→      ).length,
+  1404→    },
+  1405→    {
+  1406→      key: "awarded",
+  1407→      label: "Awarded",
+  1408→      count: proposals.filter((p) => p.status === "HIRED").length,
+  1409→    },
+  1410→    {
+  1411→      key: "declined",
+  1412→      label: "Declined",
+  1413→      count: proposals.filter((p) => p.status === "DECLINED").length,
+  1414→    },
+  1415→  ];
+  1416→
+  1417→  return (
+  1418→    <div className="space-y-4">
+  1419→      <SectionTitle
+  1420→        title="Proposals & Applications"
+  1421→        subtitle={`${proposals.length} proposals submitted · ${proposals.filter((p) => p.status === "HIRED").length} awarded`}
+  1422→      />
+  1423→      {/* Filter tabs */}
+  1424→      <div className="flex flex-wrap gap-1.5">
+  1425→        {filters.map((f) => (
+  1426→          <button
+  1427→            key={f.key}
+  1428→            onClick={() => setFilter(f.key)}
+  1429→            className={cn(
+  1430→              "rounded-lg px-3 py-1.5 text-xs font-medium border transition-colors",
+  1431→              filter === f.key
+  1432→                ? "bg-[#2b3d3d] text-white border-[#2b3d3d]"
+  1433→                : "bg-card text-muted-foreground border-border/60 hover:text-foreground hover:border-[#32504d]/30"
+  1434→            )}
+  1435→          >
+  1436→            {f.label}
+  1437→            <span
+  1438→              className={cn(
+  1439→                "ml-1.5 inline-flex items-center justify-center min-w-4 h-4 rounded-full px-1 text-[9px]",
+  1440→                filter === f.key
+  1441→                  ? "bg-white/20 text-white"
+  1442→                  : "bg-muted text-muted-foreground"
+  1443→              )}
+  1444→            >
+  1445→              {f.count}
+  1446→            </span>
+  1447→          </button>
+  1448→        ))}
+  1449→      </div>
+  1450→
+  1451→      {/* List */}
+  1452→      <Card className="border-border/60 p-0 overflow-hidden">
+  1453→        <ul className="divide-y divide-border/60">
+  1454→          {filtered.map((p, i) => {
+  1455→            const style = proposalStatusStyles[p.status];
+  1456→            return (
+  1457→              <motion.li
+  1458→                key={p.id}
+  1459→                initial={{ opacity: 0, y: 8 }}
+  1460→                animate={{ opacity: 1, y: 0 }}
+  1461→                transition={{ delay: i * 0.04 }}
+  1462→                className="p-4 hover:bg-muted/30 transition-colors"
+  1463→              >
+  1464→                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+  1465→                  <Avatar className="size-10 border border-border/60 shrink-0">
+  1466→                    <AvatarImage src={p.clientAvatar} alt={p.client} />
+  1467→                    <AvatarFallback>{p.client.charAt(0)}</AvatarFallback>
+  1468→                  </Avatar>
+  1469→                  <div className="flex-1 min-w-0">
+  1470→                    <div className="flex items-center gap-2 flex-wrap">
+  1471→                      <h3 className="text-sm font-semibold text-foreground line-clamp-1">
+  1472→                        {p.jobTitle}
+  1473→                      </h3>
+  1474→                      <Badge
+  1475→                        variant="outline"
+  1476→                        className={cn("text-[10px] h-5", style.className)}
+  1477→                      >
+  1478→                        {style.label}
+  1479→                      </Badge>
+  1480→                    </div>
+  1481→                    <p className="text-xs text-muted-foreground mt-0.5">
+  1482→                      {p.client} · submitted {p.submitted}
+  1483→                    </p>
+  1484→                    <p className="text-xs text-muted-foreground/80 mt-1 line-clamp-2">
+  1485→                      “{p.coverLetter}”
+  1486→                    </p>
+  1487→                  </div>
+  1488→                  <div className="text-right shrink-0 sm:w-24">
+  1489→                    <div className="text-sm font-bold text-foreground">
+  1490→                      {formatTND(p.bid)}
+  1491→                      {p.isHourly ? (
+  1492→                        <span className="text-[10px] font-normal text-muted-foreground">
+  1493→                          /hr
+  1494→                        </span>
+  1495→                      ) : null}
+  1496→                    </div>
+  1497→                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+  1498→                      Bid
+  1499→                    </div>
+  1500→                  </div>
+  1501→                </div>
+  1502→              </motion.li>
+  1503→            );
+  1504→          })}
+  1505→          {filtered.length === 0 && (
+  1506→            <li className="p-8 text-center text-sm text-muted-foreground">
+  1507→              No proposals in this filter yet.
+  1508→            </li>
+  1509→          )}
+  1510→        </ul>
+  1511→      </Card>
+  1512→    </div>
+  1513→  );
+  1514→}
+  1515→
+  1516→// ============================================================================
+  1517→// 6. Contracts tab
+  1518→// ============================================================================
+  1519→
+  1520→function ContractsTab() {
+  1521→  const [expanded, setExpanded] = useState<string | null>(contracts[0]?.id ?? null);
+  1522→
+  1523→  return (
+  1524→    <div className="space-y-4">
+  1525→      <SectionTitle
+  1526→        title="Contracts"
+  1527→        subtitle={`${contracts.length} contracts · ${contracts.filter((c) => c.status === "IN_PROGRESS" || c.status === "FUNDED").length} active`}
+  1528→      />
+  1529→      <div className="space-y-3">
+  1530→        {contracts.map((c, i) => {
+  1531→          const style = contractStatusStyles[c.status];
+  1532→          const isOpen = expanded === c.id;
+  1533→          const progressPct = c.milestonesTotal
+  1534→            ? (c.milestonesDone / c.milestonesTotal) * 100
+  1535→            : 0;
+  1536→          return (
+  1537→            <motion.div
+  1538→              key={c.id}
+  1539→              initial={{ opacity: 0, y: 8 }}
+  1540→              animate={{ opacity: 1, y: 0 }}
+  1541→              transition={{ delay: i * 0.04 }}
+  1542→            >
+  1543→              <Card className="border-border/60 p-0 overflow-hidden">
+  1544→                <button
+  1545→                  onClick={() => setExpanded(isOpen ? null : c.id)}
+  1546→                  className="w-full text-left p-4 hover:bg-muted/30 transition-colors"
+  1547→                >
+  1548→                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+  1549→                    <Avatar className="size-10 border border-border/60 shrink-0">
+  1550→                      <AvatarImage src={c.clientAvatar} alt={c.client} />
+  1551→                      <AvatarFallback>{c.client.charAt(0)}</AvatarFallback>
+  1552→                    </Avatar>
+  1553→                    <div className="flex-1 min-w-0">
+  1554→                      <div className="flex items-center gap-2 flex-wrap">
+  1555→                        <h3 className="text-sm font-semibold text-foreground line-clamp-1">
+  1556→                          {c.title}
+  1557→                        </h3>
+  1558→                        <Badge
+  1559→                          variant="outline"
+  1560→                          className={cn("text-[10px] h-5", style.className)}
+  1561→                        >
+  1562→                          {style.label}
+  1563→                        </Badge>
+  1564→                      </div>
+  1565→                      <p className="text-xs text-muted-foreground mt-0.5">
+  1566→                        {c.client} · started {c.startedAt}
+  1567→                      </p>
+  1568→                      <div className="flex items-center gap-3 mt-2 text-[11px] text-muted-foreground">
+  1569→                        <span className="flex items-center gap-1">
+  1570→                          <FileSignature className="size-3" />
+  1571→                          {c.milestonesDone}/{c.milestonesTotal} milestones
+  1572→                        </span>
+  1573→                        {c.nextDue !== "—" && (
+  1574→                          <span className="flex items-center gap-1 text-amber-700">
+  1575→                            <Calendar className="size-3" />
+  1576→                            Next: {c.nextDue}
+  1577→                          </span>
+  1578→                        )}
+  1579→                      </div>
+  1580→                      <Progress
+  1581→                        value={progressPct}
+  1582→                        className="h-1.5 mt-2 bg-muted [&>div]:bg-[#32504d]"
+  1583→                      />
+  1584→                    </div>
+  1585→                    <div className="text-right shrink-0 sm:w-28">
+  1586→                      <div className="text-sm font-bold text-foreground">
+  1587→                        {formatTND(c.totalValue)}
+  1588→                      </div>
+  1589→                      <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+  1590→                        Total value
+  1591→                      </div>
+  1592→                    </div>
+  1593→                    <ChevronDown
+  1594→                      className={cn(
+  1595→                        "size-4 text-muted-foreground transition-transform shrink-0",
+  1596→                        isOpen && "rotate-180"
+  1597→                      )}
+  1598→                    />
+  1599→                  </div>
+  1600→                </button>
+  1601→                <AnimatePresence initial={false}>
+  1602→                  {isOpen && (
+  1603→                    <motion.div
+  1604→                      initial={{ height: 0, opacity: 0 }}
+  1605→                      animate={{ height: "auto", opacity: 1 }}
+  1606→                      exit={{ height: 0, opacity: 0 }}
+  1607→                      transition={{ duration: 0.2 }}
+  1608→                      className="overflow-hidden border-t border-border/60 bg-muted/30"
+  1609→                    >
+  1610→                      <div className="p-4 space-y-2">
+  1611→                        <p className="text-xs font-semibold text-foreground mb-2">
+  1612→                          Milestones
+  1613→                        </p>
+  1614→                        {c.milestones.map((m, idx) => {
+  1615→                          const mStyle = milestoneStatusStyles[m.status];
+  1616→                          return (
+  1617→                            <div
+  1618→                              key={idx}
+  1619→                              className="flex items-center gap-3 rounded-lg border border-border/60 bg-card p-3"
+  1620→                            >
+  1621→                              <div className="flex items-center justify-center size-7 rounded-full bg-[#32504d]/10 text-xs font-bold text-[#32504d] shrink-0">
+  1622→                                {idx + 1}
+  1623→                              </div>
+  1624→                              <div className="flex-1 min-w-0">
+  1625→                                <p className="text-sm font-medium text-foreground truncate">
+  1626→                                  {m.title}
+  1627→                                </p>
+  1628→                                <p className="text-[11px] text-muted-foreground">
+  1629→                                  Due {m.due}
+  1630→                                </p>
+  1631→                              </div>
+  1632→                              <div className="text-right shrink-0">
+  1633→                                <div className="text-sm font-semibold text-foreground">
+  1634→                                  {formatTND(m.amount)}
+  1635→                                </div>
+  1636→                                <Badge
+  1637→                                  variant="outline"
+  1638→                                  className={cn(
+  1639→                                    "text-[9px] h-4 mt-0.5",
+  1640→                                    mStyle.className
+  1641→                                  )}
+  1642→                                >
+  1643→                                  {mStyle.label}
+  1644→                                </Badge>
+  1645→                              </div>
+  1646→                            </div>
+  1647→                          );
+  1648→                        })}
+  1649→                      </div>
+  1650→                    </motion.div>
+  1651→                  )}
+  1652→                </AnimatePresence>
+  1653→              </Card>
+  1654→            </motion.div>
+  1655→          );
+  1656→        })}
+  1657→      </div>
+  1658→    </div>
+  1659→  );
+  1660→}
+  1661→
+  1662→// ============================================================================
+  1663→// 7. Wallet & Earnings tab
+  1664→// ============================================================================
+  1665→
+  1666→function WalletTab() {
+  1667→  const { openWallet } = useApp();
+  1668→
+  1669→  return (
+  1670→    <div className="space-y-6">
+  1671→      <SectionTitle
+  1672→        title="Wallet & Earnings"
+  1673→        subtitle="Track every dinar. Withdraw any time."
+  1674→        action={
+  1675→          <Button
+  1676→            className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+  1677→            onClick={openWallet}
+  1678→          >
+  1679→            <Banknote className="size-4" /> Request Withdrawal
+  1680→          </Button>
+  1681→        }
+  1682→      />
+  1683→
+  1684→      {/* Balance cards */}
+  1685→      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+  1686→        {walletBalances.map((b, i) => {
+  1687→          const IconMap: Record<string, LucideIcon> = {
+  1688→            available: CheckCircle2,
+  1689→            pending: Clock,
+  1690→            processing: TrendingUp,
+  1691→            withdrawn: PiggyBank,
+  1692→          };
+  1693→          const Icon = IconMap[b.key];
+  1694→          return (
+  1695→            <motion.div
+  1696→              key={b.key}
+  1697→              initial={{ opacity: 0, y: 12 }}
+  1698→              animate={{ opacity: 1, y: 0 }}
+  1699→              transition={{ delay: i * 0.05 }}
+  1700→            >
+  1701→              <Card className="p-4 border-border/60 h-full">
+  1702→                <div className="flex items-center gap-2">
+  1703→                  <span
+  1704→                    className="size-9 rounded-lg flex items-center justify-center"
+  1705→                    style={{ backgroundColor: `${b.color}15` }}
+  1706→                  >
+  1707→                    <Icon className="size-4" style={{ color: b.color }} />
+  1708→                  </span>
+  1709→                  <span className="text-xs font-semibold">{b.label}</span>
+  1710→                </div>
+  1711→                <div className="mt-3 text-2xl font-bold font-display text-foreground">
+  1712→                  {formatTND(b.value)}
+  1713→                </div>
+  1714→                <div className="text-[10px] text-muted-foreground">{b.sub}</div>
+  1715→              </Card>
+  1716→            </motion.div>
+  1717→          );
+  1718→        })}
+  1719→      </div>
+  1720→
+  1721→      {/* Earnings chart */}
+  1722→      <Card className="p-5 border-border/60">
+  1723→        <div className="flex items-start justify-between gap-3 mb-4">
+  1724→          <div>
+  1725→            <h3 className="font-display text-lg font-bold">Earnings vs Withdrawals</h3>
+  1726→            <p className="text-xs text-muted-foreground">Last 6 months</p>
+  1727→          </div>
+  1728→          <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-200 gap-0.5">
+  1729→            <TrendingUp className="size-3" />+{kpis.monthlyGrowth}%
+  1730→          </Badge>
+  1731→        </div>
+  1732→        <div className="h-[280px] w-full">
+  1733→          <ResponsiveContainer width="100%" height="100%">
+  1734→            <BarChart
+  1735→              data={earningsMonthly}
+  1736→              margin={{ top: 8, right: 8, left: -8, bottom: 0 }}
+  1737→              barGap={4}
+  1738→            >
+  1739→              <CartesianGrid
+  1740→                strokeDasharray="3 3"
+  1741→                stroke="#e3e8e6"
+  1742→                vertical={false}
+  1743→              />
+  1744→              <XAxis
+  1745→                dataKey="month"
+  1746→                stroke="#6e8580"
+  1747→                fontSize={11}
+  1748→                tickLine={false}
+  1749→                axisLine={false}
+  1750→              />
+  1751→              <YAxis
+  1752→                stroke="#6e8580"
+  1753→                fontSize={11}
+  1754→                tickFormatter={(v) => `${v / 1000}k`}
+  1755→                tickLine={false}
+  1756→                axisLine={false}
+  1757→              />
+  1758→              <Tooltip
+  1759→                cursor={{ fill: "#32504d10" }}
+  1760→                content={<ChartTooltip />}
+  1761→              />
+  1762→              <Bar
+  1763→                dataKey="earnings"
+  1764→                name="Earnings"
+  1765→                fill="#2b3d3d"
+  1766→                radius={[4, 4, 0, 0]}
+  1767→                maxBarSize={28}
+  1768→              />
+  1769→              <Bar
+  1770→                dataKey="withdrawals"
+  1771→                name="Withdrawals"
+  1772→                fill="#748684"
+  1773→                radius={[4, 4, 0, 0]}
+  1774→                maxBarSize={28}
+  1775→              />
+  1776→            </BarChart>
+  1777→          </ResponsiveContainer>
+  1778→        </div>
+  1779→      </Card>
+  1780→
+  1781→      {/* Transactions table */}
+  1782→      <Card className="border-border/60 p-0 overflow-hidden">
+  1783→        <div className="p-5 pb-3 flex items-center justify-between">
+  1784→          <h3 className="font-display text-lg font-bold">Recent Transactions</h3>
+  1785→          <Badge variant="outline" className="text-[10px]">
+  1786→            Last 30 days
+  1787→          </Badge>
+  1788→        </div>
+  1789→        <div className="overflow-x-auto">
+  1790→          <Table>
+  1791→            <TableHeader>
+  1792→              <TableRow className="hover:bg-transparent">
+  1793→                <TableHead className="text-[11px] uppercase tracking-wider">
+  1794→                  Date
+  1795→                </TableHead>
+  1796→                <TableHead className="text-[11px] uppercase tracking-wider">
+  1797→                  Description
+  1798→                </TableHead>
+  1799→                <TableHead className="text-[11px] uppercase tracking-wider hidden sm:table-cell">
+  1800→                  Project
+  1801→                </TableHead>
+  1802→                <TableHead className="text-[11px] uppercase tracking-wider text-right">
+  1803→                  Amount
+  1804→                </TableHead>
+  1805→                <TableHead className="text-[11px] uppercase tracking-wider hidden md:table-cell">
+  1806→                  Status
+  1807→                </TableHead>
+  1808→              </TableRow>
+  1809→            </TableHeader>
+  1810→            <TableBody>
+  1811→              {walletTransactions.map((t) => {
+  1812→                const isCredit = t.type === "credit";
+  1813→                return (
+  1814→                  <TableRow key={t.id} className="text-xs">
+  1815→                    <TableCell className="whitespace-nowrap text-muted-foreground">
+  1816→                      {t.date}
+  1817→                    </TableCell>
+  1818→                    <TableCell className="font-medium text-foreground">
+  1819→                      <div className="flex items-center gap-2">
+  1820→                        <span
+  1821→                          className={cn(
+  1822→                            "size-6 rounded-full flex items-center justify-center shrink-0",
+  1823→                            isCredit
+  1824→                              ? "bg-emerald-500/10 text-emerald-700"
+  1825→                              : "bg-rose-500/10 text-rose-700"
+  1826→                          )}
+  1827→                        >
+  1828→                          {isCredit ? (
+  1829→                            <ArrowDownLeft className="size-3" />
+  1830→                          ) : (
+  1831→                            <ArrowUpRight className="size-3" />
+  1832→                          )}
+  1833→                        </span>
+  1834→                        <span className="truncate max-w-[200px]">{t.desc}</span>
+  1835→                      </div>
+  1836→                    </TableCell>
+  1837→                    <TableCell className="hidden sm:table-cell text-muted-foreground">
+  1838→                      {t.project}
+  1839→                    </TableCell>
+  1840→                    <TableCell
+  1841→                      className={cn(
+  1842→                        "text-right font-semibold whitespace-nowrap",
+  1843→                        isCredit ? "text-emerald-700" : "text-rose-700"
+  1844→                      )}
+  1845→                    >
+  1846→                      {isCredit ? "+" : "−"}
+  1847→                      {formatTND(t.amount)}
+  1848→                    </TableCell>
+  1849→                    <TableCell className="hidden md:table-cell">
+  1850→                      <Badge
+  1851→                        variant="outline"
+  1852→                        className={cn(
+  1853→                          "text-[9px] h-5",
+  1854→                          txnStatusStyles[t.status]
+  1855→                        )}
+  1856→                      >
+  1857→                        {t.status}
+  1858→                      </Badge>
+  1859→                    </TableCell>
+  1860→                  </TableRow>
+  1861→                );
+  1862→              })}
+  1863→            </TableBody>
+  1864→          </Table>
+  1865→        </div>
+  1866→      </Card>
+  1867→
+  1868→      {/* Withdrawal methods */}
+  1869→      <Card className="p-5 border-border/60">
+  1870→        <SectionTitle
+  1871→          title="Withdrawal Methods"
+  1872→          subtitle="Pick your preferred way to receive your earnings"
+  1873→        />
+  1874→        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  1875→          {withdrawalMethods.map((m) => (
+  1876→            <div
+  1877→              key={m.id}
+  1878→              className="rounded-xl border border-border/60 p-3 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+  1879→            >
+  1880→              <div className="flex items-start gap-2.5">
+  1881→                <span className="size-9 rounded-lg bg-muted flex items-center justify-center text-lg shrink-0">
+  1882→                  {m.logo}
+  1883→                </span>
+  1884→                <div className="min-w-0 flex-1">
+  1885→                  <p className="text-sm font-semibold truncate">{m.name}</p>
+  1886→                  <p className="text-[10px] text-muted-foreground">
+  1887→                    {m.type} · {m.fee} fee
+  1888→                  </p>
+  1889→                  <div className="flex items-center gap-1 mt-1 text-[10px] text-[#32504d]">
+  1890→                    <Clock className="size-2.5" />
+  1891→                    {m.time}
+  1892→                  </div>
+  1893→                </div>
+  1894→              </div>
+  1895→            </div>
+  1896→          ))}
+  1897→        </div>
+  1898→        <div className="mt-4 rounded-xl border border-[#32504d]/20 bg-[#32504d]/5 p-3 flex gap-2.5">
+  1899→          <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+  1900→          <p className="text-xs text-muted-foreground leading-relaxed">
+  1901→            Khidma uses secure escrow for all transactions. Withdrawals are
+  1902→            processed within 1-3 business days depending on the method chosen.
+  1903→          </p>
+  1904→        </div>
+  1905→      </Card>
+  1906→    </div>
+  1907→  );
+  1908→}
+  1909→
+  1910→// ============================================================================
+  1911→// 8. Reviews tab
+  1912→// ============================================================================
+  1913→
+  1914→function ReviewsTab() {
+  1915→  // Show all reviews from data plus Amira-specific
+  1916→  const amiraReviews = reviews.slice(0, 4);
+  1917→
+  1918→  return (
+  1919→    <div className="space-y-6">
+  1920→      {/* Summary */}
+  1921→      <Card className="p-5 sm:p-6 border-border/60">
+  1922→        <div className="grid sm:grid-cols-2 gap-6 items-center">
+  1923→          {/* Big number */}
+  1924→          <div className="text-center sm:text-left">
+  1925→            <div className="flex items-end gap-2 justify-center sm:justify-start">
+  1926→              <span className="font-display text-6xl font-bold text-foreground">
+  1927→                {ratingMetrics.overall.toFixed(1)}
+  1928→              </span>
+  1929→              <span className="text-muted-foreground mb-2">/ 5</span>
+  1930→            </div>
+  1931→            <div className="flex items-center gap-1 mt-2 justify-center sm:justify-start">
+  1932→              {Array.from({ length: 5 }).map((_, i) => (
+  1933→                <Star
+  1934→                  key={i}
+  1935→                  className={cn(
+  1936→                    "size-5",
+  1937→                    i < Math.round(ratingMetrics.overall)
+  1938→                      ? "fill-amber-400 text-amber-400"
+  1939→                      : "text-muted-foreground/30"
+  1940→                  )}
+  1941→                />
+  1942→              ))}
+  1943→              <span className="ml-2 text-sm text-muted-foreground">
+  1944→                {ratingMetrics.reviewsCount} reviews
+  1945→              </span>
+  1946→            </div>
+  1947→            <p className="text-xs text-muted-foreground mt-3 max-w-sm">
+  1948→              Based on client feedback collected after every completed contract.
+  1949→            </p>
+  1950→          </div>
+  1951→
+  1952→          {/* Metrics breakdown */}
+  1953→          <div className="space-y-3">
+  1954→            {ratingMetrics.metrics.map((m) => {
+  1955→              const pct = (m.value / m.max) * 100;
+  1956→              return (
+  1957→                <div key={m.key}>
+  1958→                  <div className="flex items-center justify-between mb-1.5">
+  1959→                    <span className="text-xs font-medium text-foreground">
+  1960→                      {m.label}
+  1961→                    </span>
+  1962→                    <span className="text-xs font-semibold text-foreground">
+  1963→                      {m.value.toFixed(2)}
+  1964→                    </span>
+  1965→                  </div>
+  1966→                  <Progress
+  1967→                    value={pct}
+  1968→                    className="h-2 bg-muted [&>div]:bg-gradient-to-r [&>div]:from-[#748684] [&>div]:to-[#2b3d3d]"
+  1969→                  />
+  1970→                </div>
+  1971→              );
+  1972→            })}
+  1973→          </div>
+  1974→        </div>
+  1975→      </Card>
+  1976→
+  1977→      {/* Reviews list */}
+  1978→      <SectionTitle title="Client Reviews" subtitle={`${amiraReviews.length} most recent`} />
+  1979→      <div className="space-y-4">
+  1980→        {amiraReviews.map((r, i) => (
+  1981→          <motion.div
+  1982→            key={r.id}
+  1983→            initial={{ opacity: 0, y: 8 }}
+  1984→            animate={{ opacity: 1, y: 0 }}
+  1985→            transition={{ delay: i * 0.04 }}
+  1986→          >
+  1987→            <Card className="p-5 border-border/60">
+  1988→              <div className="flex items-start gap-3">
+  1989→                <Avatar className="size-10 border border-border/60 shrink-0">
+  1990→                  <AvatarImage src={r.fromAvatar} alt={r.fromName} />
+  1991→                  <AvatarFallback>{r.fromName.charAt(0)}</AvatarFallback>
+  1992→                </Avatar>
+  1993→                <div className="flex-1 min-w-0">
+  1994→                  <div className="flex items-center justify-between gap-2 flex-wrap">
+  1995→                    <div>
+  1996→                      <p className="text-sm font-semibold text-foreground">
+  1997→                        {r.fromName}
+  1998→                      </p>
+  1999→                      <p className="text-[11px] text-muted-foreground">
+  2000→                        {r.project} · {r.date}
+
+[showing lines 1-2000 of 2416; use offset=2001 with limit to continue reading]

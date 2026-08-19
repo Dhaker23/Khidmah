@@ -48,6 +48,10 @@ interface ModalState {
   sharePayload: SharePayload | null;
   reportOpen: boolean;
   reportPayload: ReportPayload | null;
+  helpOpen: boolean;
+  proOpen: boolean;
+  referralOpen: boolean;
+  privacyOpen: boolean;
 }
 
 export type FavoriteType = "freelancer" | "service" | "job";
@@ -108,6 +112,14 @@ interface AppState {
   closeShare: () => void;
   openReport: (payload: ReportPayload) => void;
   closeReport: () => void;
+  openHelp: () => void;
+  closeHelp: () => void;
+  openPro: () => void;
+  closePro: () => void;
+  openReferral: () => void;
+  closeReferral: () => void;
+  openPrivacy: () => void;
+  closePrivacy: () => void;
   // demo logged-in user (no real auth)
   currentUser: { name: string; type: "freelancer" | "client"; avatar: string } | null;
   login: (name: string, type: "freelancer" | "client") => void;
@@ -215,6 +227,10 @@ export const useApp = create<AppState>((set) => ({
     sharePayload: null,
     reportOpen: false,
     reportPayload: null,
+    helpOpen: false,
+    proOpen: false,
+    referralOpen: false,
+    privacyOpen: false,
   },
   openAuth: (mode = "login") =>
     set((s) => ({ modal: { ...s.modal, authOpen: true, authMode: mode } })),
@@ -323,6 +339,14 @@ export const useApp = create<AppState>((set) => ({
   openReport: (payload) =>
     set((s) => ({ modal: { ...s.modal, reportOpen: true, reportPayload: payload } })),
   closeReport: () => set((s) => ({ modal: { ...s.modal, reportOpen: false } })),
+  openHelp: () => set((s) => ({ modal: { ...s.modal, helpOpen: true } })),
+  closeHelp: () => set((s) => ({ modal: { ...s.modal, helpOpen: false } })),
+  openPro: () => set((s) => ({ modal: { ...s.modal, proOpen: true } })),
+  closePro: () => set((s) => ({ modal: { ...s.modal, proOpen: false } })),
+  openReferral: () => set((s) => ({ modal: { ...s.modal, referralOpen: true } })),
+  closeReferral: () => set((s) => ({ modal: { ...s.modal, referralOpen: false } })),
+  openPrivacy: () => set((s) => ({ modal: { ...s.modal, privacyOpen: true } })),
+  closePrivacy: () => set((s) => ({ modal: { ...s.modal, privacyOpen: false } })),
   currentUser: null,
   login: (name, type) =>
     set({

@@ -102,6 +102,7 @@ import {
   VerificationBadge,
   VerificationChecklist,
 } from "@/components/khidma/verification";
+import { AchievementBadges } from "@/components/khidma/achievement-badges";
 import {
   kpis,
   earningsMonthly,
@@ -567,7 +568,7 @@ function OverviewTab({
   me: (typeof freelancers)[number];
   onTabChange: (t: TabKey) => void;
 }) {
-  const { openWallet, setView } = useApp();
+  const { openWallet, setView, openFreelancer } = useApp();
 
   const kpiCards = [
     {
@@ -900,6 +901,34 @@ function OverviewTab({
           </div>
         </Card>
       </div>
+
+      {/* Your Achievements — compact row of unlocked/locked badges */}
+      <Card className="p-5 border-border/60">
+        <SectionTitle
+          title="Your Achievements"
+          subtitle="Badges earned through real activity on Khidma"
+          action={
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-8 text-xs"
+              onClick={() => openFreelancer(me.id)}
+            >
+              View all
+            </Button>
+          }
+        />
+        <AchievementBadges
+          freelancerId={me.id}
+          variant="row"
+          className="mb-3"
+        />
+        <p className="text-[11px] text-muted-foreground">
+          Hover any badge to see its unlock criteria. Locked badges are
+          grayscale — keep completing projects, collecting reviews, and
+          responding fast to unlock more.
+        </p>
+      </Card>
     </div>
   );
 }

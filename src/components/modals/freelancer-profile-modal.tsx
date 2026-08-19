@@ -54,6 +54,7 @@ import {
   type PortfolioItem,
 } from "@/lib/khidma-data";
 import { VerificationBadge, VerificationChecklist } from "@/components/khidma/verification";
+import { AchievementBadges } from "@/components/khidma/achievement-badges";
 import { cn } from "@/lib/utils";
 
 const availabilityConfig = {
@@ -489,6 +490,7 @@ export function FreelancerProfileModal() {
                   { v: "portfolio", l: `Portfolio (${f.portfolio.length})` },
                   { v: "services", l: `Services (${f.services.length})` },
                   { v: "reviews", l: `Reviews (${f.reviewsCount})` },
+                  { v: "achievements", l: "Achievements" },
                 ].map((t) => (
                   <TabsTrigger
                     key={t.v}
@@ -813,6 +815,38 @@ export function FreelancerProfileModal() {
                           </div>
                         </motion.div>
                       ))}
+                    </div>
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              <TabsContent value="achievements" className="mt-0">
+                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+                  <div className="p-4 sm:p-5 space-y-4">
+                    <div>
+                      <h3 className="text-sm font-semibold inline-flex items-center gap-1.5">
+                        <Award className="size-4 text-[#32504d]" />
+                        Achievements
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Badges earned through real work on Khidma — projects,
+                        reviews, response speed, verification, and community
+                        contribution.
+                      </p>
+                    </div>
+                    <AchievementBadges
+                      freelancerId={f.id}
+                      variant="grid"
+                      columns={3}
+                    />
+                    <div className="rounded-xl border border-border/60 bg-muted/30 p-3 text-[11px] text-muted-foreground">
+                      <span className="font-medium text-foreground">
+                        How badges work:
+                      </span>{" "}
+                      Each badge is computed from verified activity — completed
+                      projects, client reviews, response time, portfolio size,
+                      and verification status. Locked badges show progress
+                      towards the next unlock.
                     </div>
                   </div>
                 </ScrollArea>

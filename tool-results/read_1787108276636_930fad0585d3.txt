@@ -1,0 +1,860 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useState } from "react";
+     4→import Image from "next/image";
+     5→import { motion, AnimatePresence } from "framer-motion";
+     6→import {
+     7→  Dialog,
+     8→  DialogContent,
+     9→  DialogPortal,
+    10→  DialogOverlay,
+    11→  DialogTitle,
+    12→  DialogDescription,
+    13→} from "@/components/ui/dialog";
+    14→import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+    15→import { Button } from "@/components/ui/button";
+    16→import { Badge } from "@/components/ui/badge";
+    17→import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+    18→import { ScrollArea } from "@/components/ui/scroll-area";
+    19→import {
+    20→  Star,
+    21→  MapPin,
+    22→  Clock,
+    23→  Briefcase,
+    24→  Mail,
+    25→  Eye,
+    26→  ExternalLink,
+    27→  Github,
+    28→  Calendar,
+    29→  CheckCircle2,
+    30→  X,
+    31→  Globe,
+    32→  Award,
+    33→  GraduationCap,
+    34→  Send,
+    35→  Bookmark,
+    36→  MessageSquare,
+    37→  FileText,
+    38→  ChevronRight,
+    39→  Share2,
+    40→  Flag,
+    41→} from "lucide-react";
+    42→import {
+    43→  Tooltip,
+    44→  TooltipTrigger,
+    45→  TooltipContent,
+    46→} from "@/components/ui/tooltip";
+    47→import { useApp } from "@/lib/store";
+    48→import { toast } from "sonner";
+    49→import {
+    50→  getFreelancerById,
+    51→  reviews as allReviews,
+    52→  formatTND,
+    53→  formatNumber,
+    54→  type PortfolioItem,
+    55→} from "@/lib/khidma-data";
+    56→import { VerificationBadge, VerificationChecklist } from "@/components/khidma/verification";
+    57→import { cn } from "@/lib/utils";
+    58→
+    59→const availabilityConfig = {
+    60→  available: {
+    61→    label: "Available for work",
+    62→    color: "bg-emerald-500/10 text-emerald-700 border-emerald-200",
+    63→  },
+    64→  limited: {
+    65→    label: "Limited availability",
+    66→    color: "bg-amber-500/10 text-amber-700 border-amber-200",
+    67→  },
+    68→  booked: {
+    69→    label: "Currently booked",
+    70→    color: "bg-rose-500/10 text-rose-700 border-rose-200",
+    71→  },
+    72→} as const;
+    73→
+    74→const portTypeMeta: Record<
+    75→  PortfolioItem["type"],
+    76→  { label: string; icon: typeof Eye }
+    77→> = {
+    78→  image: { label: "Image", icon: Eye },
+    79→  video: { label: "Video", icon: Eye },
+    80→  audio: { label: "Audio", icon: Eye },
+    81→  url: { label: "Link", icon: ExternalLink },
+    82→  github: { label: "Repository", icon: Github },
+    83→};
+    84→
+    85→function Stars({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {
+    86→  const s = size === "md" ? "size-4" : "size-3";
+    87→  return (
+    88→    <div className="inline-flex items-center gap-0.5">
+    89→      {[1, 2, 3, 4, 5].map((i) => (
+    90→        <Star
+    91→          key={i}
+    92→          className={cn(
+    93→            s,
+    94→            i <= Math.round(rating)
+    95→              ? "fill-amber-400 text-amber-400"
+    96→              : "fill-muted text-muted-foreground/40"
+    97→          )}
+    98→        />
+    99→      ))}
+   100→    </div>
+   101→  );
+   102→}
+   103→
+   104→function PortfolioCard({ item }: { item: PortfolioItem }) {
+   105→  const [expanded, setExpanded] = useState(false);
+   106→  const meta = portTypeMeta[item.type];
+   107→  const Icon = meta.icon;
+   108→
+   109→  const verifMap = {
+   110→    UNVERIFIED: { label: "Unverified", color: "bg-muted text-muted-foreground" },
+   111→    SELF_DECLARED: { label: "Self-declared", color: "bg-amber-500/10 text-amber-700" },
+   112→    ADMIN_VERIFIED: {
+   113→      label: "Admin verified",
+   114→      color: "bg-[#32504d]/10 text-[#32504d]",
+   115→    },
+   116→    EXTERNALLY_VERIFIED: {
+   117→      label: "Externally verified",
+   118→      color: "bg-[#32504d]/10 text-[#32504d]",
+   119→    },
+   120→  } as const;
+   121→  const v = verifMap[item.verification];
+   122→
+   123→  return (
+   124→    <motion.div
+   125→      layout
+   126→      className="rounded-xl border border-border/70 overflow-hidden bg-card"
+   127→    >
+   128→      <div className="relative aspect-[16/9] bg-muted overflow-hidden">
+   129→        {item.type === "github" ? (
+   130→          <div className="size-full flex items-center justify-center bg-[#192d2f]">
+   131→            <Github className="size-10 text-white/70" />
+   132→          </div>
+   133→        ) : (
+   134→          <Image
+   135→            src={item.cover}
+   136→            alt={item.title}
+   137→            fill
+   138→            sizes="(max-width: 768px) 100vw, 50vw"
+   139→            className="object-cover"
+   140→          />
+   141→        )}
+   142→        <div className="absolute top-2 left-2">
+   143→          <Badge className="bg-white/90 text-[#2b3d3d] hover:bg-white/90 text-[10px] gap-1">
+   144→            <Icon className="size-2.5" />
+   145→            {meta.label}
+   146→          </Badge>
+   147→        </div>
+   148→        <div className="absolute top-2 right-2">
+   149→          <Badge className={cn("text-[10px] gap-0.5 border-0", v.color)}>
+   150→            <CheckCircle2 className="size-2.5" />
+   151→            {v.label}
+   152→          </Badge>
+   153→        </div>
+   154→      </div>
+   155→      <div className="p-4">
+   156→        <div className="flex items-start justify-between gap-3">
+   157→          <div>
+   158→            <h4 className="text-sm font-semibold leading-snug">{item.title}</h4>
+   159→            <p className="text-[11px] text-muted-foreground mt-0.5">
+   160→              {item.role} · {item.category}
+   161→            </p>
+   162→          </div>
+   163→          <Button
+   164→            size="sm"
+   165→            variant="ghost"
+   166→            className="h-7 px-2 shrink-0"
+   167→            onClick={() => setExpanded((e) => !e)}
+   168→          >
+   169→            {expanded ? "Hide" : "View"}
+   170→            <ChevronRight
+   171→              className={cn(
+   172→                "size-3.5 transition-transform",
+   173→                expanded && "rotate-90"
+   174→              )}
+   175→            />
+   176→          </Button>
+   177→        </div>
+   178→
+   179→        <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+   180→          {item.description}
+   181→        </p>
+   182→
+   183→        <div className="flex flex-wrap gap-1 mt-2.5">
+   184→          {item.skills.map((s) => (
+   185→            <Badge
+   186→              key={s}
+   187→              variant="outline"
+   188→              className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+   189→            >
+   190→              {s}
+   191→            </Badge>
+   192→          ))}
+   193→        </div>
+   194→
+   195→        <AnimatePresence>
+   196→          {expanded && (
+   197→            <motion.div
+   198→              initial={{ opacity: 0, height: 0 }}
+   199→              animate={{ opacity: 1, height: "auto" }}
+   200→              exit={{ opacity: 0, height: 0 }}
+   201→              className="overflow-hidden"
+   202→            >
+   203→              <div className="mt-3 pt-3 border-t border-border/60 space-y-2">
+   204→                {item.results && (
+   205→                  <div className="rounded-md bg-[#32504d]/5 border border-[#32504d]/20 p-2.5">
+   206→                    <p className="text-[10px] uppercase font-semibold text-[#32504d] tracking-wider">
+   207→                      Results achieved
+   208→                    </p>
+   209→                    <p className="text-xs text-foreground mt-0.5">{item.results}</p>
+   210→                  </div>
+   211→                )}
+   212→                <p className="text-xs text-muted-foreground leading-relaxed">
+   213→                  {item.description}
+   214→                </p>
+   215→                <div className="flex gap-2 pt-1">
+   216→                  {item.liveUrl && (
+   217→                    <a
+   218→                      href={item.liveUrl}
+   219→                      target="_blank"
+   220→                      rel="noopener noreferrer"
+   221→                      className="inline-flex items-center gap-1 text-xs text-[#32504d] hover:underline"
+   222→                    >
+   223→                      <ExternalLink className="size-3" /> Live
+   224→                    </a>
+   225→                  )}
+   226→                  {item.repoUrl && (
+   227→                    <a
+   228→                      href={item.repoUrl}
+   229→                      target="_blank"
+   230→                      rel="noopener noreferrer"
+   231→                      className="inline-flex items-center gap-1 text-xs text-[#32504d] hover:underline"
+   232→                    >
+   233→                      <Github className="size-3" /> Repo
+   234→                    </a>
+   235→                  )}
+   236→                </div>
+   237→              </div>
+   238→            </motion.div>
+   239→          )}
+   240→        </AnimatePresence>
+   241→      </div>
+   242→    </motion.div>
+   243→  );
+   244→}
+   245→
+   246→export function FreelancerProfileModal() {
+   247→  const {
+   248→    modal: { selectedFreelancerId },
+   249→    closeFreelancer,
+   250→    openService,
+   251→  openAuth,
+   252→    currentUser,
+   253→    openShare,
+   254→    openReport,
+   255→  } = useApp();
+   256→  const [tab, setTab] = useState("overview");
+   257→  const [lastFreelancerId, setLastFreelancerId] = useState(selectedFreelancerId);
+   258→  // Reset tab to overview when a new freelancer is opened (React 19 render-time adjustment)
+   259→  if (selectedFreelancerId && selectedFreelancerId !== lastFreelancerId) {
+   260→    setLastFreelancerId(selectedFreelancerId);
+   261→    setTab("overview");
+   262→  }
+   263→
+   264→  useEffect(() => {
+   265→    if (selectedFreelancerId) {
+   266→      const orig = document.body.style.overflow;
+   267→      document.body.style.overflow = "hidden";
+   268→      return () => {
+   269→        document.body.style.overflow = orig;
+   270→      };
+   271→    }
+   272→  }, [selectedFreelancerId]);
+   273→
+   274→  if (!selectedFreelancerId) return null;
+   275→  const f = getFreelancerById(selectedFreelancerId);
+   276→  if (!f) return null;
+   277→
+   278→  // Mock education + certifications (since data doesn't include them)
+   279→  const education = [
+   280→    {
+   281→      id: "e1",
+   282→      school: "ENSI, University of Tunis",
+   283→      degree: "M.Sc. Computer Science",
+   284→      years: "2015 – 2018",
+   285→    },
+   286→  ];
+   287→  const certifications = [
+   288→    { id: "c1", name: "AWS Certified Developer – Associate", year: "2023" },
+   289→    { id: "c2", name: "Scrum Master (PSM I)", year: "2022" },
+   290→  ];
+   291→
+   292→  const fReviews = allReviews.slice(0, 3);
+   293→  const avail = availabilityConfig[f.availability];
+   294→
+   295→  const handleAction = (action: string) => {
+   296→    if (!currentUser) {
+   297→      toast.info("Please log in to continue.", {
+   298→        action: {
+   299→          label: "Log in",
+   300→          onClick: () => openAuth("login"),
+   301→        },
+   302→      });
+   303→      return;
+   304→    }
+   305→    toast.success(action);
+   306→  };
+   307→
+   308→  return (
+   309→    <Dialog
+   310→      open={!!selectedFreelancerId}
+   311→      onOpenChange={(o) => !o && closeFreelancer()}
+   312→    >
+   313→      <DialogPortal>
+   314→        <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
+   315→        <DialogContent
+   316→          className="p-0 gap-0 max-w-5xl w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
+   317→          aria-describedby={undefined}
+   318→          showCloseButton
+   319→        >
+   320→          <DialogTitle className="sr-only">
+   321→            {f.name} — {f.title}
+   322→          </DialogTitle>
+   323→          <DialogDescription className="sr-only">
+   324→            Freelancer profile: {f.name}, {f.title} based in {f.location.city}, {f.location.country}.
+   325→          </DialogDescription>
+   326→
+   327→          {/* Cover + header */}
+   328→          <div className="relative">
+   329→            <div className="h-28 sm:h-32 bg-khidma-gradient relative overflow-hidden">
+   330→              <div className="absolute -top-12 -right-8 size-44 rounded-full bg-white/5 blur-2xl" />
+   331→              <div className="absolute -bottom-12 -left-8 size-52 rounded-full bg-[#6e8580]/20 blur-3xl" />
+   332→            </div>
+   333→            <div className="absolute -bottom-12 left-5 sm:left-7 flex items-end gap-3">
+   334→              <Avatar className="size-20 sm:size-24 border-4 border-background rounded-full">
+   335→                <AvatarImage src={f.avatar} alt={f.name} />
+   336→                <AvatarFallback className="bg-[#32504d] text-white text-2xl font-bold">
+   337→                  {f.name.charAt(0)}
+   338→                </AvatarFallback>
+   339→              </Avatar>
+   340→            </div>
+   341→            <div className="absolute top-3 right-3">
+   342→              <button
+   343→                onClick={closeFreelancer}
+   344→                className="size-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm lg:hidden"
+   345→                aria-label="Close profile"
+   346→              >
+   347→                <X className="size-4" />
+   348→              </button>
+   349→            </div>
+   350→          </div>
+   351→
+   352→          {/* Header info */}
+   353→          <div className="px-5 sm:px-7 pt-14 pb-4 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 border-b border-border/60">
+   354→            <div className="min-w-0">
+   355→              <div className="flex flex-wrap items-center gap-2">
+   356→                <h2 className="text-xl font-display font-bold text-foreground">
+   357→                  {f.name}
+   358→                </h2>
+   359→                {f.topRated && (
+   360→                  <Badge className="bg-amber-500/10 text-amber-700 border-amber-200 gap-0.5">
+   361→                    <Award className="size-3" />
+   362→                    Top Rated
+   363→                  </Badge>
+   364→                )}
+   365→              </div>
+   366→              <p className="text-sm text-[#32504d] font-medium">{f.title}</p>
+   367→              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs text-muted-foreground">
+   368→                <span className="inline-flex items-center gap-1">
+   369→                  <MapPin className="size-3" />
+   370→                  {f.location.city}, {f.location.country}
+   371→                </span>
+   372→                <span className="inline-flex items-center gap-1">
+   373→                  <Globe className="size-3" />
+   374→                  {f.languages.join(" · ")}
+   375→                </span>
+   376→                <span className="inline-flex items-center gap-1">
+   377→                  <Calendar className="size-3" />
+   378→                  Member since {f.memberSince}
+   379→                </span>
+   380→              </div>
+   381→            </div>
+   382→
+   383→            <div className="flex flex-wrap items-center gap-2">
+   384→              <Button
+   385→                size="sm"
+   386→                className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+   387→                onClick={() => handleAction("Invitation sent to freelancer!")}
+   388→              >
+   389→                <Send className="size-3.5" />
+   390→                Invite to Job
+   391→              </Button>
+   392→              <Button
+   393→                size="sm"
+   394→                variant="outline"
+   395→                onClick={() => handleAction("Opening conversation…")}
+   396→              >
+   397→                <Mail className="size-3.5" />
+   398→                Contact
+   399→              </Button>
+   400→              <Button
+   401→                size="sm"
+   402→                variant="outline"
+   403→                onClick={() => handleAction("Proposal request submitted!")}
+   404→              >
+   405→                <FileText className="size-3.5" />
+   406→                Request Proposal
+   407→              </Button>
+   408→              {/* Share + Report icon buttons with tooltips */}
+   409→              <Tooltip>
+   410→                <TooltipTrigger asChild>
+   411→                  <Button
+   412→                    size="icon"
+   413→                    variant="ghost"
+   414→                    aria-label={`Share ${f.name}'s profile`}
+   415→                    className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+   416→                    onClick={() =>
+   417→                      openShare({
+   418→                        entityType: "freelancer",
+   419→                        entityId: f.id,
+   420→                        entityTitle: f.name,
+   421→                      })
+   422→                    }
+   423→                  >
+   424→                    <Share2 className="size-4" />
+   425→                  </Button>
+   426→                </TooltipTrigger>
+   427→                <TooltipContent>Share</TooltipContent>
+   428→              </Tooltip>
+   429→              <Tooltip>
+   430→                <TooltipTrigger asChild>
+   431→                  <Button
+   432→                    size="icon"
+   433→                    variant="ghost"
+   434→                    aria-label={`Report ${f.name}'s profile`}
+   435→                    className="size-8 text-muted-foreground hover:text-rose-600 hover:bg-rose-500/10"
+   436→                    onClick={() =>
+   437→                      openReport({
+   438→                        entityType: "freelancer",
+   439→                        entityId: f.id,
+   440→                        entityTitle: f.name,
+   441→                      })
+   442→                    }
+   443→                  >
+   444→                    <Flag className="size-4" />
+   445→                  </Button>
+   446→                </TooltipTrigger>
+   447→                <TooltipContent>Report this listing</TooltipContent>
+   448→              </Tooltip>
+   449→            </div>
+   450→          </div>
+   451→
+   452→          {/* Stats row */}
+   453→          <div className="px-5 sm:px-7 py-3 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-border/60 text-xs">
+   454→            <div className="inline-flex items-center gap-1.5">
+   455→              <Star className="size-4 fill-amber-400 text-amber-400" />
+   456→              <span className="font-semibold text-foreground">{f.rating.toFixed(1)}</span>
+   457→              <span className="text-muted-foreground">({f.reviewsCount} reviews)</span>
+   458→            </div>
+   459→            <div className="inline-flex items-center gap-1.5 text-muted-foreground">
+   460→              <Briefcase className="size-3.5" />
+   461→              <span className="text-foreground font-medium">
+   462→                {formatNumber(f.completedProjects)}
+   463→              </span>{" "}
+   464→              projects
+   465→            </div>
+   466→            <div className="inline-flex items-center gap-1.5 text-muted-foreground">
+   467→              <Clock className="size-3.5" />
+   468→              Responds {f.responseTime}
+   469→            </div>
+   470→            <Badge
+   471→              variant="outline"
+   472→              className={cn("ml-auto gap-1", avail.color)}
+   473→            >
+   474→              <span className="size-1.5 rounded-full bg-current" />
+   475→              {avail.label}
+   476→            </Badge>
+   477→            <div className="text-foreground font-semibold">
+   478→              {formatTND(f.hourlyRate)}
+   479→              <span className="text-muted-foreground font-normal">/hr</span>
+   480→            </div>
+   481→          </div>
+   482→
+   483→          {/* Tabs */}
+   484→          <div className="px-5 sm:px-7 pt-3 border-b border-border/60">
+   485→            <Tabs value={tab} onValueChange={setTab}>
+   486→              <TabsList className="bg-transparent p-0 h-auto gap-1 w-full justify-start overflow-x-auto">
+   487→                {[
+   488→                  { v: "overview", l: "Overview" },
+   489→                  { v: "portfolio", l: `Portfolio (${f.portfolio.length})` },
+   490→                  { v: "services", l: `Services (${f.services.length})` },
+   491→                  { v: "reviews", l: `Reviews (${f.reviewsCount})` },
+   492→                ].map((t) => (
+   493→                  <TabsTrigger
+   494→                    key={t.v}
+   495→                    value={t.v}
+   496→                    className="rounded-md data-[state=active]:bg-[#32504d]/10 data-[state=active]:text-[#32504d] data-[state=active]:shadow-none text-xs px-3 h-8"
+   497→                  >
+   498→                    {t.l}
+   499→                  </TabsTrigger>
+   500→                ))}
+   501→              </TabsList>
+   502→
+   503→              <TabsContent value="overview" className="mt-0">
+   504→                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+   505→                  <div className="p-4 sm:p-5 space-y-5">
+   506→                    <div className="grid sm:grid-cols-[2fr_1fr] gap-5">
+   507→                      <div className="space-y-4">
+   508→                        <div>
+   509→                          <h3 className="text-sm font-semibold mb-1.5">About</h3>
+   510→                          <p className="text-sm text-muted-foreground leading-relaxed">
+   511→                            {f.bio}
+   512→                          </p>
+   513→                        </div>
+   514→                        <div>
+   515→                          <h3 className="text-sm font-semibold mb-2">Skills</h3>
+   516→                          <div className="flex flex-wrap gap-1.5">
+   517→                            {f.skills.map((s) => (
+   518→                              <Badge
+   519→                                key={s}
+   520→                                variant="outline"
+   521→                                className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+   522→                              >
+   523→                                {s}
+   524→                              </Badge>
+   525→                            ))}
+   526→                          </div>
+   527→                        </div>
+   528→                        <div>
+   529→                          <h3 className="text-sm font-semibold mb-2">Experience</h3>
+   530→                          <ul className="space-y-3">
+   531→                            <li className="text-xs">
+   532→                              <div className="font-semibold text-foreground">
+   533→                                Senior {f.title}
+   534→                              </div>
+   535→                              <div className="text-muted-foreground">
+   536→                                Independent · 2020 — Present
+   537→                              </div>
+   538→                              <p className="mt-1 text-muted-foreground">
+   539→                                Delivered {f.completedProjects}+ projects across
+   540→                                fintech, e-commerce, and SaaS for clients in Tunisia
+   541→                                and Europe.
+   542→                              </p>
+   543→                            </li>
+   544→                          </ul>
+   545→                        </div>
+   546→                        <div>
+   547→                          <h3 className="text-sm font-semibold mb-2 inline-flex items-center gap-1.5">
+   548→                            <GraduationCap className="size-4 text-[#32504d]" />
+   549→                            Education
+   550→                          </h3>
+   551→                          <ul className="space-y-2">
+   552→                            {education.map((e) => (
+   553→                              <li key={e.id} className="text-xs">
+   554→                                <div className="font-semibold text-foreground">
+   555→                                  {e.degree}
+   556→                                </div>
+   557→                                <div className="text-muted-foreground">
+   558→                                  {e.school} · {e.years}
+   559→                                </div>
+   560→                              </li>
+   561→                            ))}
+   562→                          </ul>
+   563→                        </div>
+   564→                        <div>
+   565→                          <h3 className="text-sm font-semibold mb-2">Certifications</h3>
+   566→                          <ul className="space-y-1.5">
+   567→                            {certifications.map((c) => (
+   568→                              <li
+   569→                                key={c.id}
+   570→                                className="flex items-center gap-2 text-xs"
+   571→                              >
+   572→                                <CheckCircle2 className="size-3.5 text-[#32504d]" />
+   573→                                <span className="text-foreground">{c.name}</span>
+   574→                                <span className="text-muted-foreground">· {c.year}</span>
+   575→                              </li>
+   576→                            ))}
+   577→                          </ul>
+   578→                        </div>
+   579→                      </div>
+   580→
+   581→                      <div className="space-y-4">
+   582→                        <div className="rounded-xl border border-border/70 p-4">
+   583→                          <h3 className="text-sm font-semibold mb-3 inline-flex items-center gap-1.5">
+   584→                            <Award className="size-4 text-[#32504d]" />
+   585→                            Why clients trust {f.name.split(" ")[0]}
+   586→                          </h3>
+   587→                          <VerificationChecklist
+   588→                            verified={f.verified}
+   589→                            completed={f.completedProjects}
+   590→                            reviews={f.reviewsCount}
+   591→                            memberSince={f.memberSince}
+   592→                          />
+   593→                          <div className="flex flex-wrap gap-1.5 mt-4 pt-3 border-t border-border/60">
+   594→                            {f.badges.map((b) => (
+   595→                              <Badge
+   596→                                key={b}
+   597→                                variant="outline"
+   598→                                className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+   599→                              >
+   600→                                {b}
+   601→                              </Badge>
+   602→                            ))}
+   603→                          </div>
+   604→                        </div>
+   605→
+   606→                        <div className="rounded-xl border border-border/70 p-4 space-y-2.5">
+   607→                          <h3 className="text-sm font-semibold">Quick stats</h3>
+   608→                          <div className="grid grid-cols-2 gap-2 text-xs">
+   609→                            <div className="rounded-lg bg-muted/40 p-2">
+   610→                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+   611→                                Hourly
+   612→                              </div>
+   613→                              <div className="font-semibold text-foreground">
+   614→                                {formatTND(f.hourlyRate)}
+   615→                              </div>
+   616→                            </div>
+   617→                            <div className="rounded-lg bg-muted/40 p-2">
+   618→                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+   619→                                Response
+   620→                              </div>
+   621→                              <div className="font-semibold text-foreground">
+   622→                                {f.responseTime}
+   623→                              </div>
+   624→                            </div>
+   625→                            <div className="rounded-lg bg-muted/40 p-2">
+   626→                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+   627→                                Projects
+   628→                              </div>
+   629→                              <div className="font-semibold text-foreground">
+   630→                                {formatNumber(f.completedProjects)}
+   631→                              </div>
+   632→                            </div>
+   633→                            <div className="rounded-lg bg-muted/40 p-2">
+   634→                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+   635→                                Rating
+   636→                              </div>
+   637→                              <div className="font-semibold text-foreground">
+   638→                                {f.rating.toFixed(1)}★
+   639→                              </div>
+   640→                            </div>
+   641→                          </div>
+   642→                        </div>
+   643→                      </div>
+   644→                    </div>
+   645→                  </div>
+   646→                </ScrollArea>
+   647→              </TabsContent>
+   648→
+   649→              <TabsContent value="portfolio" className="mt-0">
+   650→                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+   651→                  <div className="p-4 sm:p-5 grid sm:grid-cols-2 gap-4">
+   652→                    {f.portfolio.map((p, i) => (
+   653→                      <motion.div
+   654→                        key={p.id}
+   655→                        initial={{ opacity: 0, y: 12 }}
+   656→                        animate={{ opacity: 1, y: 0 }}
+   657→                        transition={{ duration: 0.3, delay: i * 0.05 }}
+   658→                      >
+   659→                        <PortfolioCard item={p} />
+   660→                      </motion.div>
+   661→                    ))}
+   662→                  </div>
+   663→                </ScrollArea>
+   664→              </TabsContent>
+   665→
+   666→              <TabsContent value="services" className="mt-0">
+   667→                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+   668→                  <div className="p-4 sm:p-5 space-y-3">
+   669→                    {f.services.map((s, i) => (
+   670→                      <motion.div
+   671→                        key={s.id}
+   672→                        initial={{ opacity: 0, y: 8 }}
+   673→                        animate={{ opacity: 1, y: 0 }}
+   674→                        transition={{ duration: 0.3, delay: i * 0.05 }}
+   675→                      >
+   676→                        <button
+   677→                          onClick={() => openService(s.id)}
+   678→                          className="w-full text-left rounded-xl border border-border/70 p-4 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors group"
+   679→                        >
+   680→                          <div className="flex items-start gap-3">
+   681→                            <div className="relative size-16 rounded-lg overflow-hidden bg-muted shrink-0">
+   682→                              <Image
+   683→                                src={s.cover}
+   684→                                alt={s.title}
+   685→                                fill
+   686→                                sizes="64px"
+   687→                                className="object-cover"
+   688→                              />
+   689→                            </div>
+   690→                            <div className="min-w-0 flex-1">
+   691→                              <h4 className="text-sm font-semibold leading-snug group-hover:text-[#32504d] transition-colors">
+   692→                                {s.title}
+   693→                              </h4>
+   694→                              <div className="flex items-center gap-2 mt-1 text-[11px] text-muted-foreground">
+   695→                                <span className="inline-flex items-center gap-0.5">
+   696→                                  <Star className="size-3 fill-amber-400 text-amber-400" />
+   697→                                  {s.rating.toFixed(1)}
+   698→                                </span>
+   699→                                <span>·</span>
+   700→                                <span>{formatNumber(s.ordersCount)} orders</span>
+   701→                                <span>·</span>
+   702→                                <span>{s.deliveryDays}d delivery</span>
+   703→                              </div>
+   704→                              <div className="flex flex-wrap gap-1 mt-1.5">
+   705→                                {s.skills.slice(0, 3).map((sk) => (
+   706→                                  <Badge
+   707→                                    key={sk}
+   708→                                    variant="outline"
+   709→                                    className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+   710→                                  >
+   711→                                    {sk}
+   712→                                  </Badge>
+   713→                                ))}
+   714→                              </div>
+   715→                            </div>
+   716→                            <div className="text-right shrink-0">
+   717→                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+   718→                                From
+   719→                              </div>
+   720→                              <div className="font-bold text-foreground">
+   721→                                {formatTND(s.startingPrice)}
+   722→                              </div>
+   723→                              <ChevronRight className="size-4 text-muted-foreground ml-auto mt-1 group-hover:text-[#32504d]" />
+   724→                            </div>
+   725→                          </div>
+   726→                        </button>
+   727→                      </motion.div>
+   728→                    ))}
+   729→                  </div>
+   730→                </ScrollArea>
+   731→              </TabsContent>
+   732→
+   733→              <TabsContent value="reviews" className="mt-0">
+   734→                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+   735→                  <div className="p-4 sm:p-5 space-y-4">
+   736→                    {/* Aggregate metrics */}
+   737→                    <div className="rounded-xl border border-border/70 p-4 grid grid-cols-2 sm:grid-cols-5 gap-3">
+   738→                      <div className="col-span-2 sm:col-span-1 text-center sm:text-left">
+   739→                        <div className="text-3xl font-bold text-foreground">
+   740→                          {f.rating.toFixed(1)}
+   741→                        </div>
+   742→                        <Stars rating={f.rating} size="md" />
+   743→                        <p className="text-[11px] text-muted-foreground mt-1">
+   744→                          Based on {f.reviewsCount} reviews
+   745→                        </p>
+   746→                      </div>
+   747→                      <div className="col-span-2 sm:col-span-4 grid sm:grid-cols-2 gap-3">
+   748→                        {[
+   749→                          { l: "Communication", v: 4.9 },
+   750→                          { l: "Quality", v: 4.8 },
+   751→                          { l: "Delivery", v: 4.7 },
+   752→                          { l: "Professionalism", v: 4.9 },
+   753→                        ].map((m) => (
+   754→                          <div key={m.l} className="space-y-1">
+   755→                            <div className="flex items-center justify-between text-xs">
+   756→                              <span className="text-muted-foreground">{m.l}</span>
+   757→                              <span className="font-semibold">{m.v.toFixed(1)}</span>
+   758→                            </div>
+   759→                            <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+   760→                              <div
+   761→                                className="h-full bg-[#32504d]"
+   762→                                style={{ width: `${(m.v / 5) * 100}%` }}
+   763→                              />
+   764→                            </div>
+   765→                          </div>
+   766→                        ))}
+   767→                      </div>
+   768→                    </div>
+   769→
+   770→                    {/* Review cards */}
+   771→                    <div className="space-y-3">
+   772→                      {fReviews.map((r) => (
+   773→                        <motion.div
+   774→                          key={r.id}
+   775→                          initial={{ opacity: 0, y: 8 }}
+   776→                          animate={{ opacity: 1, y: 0 }}
+   777→                          className="rounded-xl border border-border/70 p-4"
+   778→                        >
+   779→                          <div className="flex items-start gap-3">
+   780→                            <Avatar className="size-9">
+   781→                              <AvatarImage src={r.fromAvatar} alt={r.fromName} />
+   782→                              <AvatarFallback>{r.fromName.charAt(0)}</AvatarFallback>
+   783→                            </Avatar>
+   784→                            <div className="min-w-0 flex-1">
+   785→                              <div className="flex items-center justify-between">
+   786→                                <p className="text-sm font-semibold">{r.fromName}</p>
+   787→                                <span className="text-[11px] text-muted-foreground">
+   788→                                  {r.date}
+   789→                                </span>
+   790→                              </div>
+   791→                              <div className="flex items-center gap-2 mt-0.5">
+   792→                                <Stars rating={r.rating} />
+   793→                                <span className="text-[11px] text-muted-foreground">
+   794→                                  {r.project}
+   795→                                </span>
+   796→                              </div>
+   797→                              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+   798→                                &quot;{r.comment}&quot;
+   799→                              </p>
+   800→                              <div className="grid grid-cols-4 gap-2 mt-3 pt-3 border-t border-border/60">
+   801→                                {Object.entries(r.metrics).map(([k, v]) => (
+   802→                                  <div key={k} className="text-center">
+   803→                                    <div className="text-[10px] text-muted-foreground capitalize">
+   804→                                      {k}
+   805→                                    </div>
+   806→                                    <div className="text-xs font-semibold text-foreground">
+   807→                                      {v.toFixed(1)}
+   808→                                    </div>
+   809→                                  </div>
+   810→                                ))}
+   811→                              </div>
+   812→                            </div>
+   813→                          </div>
+   814→                        </motion.div>
+   815→                      ))}
+   816→                    </div>
+   817→                  </div>
+   818→                </ScrollArea>
+   819→              </TabsContent>
+   820→            </Tabs>
+   821→          </div>
+   822→
+   823→          {/* Sticky footer CTA */}
+   824→          <div className="border-t border-border/60 bg-card/60 px-5 sm:px-7 py-3 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+   825→            <div className="text-xs text-muted-foreground mr-auto">
+   826→              <span className="text-foreground font-semibold">
+   827→                {formatTND(f.hourlyRate)}/hr
+   828→              </span>{" "}
+   829→              · Responds {f.responseTime}
+   830→            </div>
+   831→            <Button
+   832→              size="sm"
+   833→              variant="outline"
+   834→              className="w-full sm:w-auto"
+   835→              onClick={() => toast.success("Saved to your favorites")}
+   836→            >
+   837→              <Bookmark className="size-3.5" /> Save
+   838→            </Button>
+   839→            <Button
+   840→              size="sm"
+   841→              variant="outline"
+   842→              className="w-full sm:w-auto"
+   843→              onClick={() => setTab("services")}
+   844→            >
+   845→              <Briefcase className="size-3.5" /> View Services
+   846→            </Button>
+   847→            <Button
+   848→              size="sm"
+   849→              className="w-full sm:w-auto bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+   850→              onClick={() => handleAction("Conversation opened!")}
+   851→            >
+   852→              <MessageSquare className="size-3.5" /> Contact
+   853→            </Button>
+   854→          </div>
+   855→        </DialogContent>
+   856→      </DialogPortal>
+   857→    </Dialog>
+   858→  );
+   859→}
+   860→

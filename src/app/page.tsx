@@ -17,6 +17,7 @@ import {
   WhyKhidma,
   PaymentExplainer,
   WithdrawalOptions,
+  Pricing,
   Testimonials,
   StatsBanner,
   FAQ,
@@ -107,6 +108,26 @@ const ReportModal = dynamic(
   () => import("@/components/modals/report-modal").then((m) => m.ReportModal),
   { ssr: false }
 );
+const HelpModal = dynamic(
+  () => import("@/components/modals/help-modal").then((m) => m.HelpModal),
+  { ssr: false }
+);
+const ProModal = dynamic(
+  () => import("@/components/modals/pro-modal").then((m) => m.ProModal),
+  { ssr: false }
+);
+const ReferralModal = dynamic(
+  () => import("@/components/modals/referral-modal").then((m) => m.ReferralModal),
+  { ssr: false }
+);
+const PrivacyModal = dynamic(
+  () => import("@/components/modals/privacy-modal").then((m) => m.PrivacyModal),
+  { ssr: false }
+);
+const CookieConsent = dynamic(
+  () => import("@/components/khidma/cookie-consent").then((m) => m.CookieConsent),
+  { ssr: false }
+);
 
 function ViewLoading() {
   return (
@@ -148,6 +169,7 @@ export default function Home() {
               <WhyKhidma />
               <PaymentExplainer />
               <WithdrawalOptions />
+              <Pricing />
               <Testimonials />
               <FAQ />
               <FinalCTA />
@@ -187,6 +209,13 @@ export default function Home() {
       <FavoritesModalDynamic />
       <ShareModal />
       <ReportModal />
+      <HelpModal />
+      <ProModal />
+      <ReferralModal />
+      <PrivacyModal />
+
+      {/* Global cookie consent banner — self-renders on first visit */}
+      <CookieConsent />
     </div>
   );
 }

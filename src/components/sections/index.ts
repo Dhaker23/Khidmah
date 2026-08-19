@@ -8,6 +8,7 @@ export { OpenJobs } from "./open-jobs";
 export { WhyKhidma } from "./why-khidma";
 export { PaymentExplainer } from "./payment-explainer";
 export { WithdrawalOptions } from "./withdrawal-options";
+export { Pricing } from "./pricing";
 export { Testimonials } from "./testimonials";
 export { StatsBanner } from "./stats-banner";
 export { FAQ } from "./faq";

@@ -756,3 +756,196 @@ Unresolved / Risks for next round:
 - Could add a referral program modal (invite friends, earn credits).
 - The Trust Seal rotating ring could be more sophisticated (3D-like with multiple layers).
 - Could add a "Khidma for Teams" modal (for agencies/teams hiring multiple freelancers).
+
+---
+Task ID: ROUND5-STYLING-1
+Agent: full-stack-developer (live ticker + pricing + badges)
+Task: Add 3 new visual/styling features to Khidma — (1) real-time platform activity ticker, (2) landing page Pricing section with billing toggle + 3 tiers, (3) animated freelancer achievement badges system. Plus a bonus Pro upsell modal to make the Pro CTA functional.
+
+Work Log:
+- Read worklog (current state: round 4 complete, 6 views + 13 modals + 14 sections + chat service + command palette + dark mode + favorites/compare/recently-viewed). Identified `openPro` flag in store but no ProModal component exists — created one.
+- **Feature 1 — Live Activity Ticker** (`src/components/khidma/live-activity-ticker.tsx`):
+  - New "use client" component, `LiveActivityTicker`. Renders a thin glass strip (bg-white/5 backdrop-blur border-white/10, rounded-full) with a fixed "LIVE" indicator on the left (pulsing emerald dot via `animate-ping` + "LIVE" label) and an infinite horizontal marquee on the right.
+  - 14 mock Tunisian-context events covering 8 type categories: project (Briefcase, emerald), review (Star, amber), job (Megaphone, slate), service (TrendingUp, teal), portfolio (Eye, sky), payment (Wallet, emerald), verification (ShieldCheck, teal), proposal (CheckCircle2, rose). Each event: 20px color-coded icon circle + text + time-ago + Khidma dot divider.
+  - Uses existing `.animate-marquee` utility (40s linear infinite); duplicated the list `[...EVENTS, ...EVENTS]` for seamless loop. Pause on hover via `group-hover:[animation-play-state:paused]`.
+  - Edge fades on both sides (gradient to bg-[#192d2f]).
+  - Respects `prefers-reduced-motion`: renders a static flex with horizontal scroll fallback (no animation, no ping).
+  - Wired into `hero.tsx` between the Trust Seal and skills marquee (max-w-xl wrapper). Wrapped in `motion.div variants={itemVariants}` for staggered entrance.
+- **Feature 2 — Pricing section** (`src/components/sections/pricing.tsx`):
+  - New "use client" section. Title: "Simple, transparent pricing" with teal accent on "pricing". Subtitle: "Free to join. 1% fee per project. Optional Pro upgrades."
+  - **3 tiers**: Starter (Free) → Pro (TND 39/mo, highlighted) → Business (TND 99/mo). Each tier: name, tagline, big price, CTA button, feature list (5-8 items with checkmark chips).
+  - **Pro tier** is highlighted: teal border (#32504d), `lg:-translate-y-3` (elevated), pulsing radial glow (3.5s infinite opacity oscillation, reduced-motion static), "Most Popular" badge with amber Star at top-center, whileHover lift y:-8. Other tiers lift y:-4 on hover.
+  - **Billing toggle**: Monthly ↔ Annual (Switch component). Annual = 20% off — recomputes Pro (39→31/mo equivalent, billed TND 374/yr) and Business (99→79/mo equivalent, billed TND 950/yr). "Save 20%" emerald badge next to Annual label.
+  - **CTA wiring**: Starter → `openAuth("register")`. Pro → `openPro()`. Business → `toast.success("Our sales team will reach out within 24 hours.")`.
+  - **All-plans-include panel** below cards: lists 5 inclusions (Email verification · Phone support · Secure escrow · 1% flat platform fee · No hidden charges) joined with middots + a teal-tinted trust badge box with ShieldCheck icon: "30-day money-back guarantee / No questions asked on all paid plans".
+  - **Animation**: staggered entrance via `motion.div` variants (staggerChildren 0.1, each card 0.55s ease-[0.22,1,0.36,1]); reduced-motion = no stagger.
+  - Wired into `src/app/page.tsx` between `<WithdrawalOptions />` and `<Testimonials />`. Exported from `src/components/sections/index.ts` barrel.
+- **Bonus — ProModal** (`src/components/modals/pro-modal.tsx`):
+  - Created to back the `openPro()` CTA from Pricing. Khidma-gradient header with Sparkles icon, TND 39/mo price + "14-day free trial" emerald badge.
+  - 5 Pro perks (Zap, TrendingUp, Star, Sparkles, ShieldCheck) with staggered entrance + teal checkmarks. Money-back guarantee info card at bottom.
+  - CTA: "Start free trial" → if logged in, toast.success("Pro trial activated!"); if not, redirect to register + toast.info("Sign up to start your Pro trial."). Secondary "Maybe later" closes.
+  - Wired into `src/app/page.tsx` (mounted globally) + exported from `src/components/modals/index.ts` barrel.
+- **Feature 3 — Achievement Badges** (`src/components/khidma/achievement-badges.tsx`):
+  - New "use client" component, `AchievementBadges`, props: `freelancerId`, `variant="grid"|"row"`, `columns=3|4`, `className`.
+  - **8 achievement types** with explicit color accents (allowed by spec): First Project (Target, emerald-700), Rising Star (TrendingUp, amber-700), Top Rated (Crown, purple-700), Speed Demon (Zap, blue-600), Portfolio Pro (Briefcase, teal-700), Trusted Pro (ShieldCheck, green-700), Mentor (Users, rose-600), Centurion (Award, yellow-700).
+  - Each badge: `progress(f)` function returns `{ unlocked, current, target, suffix }` computed from real freelancer data — `f.completedProjects`, `f.reviewsCount`, `f.rating`, `f.topRated`, `f.portfolio.length`, `f.verified.identity`, `f.verified.portfolio`, `f.responseTime` (mocked speed/mentor progress for unverifiable criteria).
+  - **Grid variant**: responsive grid (2 cols mobile, 3-4 desktop). Each card: 40px icon circle (with `bg-*-500/15`, ring, color text), badge name, description (line-clamp-2), Unlocked badge (emerald, ShieldCheck icon) OR Locked badge + progress bar (h-1.5, animated width via `whileInView`). Unlocked badges: subtle radial glow ring overlay (opacity 0.12→0.22→0.12, 3-5s infinite).
+  - **Row variant**: horizontal flex of 36px circular badges with hover:scale-110 (unlocked) or grayscale+50% opacity (locked). Locked badges get a tiny Lock icon at bottom-right.
+  - **Sparkle burst animation** on unlocked badges: `SparkleBurst` sub-component, 0.6s, `whileInView` (once), radial-gradient of the badge's glow color, opacity 0→1→0 + scale 0.6→1.4→1. Reduced-motion: no sparkle, instant appearance.
+  - Locked badges: grayscale + 50% opacity + Lock icon. Progress bar animates width 0→pct% with `whileInView` over 0.8s.
+  - Respects `prefers-reduced-motion` throughout (no glow, no sparkle, no entrance animation, no progress bar animation — instant).
+  - **Wired into `freelancer-profile-modal.tsx`**: Added a new "Achievements" tab (5th tab after Reviews). Grid variant with `columns={3}` inside a ScrollArea, with explanation card at the bottom ("How badges work: Each badge is computed from verified activity...").
+  - **Wired into `dashboard-view.tsx` Overview tab**: Added a new "Your Achievements" card after the Profile Completion + Verification Status grid. Uses the `row` variant with "View all" button that opens the freelancer profile modal. Destructured `openFreelancer` from useApp in OverviewTab.
+- **Lint verification**: ran `bun run lint`. 0 errors in any of my 10 created/modified files (`live-activity-ticker.tsx`, `pricing.tsx`, `pro-modal.tsx`, `achievement-badges.tsx`, `hero.tsx`, `page.tsx`, sections/index.ts, modals/index.ts, `freelancer-profile-modal.tsx`, `dashboard-view.tsx`). 4 remaining errors are all pre-existing in `help-modal.tsx` (SidebarList render component, set-state-in-effect) + `privacy-modal.tsx` (set-state-in-effect) — out of scope.
+- **TypeScript**: `npx tsc --noEmit` — 0 errors in my files. Pre-existing errors only in `help-modal.tsx` + `examples/` + `skills/` folders.
+- **Dev server**: confirmed HTTP 200 on `/` after HMR. Fixed one transient issue (initial import of `"lucide"` instead of `"lucide-react"` in live-activity-ticker.tsx → corrected).
+- **Files created (4)**: `src/components/khidma/live-activity-ticker.tsx`, `src/components/sections/pricing.tsx`, `src/components/khidma/achievement-badges.tsx`, `src/components/modals/pro-modal.tsx`.
+- **Files modified (6)**: `src/components/sections/hero.tsx` (LiveActivityTicker import + render below TrustSeal), `src/components/sections/index.ts` (export Pricing), `src/app/page.tsx` (import + render Pricing section + ProModal), `src/components/modals/index.ts` (export ProModal), `src/components/modals/freelancer-profile-modal.tsx` (import AchievementBadges + new "Achievements" tab), `src/components/views/dashboard-view.tsx` (import AchievementBadges + new "Your Achievements" card in OverviewTab + destructure openFreelancer).
+
+Stage Summary:
+- 3 new visual features delivered + 1 bonus (ProModal) to make the Pro CTA functional.
+- Hero now shows real-time platform activity (LIVE indicator + 14 mock Tunisian events scrolling horizontally).
+- Landing page now has a polished 3-tier Pricing section with billing toggle, money-back guarantee, and "All plans include" comparison.
+- Freelancer profile modal now has an "Achievements" tab showing 8 animated badges in grid layout (with progress bars for locked ones).
+- Dashboard Overview tab now has a "Your Achievements" card with compact row variant.
+- All animations respect `prefers-reduced-motion` (verified via `useReducedMotion()` checks in every motion component).
+- Khidma teal palette maintained throughout. Badge accent colors (emerald, amber, purple, blue, teal, green, rose, yellow) used per spec.
+- Lint clean for all my files; dev server returns 200 OK on `/`.
+
+Unresolved / Notes for next round:
+- `help-modal.tsx` has 2 pre-existing lint errors (SidebarList component created during render + setState in effect) and `privacy-modal.tsx` has 1 pre-existing error (setState in effect). These are not mine but block `bun run lint` from exiting 0. Worth fixing in a future cleanup round.
+- ProModal currently uses mock trial flow (just shows a toast). Could be wired to a real subscription checkout later.
+- The Speed Demon and Mentor badges use mocked progress (since response-speed tracking + community mentorship aren't in the mock data model). Real implementations would need backend tracking.
+- Achievements tab in freelancer profile modal shows on all freelancers — could be conditional on whether the freelancer has any unlocked badges.
+
+---
+Task ID: ROUND5-MODALS-1
+Agent: full-stack-developer (help/pro/referral/cookie modals)
+Task: Build 4 new feature modals + cookie consent banner — Help & Support Center, Khidma Pro upsell, Referral program, Privacy settings, and the bottom cookie-consent banner. Mount all globally on the `/` route.
+
+Work Log:
+- Read `worklog.md` for project context (Khidma freelance marketplace, teal palette #475959/#2b3d3d/#748684/#192d2f/#32504d/#6e8580/#ffffff, fonts Manrope + IBM Plex Sans Arabic, single `/` route, shadcn/ui + framer-motion).
+- Verified `@/lib/store` already exposes `modal.{helpOpen,proOpen,referralOpen,privacyOpen}` + matching open/close actions, `openMessaging`, `openPrivacy`, `pushNotification`.
+- Inspected existing share-modal, dialog/accordion/switch/sheet/alert-dialog/progress/table components to align styling, dark teal backgrounds, lucide icons and sonner toasts.
+- Created `src/components/modals/help-modal.tsx`:
+  - shadcn `Dialog` (max-w-3xl, h-[80vh], overflow-hidden flex-col layout).
+  - Header with Khidma-mark icon + "Help & Support Center" + "All systems operational" badge (pinging emerald dot) + live search input that filters the FAQ.
+  - 220px desktop sidebar listing 7 categories (Getting Started, For Freelancers, For Clients, Payments & Withdrawals, Verification & Trust, Account & Security, Disputes) with active-state highlight in teal.
+  - Mobile sidebar wrapped in shadcn `Sheet` (side="left"); clicking a category closes the sheet automatically.
+  - Right content area: Quick Help cards (3 — Track application / Payment issues / Report a problem), Accordion FAQ with 18 Q&A pairs across categories, "Still need help?" contact card with 3 buttons (Contact Support → toast, Live Chat → `openMessaging()`, Community Forum → toast).
+  - Empty-state when search returns nothing ("No results for '{query}'" + "Browse all topics" button).
+  - Footer with "Was this helpful? Yes / No" feedback buttons (toast on click).
+  - framer-motion `AnimatePresence` keyed on category/search for content transitions; `useReducedMotion` respected.
+- Created `src/components/modals/pro-modal.tsx`:
+  - shadcn `Dialog` (max-w-4xl, scrollable).
+  - Header with Crown icon, "Upgrade to Khidma Pro" + subtitle, Monthly/Annual toggle (save 20%) switching displayed prices live.
+  - 3-tier pricing cards (Starter/Pro/Business) — Pro tier highlighted with teal border + "Most Popular" badge + framer-motion lift+glow on hover.
+  - Each tier: icon, tagline, TND price (annual vs monthly), feature list with teal check bullets, CTA button (Starter disabled "Your current plan"; Pro/Business trigger toast + `pushNotification({type:'payment', link:'dashboard'})`).
+  - Testimonial mini-card (Yassine Gharbi, UI/UX Designer) + 30-day money-back guarantee badge.
+  - Collapsible feature comparison table (shadcn `Collapsible` + `Table`) with ✓ / ✗ / string-value cells across all 3 tiers; Pro column subtly highlighted.
+  - FAQ mini-section (3 Q&A — cancel anytime, payment methods, free trial) inside shadcn `Accordion`.
+  - Feature chips row (Priority support, Featured badge, Team seats, API access, Lower fees).
+- Created `src/components/modals/referral-modal.tsx`:
+  - shadcn `Dialog` (max-w-2xl, scrollable).
+  - Dark-teal gradient header with Gift icon + "Invite friends. Earn together." + subtitle.
+  - Referral link card: read-only input `https://khidma.tn/r/AMIRA2025` + Copy button (clipboard + fallback) + 4 social share buttons (X / Facebook / WhatsApp / LinkedIn) with inline SVGs mirroring share-modal.
+  - Stats row (3 cards): Friends Invited 8 / Joined 5 / Earned 200 TND.
+  - Progress card: "You're 2 referrals away from Gold tier!" + shadcn `Progress` bar (5/7) + Gold-tier reward copy.
+  - "How it works" 3-step visual (Share link → Friend signs up → Both earn 50 TND) with numbered badges.
+  - Recent referrals table (5 mock rows — name+initials avatar, status badge (Pending/Joined/Completed), date, earnings).
+  - Tier rewards (Bronze/Silver/Gold) with Medal/Award/Crown icons, Gold tier highlighted.
+  - Footer: "Start inviting your network today" + "Share referral link" CTA.
+- Created `src/components/modals/privacy-modal.tsx`:
+  - shadcn `Dialog` (max-w-2xl, scrollable).
+  - Header with ShieldCheck icon + "Privacy Settings" + subtitle.
+  - 5 cookie categories (Essential / Analytics / Marketing / Functional / Social Media) each as a row with icon + title + description + shadcn `Switch`. Essential switch is locked (always on, "Always on" badge, disabled + reduced opacity).
+  - Switches load persisted state from `localStorage["khidma:cookie-preferences"]` via lazy `useState` initializer (avoids `setState`-in-effect lint).
+  - Data controls: "Download my data" button (toast "Your data export will be ready in 24h") + "Delete my account" danger button (rose) wrapped in `AlertDialog` confirm — confirms via toast + closes modal.
+  - Privacy policy summary (3 paragraphs: what we collect / how we use it / your rights) with `mailto:privacy@khidma.tn` link.
+  - Footer: "Save preferences" (persists to localStorage + toast + close) + "Cancel" (ghost).
+  - Each section wrapped in `<Reveal>` for entrance animation.
+- Created `src/components/khidma/cookie-consent.tsx`:
+  - Bottom fixed banner (`fixed bottom-0 left-0 right-0 z-50`) appearing on first visit when `localStorage["khidma:cookie-consent"]` is unset (waits 600ms; 0ms when `prefers-reduced-motion`).
+  - Dark teal background (`bg-[#192d2f]/95`) with backdrop blur, white text, max-w-4xl pill card.
+  - Cookie icon + "We use cookies" + short description + 3 actions: "Privacy settings" (ghost → `openPrivacy()`), "Reject non-essential" (outline → set localStorage "essential", toast "Only essential cookies enabled"), "Accept all" (primary teal → set localStorage "all", toast "Cookies accepted").
+  - framer-motion `AnimatePresence` slide-up entrance (y:40 → 0) with reduced-motion fallback.
+  - role="dialog" + aria-live="polite" + aria-label.
+- Updated `src/components/modals/index.ts` barrel to export `HelpModal`, `ProModal`, `ReferralModal`, `PrivacyModal`.
+- Updated `src/app/page.tsx`:
+  - Added 5 dynamic imports with `ssr: false` (HelpModal, ProModal, ReferralModal, PrivacyModal, CookieConsent).
+  - Removed leftover static `ProModal` import (was already imported but not dynamically) and replaced with dynamic import per task spec.
+  - Mounted all 5 components at the page root alongside the existing 13 modals + CommandPalette + BackToTop + CompareTray.
+
+Files created:
+- `src/components/modals/help-modal.tsx`
+- `src/components/modals/pro-modal.tsx`
+- `src/components/modals/referral-modal.tsx`
+- `src/components/modals/privacy-modal.tsx`
+- `src/components/khidma/cookie-consent.tsx`
+
+Files modified:
+- `src/components/modals/index.ts` (+4 exports)
+- `src/app/page.tsx` (+5 dynamic imports + 5 mounts; dedup ProModal import)
+
+Stage Summary:
+- All 5 components are `"use client"`, Khidma teal palette only (no indigo/blue), shadcn/ui Dialog/Accordion/Switch/Sheet/AlertDialog/Progress/Table/Collapsible + lucide-react icons + `sonner` toasts + framer-motion transitions throughout.
+- Mobile responsive: help-modal uses Sheet sidebar on mobile; pro-modal pricing stacks vertically; referral/privacy modals adapt padding; cookie-consent flex-wraps on mobile.
+- Accessible: `sr-only` DialogTitle/DialogDescription on every modal, aria-labels on icon buttons + switches + share buttons, focus management via shadcn Dialog default, Escape closes via Dialog default, `role="dialog"` + `aria-live` on cookie banner.
+- `prefers-reduced-motion` respected via `useReducedMotion()` in help-modal (AnimatePresence), pro-modal (card hover/initial), referral-modal (share button hover/tap), cookie-consent (entrance).
+- Self-render pattern: each modal reads its `modal.{x}Open` flag from `useApp()` and renders `<Dialog open={...}>` — no parent prop drilling needed.
+- Lint: 0 errors / 0 warnings (`bun run lint` passes). Dev server: `GET / 200` after compile, no runtime errors. Verified by curl `http://localhost:3000/` → 200.
+- Store integration: all 4 modals close via `close{Help,Pro,Referral,Privacy}()`. Live Chat in help-modal calls `openMessaging()`. Privacy-settings button in cookie-consent calls `openPrivacy()`. Pro/Business upgrade triggers `pushNotification({type:'payment', link:'dashboard'})`.
+- Composer agent / future agents can trigger any of these modals from `useApp().openHelp() / openPro() / openReferral() / openPrivacy()` (already implemented in store).
+
+
+---
+Task ID: ROUND-5-VERIFICATION
+Agent: Z.ai Code (main)
+Task: 15-min cron review round 5 — QA current state, add Help Center + Khidma Pro + Referral + Cookie Consent modals, add Live Activity ticker + Pricing section + Achievement Badges.
+
+Work Log:
+- Read worklog to understand current state (round 4 complete: favorites/compare/recently-viewed wired into cards, compare tray, share/report modals, trust seal, page transition curtain). Project stable: lint clean, TS clean, dev server healthy, chat service running.
+- QA: dev server (port 3000) + chat service (port 3003) both healthy. agent-browser smoke test: page loads, no console errors, hero at 8/10 premium feel (VLM).
+- Extended Zustand store (`src/lib/store.ts`) with 4 new modal flags + actions: `helpOpen`/`openHelp`/`closeHelp`, `proOpen`/`openPro`/`closePro`, `referralOpen`/`openReferral`/`closeReferral`, `privacyOpen`/`openPrivacy`/`closePrivacy`. Updated ModalState interface + initial state + action implementations.
+- Dispatched 2 parallel subagents (full-stack-developer):
+  1. **ROUND5-MODALS-1**: 
+     - `help-modal.tsx` — Help & Support Center (max-w-3xl, h-80vh): 7-category sidebar (Sheet on mobile), live search filtering 18 FAQ pairs, Quick Help cards, "Still need help?" contact card (Live Chat → `openMessaging()`), "All systems operational" badge, footer Yes/No feedback, empty search state, AnimatePresence transitions.
+     - `pro-modal.tsx` — Khidma Pro upsell (max-w-4xl): 3-tier pricing cards (Starter/Pro/Business) with Monthly/Annual toggle, "Most Popular" highlighted Pro tier with framer-motion hover lift+glow, collapsible feature comparison table, testimonial mini-card, money-back guarantee badge, FAQ accordion, upgrade CTA fires toast + `pushNotification`.
+     - `referral-modal.tsx` — Invite friends (max-w-2xl): referral link with copy + 4 social share buttons, 3-stat row (8 invited / 5 joined / 200 TND earned), progress card to Gold tier, 3-step how-it-works, recent referrals table (5 mock rows), Bronze/Silver/Gold tier rewards.
+     - `privacy-modal.tsx` — Privacy settings (max-w-2xl): 5 cookie-category switches (Essential locked), "Download my data" + "Delete my account" (AlertDialog confirm), privacy policy summary, save preferences → localStorage + toast.
+     - `cookie-consent.tsx` — Bottom banner (fixed bottom-0), dark teal backdrop-blur, Accept all / Reject non-essential / Privacy settings actions, framer-motion slide-up entrance, persists consent to localStorage.
+     - Updated barrel + page.tsx mounts (5 dynamic imports).
+  2. **ROUND5-STYLING-1**:
+     - `live-activity-ticker.tsx` — Real-time activity ticker with LIVE indicator (pulsing green dot), 14 mock Tunisian events (Amira completed a project, Yassine received 5-star review, new job posted, payment released, etc.), color-coded icons, infinite marquee, pause-on-hover, reduced-motion fallback.
+     - `pricing.tsx` — New landing page section "Simple, transparent pricing": 3-tier pricing cards (Starter Free / Pro TND 39 / Business TND 99) with Monthly/Annual billing toggle (20% off), "Most Popular" highlight on Pro tier, framer-motion staggered entrance + hover lift, "All plans include" comparison panel, 30-day money-back guarantee badge. Added to landing page between WithdrawalOptions + Testimonials.
+     - `achievement-badges.tsx` — 8 achievement types (First Project, Rising Star, Top Rated, Speed Demon, Portfolio Pro, Trusted Pro, Mentor, Centurion) with `grid` and `row` variants. Progress computed from real freelancer data. Sparkle burst animation on unlocked badges (0.6s `whileInView`), grayscale locked badges with animated progress bars. Added to freelancer-profile-modal (new "Achievements" 5th tab, grid variant) + dashboard-view (Overview tab "Your Achievements" card, row variant).
+     - Edited `hero.tsx` (added LiveActivityTicker), `sections/index.ts` (exported Pricing), `page.tsx` (added Pricing section + ProModal mount), `freelancer-profile-modal.tsx` (Achievements tab), `dashboard-view.tsx` (achievements card).
+
+QA verification (all via agent-browser through Caddy port 81):
+- **Live Activity Ticker**: visible in hero with "LIVE" indicator (pulsing green dot) + scrolling events ("Amira just completed a project for Cassurea Technologies", "Skander earned his 5th five-star review this month"). VLM: "horizontal 'LIVE' activity ticker with green dot next to LIVE".
+- **Cookie Consent Banner**: appeared on first visit (cleared localStorage to test). Bottom banner with "Accept all" + "Reject non-essential" + "Privacy settings" buttons. VLM: "high-quality, clean, modern design with clear typography". Clicked Accept → banner hid + toast.
+- **Pricing Section**: scrolled to "Simple, transparent pricing" — 3 tiers (Starter/Pro/Business) visible with "Most Popular" badge on Pro + Monthly/Annual toggle. VLM: **9/10** "clean, professional, excellent visual hierarchy".
+- **Pro Modal**: clicked "Upgrade to Pro" on Pricing section → modal opened with 3 tiers + feature comparison + money-back guarantee. VLM: **8/10** "clean, professional, good visual hierarchy".
+- **Help Modal**: opened via dev helper. Search input + 7-category sidebar + Quick Help cards + FAQ accordion + contact options. VLM: **9/10** "clean, professional, well-organized with clear visual hierarchy".
+- **Referral Modal**: opened via dev helper. Referral link (https://khidma.tn/r/AMIRA2025) + Copy button + 4 social share buttons + stats (8 invited / 5 joined / 200 TND earned) + Gold tier progress + recent referrals table. VLM: **9/10** "clean, modern, well-organized with clear visual hierarchy".
+- **Achievement Badges**: opened freelancer profile (Amira) → clicked "Achievements" tab → 8 badge cards rendered (First Project, Rising Star, Top Rated, Speed Demon, Portfolio Pro, Trusted Pro, Mentor, Centurion) with Unlocked/Locked status. DOM snapshot confirmed all 8 badges present with descriptions + status.
+- No console errors, no crashes, no infinite loops.
+- Lint: 0 errors / 0 warnings. TypeScript: 0 errors. Dev server: HTTP 200 (port 3000 + port 81). Chat service: TCP 3003 listening.
+
+Stage Summary:
+- 6 new modals/components (help-modal, pro-modal, referral-modal, privacy-modal, cookie-consent, live-activity-ticker) + 2 new landing sections (pricing) + 1 new badges system (achievement-badges with grid + row variants).
+- 4 new store actions (openHelp/closeHelp, openPro/closePro, openReferral/closeReferral, openPrivacy/closePrivacy).
+- Landing page now has 15 sections (added Pricing). Hero now has Live Activity Ticker. Freelancer profile modal now has 5 tabs (added Achievements). Dashboard Overview now has "Your Achievements" card.
+- VLM ratings: Pricing section 9/10, Help modal 9/10, Referral modal 9/10, Pro modal 8/10, Cookie banner "high-quality", Live ticker visible.
+- 15-min cron review job (id 328735) continues running.
+
+Unresolved / Risks for next round:
+- Translation dictionary still small (~9 strings); new Help/Pro/Referral/Privacy/Cookie/Achievements/Pricing UIs are English-only.
+- Chat service is in-memory only — resets on restart.
+- Real payment/withdrawal integrations still marked `mock: true` (per spec).
+- Could add a "Khidma for Teams" modal (for agencies/teams hiring multiple freelancers).
+- Could add a blog/resources section to the landing page (per spec section 96).
+- Could add a "Khidma API" docs modal for developers (Business tier mentions API access).
+- The Help modal FAQ could be sourced from a real FAQ database (currently hardcoded 18 pairs).
+- The Pro modal checkout flow is a mock (toast only) — real Stripe integration would be needed for production.
+- The Referral modal's recent referrals table is mocked — real data would come from a referrals table in the DB.
