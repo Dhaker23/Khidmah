@@ -1,12 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Rocket, Search, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
 
 export function FinalCTA() {
   const { openOnboarding, setView } = useApp();
+  const prefersReduced = useReducedMotion();
 
   return (
     <section className="relative bg-[#192d2f] overflow-hidden">
@@ -24,13 +26,7 @@ export function FinalCTA() {
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
-          className="mx-auto max-w-3xl text-center"
-        >
+        <Reveal y={28} className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
             <Sparkles className="size-3.5 text-[#94a8a4]" />
             Free to join · Real verification · 1% fee only
@@ -47,21 +43,37 @@ export function FinalCTA() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <Button
-              size="lg"
-              onClick={openOnboarding}
-              className="h-12 px-6 bg-white text-[#192d2f] hover:bg-white/90 hover:text-[#192d2f]"
-            >
-              <Rocket className="size-4" />
-              Become a Verified Freelancer
-            </Button>
+            <div className="relative">
+              {/* Subtle glow pulse behind primary CTA */}
+              {!prefersReduced && (
+                <motion.div
+                  aria-hidden
+                  className="absolute -inset-1 rounded-md bg-white/30 blur-lg pointer-events-none"
+                  initial={{ opacity: 0.25 }}
+                  animate={{ opacity: [0.25, 0.55, 0.25] }}
+                  transition={{
+                    duration: 2.6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+              <Button
+                size="lg"
+                onClick={openOnboarding}
+                className="relative h-12 px-6 bg-white text-[#192d2f] hover:bg-white/90 hover:text-[#192d2f] group"
+              >
+                <Rocket className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                Become a Verified Freelancer
+              </Button>
+            </div>
             <Button
               size="lg"
               variant="outline"
               onClick={() => setView("freelancers")}
-              className="h-12 px-6 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
+              className="h-12 px-6 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white group"
             >
-              <Search className="size-4" />
+              <Search className="size-4 transition-transform duration-200 group-hover:scale-110" />
               Hire Talent
             </Button>
           </div>
@@ -81,7 +93,7 @@ export function FinalCTA() {
               Local &amp; international withdrawals
             </span>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

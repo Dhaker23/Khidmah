@@ -4,3 +4,6 @@ export { FreelancerProfileModal } from "./freelancer-profile-modal";
 export { ServiceDetailModal } from "./service-detail-modal";
 export { JobDetailModal } from "./job-detail-modal";
 export { WalletModal } from "./wallet-modal";
+export { MessagingModal } from "./messaging-modal";
+export { PostJobModal } from "./post-job-modal";
+export { CreateServiceModal } from "./create-service-modal";

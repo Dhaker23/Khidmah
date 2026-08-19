@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { HelpCircle, ShieldCheck, Wallet, CreditCard, Globe2, Scale, Percent, UserCheck } from "lucide-react";
 import {
   Accordion,
@@ -9,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
 
 interface QA {
@@ -75,13 +75,7 @@ export function FAQ() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           {/* Left: heading */}
-          <motion.div
-            className="lg:col-span-5"
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.55 }}
-          >
+          <Reveal className="lg:col-span-5">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
               FAQ
             </span>
@@ -123,16 +117,10 @@ export function FAQ() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </Reveal>
 
           {/* Right: accordion */}
-          <motion.div
-            className="lg:col-span-7"
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-          >
+          <Reveal className="lg:col-span-7" delay={0.1}>
             <Card className="p-2 sm:p-4 border-border/60">
               <Accordion type="single" collapsible className="w-full">
                 {faqs.map((qa, i) => {
@@ -163,7 +151,7 @@ export function FAQ() {
                 })}
               </Accordion>
             </Card>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

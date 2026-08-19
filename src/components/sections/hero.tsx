@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import {
   Search,
   Rocket,
@@ -10,8 +11,9 @@ import {
   Wallet,
   TrendingUp,
   Sparkles,
+  ArrowRight,
+  Quote,
 } from "lucide-react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "@/components/khidma/verification";
@@ -36,35 +38,153 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
+// Animated count-up hook
+function useCountUp(target: number, duration = 1800, start = false) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setValue(Math.floor(target * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, start]);
+  return value;
+}
+
+const SKILLS_MARQUEE = [
+  "Next.js", "React", "TypeScript", "UI Design", "Figma", "Motion Graphics",
+  "Voice Over", "Copywriting", "SEO", "Blender 3D", "Brand Identity", "After Effects",
+  "Translation", "Premiere Pro", "Tailwind CSS", "Sound Design", "Photography",
+  "Node.js", "Illustrator", "Photoshop", "Mobile App", "3D Rendering",
+];
+
 export function Hero() {
   const { setView, openOnboarding } = useApp();
   const featured = freelancers.slice(0, 3);
+  const prefersReducedMotion = useReducedMotion();
+
+  // Mouse parallax (subtle)
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const onMove = (e: MouseEvent) => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      setMouse({ x, y });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [prefersReducedMotion]);
+
+  // Scroll-based fade for hero (subtle parallax on the floating cards)
+  const { scrollY } = useScroll();
+  const cardsY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : 80]);
+  const cardsOpacity = useTransform(scrollY, [0, 500], [1, 0.4]);
+
+  const counters = {
+    freelancers: useCountUp(trustStats.verifiedFreelancers, 1800, mounted),
+    projects: useCountUp(trustStats.completedProjects, 2200, mounted),
+    paid: useCountUp(Math.floor(trustStats.totalPaidOut / 1000), 2400, mounted),
+  };
 
   const trustChips = [
     {
       icon: Users,
-      label: `${formatNumber(trustStats.verifiedFreelancers)} verified freelancers`,
+      label: `${formatNumber(counters.freelancers)} verified freelancers`,
     },
     {
       icon: ShieldCheck,
-      label: `${formatNumber(trustStats.completedProjects)} projects completed`,
+      label: `${formatNumber(counters.projects)} projects completed`,
     },
     {
       icon: Wallet,
-      label: `${formatTND(trustStats.totalPaidOut)} paid out`,
+      label: `TND ${(counters.pay * 1000).toLocaleString("en-US")} paid out`,
     },
   ];
 
+  // Parallax style helpers
+  const blob1X = mouse.x * 18;
+  const blob1Y = mouse.y * 18;
+  const blob2X = mouse.x * -24;
+  const blob2Y = mouse.y * -24;
+  const cardShift = mouse.x * 6;
+
   return (
-    <section className="relative overflow-hidden bg-khidma-radial bg-dot-grid">
-      {/* Decorative glow */}
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-khidma-radial bg-dot-grid"
+    >
+      {/* Animated gradient mesh blobs */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 opacity-70 pointer-events-none"
+        animate={
+          prefersReducedMotion
+            ? undefined
+            : { rotate: 360 }
+        }
+        transition={
+          prefersReducedMotion
+            ? undefined
+            : { duration: 90, repeat: Infinity, ease: "linear" }
+        }
+      >
+        <motion.div
+          className="absolute -top-32 -left-32 size-[520px] rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(116,134,132,0.30) 0%, transparent 70%)",
+            x: blob1X,
+            y: blob1Y,
+          }}
+        />
+        <motion.div
+          className="absolute top-1/3 -right-40 size-[600px] rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(50,80,77,0.35) 0%, transparent 70%)",
+            x: blob2X,
+            y: blob2Y,
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-1/3 size-[420px] rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(110,133,128,0.20) 0%, transparent 70%)",
+          }}
+        />
+      </motion.div>
+
+      {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 opacity-60 pointer-events-none"
+        aria-hidden
+        className="absolute inset-0 opacity-[0.06] pointer-events-none"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 15% 30%, rgba(116,134,132,0.18) 0%, transparent 45%), radial-gradient(circle at 85% 70%, rgba(50,80,77,0.22) 0%, transparent 50%)",
+            "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 80%)",
         }}
       />
+
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left: copy + CTA */}
@@ -76,8 +196,13 @@ export function Hero() {
           >
             <motion.div variants={itemVariants}>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
-                <Sparkles className="size-3.5 text-[#748684]" />
-                Built for Tunisian talent & clients worldwide
+                <motion.span
+                  animate={prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="size-1.5 rounded-full bg-emerald-400"
+                />
+                <Sparkles className="size-3.5 text-[#94a8a4]" />
+                Built for Tunisian talent &amp; clients worldwide
               </span>
             </motion.div>
 
@@ -87,7 +212,7 @@ export function Hero() {
             >
               Find trusted talent.
               <br />
-              Build your career.
+              <span className="text-khidma-gradient">Build your career.</span>
             </motion.h1>
 
             <motion.p
@@ -95,8 +220,10 @@ export function Hero() {
               className="mt-5 max-w-xl text-base sm:text-lg text-white/75 leading-relaxed"
             >
               A professional marketplace connecting verified Tunisian freelancers
-              with clients locally and globally. Real people. Real skills. Real
-              trust.
+              with clients locally and globally.{" "}
+              <span className="font-semibold text-white/95">
+                Real people. Real skills. Real trust.
+              </span>
             </motion.p>
 
             <motion.div
@@ -106,52 +233,61 @@ export function Hero() {
               <Button
                 size="lg"
                 onClick={() => setView("freelancers")}
-                className="h-11 px-6 bg-white text-[#192d2f] hover:bg-white/90 hover:text-[#192d2f]"
+                className="group h-12 px-6 bg-white text-[#192d2f] hover:bg-white hover:shadow-[0_8px_30px_-4px_rgba(255,255,255,0.4)] hover:shadow-lg transition-all"
               >
-                <Search className="size-4" />
+                <Search className="size-4 transition-transform group-hover:scale-110" />
                 Find a Freelancer
+                <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-1" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 onClick={openOnboarding}
-                className="h-11 px-6 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                className="group h-12 px-6 border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white hover:border-white/50 transition-all backdrop-blur-sm"
               >
-                <Rocket className="size-4" />
+                <Rocket className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:rotate-12" />
                 Start Freelancing
               </Button>
             </motion.div>
 
-            {/* Trust chips */}
+            {/* Trust chips with live counters */}
             <motion.ul
               variants={itemVariants}
               className="mt-8 flex flex-wrap gap-x-6 gap-y-3"
             >
-              {trustChips.map((chip) => (
-                <li
+              {trustChips.map((chip, idx) => (
+                <motion.li
                   key={chip.label}
+                  whileHover={{ scale: 1.02 }}
                   className="flex items-center gap-2 text-sm text-white/80"
                 >
                   <span className="flex size-7 items-center justify-center rounded-full bg-white/10">
                     <chip.icon className="size-3.5 text-[#94a8a4]" />
                   </span>
                   {chip.label}
-                </li>
+                  {idx < trustChips.length - 1 && (
+                    <span className="ml-2 text-white/30">·</span>
+                  )}
+                </motion.li>
               ))}
             </motion.ul>
           </motion.div>
 
-          {/* Right: floating preview cards */}
+          {/* Right: floating preview cards with parallax */}
           <motion.div
             className="lg:col-span-5 relative"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] as const }}
           >
-            <div className="relative space-y-4">
+            <motion.div
+              style={{ y: cardsY, opacity: cardsOpacity, x: cardShift }}
+              className="relative space-y-4"
+            >
               {featured.map((f, i) => (
-                <motion.div
+                <motion.button
                   key={f.id}
+                  onClick={() => useApp.getState().openFreelancer(f.id)}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -159,7 +295,8 @@ export function Hero() {
                     delay: 0.35 + i * 0.15,
                     ease: [0.22, 1, 0.36, 1] as const,
                   }}
-                  className={`rounded-2xl border border-white/10 bg-white/[0.07] backdrop-blur-md p-4 shadow-2xl ${
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  className={`group w-full text-left rounded-2xl border border-white/10 bg-white/[0.07] backdrop-blur-md p-4 shadow-2xl transition-colors hover:border-white/25 ${
                     i === 1 ? "lg:ml-8" : i === 2 ? "lg:mr-4" : ""
                   }`}
                 >
@@ -172,7 +309,7 @@ export function Hero() {
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <h3 className="font-semibold text-sm text-white truncate">
+                        <h3 className="font-semibold text-sm text-white truncate group-hover:text-white">
                           {f.name}
                         </h3>
                         {f.topRated && (
@@ -194,7 +331,7 @@ export function Hero() {
                       {f.skills.slice(0, 2).map((s) => (
                         <span
                           key={s}
-                          className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] text-white/80"
+                          className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] text-white/80 group-hover:bg-white/15 transition-colors"
                         >
                           {s}
                         </span>
@@ -212,15 +349,15 @@ export function Hero() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </motion.button>
               ))}
 
-              {/* Floating stat card */}
+              {/* Floating trust-score badge */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.85 }}
-                className="absolute -bottom-6 -left-6 hidden sm:flex items-center gap-2 rounded-xl border border-white/15 bg-[#32504d]/90 backdrop-blur-md px-4 py-3 shadow-xl"
+                className="absolute -bottom-6 -left-6 hidden sm:flex items-center gap-3 rounded-xl border border-white/15 bg-[#32504d]/90 backdrop-blur-md px-4 py-3 shadow-xl"
               >
                 <div className="flex size-9 items-center justify-center rounded-lg bg-white/10">
                   <TrendingUp className="size-4 text-white" />
@@ -234,13 +371,62 @@ export function Hero() {
                   </div>
                 </div>
               </motion.div>
-            </div>
+
+              {/* Floating mini testimonial */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 1 }}
+                className="absolute -top-6 -right-6 hidden lg:flex items-start gap-2 rounded-xl border border-white/15 bg-white/10 backdrop-blur-md px-3 py-2.5 shadow-xl max-w-[200px]"
+              >
+                <Quote className="size-3.5 text-[#94a8a4] shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-[10px] text-white/70 uppercase tracking-wider">
+                    Verified
+                  </div>
+                  <div className="text-xs text-white font-medium leading-tight">
+                    Identity · Portfolio · Reviews
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
+
+        {/* Skills marquee at the bottom */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="relative mt-16 sm:mt-20 overflow-hidden"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-white/40 font-medium">
+              Popular skills on Khidma
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-white/15 to-transparent" />
+          </div>
+          <div className="relative">
+            <div className="flex gap-2 animate-marquee-slow whitespace-nowrap w-max">
+              {[...SKILLS_MARQUEE, ...SKILLS_MARQUEE].map((skill, i) => (
+                <span
+                  key={`${skill}-${i}`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <span className="size-1 rounded-full bg-[#748684]" />
+                  {skill}
+                </span>
+              ))}
+            </div>
+            {/* edge fades */}
+            <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#192d2f] to-transparent pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#192d2f] to-transparent pointer-events-none" />
+          </div>
+        </motion.div>
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      {/* Bottom fade divider */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </section>
   );
 }

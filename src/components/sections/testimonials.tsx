@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Reveal } from "@/components/khidma/reveal";
+import { cn } from "@/lib/utils";
 import { reviews } from "@/lib/khidma-data";
 
 export function Testimonials() {
@@ -16,28 +17,28 @@ export function Testimonials() {
     <section className="py-16 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-10 sm:mb-14">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-            Success Stories
-          </span>
-          <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            What clients and freelancers say
-          </h2>
-          <p className="mt-3 text-base text-muted-foreground">
-            Real reviews from real contracts. Every testimonial below comes
-            from a verified, paid project on Khidma.
-          </p>
+          <Reveal>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
+              Success Stories
+            </span>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+              What clients and freelancers say
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-3 text-base text-muted-foreground">
+              Real reviews from real contracts. Every testimonial below comes
+              from a verified, paid project on Khidma.
+            </p>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6">
           {picks.map((r, i) => (
-            <motion.div
-              key={r.id}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-            >
-              <Card className="h-full p-6 border-border/60 hover:border-[#32504d]/40 khidma-card relative overflow-hidden">
+            <Reveal key={r.id} delay={0.05 * i}>
+              <Card className="group h-full p-6 border-border/60 hover:border-[#32504d]/40 khidma-card relative overflow-hidden">
                 <Quote
                   className="absolute top-5 right-5 size-8 text-[#32504d]/8"
                   aria-hidden
@@ -46,11 +47,13 @@ export function Testimonials() {
                   {Array.from({ length: 5 }).map((_, idx) => (
                     <Star
                       key={idx}
-                      className={
+                      className={cn(
+                        "size-4 transition-transform duration-200",
                         idx < r.rating
-                          ? "size-4 fill-amber-400 text-amber-400"
-                          : "size-4 text-muted-foreground/30"
-                      }
+                          ? "fill-amber-400 text-amber-400 group-hover:scale-125"
+                          : "text-muted-foreground/30"
+                      )}
+                      style={{ transitionDelay: `${idx * 30}ms` }}
                     />
                   ))}
                 </div>
@@ -79,7 +82,7 @@ export function Testimonials() {
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

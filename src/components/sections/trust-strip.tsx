@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   ShieldCheck,
   Briefcase,
@@ -10,6 +9,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { TrustBadge } from "@/components/khidma/verification";
+import { Reveal, BrandDivider } from "@/components/khidma/reveal";
 import { trustStats, formatNumber, formatTND } from "@/lib/khidma-data";
 
 const items = [
@@ -49,34 +49,24 @@ export function TrustStrip() {
   return (
     <section className="relative border-y border-border/60 bg-muted/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-        >
+        <Reveal>
           <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Trusted by Tunisian talent & international clients
+            Trusted by Tunisian talent &amp; international clients
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {items.map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-              >
-                <TrustBadge
-                  icon={item.icon}
-                  label={item.label}
-                  value={item.value}
-                  className="h-full"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        </Reveal>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          {items.map((item, i) => (
+            <Reveal key={item.label} delay={0.05 * i}>
+              <TrustBadge
+                icon={item.icon}
+                label={item.label}
+                value={item.value}
+                className="h-full"
+              />
+            </Reveal>
+          ))}
+        </div>
+        <BrandDivider label="Why Khidma" className="mt-8 sm:mt-10" />
       </div>
     </section>
   );

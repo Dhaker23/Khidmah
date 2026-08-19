@@ -21,6 +21,7 @@ import {
   FinalCTA,
 } from "@/components/sections";
 import { AuthModal, OnboardingWizard } from "@/components/modals";
+import { CommandPalette } from "@/components/khidma/command-palette";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -69,6 +70,21 @@ const JobDetailModal = dynamic(
 );
 const WalletModal = dynamic(
   () => import("@/components/modals/wallet-modal").then((m) => m.WalletModal),
+  { ssr: false }
+);
+const MessagingModal = dynamic(
+  () => import("@/components/modals/messaging-modal").then((m) => m.MessagingModal),
+  { ssr: false }
+);
+const PostJobModal = dynamic(
+  () => import("@/components/modals/post-job-modal").then((m) => m.PostJobModal),
+  { ssr: false }
+);
+const CreateServiceModal = dynamic(
+  () =>
+    import("@/components/modals/create-service-modal").then(
+      (m) => m.CreateServiceModal
+    ),
   { ssr: false }
 );
 
@@ -139,6 +155,9 @@ export default function Home() {
 
       <Footer />
 
+      {/* Global command palette — self-renders on ⌘K */}
+      <CommandPalette />
+
       {/* Global modals — all self-render based on store state */}
       <AuthModal />
       <OnboardingWizard />
@@ -146,6 +165,9 @@ export default function Home() {
       <ServiceDetailModal />
       <JobDetailModal />
       <WalletModal />
+      <MessagingModal />
+      <PostJobModal />
+      <CreateServiceModal />
     </div>
   );
 }

@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Search,
   Menu,
   X,
-  Bell,
   MessageSquare,
   ChevronDown,
   LayoutDashboard,
   Shield,
   LogOut,
   Wallet,
-  Sparkles,
   Briefcase,
   Users,
   ShoppingBag,
   HelpCircle,
+  PlusCircle,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,16 +36,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { KhidmaLogo } from "./logo";
+import { ThemeToggle } from "./theme-toggle";
+import { LanguageSwitcher } from "./language-switcher";
+import { NotificationsDropdown } from "./notifications-dropdown";
 import { useApp } from "@/lib/store";
+import { useT } from "@/lib/use-t";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { id: "freelancers", label: "Find Talent", icon: Users },
-  { id: "jobs", label: "Find Work", icon: Briefcase },
-  { id: "services", label: "Services", icon: ShoppingBag },
-  { id: "how-it-works", label: "How It Works", icon: HelpCircle },
+  { id: "freelancers", labelKey: "nav.findTalent", icon: Users },
+  { id: "jobs", labelKey: "nav.findWork", icon: Briefcase },
+  { id: "services", labelKey: "nav.services", icon: ShoppingBag },
+  { id: "how-it-works", labelKey: "nav.howItWorks", icon: HelpCircle },
 ] as const;
 
 export function Header() {
@@ -56,11 +61,16 @@ export function Header() {
     setView,
     openAuth,
     currentUser,
-    login,
     logout,
     setSearchQuery,
     openOnboarding,
+    openMessaging,
+    openWallet,
+    openPostJob,
+    openCreateService,
+    openCommandPalette,
   } = useApp();
+  const { t } = useT();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -68,6 +78,20 @@ export function Header() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // ⌘K / Ctrl+K to open command palette
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        openCommandPalette();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openCommandPalette]);
+
+  const navItemsResolved = navItems.map((i) => ({ ...i, label: t(i.labelKey) }));
 
   return (
     <header
@@ -83,7 +107,7 @@ export function Header() {
           {/* Logo */}
           <button
             onClick={() => setView("home")}
-            className="flex items-center gap-2 transition-opacity hover:opacity-90"
+            className="flex items-center gap-2 transition-opacity hover:opacity-90 shrink-0"
             aria-label="Khidma home"
           >
             <KhidmaLogo variant="full" size="sm" />
@@ -91,7 +115,7 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => {
+            {navItemsResolved.map((item) => {
               const Icon = item.icon;
               const active = view === item.id;
               return (
@@ -118,44 +142,80 @@ export function Header() {
             })}
           </nav>
 
-          {/* Search (desktop) */}
+          {/* Search (desktop) — clicking opens command palette */}
           <div className="hidden md:flex flex-1 max-w-md mx-2">
-            <div className="relative w-full group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-              <Input
-                placeholder="Search freelancers, services, skills…"
-                className="pl-9 pr-3 h-10 bg-muted/40 border-border/60 focus-visible:bg-background focus-visible:border-[#32504d]/40 transition-all"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setView("freelancers")}
-              />
-              <kbd className="hidden lg:inline-flex absolute right-2 top-1/2 -translate-y-1/2 h-6 select-none items-center gap-1 rounded border bg-muted/60 px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                ⌘K
+            <button
+              onClick={() => openCommandPalette()}
+              className="group relative w-full h-10 rounded-md border border-border/60 bg-muted/40 hover:bg-muted/60 hover:border-border transition-all flex items-center gap-2 pl-3 pr-2 text-left"
+            >
+              <Search className="size-4 text-muted-foreground pointer-events-none" />
+              <span className="text-sm text-muted-foreground flex-1 truncate">
+                Search freelancers, services, skills…
+              </span>
+              <kbd className="hidden lg:inline-flex h-6 select-none items-center gap-0.5 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground shadow-sm">
+                <span className="text-[9px]">⌘</span>K
               </kbd>
-            </div>
+            </button>
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 shrink-0">
             {currentUser ? (
               <>
+                {/* Post Job / Create Service quick actions */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="hidden md:inline-flex gap-1.5 text-[#32504d] hover:text-[#2b3d3d] hover:bg-[#32504d]/10"
+                    >
+                      <PlusCircle className="size-4" />
+                      Create
+                      <ChevronDown className="size-3 opacity-60" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>Create new…</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        onClick={() => openPostJob()}
+                        className="cursor-pointer"
+                      >
+                        <Briefcase className="mr-2 size-4 text-[#32504d]" />
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">Post a Job</span>
+                          <span className="text-[11px] text-muted-foreground">For clients hiring talent</span>
+                        </div>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => openCreateService()}
+                        className="cursor-pointer"
+                      >
+                        <ShoppingBag className="mr-2 size-4 text-[#32504d]" />
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">Create a Service</span>
+                          <span className="text-[11px] text-muted-foreground">For freelancers selling work</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden md:inline-flex relative"
+                  className="hidden md:inline-flex relative h-9 w-9"
                   aria-label="Messages"
+                  onClick={() => openMessaging()}
                 >
                   <MessageSquare className="size-[18px]" />
                   <span className="absolute top-1 right-1 size-2 rounded-full bg-[#32504d]" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hidden md:inline-flex relative"
-                  aria-label="Notifications"
-                >
-                  <Bell className="size-[18px]" />
-                  <span className="absolute top-1 right-1 size-2 rounded-full bg-amber-500" />
-                </Button>
+
+                <NotificationsDropdown />
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="inline-flex items-center gap-2 rounded-full pl-1.5 pr-2 py-1 hover:bg-muted/60 transition-colors">
@@ -182,13 +242,26 @@ export function Header() {
                       <LayoutDashboard className="mr-2 size-4" />
                       Dashboard
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openMessaging()}>
+                      <MessageSquare className="mr-2 size-4" />
+                      Messages
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openWallet()}>
                       <Wallet className="mr-2 size-4" />
                       Wallet
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openCreateService()}>
+                      <PlusCircle className="mr-2 size-4" />
+                      Create Service
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openPostJob()}>
+                      <Briefcase className="mr-2 size-4" />
+                      Post a Job
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setView("admin")}>
                       <Shield className="mr-2 size-4" />
-                      Admin Review
+                      Admin Review Console
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -202,23 +275,37 @@ export function Header() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+
+                <div className="hidden md:block ml-1">
+                  <ThemeToggle />
+                </div>
+                <div className="hidden md:block">
+                  <LanguageSwitcher />
+                </div>
               </>
             ) : (
               <>
+                <div className="hidden md:block">
+                  <ThemeToggle />
+                </div>
+                <div className="hidden md:block">
+                  <LanguageSwitcher />
+                </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => openAuth("login")}
                   className="hidden sm:inline-flex"
                 >
-                  Log in
+                  {t("nav.login")}
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => openAuth("register")}
-                  className="hidden sm:inline-flex bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+                  className="hidden sm:inline-flex bg-[#2b3d3d] hover:bg-[#192d2f] text-white gap-1.5 group"
                 >
-                  Join Khidma
+                  <Sparkles className="size-3.5 group-hover:rotate-12 transition-transform" />
+                  {t("nav.join")}
                 </Button>
               </>
             )}
@@ -244,7 +331,7 @@ export function Header() {
                   </SheetTitle>
                 </SheetHeader>
                 <div className="p-4 space-y-1">
-                  {navItems.map((item) => {
+                  {navItemsResolved.map((item) => {
                     const Icon = item.icon;
                     return (
                       <button
@@ -271,7 +358,7 @@ export function Header() {
                             setMobileOpen(false);
                           }}
                         >
-                          Log in
+                          {t("nav.login")}
                         </Button>
                         <Button
                           className="w-full bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
@@ -280,32 +367,52 @@ export function Header() {
                             setMobileOpen(false);
                           }}
                         >
-                          Join Khidma
+                          {t("nav.join")}
                         </Button>
                       </>
-                    ) : null}
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => {
-                        setView("dashboard");
-                        setMobileOpen(false);
-                      }}
-                    >
-                      <LayoutDashboard className="mr-2 size-4" />
-                      Dashboard
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => {
-                        setView("admin");
-                        setMobileOpen(false);
-                      }}
-                    >
-                      <Shield className="mr-2 size-4" />
-                      Admin Review Console
-                    </Button>
+                    ) : (
+                      <>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                          onClick={() => {
+                            setView("dashboard");
+                            setMobileOpen(false);
+                          }}
+                        >
+                          <LayoutDashboard className="mr-2 size-4" />
+                          Dashboard
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                          onClick={() => {
+                            openMessaging();
+                            setMobileOpen(false);
+                          }}
+                        >
+                          <MessageSquare className="mr-2 size-4" />
+                          Messages
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                          onClick={() => {
+                            setView("admin");
+                            setMobileOpen(false);
+                          }}
+                        >
+                          <Shield className="mr-2 size-4" />
+                          Admin Review Console
+                        </Button>
+                      </>
+                    )}
+                    <div className="flex items-center justify-between pt-4 mt-2 border-t border-border/60">
+                      <div className="flex items-center gap-2">
+                        <ThemeToggle />
+                        <LanguageSwitcher />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </SheetContent>

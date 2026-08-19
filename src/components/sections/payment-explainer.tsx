@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Check, X, Wallet, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Reveal, SectionHeading } from "@/components/khidma/reveal";
 import { formatTND } from "@/lib/khidma-data";
 
 const example = {
@@ -35,35 +36,22 @@ const excluded = [
 ];
 
 export function PaymentExplainer() {
+  const prefersReduced = useReducedMotion();
   const freelancerPct = (example.freelancer / example.project) * 100;
   const feePct = (example.fee / example.project) * 100;
 
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mb-10 sm:mb-14">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-            Transparent Pricing
-          </span>
-          <h2 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-tight">
-            Transparent Pricing. No Subscriptions. No Credits. No Limits.
-          </h2>
-          <p className="mt-3 text-base text-muted-foreground">
-            Khidma charges a flat 1% marketplace fee on completed contracts.
-            No subscriptions, no proposal credits, no listing fees. Just clear,
-            predictable pricing.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Transparent Pricing"
+          title="Transparent Pricing. No Subscriptions. No Credits. No Limits."
+          description="Khidma charges a flat 1% marketplace fee on completed contracts. No subscriptions, no proposal credits, no listing fees. Just clear, predictable pricing."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 sm:gap-6">
           {/* Example calculation card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-3"
-          >
+          <Reveal className="lg:col-span-3">
             <Card className="h-full p-6 sm:p-8 border-[#32504d]/20 bg-gradient-to-br from-[#192d2f] to-[#2b3d3d] text-white overflow-hidden relative">
               <div
                 className="absolute inset-0 opacity-10 pointer-events-none"
@@ -81,25 +69,31 @@ export function PaymentExplainer() {
                   Project budget of {formatTND(example.project)}
                 </h3>
 
-                {/* Horizontal bar */}
+                {/* Animated horizontal bar */}
                 <div className="mt-6">
                   <div className="flex h-12 w-full overflow-hidden rounded-lg">
-                    <div
+                    <motion.div
+                      initial={prefersReduced ? undefined : { width: 0 }}
+                      whileInView={prefersReduced ? undefined : { width: `${freelancerPct}%` }}
+                      viewport={{ once: true, margin: "-60px" }}
+                      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                       className="flex items-center justify-center bg-[#748684]"
-                      style={{ width: `${freelancerPct}%` }}
                     >
                       <span className="text-[10px] font-semibold text-white sm:text-xs">
                         {freelancerPct}% Freelancer
                       </span>
-                    </div>
-                    <div
+                    </motion.div>
+                    <motion.div
+                      initial={prefersReduced ? undefined : { width: 0 }}
+                      whileInView={prefersReduced ? undefined : { width: `${feePct}%` }}
+                      viewport={{ once: true, margin: "-60px" }}
+                      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
                       className="flex items-center justify-center bg-[#32504d] border-l border-white/20"
-                      style={{ width: `${feePct}%` }}
                     >
                       <span className="text-[10px] font-semibold text-white sm:text-xs whitespace-nowrap">
                         {feePct}%
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
                   <div className="mt-3 flex items-center justify-between text-xs text-white/70">
                     <span className="flex items-center gap-1.5">
@@ -142,16 +136,11 @@ export function PaymentExplainer() {
                 </div>
               </div>
             </Card>
-          </motion.div>
+          </Reveal>
 
           {/* Included vs Excluded */}
           <div className="lg:col-span-2 grid grid-cols-1 gap-5 sm:gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
+            <Reveal delay={0.1}>
               <Card className="h-full p-6 border-border/60">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="flex size-8 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d]">
@@ -178,14 +167,9 @@ export function PaymentExplainer() {
                   ))}
                 </ul>
               </Card>
-            </motion.div>
+            </Reveal>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.18 }}
-            >
+            <Reveal delay={0.18}>
               <Card className="h-full p-6 border-border/60">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="flex size-8 items-center justify-center rounded-lg bg-[#748684]/10 text-[#748684]">
@@ -207,7 +191,7 @@ export function PaymentExplainer() {
                   ))}
                 </ul>
               </Card>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
       </div>

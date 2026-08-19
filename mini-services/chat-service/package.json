@@ -1,0 +1,14 @@
+{
+  "name": "khidma-chat-service",
+  "version": "1.0.0",
+  "description": "Real-time messaging service for Khidma freelance marketplace",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot index.ts",
+    "start": "bun index.ts"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.5"
+  }
+}
