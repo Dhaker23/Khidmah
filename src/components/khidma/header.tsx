@@ -145,25 +145,8 @@ export function Header() {
             })}
           </nav>
 
-          {/* Search (desktop) — clicking opens command palette */}
-          <div data-tour="search" className="hidden md:flex flex-1 max-w-md mx-2">
-            <button
-              onClick={() => openCommandPalette()}
-              aria-label="Search freelancers, services, skills"
-              className="group relative w-full h-10 rounded-md border border-border/60 bg-muted/40 hover:bg-muted/60 hover:border-border transition-all flex items-center gap-2 pl-3 pr-2 text-left"
-            >
-              <Search className="size-4 text-muted-foreground pointer-events-none" />
-              <span className="text-sm text-muted-foreground flex-1 truncate">
-                Search freelancers, services, skills…
-              </span>
-              <kbd className="hidden lg:inline-flex h-6 select-none items-center gap-0.5 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground shadow-sm">
-                <span className="text-[9px]">⌘</span>K
-              </kbd>
-            </button>
-          </div>
-
           {/* Right actions */}
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-1 shrink-0 ml-auto">
             {currentUser ? (
               <>
                 {/* Post Job / Create Service quick actions */}

@@ -11,7 +11,7 @@ interface KhidmaLogoProps {
 export function KhidmaLogo({
   variant = "full",
   className,
-  showArabic = true,
+  showArabic = false,
   size = "md",
 }: KhidmaLogoProps) {
   const sizes = {
