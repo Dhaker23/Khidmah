@@ -21,6 +21,7 @@ import {
   WithdrawalOptions,
   Pricing,
   Testimonials,
+  TestimonialCarousel,
   SuccessStories,
   StatsBanner,
   StatsDashboard,
@@ -28,6 +29,8 @@ import {
   MobileAppPromo,
   CommunitySection,
   AwardsSection,
+  AcademySection,
+  PodcastSection,
   FAQ,
   FinalCTA,
 } from "@/components/sections";
@@ -35,6 +38,7 @@ import { AuthModal, OnboardingWizard } from "@/components/modals";
 import { CommandPalette } from "@/components/khidma/command-palette";
 import { BackToTop } from "@/components/khidma/back-to-top";
 import { CompareTray } from "@/components/khidma/compare-tray";
+import { LiveNotifications } from "@/components/khidma/live-notifications";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -202,11 +206,14 @@ export default function Home() {
               <WithdrawalOptions />
               <Pricing />
               <Testimonials />
+              <TestimonialCarousel />
               <SuccessStories />
               <BlogSection />
               <MobileAppPromo />
               <CommunitySection />
               <AwardsSection />
+              <AcademySection />
+              <PodcastSection />
               <FAQ />
               <FinalCTA />
             </>
@@ -227,6 +234,9 @@ export default function Home() {
 
       {/* Floating compare queue bar — appears when freelancers are queued */}
       <CompareTray />
+
+      {/* Live activity notifications — periodic sonner toasts at bottom-left */}
+      <LiveNotifications />
 
       {/* Global command palette — self-renders on ⌘K */}
       <CommandPalette />
