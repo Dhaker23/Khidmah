@@ -18,3 +18,4 @@ export { PrivacyModal } from "./privacy-modal";
 export { TeamsModal } from "./teams-modal";
 export { ApiDocsModal } from "./api-docs-modal";
 export { PartnersModal } from "./partners-modal";
+export { NewsletterModal } from "./newsletter-modal";

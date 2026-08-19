@@ -22,7 +22,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
   Mail,
   MessageCircle,
@@ -38,7 +38,6 @@ import {
   HelpCircle,
   Star,
   Lock,
-  CheckCircle2,
   Globe2,
   Wallet,
   ShieldCheck,
@@ -290,81 +289,34 @@ function FooterLink({
 /* ------------------------------------------------------------------ */
 
 function NewsletterForm() {
-  const prefersReduced = useReducedMotion();
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+  const openNewsletter = useApp((s) => s.openNewsletter);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-    setStatus("loading");
-    window.setTimeout(() => {
-      setStatus("done");
-      toast.success("You're in! 🎉", {
-        description: "You'll receive Khidma insights at " + email,
-      });
-      setEmail("");
-      window.setTimeout(() => setStatus("idle"), 3500);
-    }, 700);
+    // Open the dedicated premium newsletter modal instead of inline toast.
+    openNewsletter();
   };
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-3">
-        <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-3 flex-1">
-          <div className="relative flex-1">
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
-              aria-label="Email address"
-              disabled={status === "loading" || status === "done"}
-              className="bg-white/5 border-white/15 text-white placeholder:text-white/40 h-12 pr-10 focus-visible:border-[#748684]"
-            />
-            <AnimatePresence mode="wait">
-              {status === "done" && (
-                <motion.span
-                  key="ok"
-                  initial={prefersReduced ? undefined : { opacity: 0, scale: 0.5 }}
-                  animate={prefersReduced ? undefined : { opacity: 1, scale: 1 }}
-                  exit={prefersReduced ? undefined : { opacity: 0, scale: 0.5 }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-400"
-                  aria-hidden
-                >
-                  <CheckCircle2 className="size-4" />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </div>
-          <Button
-            type="submit"
-            size="lg"
-            disabled={status === "loading" || status === "done"}
-            className="bg-[#32504d] hover:bg-[#475959] text-white h-12 px-6 group"
-          >
-            {status === "loading" ? (
-              <>
-                <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                Subscribing…
-              </>
-            ) : status === "done" ? (
-              <>
-                <CheckCircle2 className="size-4" />
-                Subscribed
-              </>
-            ) : (
-              <>
-                Subscribe
-                <Send className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </>
-            )}
-          </Button>
-        </form>
-      </div>
+      <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-3 flex-1">
+        <div className="relative flex-1">
+          <Input
+            type="email"
+            placeholder="you@email.com"
+            aria-label="Email address"
+            className="bg-white/5 border-white/15 text-white placeholder:text-white/40 h-12 pr-10 focus-visible:border-[#748684]"
+          />
+        </div>
+        <Button
+          type="submit"
+          size="lg"
+          className="bg-[#32504d] hover:bg-[#475959] text-white h-12 px-6 group"
+        >
+          Subscribe
+          <Send className="size-4 transition-transform group-hover:translate-x-0.5" />
+        </Button>
+      </form>
       <div className="mt-3 flex items-center gap-1.5 text-[11px] text-white/45">
         <Lock className="size-3" />
         <span>We respect your privacy. Unsubscribe anytime.</span>

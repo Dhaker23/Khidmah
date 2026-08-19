@@ -1,4 +1,5 @@
 export { Hero } from "./hero";
+export { FeaturedThisWeek } from "./featured-this-week";
 export { TrustStrip } from "./trust-strip";
 export { HowItWorks } from "./how-it-works";
 export { Categories } from "./categories";
@@ -16,5 +17,7 @@ export { StatsBanner } from "./stats-banner";
 export { StatsDashboard } from "./stats-dashboard";
 export { BlogSection } from "./blog-section";
 export { MobileAppPromo } from "./mobile-app-promo";
+export { CommunitySection } from "./community-section";
+export { AwardsSection } from "./awards-section";
 export { FAQ } from "./faq";
 export { FinalCTA } from "./final-cta";

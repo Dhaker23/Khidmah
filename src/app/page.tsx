@@ -8,6 +8,7 @@ import { FreelancerGridSkeleton } from "@/components/khidma/skeletons";
 import { PageTransition } from "@/components/khidma/page-transition";
 import {
   Hero,
+  FeaturedThisWeek,
   TrustStrip,
   HowItWorks,
   Categories,
@@ -25,6 +26,8 @@ import {
   StatsDashboard,
   BlogSection,
   MobileAppPromo,
+  CommunitySection,
+  AwardsSection,
   FAQ,
   FinalCTA,
 } from "@/components/sections";
@@ -141,6 +144,10 @@ const PartnersModal = dynamic(
   () => import("@/components/modals/partners-modal").then((m) => m.PartnersModal),
   { ssr: false }
 );
+const NewsletterModal = dynamic(
+  () => import("@/components/modals/newsletter-modal").then((m) => m.NewsletterModal),
+  { ssr: false }
+);
 const CookieConsent = dynamic(
   () => import("@/components/khidma/cookie-consent").then((m) => m.CookieConsent),
   { ssr: false }
@@ -180,6 +187,7 @@ export default function Home() {
           {view === "home" && (
             <>
               <Hero />
+              <FeaturedThisWeek />
               <TrustStrip />
               <HowItWorks />
               <Categories />
@@ -197,6 +205,8 @@ export default function Home() {
               <SuccessStories />
               <BlogSection />
               <MobileAppPromo />
+              <CommunitySection />
+              <AwardsSection />
               <FAQ />
               <FinalCTA />
             </>
@@ -242,6 +252,7 @@ export default function Home() {
       <TeamsModal />
       <ApiDocsModal />
       <PartnersModal />
+      <NewsletterModal />
 
       {/* Global cookie consent banner — self-renders on first visit */}
       <CookieConsent />

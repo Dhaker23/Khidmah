@@ -26,6 +26,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "@/components/khidma/verification";
 import { TrustSeal } from "@/components/khidma/trust-seal";
 import { LiveActivityTicker } from "@/components/khidma/live-activity-ticker";
+import { KhidmaPulse } from "@/components/khidma/khidma-pulse";
+import { useTypewriter } from "@/components/khidma/use-typewriter";
 import { useApp } from "@/lib/store";
 import {
   freelancers,
@@ -71,6 +73,15 @@ const SKILLS_MARQUEE = [
   "Voice Over", "Copywriting", "SEO", "Blender 3D", "Brand Identity", "After Effects",
   "Translation", "Premiere Pro", "Tailwind CSS", "Sound Design", "Photography",
   "Node.js", "Illustrator", "Photoshop", "Mobile App", "3D Rendering",
+];
+
+// Phrases for the typewriter headline (line 2 of the hero).
+// Order matches the brand narrative: build / hire / grow / earn.
+const HEADLINE_PHRASES = [
+  "Build your career.",
+  "Hire verified talent.",
+  "Grow your business.",
+  "Earn your worth.",
 ];
 
 /**
@@ -138,6 +149,7 @@ export function Hero() {
   const { setView, openOnboarding } = useApp();
   const featured = freelancers.slice(0, 3);
   const prefersReducedMotion = useReducedMotion();
+  const { text: typedText, animating: typing } = useTypewriter(HEADLINE_PHRASES);
 
   // Mouse parallax (subtle)
   const sectionRef = useRef<HTMLElement>(null);
@@ -304,7 +316,29 @@ export function Hero() {
               >
                 Find trusted talent.
                 <br />
-                <span className="text-khidma-gradient">Build your career.</span>
+                <span className="text-khidma-gradient">
+                  {typedText}
+                  <motion.span
+                    aria-hidden
+                    animate={
+                      prefersReducedMotion
+                        ? undefined
+                        : { opacity: [1, 0, 1] }
+                    }
+                    transition={
+                      prefersReducedMotion
+                        ? undefined
+                        : {
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            // Blink slower while typing/deleting for a calmer feel.
+                            ...(typing ? { duration: 0.7 } : {}),
+                          }
+                    }
+                    className="ml-0.5 inline-block w-[2px] sm:w-[3px] h-[0.85em] sm:h-[0.9em] translate-y-[0.05em] rounded-full bg-white/80 align-text-bottom"
+                  />
+                </span>
               </h1>
             </motion.div>
 
@@ -369,6 +403,11 @@ export function Hero() {
             {/* Khidma Trust Seal — premium verified Tunisian talent badge */}
             <motion.div variants={itemVariants} className="mt-6" data-tour="trust-seal">
               <TrustSeal variant="full" />
+            </motion.div>
+
+            {/* Khidma Pulse — live real-time-feeling metrics widget */}
+            <motion.div variants={itemVariants} className="mt-6 max-w-xl">
+              <KhidmaPulse />
             </motion.div>
 
             {/* Live activity ticker — real-time platform events */}
