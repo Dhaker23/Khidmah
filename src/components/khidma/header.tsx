@@ -106,18 +106,18 @@ export function Header() {
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className="relative flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <button
             onClick={() => setView("home")}
-            className="flex items-center gap-2 transition-opacity hover:opacity-90 shrink-0"
+            className="flex items-center gap-2 transition-opacity hover:opacity-90 shrink-0 z-10"
             aria-label="Khidma home"
           >
             <KhidmaLogo variant="full" size="sm" />
           </button>
 
-          {/* Desktop Nav */}
-          <nav data-tour="nav" className="hidden lg:flex items-center gap-1">
+          {/* Desktop Nav — absolutely centered */}
+          <nav data-tour="nav" className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {navItemsResolved.map((item) => {
               const Icon = item.icon;
               const active = view === item.id;

@@ -137,19 +137,27 @@ const CHECKS: CheckRow[] = [
 ];
 
 function FullSeal({ className, animated }: { className?: string; animated: boolean }) {
+  const handleClick = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   return (
-    <motion.div
+    <motion.button
+      type="button"
+      onClick={handleClick}
       initial={animated ? { opacity: 0, y: 8 } : undefined}
       animate={animated ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
       className={cn(
-        "relative inline-flex items-center gap-3 rounded-2xl",
+        "relative inline-flex items-center gap-3 rounded-2xl cursor-pointer",
         "border border-white/15 bg-[#32504d]/15 backdrop-blur-md",
         "px-3.5 py-2.5 shadow-lg shadow-[#192d2f]/10",
+        "hover:bg-[#32504d]/25 hover:border-white/25 transition-all",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
         className
       )}
-      role="img"
-      aria-label="Khidma Trust Seal — verified Tunisian talent across Identity, Portfolio, and Reviews"
+      aria-label="Khidma Trust Seal — click to scroll to top"
     >
       {/* Rotating conic ring + K mark */}
       <span className="relative inline-flex size-10 shrink-0 items-center justify-center">
@@ -219,7 +227,7 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
       <span className="hidden sm:flex size-8 items-center justify-center rounded-lg bg-[#32504d]/15 ml-1">
         <ShieldCheck className="size-4 text-[#32504d]" />
       </span>
-    </motion.div>
+    </motion.button>
   );
 }
 
