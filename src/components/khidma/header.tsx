@@ -18,6 +18,7 @@ import {
   HelpCircle,
   PlusCircle,
   Sparkles,
+  Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,6 +70,8 @@ export function Header() {
     openPostJob,
     openCreateService,
     openCommandPalette,
+    openFavorites,
+    favoritesCount,
   } = useApp();
   const { t } = useT();
 
@@ -216,6 +219,22 @@ export function Header() {
 
                 <NotificationsDropdown />
 
+                {/* Favorites */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden md:inline-flex relative h-9 w-9"
+                  aria-label={`Saved items${favoritesCount > 0 ? ` (${favoritesCount})` : ""}`}
+                  onClick={() => openFavorites()}
+                >
+                  <Heart className="size-[18px]" />
+                  {favoritesCount > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#32504d] text-white text-[10px] font-semibold leading-4 grid place-items-center">
+                      {favoritesCount > 99 ? "99+" : favoritesCount}
+                    </span>
+                  )}
+                </Button>
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="inline-flex items-center gap-2 rounded-full pl-1.5 pr-2 py-1 hover:bg-muted/60 transition-colors">
@@ -347,6 +366,22 @@ export function Header() {
                       </button>
                     );
                   })}
+                  {/* Saved items — always available */}
+                  <button
+                    onClick={() => {
+                      openFavorites();
+                      setMobileOpen(false);
+                    }}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-muted"
+                  >
+                    <Heart className="size-4 text-[#32504d]" />
+                    Saved Items
+                    {favoritesCount > 0 && (
+                      <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-[#32504d] text-white text-[10px] font-semibold leading-5 grid place-items-center">
+                        {favoritesCount > 99 ? "99+" : favoritesCount}
+                      </span>
+                    )}
+                  </button>
                   <div className="pt-4 mt-4 border-t border-border/60 space-y-2">
                     {!currentUser ? (
                       <>

@@ -25,7 +25,14 @@ import {
   Eye,
   X,
   Award,
+  Share2,
+  Flag,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
 import { getAllServices, getFreelancerById, formatTND, formatNumber } from "@/lib/khidma-data";
@@ -41,6 +48,8 @@ export function ServiceDetailModal() {
     openFreelancer,
     openAuth,
     currentUser,
+    openShare,
+    openReport,
   } = useApp();
   const [pkg, setPkg] = useState<PkgKey>("standard");
   const [lastServiceId, setLastServiceId] = useState(selectedServiceId);
@@ -173,9 +182,53 @@ export function ServiceDetailModal() {
                   )}
 
                   <div>
-                    <h1 className="text-lg sm:text-xl font-display font-bold leading-snug">
-                      {service.title}
-                    </h1>
+                    <div className="flex items-start justify-between gap-3">
+                      <h1 className="text-lg sm:text-xl font-display font-bold leading-snug flex-1 min-w-0">
+                        {service.title}
+                      </h1>
+                      <div className="flex items-center gap-1 shrink-0 -mt-0.5">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              aria-label={`Share ${service.title}`}
+                              className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+                              onClick={() =>
+                                openShare({
+                                  entityType: "service",
+                                  entityId: service.id,
+                                  entityTitle: service.title,
+                                })
+                              }
+                            >
+                              <Share2 className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Share</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              aria-label={`Report ${service.title}`}
+                              className="size-8 text-muted-foreground hover:text-rose-600 hover:bg-rose-500/10"
+                              onClick={() =>
+                                openReport({
+                                  entityType: "service",
+                                  entityId: service.id,
+                                  entityTitle: service.title,
+                                })
+                              }
+                            >
+                              <Flag className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Report this listing</TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </div>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs text-muted-foreground">
                       <span className="inline-flex items-center gap-1">
                         <Star className="size-3.5 fill-amber-400 text-amber-400" />

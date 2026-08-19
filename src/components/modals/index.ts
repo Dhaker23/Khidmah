@@ -9,3 +9,5 @@ export { PostJobModal } from "./post-job-modal";
 export { CreateServiceModal } from "./create-service-modal";
 export { CompareModal } from "./compare-modal";
 export { FavoritesModal } from "./favorites-modal";
+export { ShareModal } from "./share-modal";
+export { ReportModal } from "./report-modal";

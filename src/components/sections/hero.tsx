@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "@/components/khidma/verification";
+import { TrustSeal } from "@/components/khidma/trust-seal";
 import { useApp } from "@/lib/store";
 import {
   freelancers,
@@ -362,6 +363,11 @@ export function Hero() {
                 </motion.li>
               ))}
             </motion.ul>
+
+            {/* Khidma Trust Seal — premium verified Tunisian talent badge */}
+            <motion.div variants={itemVariants} className="mt-6">
+              <TrustSeal variant="full" />
+            </motion.div>
           </motion.div>
 
           {/* Right: floating preview cards with parallax */}

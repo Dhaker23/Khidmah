@@ -1,17 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { Star, MapPin, Clock, Heart, Eye } from "lucide-react";
+import { Star, MapPin, Clock, Heart, GitCompare, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "./verification";
+import { TrustSeal } from "./trust-seal";
 import { useApp } from "@/lib/store";
 import { formatTND, formatNumber, type Freelancer } from "@/lib/khidma-data";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { toast } from "sonner";
 
 interface FreelancerCardProps {
   freelancer: Freelancer;
@@ -26,9 +26,38 @@ const availabilityConfig = {
 } as const;
 
 export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: FreelancerCardProps) {
-  const { openFreelancer } = useApp();
-  const [liked, setLiked] = useState(false);
+  const openFreelancer = useApp((s) => s.openFreelancer);
+  const favorites = useApp((s) => s.favorites);
+  const toggleFavorite = useApp((s) => s.toggleFavorite);
+  const compareIds = useApp((s) => s.compareIds);
+  const toggleCompare = useApp((s) => s.toggleCompare);
+  const isFav = favorites.some((fav) => fav.id === f.id && fav.type === "freelancer");
+  const inCompare = compareIds.includes(f.id);
   const avail = availabilityConfig[f.availability];
+
+  const onHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(f.id, "freelancer");
+    toast.success(isFav ? "Removed from saved" : "Saved to favorites", {
+      description: f.name,
+    });
+  };
+
+  const onCompareClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!inCompare && compareIds.length >= 3) {
+      toast.error("Compare queue full", {
+        description: "Remove a freelancer to add a new one",
+      });
+      return;
+    }
+    toggleCompare(f.id);
+    if (!inCompare) {
+      toast.success("Added to compare", {
+        description: `${f.name} — ${compareIds.length + 1}/3`,
+      });
+    }
+  };
 
   return (
     <motion.div
@@ -51,20 +80,54 @@ export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: Fr
             }}
           />
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setLiked((p) => !p);
-            }}
+            onClick={onHeartClick}
+            aria-label={isFav ? `Remove ${f.name} from favorites` : `Save ${f.name} to favorites`}
+            aria-pressed={isFav}
             className="absolute top-2 right-2 size-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-white/20 transition-colors"
           >
-            <Heart className={cn("size-3.5", liked ? "fill-rose-500 text-rose-500" : "text-white")} />
+            <Heart
+              className={cn("size-3.5", isFav ? "fill-rose-500 text-rose-500" : "text-white")}
+            />
           </button>
+          {/* Compact Trust Seal — top-left of cover strip for top-rated freelancers */}
+          {f.topRated && (
+            <div className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-white/15 backdrop-blur-md px-1.5 py-0.5 shadow-sm">
+              <TrustSeal variant="compact" animated={false} />
+            </div>
+          )}
           <div className="absolute bottom-2 left-3 flex items-center gap-1.5">
             <span className={cn("size-2 rounded-full", avail.color)} />
             <span className="text-[10px] uppercase tracking-wider text-white/90 font-medium">
               {avail.label}
             </span>
           </div>
+
+          {/* Compare checkbox — bottom-right of cover strip */}
+          <button
+            onClick={onCompareClick}
+            aria-label={inCompare ? `Remove ${f.name} from compare` : `Add ${f.name} to compare`}
+            aria-pressed={inCompare}
+            className={cn(
+              "absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium transition-all",
+              "bg-white/10 backdrop-blur-md hover:bg-white/20",
+              inCompare && "bg-[#32504d] text-white hover:bg-[#2b3d3d]"
+            )}
+          >
+            <GitCompare className="size-3" />
+            <span className="text-white/90">
+              {inCompare ? "In compare" : "Compare"}
+            </span>
+            <span
+              className={cn(
+                "ml-0.5 grid place-items-center size-3 rounded-[3px] border",
+                inCompare
+                  ? "bg-white border-white text-[#32504d]"
+                  : "border-white/70 text-transparent"
+              )}
+            >
+              <Check className="size-2.5" strokeWidth={3} />
+            </span>
+          </button>
         </div>
 
         <div className="p-4 space-y-3">
@@ -147,7 +210,19 @@ export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: Fr
 
 // Compact horizontal variant for lists
 export function FreelancerListRow({ freelancer: f, index = 0 }: { freelancer: Freelancer; index?: number }) {
-  const { openFreelancer } = useApp();
+  const openFreelancer = useApp((s) => s.openFreelancer);
+  const favorites = useApp((s) => s.favorites);
+  const toggleFavorite = useApp((s) => s.toggleFavorite);
+  const isFav = favorites.some((fav) => fav.id === f.id && fav.type === "freelancer");
+
+  const onHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(f.id, "freelancer");
+    toast.success(isFav ? "Removed from saved" : "Saved to favorites", {
+      description: f.name,
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -182,6 +257,22 @@ export function FreelancerListRow({ freelancer: f, index = 0 }: { freelancer: Fr
           </span>
         </div>
       </div>
+
+      {/* Heart button */}
+      <button
+        onClick={onHeartClick}
+        aria-label={isFav ? `Remove ${f.name} from favorites` : `Save ${f.name} to favorites`}
+        aria-pressed={isFav}
+        className={cn(
+          "size-8 grid place-items-center rounded-full transition-colors",
+          isFav
+            ? "text-rose-500 hover:bg-rose-500/10"
+            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+        )}
+      >
+        <Heart className={cn("size-4", isFav && "fill-rose-500")} />
+      </button>
+
       <div className="text-right">
         <div className="text-sm font-semibold">{formatTND(f.hourlyRate)}</div>
         <div className="text-[10px] text-muted-foreground">/hour</div>

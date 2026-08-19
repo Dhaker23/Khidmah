@@ -14,6 +14,21 @@ type View =
 type Theme = "light" | "dark";
 type Lang = "en" | "fr" | "ar";
 
+export type ShareEntityType = "freelancer" | "service" | "job";
+export type ReportEntityType = "freelancer" | "service" | "job" | "review";
+
+export interface SharePayload {
+  entityType: ShareEntityType;
+  entityId: string;
+  entityTitle: string;
+}
+
+export interface ReportPayload {
+  entityType: ReportEntityType;
+  entityId: string;
+  entityTitle: string;
+}
+
 interface ModalState {
   authOpen: boolean;
   authMode: "login" | "register";
@@ -29,6 +44,10 @@ interface ModalState {
   commandPaletteOpen: boolean;
   compareOpen: boolean;
   favoritesOpen: boolean;
+  shareOpen: boolean;
+  sharePayload: SharePayload | null;
+  reportOpen: boolean;
+  reportPayload: ReportPayload | null;
 }
 
 export type FavoriteType = "freelancer" | "service" | "job";
@@ -85,6 +104,10 @@ interface AppState {
   closeCompare: () => void;
   openFavorites: () => void;
   closeFavorites: () => void;
+  openShare: (payload: SharePayload) => void;
+  closeShare: () => void;
+  openReport: (payload: ReportPayload) => void;
+  closeReport: () => void;
   // demo logged-in user (no real auth)
   currentUser: { name: string; type: "freelancer" | "client"; avatar: string } | null;
   login: (name: string, type: "freelancer" | "client") => void;
@@ -188,6 +211,10 @@ export const useApp = create<AppState>((set) => ({
     commandPaletteOpen: false,
     compareOpen: false,
     favoritesOpen: false,
+    shareOpen: false,
+    sharePayload: null,
+    reportOpen: false,
+    reportPayload: null,
   },
   openAuth: (mode = "login") =>
     set((s) => ({ modal: { ...s.modal, authOpen: true, authMode: mode } })),
@@ -199,16 +226,83 @@ export const useApp = create<AppState>((set) => ({
   setOnboardingStep: (n) =>
     set((s) => ({ modal: { ...s.modal, onboardingStep: n } })),
   openFreelancer: (id) =>
-    set((s) => ({ modal: { ...s.modal, selectedFreelancerId: id } })),
+    set((s) => {
+      // Track in recently-viewed (dedupe + cap 8)
+      const filtered = s.recentlyViewed.filter(
+        (r) => !(r.id === id && r.type === "freelancer")
+      );
+      const recentlyViewed = [
+        { id, type: "freelancer" as FavoriteType, viewedAt: Date.now() },
+        ...filtered,
+      ].slice(0, 8);
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem(
+            "khidma:recently-viewed",
+            JSON.stringify(recentlyViewed)
+          );
+        } catch {
+          /* ignore */
+        }
+      }
+      return {
+        modal: { ...s.modal, selectedFreelancerId: id },
+        recentlyViewed,
+      };
+    }),
   closeFreelancer: () =>
     set((s) => ({ modal: { ...s.modal, selectedFreelancerId: null } })),
   openService: (id) =>
-    set((s) => ({ modal: { ...s.modal, selectedServiceId: id } })),
+    set((s) => {
+      const filtered = s.recentlyViewed.filter(
+        (r) => !(r.id === id && r.type === "service")
+      );
+      const recentlyViewed = [
+        { id, type: "service" as FavoriteType, viewedAt: Date.now() },
+        ...filtered,
+      ].slice(0, 8);
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem(
+            "khidma:recently-viewed",
+            JSON.stringify(recentlyViewed)
+          );
+        } catch {
+          /* ignore */
+        }
+      }
+      return {
+        modal: { ...s.modal, selectedServiceId: id },
+        recentlyViewed,
+      };
+    }),
   closeService: () =>
     set((s) => ({ modal: { ...s.modal, selectedServiceId: null } })),
-  openJob: (id) => set((s) => ({ modal: { ...s.modal, selectedJobId: id } })),
-  closeJob: () =>
-    set((s) => ({ modal: { ...s.modal, selectedJobId: null } })),
+  openJob: (id) =>
+    set((s) => {
+      const filtered = s.recentlyViewed.filter(
+        (r) => !(r.id === id && r.type === "job")
+      );
+      const recentlyViewed = [
+        { id, type: "job" as FavoriteType, viewedAt: Date.now() },
+        ...filtered,
+      ].slice(0, 8);
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem(
+            "khidma:recently-viewed",
+            JSON.stringify(recentlyViewed)
+          );
+        } catch {
+          /* ignore */
+        }
+      }
+      return {
+        modal: { ...s.modal, selectedJobId: id },
+        recentlyViewed,
+      };
+    }),
+  closeJob: () => set((s) => ({ modal: { ...s.modal, selectedJobId: null } })),
   openWallet: () => set((s) => ({ modal: { ...s.modal, walletOpen: true } })),
   closeWallet: () => set((s) => ({ modal: { ...s.modal, walletOpen: false } })),
   openMessaging: () => set((s) => ({ modal: { ...s.modal, messagingOpen: true } })),
@@ -223,6 +317,12 @@ export const useApp = create<AppState>((set) => ({
   closeCompare: () => set((s) => ({ modal: { ...s.modal, compareOpen: false } })),
   openFavorites: () => set((s) => ({ modal: { ...s.modal, favoritesOpen: true } })),
   closeFavorites: () => set((s) => ({ modal: { ...s.modal, favoritesOpen: false } })),
+  openShare: (payload) =>
+    set((s) => ({ modal: { ...s.modal, shareOpen: true, sharePayload: payload } })),
+  closeShare: () => set((s) => ({ modal: { ...s.modal, shareOpen: false } })),
+  openReport: (payload) =>
+    set((s) => ({ modal: { ...s.modal, reportOpen: true, reportPayload: payload } })),
+  closeReport: () => set((s) => ({ modal: { ...s.modal, reportOpen: false } })),
   currentUser: null,
   login: (name, type) =>
     set({

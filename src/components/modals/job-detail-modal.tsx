@@ -26,7 +26,14 @@ import {
   Layers,
   GraduationCap,
   Wallet,
+  Share2,
+  Flag,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
 import { jobs, formatTND } from "@/lib/khidma-data";
@@ -38,6 +45,8 @@ export function JobDetailModal() {
     closeJob,
     openAuth,
     currentUser,
+    openShare,
+    openReport,
   } = useApp();
 
   useEffect(() => {
@@ -119,9 +128,53 @@ export function JobDetailModal() {
               </Badge>
             </div>
 
-            <h2 className="text-xl font-display font-bold leading-snug text-foreground pr-8">
-              {job.title}
-            </h2>
+            <div className="flex items-start justify-between gap-3 pr-8">
+              <h2 className="text-xl font-display font-bold leading-snug text-foreground flex-1 min-w-0">
+                {job.title}
+              </h2>
+              <div className="flex items-center gap-1 shrink-0">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      aria-label={`Share ${job.title}`}
+                      className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+                      onClick={() =>
+                        openShare({
+                          entityType: "job",
+                          entityId: job.id,
+                          entityTitle: job.title,
+                        })
+                      }
+                    >
+                      <Share2 className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Share</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      aria-label={`Report ${job.title}`}
+                      className="size-8 text-muted-foreground hover:text-rose-600 hover:bg-rose-500/10"
+                      onClick={() =>
+                        openReport({
+                          entityType: "job",
+                          entityId: job.id,
+                          entityTitle: job.title,
+                        })
+                      }
+                    >
+                      <Flag className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Report this listing</TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-muted-foreground">
               <span>

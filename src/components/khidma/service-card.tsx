@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, Clock, Zap } from "lucide-react";
+import { Star, Clock, Zap, Heart, Bookmark } from "lucide-react";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useApp } from "@/lib/store";
 import { formatTND, formatNumber, type Service } from "@/lib/khidma-data";
 import { getFreelancerById } from "@/lib/khidma-data";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export function ServiceCard({ service: s, index = 0 }: { service: Service; index?: number }) {
-  const { openService } = useApp();
+  const openService = useApp((s) => s.openService);
+  const favorites = useApp((s) => s.favorites);
+  const toggleFavorite = useApp((s) => s.toggleFavorite);
+  const isFav = favorites.some((fav) => fav.id === s.id && fav.type === "service");
   const f = getFreelancerById(s.freelancerId);
+
+  const onHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(s.id, "service");
+    toast.success(isFav ? "Removed from saved" : "Saved to favorites", {
+      description: s.title,
+    });
+  };
 
   return (
     <motion.div
@@ -42,6 +55,38 @@ export function ServiceCard({ service: s, index = 0 }: { service: Service; index
               {s.deliveryDays}-day delivery
             </Badge>
           </div>
+
+          {/* "Saved" badge (visible when isFav) */}
+          {isFav && (
+            <span
+              className={cn(
+                "absolute top-2 right-12 inline-flex items-center gap-1 rounded-full px-2 py-0.5",
+                "bg-[#32504d] text-white text-[10px] font-medium shadow-sm"
+              )}
+            >
+              <Bookmark className="size-2.5 fill-white" />
+              Saved
+            </span>
+          )}
+
+          {/* Heart button */}
+          <button
+            onClick={onHeartClick}
+            aria-label={isFav ? `Remove service from favorites` : `Save service to favorites`}
+            aria-pressed={isFav}
+            className={cn(
+              "absolute top-2 right-2 size-8 rounded-full backdrop-blur-md grid place-items-center transition-colors",
+              isFav
+                ? "bg-white/90 text-rose-500 hover:bg-white"
+                : "bg-black/30 text-white hover:bg-black/50"
+            )}
+          >
+            <Heart
+              className={cn("size-3.5", isFav && "fill-rose-500")}
+              strokeWidth={2.25}
+            />
+          </button>
+
           <div className="absolute bottom-2 left-3 text-white text-xs font-medium">
             {s.category}
           </div>

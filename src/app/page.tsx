@@ -1,11 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/components/khidma/header";
 import { Footer } from "@/components/khidma/footer";
 import { CursorGlow } from "@/components/khidma/cursor-glow";
 import { FreelancerGridSkeleton } from "@/components/khidma/skeletons";
+import { PageTransition } from "@/components/khidma/page-transition";
 import {
   Hero,
   TrustStrip,
@@ -25,6 +25,7 @@ import {
 import { AuthModal, OnboardingWizard } from "@/components/modals";
 import { CommandPalette } from "@/components/khidma/command-palette";
 import { BackToTop } from "@/components/khidma/back-to-top";
+import { CompareTray } from "@/components/khidma/compare-tray";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -98,6 +99,14 @@ const FavoritesModalDynamic = dynamic(
   () => import("@/components/modals/favorites-modal").then((m) => m.FavoritesModal),
   { ssr: false }
 );
+const ShareModal = dynamic(
+  () => import("@/components/modals/share-modal").then((m) => m.ShareModal),
+  { ssr: false }
+);
+const ReportModal = dynamic(
+  () => import("@/components/modals/report-modal").then((m) => m.ReportModal),
+  { ssr: false }
+);
 
 function ViewLoading() {
   return (
@@ -122,47 +131,44 @@ export default function Home() {
       <CursorGlow />
 
       <main className="flex-1">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={view}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className={cn(view !== "home" && view !== "how-it-works" && "pt-4")}
-          >
-            {view === "home" && (
-              <>
-                <Hero />
-                <TrustStrip />
-                <HowItWorks />
-                <Categories />
-                <FeaturedFreelancers />
-                <FeaturedServices />
-                <OpenJobs />
-                <StatsBanner />
-                <WhyKhidma />
-                <PaymentExplainer />
-                <WithdrawalOptions />
-                <Testimonials />
-                <FAQ />
-                <FinalCTA />
-              </>
-            )}
-            {view === "freelancers" && <FreelancersView />}
-            {view === "services" && <ServicesView />}
-            {view === "jobs" && <JobsView />}
-            {view === "how-it-works" && <HowItWorksView />}
-            {view === "dashboard" && <DashboardView />}
-            {view === "admin" && <AdminView />}
-          </motion.div>
-        </AnimatePresence>
+        <PageTransition
+          viewKey={view}
+          className={cn(view !== "home" && view !== "how-it-works" && "pt-4")}
+        >
+          {view === "home" && (
+            <>
+              <Hero />
+              <TrustStrip />
+              <HowItWorks />
+              <Categories />
+              <FeaturedFreelancers />
+              <FeaturedServices />
+              <OpenJobs />
+              <StatsBanner />
+              <WhyKhidma />
+              <PaymentExplainer />
+              <WithdrawalOptions />
+              <Testimonials />
+              <FAQ />
+              <FinalCTA />
+            </>
+          )}
+          {view === "freelancers" && <FreelancersView />}
+          {view === "services" && <ServicesView />}
+          {view === "jobs" && <JobsView />}
+          {view === "how-it-works" && <HowItWorksView />}
+          {view === "dashboard" && <DashboardView />}
+          {view === "admin" && <AdminView />}
+        </PageTransition>
       </main>
 
       <Footer />
 
       {/* Floating back-to-top button with scroll progress ring */}
       <BackToTop />
+
+      {/* Floating compare queue bar — appears when freelancers are queued */}
+      <CompareTray />
 
       {/* Global command palette — self-renders on ⌘K */}
       <CommandPalette />
@@ -179,6 +185,8 @@ export default function Home() {
       <CreateServiceModal />
       <CompareModalDynamic />
       <FavoritesModalDynamic />
+      <ShareModal />
+      <ReportModal />
     </div>
   );
 }

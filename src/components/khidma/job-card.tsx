@@ -8,6 +8,7 @@ import {
   Wallet,
   ShieldCheck,
   ChevronRight,
+  Heart,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,9 +16,23 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useApp } from "@/lib/store";
 import { formatTND, type Job } from "@/lib/khidma-data";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
-  const { openJob } = useApp();
+  const openJob = useApp((s) => s.openJob);
+  const favorites = useApp((s) => s.favorites);
+  const toggleFavorite = useApp((s) => s.toggleFavorite);
+  const isFav = favorites.some((fav) => fav.id === job.id && fav.type === "job");
+
+  const onHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(job.id, "job");
+    toast.success(isFav ? "Removed from saved" : "Saved to favorites", {
+      description: job.title,
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -42,12 +57,28 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
               {job.location}
             </Badge>
           </div>
-          {job.verifiedClient && (
-            <span className="inline-flex items-center gap-1 text-[10px] text-[#32504d] font-medium shrink-0">
-              <ShieldCheck className="size-3" />
-              Verified Client
-            </span>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            {job.verifiedClient && (
+              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-[#32504d] font-medium shrink-0">
+                <ShieldCheck className="size-3" />
+                Verified Client
+              </span>
+            )}
+            {/* Heart button */}
+            <button
+              onClick={onHeartClick}
+              aria-label={isFav ? `Remove job from favorites` : `Save job to favorites`}
+              aria-pressed={isFav}
+              className={cn(
+                "size-8 grid place-items-center rounded-full transition-colors",
+                isFav
+                  ? "text-rose-500 hover:bg-rose-500/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              )}
+            >
+              <Heart className={cn("size-4", isFav && "fill-rose-500")} />
+            </button>
+          </div>
         </div>
 
         <h3 className="font-semibold text-base leading-snug group-hover:text-[#32504d] transition-colors mb-2">

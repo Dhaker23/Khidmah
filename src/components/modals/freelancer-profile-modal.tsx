@@ -36,7 +36,14 @@ import {
   MessageSquare,
   FileText,
   ChevronRight,
+  Share2,
+  Flag,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
 import {
@@ -243,6 +250,8 @@ export function FreelancerProfileModal() {
     openService,
   openAuth,
     currentUser,
+    openShare,
+    openReport,
   } = useApp();
   const [tab, setTab] = useState("overview");
   const [lastFreelancerId, setLastFreelancerId] = useState(selectedFreelancerId);
@@ -396,6 +405,47 @@ export function FreelancerProfileModal() {
                 <FileText className="size-3.5" />
                 Request Proposal
               </Button>
+              {/* Share + Report icon buttons with tooltips */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    aria-label={`Share ${f.name}'s profile`}
+                    className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+                    onClick={() =>
+                      openShare({
+                        entityType: "freelancer",
+                        entityId: f.id,
+                        entityTitle: f.name,
+                      })
+                    }
+                  >
+                    <Share2 className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Share</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    aria-label={`Report ${f.name}'s profile`}
+                    className="size-8 text-muted-foreground hover:text-rose-600 hover:bg-rose-500/10"
+                    onClick={() =>
+                      openReport({
+                        entityType: "freelancer",
+                        entityId: f.id,
+                        entityTitle: f.name,
+                      })
+                    }
+                  >
+                    <Flag className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Report this listing</TooltipContent>
+              </Tooltip>
             </div>
           </div>
 
