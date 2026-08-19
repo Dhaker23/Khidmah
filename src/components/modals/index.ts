@@ -15,3 +15,5 @@ export { HelpModal } from "./help-modal";
 export { ProModal } from "./pro-modal";
 export { ReferralModal } from "./referral-modal";
 export { PrivacyModal } from "./privacy-modal";
+export { TeamsModal } from "./teams-modal";
+export { ApiDocsModal } from "./api-docs-modal";

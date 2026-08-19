@@ -11,5 +11,7 @@ export { WithdrawalOptions } from "./withdrawal-options";
 export { Pricing } from "./pricing";
 export { Testimonials } from "./testimonials";
 export { StatsBanner } from "./stats-banner";
+export { StatsDashboard } from "./stats-dashboard";
+export { BlogSection } from "./blog-section";
 export { FAQ } from "./faq";
 export { FinalCTA } from "./final-cta";

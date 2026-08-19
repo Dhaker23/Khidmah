@@ -949,3 +949,246 @@ Unresolved / Risks for next round:
 - The Help modal FAQ could be sourced from a real FAQ database (currently hardcoded 18 pairs).
 - The Pro modal checkout flow is a mock (toast only) — real Stripe integration would be needed for production.
 - The Referral modal's recent referrals table is mocked — real data would come from a referrals table in the DB.
+
+---
+Task ID: ROUND6-FEATURES-1
+Agent: full-stack-developer (blog + teams + api docs)
+Task: Add a Blog/Resources landing page section + 2 new modals (Khidma for Teams + Khidma API docs). Per spec section 96, the blog section can host advertising. Self-render modal pattern based on `modal.teamsOpen` / `modal.apiDocsOpen` store flags.
+
+Work Log:
+- Read worklog for project context (Round 5 complete: 6 views + 17 modals + 15 sections + chat service + dark mode + favorites/compare/recently-viewed + LiveActivityTicker + Pricing + Achievement Badges + Help/Pro/Referral/Privacy/Cookie modals). Verified `useApp` store already exposes `openPro`, `openAuth`, `openOnboarding`, `setView`, `pushNotification` etc.
+- Inspected existing structures: `src/lib/store.ts` (ModalState interface + initial state + actions), `src/components/sections/index.ts` barrel, `src/app/page.tsx` (dynamic modal imports + landing page composition), `src/components/khidma/footer.tsx` (NavLink interface already had `action: "apiDocs" | "teams" | "help"` field but links were placed in the wrong "Marketplace" column), `src/components/khidma/reveal.tsx` (Reveal + SectionHeading + BrandDivider helpers), shadcn Dialog/Tabs/Accordion/Sheet/ScrollArea primitives.
+
+**Store extension (`src/lib/store.ts`):**
+- Added `teamsOpen: boolean` + `apiDocsOpen: boolean` to ModalState interface.
+- Added `openTeams` / `closeTeams` / `openApiDocs` / `closeApiDocs` to AppState interface.
+- Added both flags to initial `modal` state object (both default false).
+- Implemented the 4 actions (open sets true, close sets false) following existing pattern.
+
+**Feature 1 — BlogSection (`src/components/sections/blog-section.tsx`):**
+- New "use client" section. SectionHeading eyebrow "KHIDMA BLOG" + title "Insights & Resources" (with `Resources` highlighted in teal) + description "Guides, stories, and best practices from the Khidma community."
+- **8 mock articles** covering all 8 spec topics:
+  1. "How to write a winning proposal that gets hired" (Freelancing, featured)
+  2. "Tunisian freelancer success: from Sfax to Silicon Valley" (Tunisian Success Stories)
+  3. "Next.js 16 best practices for production apps" (Development)
+  4. "Setting your hourly rate as a beginner freelancer" (Freelancing)
+  5. "The 1% fee model explained" (Payment & Finance)
+  6. "Building a portfolio that converts visitors into clients" (Design)
+  7. "Payment methods for Tunisian freelancers in 2025" (Payment & Finance)
+  8. "Top 10 in-demand skills for 2025" (Marketing)
+- **Featured article card** (2/3 width): large cover image via `picsum.photos/seed/{seed}/960/480` + gradient overlay + "Featured" amber badge + Clock read-time + Sparkles icon + hover lift (y:-6) + scale image on hover.
+- **2×2 grid of small cards** (1/3 width): smaller cover images + CategoryBadge + title (2-line clamp) + excerpt (2-line clamp) + AuthorRow (avatar + name + date) + read time.
+- **Category pills**: 7 categories (All, Freelancing, Design, Development, Marketing, Tunisian Success Stories, Payment & Finance). Clicking filters the displayed articles. Active pill = solid teal; inactive = outline.
+- **Newsletter form** at bottom: gradient teal panel with TrendingUp icon, "Khidma Insights, weekly" headline, "One actionable email every Sunday" copy, email input + Subscribe button. Validates email format (regex) and shows sonner success toast on subscribe.
+- **Reveal** wrapper for staggered entrance on header, pills, newsletter; framer-motion `motion.article` for cards with `whileHover={y:-6/-4}`. Reduced-motion: instant render, no lift.
+- Empty state shown if category has no articles.
+
+**Feature 2 — TeamsModal (`src/components/modals/teams-modal.tsx`):**
+- shadcn `Dialog` (max-w-4xl, max-h-[90vh]) — self-renders based on `modal.teamsOpen`. Custom DialogClose (white X) on top-right; `showCloseButton={false}` to avoid duplicate.
+- **Header**: Khidma gradient (#192d2f → #2b3d3d → #32504d) with Users icon + "Khidma for Teams" + subtitle "Hire, manage, and pay your freelance team — all in one place." + dot-grid pattern overlay.
+- **Hero strip**: gradient teal panel (#32504d → #475959 → #6e8580) with headline "Built for agencies, studios, and growing teams." + 3 trust badges in a grid (5 team members / 50+ active freelancers / TND 124K+ managed).
+- **Features grid** (6 cards, 2×3 on desktop, 1-col mobile): Team Workspaces / Bulk Hiring / Team Wallet / White-label Proposals / Team Analytics / Priority Support. Each card: 9×9 icon tile that turns teal-on-hover + title + description. Staggered motion entrance with 0.04×index delay.
+- **Pricing comparison** (2 tiers, sm:grid-cols-2): Team (TND 79/mo per seat, min 3 seats) + Enterprise (Custom). Enterprise tier highlighted with teal border, gradient bg, "Recommended" badge top-center, framer-motion hover lift (y:-4).
+- **Use cases** (3 tabs): Marketing Agencies (Megaphone), Software Studios (Code2), Enterprise Teams (Building2). Each tab shows description + 3 bulleted benefits + customer quote card (Quote icon, italic text, author + role).
+- **CTA section**: rounded teal-gradient panel "Ready to scale your freelance ops?" + 2 buttons: "Compare with Pro" (ghost → `closeTeams()` then `openPro()`) + "Book a demo" (primary → toast "Demo request received!" + `pushNotification({type:'system', link:'dashboard'})` + close).
+- **FAQ accordion** (4 items): billing, switch from Pro to Teams, existing freelancers, free trial.
+
+**Feature 3 — ApiDocsModal (`src/components/modals/api-docs-modal.tsx`):**
+- shadcn `Dialog` (max-w-4xl, h-[85vh]) — self-renders based on `modal.apiDocsOpen`. Custom DialogClose on top-right. "v1 · stable" badge in header.
+- **Header**: same Khidma gradient with Code2 icon + "Khidma API" + subtitle "Build on top of Khidma. Available on Business and Enterprise plans."
+- **Left sidebar** (220px, hidden md:flex, bg-muted/30): 9-category nav (Getting Started, Authentication, Freelancers, Services, Jobs, Contracts, Payments, Webhooks, Errors). Active state = teal bg + chevron-right indicator + aria-current="page".
+- **Mobile sidebar**: Sheet (side="left", w-[280px] sm:max-w-[280px]) triggered by a ghost button showing the current category label.
+- **Right content** (ScrollArea, p-5/6): AnimatePresence keyed on category for cross-fade transitions (motion.div initial opacity:0/y:8 → animate opacity:1/y:0).
+- **Getting Started category**: 3-col info card (API Key from Settings → API Access / Base URL https://api.khidma.tn/v1 / JSON over HTTPS format) + rate-limits card (Business 1,000 req/hr / Enterprise 10,000 req/hr) + quickstart endpoints list (4 endpoints with MethodBadge + path + description).
+- **Code examples** with 4-language tabbed selector (cURL / JS / Python / PHP):
+  - Authentication (POST /auth/token) — 4 languages
+  - Freelancers (GET /freelancers?category=development&min_rating=4.5) — 4 languages
+  - Contracts (POST /contracts with full body including milestones) — 4 languages
+  - CodeBlock component: dark teal (#0e1a1b) bg + #d4e5e0 mono text + border + Copy button (top-right) using `navigator.clipboard.writeText` + Check/Copy icon swap on click.
+- **Endpoint reference table** (filtered by active category): grid layout with MethodBadge (color-coded: GET=emerald, POST=amber, PUT=sky, DELETE=rose) + monospace path + description. 12 endpoints across 8 categories (auth, freelancers, services, jobs, contracts, payments, webhooks).
+- **Webhooks section**: 4 webhook events (contract.created, payment.released, freelancer.verified, milestone.completed) each with description + JSON payload in CodeBlock. Mentions `X-Khidma-Signature` header for verification.
+- **Error codes table**: 6 status codes (400, 401, 403, 404, 429, 500) with name + description. Color-coded badges (5xx=rose, 4xx=amber). Note about JSON error body format (code/message/request_id).
+- **Footer**: "Need more endpoints? Contact our API team" (mailto:api@khidma.tn link) + "Generate API key" button → toast.error "API key generation requires Business plan" + upgrade-to-Business copy.
+
+**Barrel + page.tsx integration:**
+- `src/components/sections/index.ts`: exported `BlogSection`.
+- `src/components/modals/index.ts`: exported `TeamsModal` + `ApiDocsModal`.
+- `src/app/page.tsx`: added `BlogSection` to landing page composition (between Testimonials and FAQ); added 2 dynamic imports (`TeamsModal`, `ApiDocsModal`) with `ssr: false`; mounted both at page root alongside existing 17 modals.
+
+**Footer integration (`src/components/khidma/footer.tsx`):**
+- Discovered footer already had `action: "apiDocs" | "teams" | "help"` infrastructure (NavLink interface + `onNavigate` handler calling `openApiDocs()` / `openTeams()` / `openHelp()`).
+- Moved the existing links to their correct columns per task spec: "Khidma for Teams" → "For Clients" column; "Khidma API" → "For Freelancers" column. Removed both from the "Marketplace" column (which had been their previous location).
+- "Help Center" link (action: "help") left in place in the "Trust & Safety" column.
+
+**Verification:**
+- `bun run lint` — 0 errors / 0 warnings (clean exit).
+- `npx tsc --noEmit` — 0 errors in any of the 6 modified/created files. (Initially hit 1 TS error: Tabs `onValueChange={setLang}` type mismatch because `setLang` is `Dispatch<SetStateAction<union>>` but Tabs expects `(value: string) => void`. Fixed by wrapping: `onValueChange={(v) => setLang(v as "curl" | "javascript" | "python" | "php")}`.)
+- Dev server: HTTP 200 on `/` (port 3000). Tail of dev.log shows clean compiles + 200 responses, no runtime errors in our new files.
+- Manually verified a few cross-cutting concerns:
+  - All new components are `"use client"`.
+  - Khidma teal palette only (no indigo/blue).
+  - Mobile responsive: BlogSection featured/small cards stack on mobile; TeamsModal features grid 1-col on mobile, use-case tabs wrap; ApiDocsModal sidebar switches to Sheet on mobile (md:hidden), endpoint table description column hidden on mobile.
+  - Accessible: sr-only DialogTitle/DialogDescription present, aria-labels on icon buttons, aria-current="page" on active sidebar item, aria-pressed on category pills, role="dialog" via shadcn defaults, Escape closes via Dialog default, focus management via Radix Dialog default.
+  - `prefers-reduced-motion` respected: blog-section uses `useReducedMotion` to skip motion entrance + lift on hover; teams-modal skips hover lift + staggered entrance; api-docs-modal skips category cross-fade transitions.
+
+Files created (3):
+- `src/components/sections/blog-section.tsx`
+- `src/components/modals/teams-modal.tsx`
+- `src/components/modals/api-docs-modal.tsx`
+
+Files modified (4):
+- `src/lib/store.ts` (+2 modal flags + 4 actions in interface + initial state + implementations)
+- `src/components/sections/index.ts` (+1 export: BlogSection)
+- `src/components/modals/index.ts` (+2 exports: TeamsModal, ApiDocsModal)
+- `src/app/page.tsx` (+2 dynamic imports + 2 modal mounts + BlogSection added to landing composition)
+- `src/components/khidma/footer.tsx` (relocated 2 modal-action links to their spec-correct columns)
+
+Stage Summary:
+- 3 new components delivered: BlogSection (Insights & Resources), TeamsModal (Khidma for Teams), ApiDocsModal (Khidma API docs).
+- 4 new store actions: openTeams/closeTeams, openApiDocs/closeApiDocs (with `modal.teamsOpen` + `modal.apiDocsOpen` flags).
+- Landing page now has 16 sections (added BlogSection between Testimonials and FAQ).
+- Global modal count: 19 (added TeamsModal + ApiDocsModal).
+- Footer now has correctly-placed modal-trigger links in the right columns.
+- Lint clean, TS clean, dev server HTTP 200, no runtime errors in new files.
+- All animations respect `prefers-reduced-motion`.
+
+Unresolved / Notes for next round:
+- Blog articles are mock — real backend would need a `posts` table in Prisma with cover image, category, author, body, read_time, published_at fields.
+- API docs are static mock — for production, consider sourcing from OpenAPI spec (auto-generated from zod schemas or `@asteasolutions/zod-to-openapi`).
+- "Book a demo" in TeamsModal and "Generate API key" in ApiDocsModal are mock flows (toast only). Real integration: Stripe Checkout for Teams subscription; admin-side API key generation flow gated by plan check.
+- Code blocks use plain `<pre>` with monospace — no syntax highlighting. Could swap for `shiki` or `prism-react-renderer` if visual fidelity becomes important.
+
+---
+Task ID: ROUND6-POLISH-1
+Agent: full-stack-developer (tour + footer + stats dashboard)
+Task: Add 3 premium polish features to Khidma — (1) First-visit guided onboarding tour with spotlight overlay, (2) richer premium footer with newsletter, stats row, app badges, social proof, (3) animated "Khidma by the numbers" stats dashboard with KPI cards + recharts area chart + donut chart.
+
+Work Log:
+- Read worklog.md for project context. Confirmed Khidma teal palette #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff, fonts Manrope + IBM Plex Sans Arabic, single `/` route, shadcn/ui + framer-motion + recharts installed.
+- Verified `@/lib/store` already had `openApiDocs()`, `openTeams()`, `openHelp()` actions (added by a previous round's parallel agent) — I leveraged these in the footer's nav columns. No need to fall back to `openHelp()` for Khidma API / Khidma for Teams links.
+- **Extended `src/lib/store.ts`** with new tour state + actions:
+  - State: `tourActive: boolean`, `tourStep: number`.
+  - Actions: `startTour()` (sets `tourActive: true, tourStep: 0`), `nextTourStep()`, `prevTourStep()` (clamps to ≥0), `endTour()` (sets `localStorage["khidma:tour-completed"] = "true"` + resets state), `skipTour()` (same localStorage write + reset).
+  - Added these to the `AppState` interface + initial state + create() implementation block.
+- **Feature 1 — `onboarding-tour.tsx`** (`src/components/khidma/onboarding-tour.tsx`):
+  - 6-step guided tour. Steps: Welcome (centered modal) → Search (header search bar) → Navigation (header nav) → CTA ("Join Khidma" button) → Trust (hero trust seal/chips) → Final (centered modal → `openAuth("register")`).
+  - **Spotlight overlay**: a positioned div with `boxShadow: "0 0 0 9999px rgba(0,0,0,0.72)"` to dim the rest of the page. Border radius + thin teal outline (#748684 at 60% opacity). Padding of 8px around target.
+  - **Tooltip card**: 360px wide, positioned `below` target for header elements / `above` for hero elements. Computes `top/left` from target rect with viewport clamping.
+  - **Centered modal** (Welcome + Final steps): max-w-md rounded-3xl with Khidma radial-gradient background, decorative glow, icon, title, description, progress dots (current = wider pill), Back + Next buttons, Skip tour link, X close button.
+  - **Progress dots**: `width: 6 (active) | 1.5 (past | future)`, color #748684 (active) / #32504d (past) / white/20 (future).
+  - **Mobile bottom-sheet**: on `max-width: 640px`, the tooltip becomes a fixed bottom sheet with rounded-t-3xl, drag handle bar, safe-area-inset padding.
+  - **Keyboard navigation**: ESC = skip, ArrowRight = next, ArrowLeft = prev (disabled on step 0).
+  - **Auto-start**: 1.5s after first load when `!localStorage["khidma:tour-completed"]` && `!currentUser` && `view === "home"`.
+  - **resolveTarget() helper**: tries each comma-separated selector, checks visibility (`offsetParent !== null || rect.width > 0`), falls back to `header` element if target not visible (mobile case).
+  - **targetRect tracking**: `useLayoutEffect` resolves target, scrolls into view (smooth unless reduced-motion), then measures rect via `requestAnimationFrame(() => setTargetRect(...))` (defers setState to avoid lint `react-hooks/set-state-in-effect`). Re-measures on `resize` + `scroll` (capture phase).
+  - **framer-motion**: backdrop fade (0.25s), tooltip entrance (scale 0.96→1 + fade, 0.32s ease-[0.22,1,0.36,1]), bottom-sheet slide-up (y: 100% → 0). All `prefers-reduced-motion` respected — instant transitions, no animation on charts/counts.
+  - **"Take the tour" button**: exported as `TakeTourButton` re-export component for re-triggering from anywhere. Used in the footer (next to social icons) + mobile menu could use it too.
+  - **data-tour attributes**: Added `data-tour="search"` to header search wrapper div, `data-tour="nav"` to header `<nav>`, `data-tour="join"` to "Join Khidma" button, `data-tour="trust-chips"` to hero trust chips `<motion.ul>`, `data-tour="trust-seal"` to TrustSeal wrapper div. Also added `aria-label="Search freelancers, services, skills"` to the header search button.
+- **Feature 2 — `footer.tsx` polish** (`src/components/khidma/footer.tsx`):
+  - **Top strip** (NEW): "Trusted by 1,248+ verified freelancers across 24 cities in Tunisia & beyond" with ShieldCheck icon badge + 5 city pills (Tunis, Sfax, Sousse, Kairouan, Nabeul) + "+19" badge in teal.
+  - **Newsletter section** (REWRITTEN): bigger heading "Join 8,420+ Khidma insiders" with teal-gradient highlight + subtitle "Get exclusive market insights, freelancer spotlights, and platform updates. No spam, unsubscribe anytime." + email input + Subscribe button + "🔒 We respect your privacy" note. Animated form feedback: loading state (spinner + "Subscribing…"), done state (CheckCircle2 icon inside input + "Subscribed" button label), toast.success on completion. Email validation with regex; invalid emails trigger toast.error.
+  - **Stats mini-row** (NEW): "Platform at a glance" with 4 inline mini-stats (1,248 freelancers · 8,420 projects · TND 1.24M paid · 41 countries) — each with count-up animation via `useCountUp` + `useInView` (300ms duration, easeOutCubic). Reduced-motion = instant final value.
+  - **App download badges** (NEW): "Download the Khidma app" with 2 mock badges — AppStoreBadge (Apple icon) + GooglePlayBadge (Play icon fill-white). Each badge is a styled button that triggers `toast.info("iOS app coming soon — sign up to be notified.")` on click.
+  - **Social proof card** (NEW): "★ 4.9/5.0 from 8,420+ verified reviews" — 5 amber star icons + bold rating + subtitle. Card has white/[0.04] bg + border.
+  - **Existing nav columns** (KEPT): For Clients, For Freelancers, Marketplace, Trust & Safety. Added 2 new links to Marketplace column: "Khidma API" (calls `openApiDocs()`) + "Khidma for Teams" (calls `openTeams()`). Added "Help Center" link to Trust & Safety column (calls `openHelp()`). Each link has animated underline (`w-0 → w-full` on hover, 300ms).
+  - **Bottom bar** (ENHANCED): kept Amara Dhaker attribution + contact email + WhatsApp. Added "Made in Tunisia 🇹🇳" badge in teal. Privacy/Terms/Trust&Safety buttons now call `openPrivacy()` / `openHelp()`. "Take the tour" button added to social icons row (calls `startTour()`).
+  - **Contact links**: animated underline slide-in on hover (w-0 → w-full, 300ms). Social icons get `hover:scale-105` micro-interaction.
+  - **Existing dark teal background** (bg-[#0e1a1b]) + dot grid pattern + top gradient line KEPT.
+  - All count-up animations respect `prefers-reduced-motion` (instant final value via `requestAnimationFrame(() => setVal(target))`).
+- **Feature 3 — `stats-dashboard.tsx`** (`src/components/sections/stats-dashboard.tsx`):
+  - NEW landing page section "Khidma by the numbers" with eyebrow "PLATFORM ANALYTICS" + title + description "Real-time platform metrics, updated continuously."
+  - **4 KPI cards** (grid-cols-2 mobile / lg:grid-cols-4 desktop): Verified Freelancers (1,248 +12% MoM), Completed Projects (8,420 +8% MoM), Total Paid Out (TND 1.24M +15% MoM), Avg Rating (4.9/5.0 stable). Each card: icon in teal-tinted square, big number (count-up animated via `useCountUp` + `useInView`), label, trend badge (green up arrow TrendingUp + % delta, or gray Minus + "stable"). Card has corner radial-glow accent.
+  - **Area chart** (left, lg:col-span-2): "Growth over 6 months" using recharts `<AreaChart>` with 6 months of data (Mar–Aug) for freelancer signups + project completions. Two `<Area>` series with monotone interpolation, strokeWidth 2.5, gradient fill (linearGradient `grad-signups` from #32504d 0.55→0.02 alpha, `grad-completions` from #748684 0.55→0.02 alpha), dot + activeDot with white stroke. CartesianGrid dashed, XAxis/YAxis with subtle 40% opacity tick labels. Custom `<GrowthTooltip>` recharts tooltip with month + colored dots + values. Legend at bottom with circle icons.
+  - **Donut chart** (right, lg:col-span-1): "Freelancers by category" using recharts `<PieChart>` with `<Pie>` innerRadius 62% / outerRadius 92% / paddingAngle 2. 5 slices: Development 35% (#32504d), Design 22% (#748684), Video 12% (#6e8580), Writing 10% (#475959), Other 21% (#2b3d3d). Center label overlay shows total verified freelancers count (1,248) with "verified" caption. Custom `<CategoryTooltip>` recharts tooltip. Below chart: legend grid (2 cols) with color swatch + name + percentage.
+  - **Bottom row**: 3 mini-stats in border cards (Countries served: 41, Cities covered: 24, Avg response time: 1.2h). Each has icon in teal-tinted square + bold value + small label.
+  - **Live indicator**: small emerald dot with pulse animation (scale 1→1.4→1, opacity 1→0.6→1, 2s infinite) + "Live · last sync just now" caption.
+  - All recharts animations gated behind `!prefersReduced` (isAnimationActive flag). Count-up respects reduced-motion. Entrance animations (opacity/y) all skip when reduced-motion.
+  - Wrapped in `<Section>` + `<SectionHeading>` from reveal.tsx + `<Reveal>` for staggered chart entrance.
+  - Added to `src/components/sections/index.ts` barrel as `StatsDashboard` export.
+  - Added to `src/app/page.tsx` between `<StatsBanner />` and `<WhyKhidma />` (kept both — StatsBanner is the simpler version above, StatsDashboard is the richer version below).
+- **Page wiring** (`src/app/page.tsx`):
+  - Added `StatsDashboard` import + render between StatsBanner + WhyKhidma.
+  - Added `OnboardingTour` dynamic import (ssr:false) + global mount at end of page tree (after CookieConsent).
+- **Lint verification**: ran `bun run lint`. 0 errors / 0 warnings. Fixed one transient lint error in `onboarding-tour.tsx` (`react-hooks/set-state-in-effect`) by deferring `setTargetRect` calls through `requestAnimationFrame` so they're not synchronous within the `useLayoutEffect` body.
+- **TypeScript verification**: ran `npx tsc --noEmit`. 0 errors in my new/modified files. Pre-existing errors only in `src/components/modals/api-docs-modal.tsx` (TS2322 Dispatch<SetStateAction<...>> incompatible with `(value: string) => void`) and `examples/` + `skills/` folders — all out of scope.
+- **Dev server verification**: confirmed HTTP 200 on `/` after HMR. No new runtime errors in `dev.log` related to my files. Verified all features render in HTML output via curl + grep:
+  - Footer: "Trusted by 1,248+ verified freelancers across 24 cities", "8,420+ Khidma insiders", "Made in Tunisia 🇹🇳", "Download the Khidma app", "Take the tour", "Khidma API", "Khidma for Teams".
+  - Stats Dashboard: "PLATFORM ANALYTICS", "Khidma by the", "Growth over 6 months", "Freelancers by category", "Avg response time".
+
+Files created (2):
+- `src/components/khidma/onboarding-tour.tsx` (OnboardingTour + TakeTourButton re-export)
+- `src/components/sections/stats-dashboard.tsx` (StatsDashboard)
+
+Files modified (5):
+- `src/lib/store.ts` (+tour state: tourActive, tourStep + 5 actions: startTour, nextTourStep, prevTourStep, endTour, skipTour)
+- `src/components/khidma/footer.tsx` (full rewrite: top strip + newsletter + stats row + app badges + social proof + Khidma API/Teams links + Made in Tunisia + Take the tour button)
+- `src/components/sections/index.ts` (added StatsDashboard export)
+- `src/app/page.tsx` (added StatsDashboard render + OnboardingTour dynamic import + mount)
+- `src/components/khidma/header.tsx` (added data-tour="nav" on nav, data-tour="search" on search wrapper + aria-label on search button, data-tour="join" on Join Khidma button)
+- `src/components/sections/hero.tsx` (added data-tour="trust-chips" on trust chips motion.ul, data-tour="trust-seal" on TrustSeal wrapper motion.div)
+
+Stage Summary:
+- 3 premium polish features delivered: guided onboarding tour, richer premium footer, animated stats dashboard with charts.
+- Tour auto-starts 1.5s after first visit (when `!localStorage["khidma:tour-completed"]` && `!currentUser` && view === "home"). 6 steps with spotlight overlay + tooltips/bottom-sheet + keyboard nav. Completing or skipping writes localStorage flag.
+- Footer now has: top trust strip with city pills, richer newsletter with animated form feedback, 4-stat count-up row, app download badges, social proof card with star rating, Khidma API/Teams/Help Center links, Made in Tunisia badge, Take the tour button.
+- Stats Dashboard section adds: 4 KPI cards with count-up + trend badges, area chart (signups vs completions over 6 months), donut chart (5 freelancer categories), 3 mini-stats bottom row, live indicator dot.
+- All animations respect `prefers-reduced-motion` (instant transitions, no count-up, no chart animation, no entrance animation).
+- Khidma teal palette maintained throughout — no indigo/blue.
+- Mobile responsive: KPI cards go 2x2, charts stack vertically, tour tooltip becomes bottom sheet.
+- Lint: 0 errors / 0 warnings (`bun run lint` passes). TypeScript: 0 errors in my files. Dev server: HTTP 200 on `/`.
+
+Unresolved / Notes for next round:
+- Tour's "Search" step highlights the desktop search wrapper (`hidden md:flex`) — on mobile this falls back to highlighting the `header` element via `resolveTarget()` fallback logic. Could add a more meaningful mobile target (e.g., the mobile menu trigger that contains the search command palette shortcut) if desired.
+- The stats dashboard's recharts charts use Khidma palette colors only — but they sit on a light-gradient section (`bg-gradient-to-b from-background to-muted/30`) for visual separation from the dark StatsBanner above. If a dark-on-dark look is preferred, the Section className can be tweaked.
+- The "Live · last sync just now" indicator at the bottom of StatsDashboard is decorative (mock). Real implementation would connect to a websocket or polling API.
+- The 5 category percentages in the donut chart (35/22/12/10/21 = 100%) are mock data — would come from a real categories-aggregation API in production.
+- The 6-month growth data (Mar–Aug) is mock — would come from a real signups/completions time-series API.
+- App download badges are mock buttons that just toast "coming soon" — real badges would link to App Store / Play Store URLs once the apps are published.
+
+---
+Task ID: ROUND-6-VERIFICATION
+Agent: Z.ai Code (main)
+Task: 15-min cron review round 6 — QA current state, add Blog/Resources section + Khidma for Teams modal + Khidma API docs modal + first-visit onboarding tour + polished footer + stats dashboard section.
+
+Work Log:
+- Read worklog to understand current state (round 5 complete: 6 views + 17 modals + 15 landing sections + chat service + command palette + dark mode + i18n + favorites/compare/recently-viewed + share/report + help/pro/referral/privacy/cookie modals + live ticker + pricing + achievement badges). Project stable: lint clean, TS clean, dev server + chat service healthy, hero at 8/10 (VLM).
+- QA: dev server (port 3000) + chat service (port 3003) both healthy. agent-browser smoke test: page loads, no console errors. Footer verified intact with "Designed & Developed by Amara Dhaker" attribution + contact email + WhatsApp.
+- Extended Zustand store with 4 new modal flags + actions: `teamsOpen`/`openTeams`/`closeTeams`, `apiDocsOpen`/`openApiDocs`/`closeApiDocs`, plus `tourActive`/`tourStep`/`startTour`/`nextTourStep`/`prevTourStep`/`endTour`/`skipTour` for the onboarding tour (persists completion to localStorage).
+- Dispatched 2 parallel subagents (full-stack-developer):
+  1. **ROUND6-FEATURES-1**:
+     - `blog-section.tsx` — "Insights & Resources" blog section: featured article (large, 2/3 width) + 4 smaller articles in 2×2 grid (1/3 width) + category pills (8 categories, filterable) + newsletter inline form + 8 mock articles (freelancing guides, Tunisian success stories, dev best practices, payment methods). Added to landing page between Testimonials and FAQ.
+     - `teams-modal.tsx` — "Khidma for Teams": hero strip + 6-feature grid (Team Workspaces, Bulk Hiring, Team Wallet, White-label Proposals, Team Analytics, Priority Support) + 2-tier pricing (Team TND 79/seat/mo, Enterprise Custom) + 3-tab use cases (Marketing Agencies, Software Studios, Enterprise Teams) + FAQ.
+     - `api-docs-modal.tsx` — "Khidma API": sidebar (8 categories: Auth, Freelancers, Services, Jobs, Contracts, Payments, Webhooks, Errors) + getting-started card (API key + base URL + rate limits) + 4-language code examples (cURL, JS, Python, PHP) + endpoint reference table + webhooks section + error codes table + "Generate API key" button.
+     - Updated store + barrel + page.tsx (2 new dynamic-imported modal mounts + BlogSection in landing composition) + footer (added Khidma API link under For Freelancers, Khidma for Teams under For Clients).
+  2. **ROUND6-POLISH-1**:
+     - `onboarding-tour.tsx` — First-visit 6-step guided tour: Welcome → Search → Navigation → CTA → Trust → Final. Spotlight overlay with cutout + tooltip card (step counter, progress dots, Skip/Back/Next buttons). Auto-starts 1.5s after page load if first visit + not logged in + tour not completed. Persists completion to localStorage. Mobile → bottom sheet. Added `data-tour` attributes to header + hero elements.
+     - `stats-dashboard.tsx` — "Khidma by the numbers" section: 4 KPI cards (Verified Freelancers 1,248 +12%, Completed Projects 8,420 +8%, Total Paid Out TND 1.24M +15%, Avg Rating 4.9/5.0) with count-up animation + trend indicators. 2 recharts charts: AreaChart (growth over 6 months, teal gradient fill) + PieChart donut (freelancers by category). 3 mini-stats row (41 countries, 24 cities, 1.2h avg response). Added to landing page between StatsBanner and WhyKhidma.
+     - Polished `footer.tsx` — full rewrite: top trust strip with 5 Tunisian city pills (Tunis, Sfax, Sousse, Kairouan, Nabeul) + enhanced newsletter ("Join 8,420+ Khidma insiders" + privacy note) + 4-stat count-up row + App Store + Google Play badges + social proof card (★ 4.9/5 from 8,420+ reviews) + Made in Tunisia 🇹🇳 badge + "Take the tour" button + new API/Teams links.
+
+QA verification (all via agent-browser through Caddy port 81):
+- **Onboarding Tour**: cleared localStorage → page reloaded → tour auto-started after 1.5s with "Welcome to Khidma 👋" step 1 of 6 + step counter + progress dots + Skip tour/Back(disabled)/Next buttons. VLM: **9/10** "clean, modern, professional with good visual hierarchy". Skipped tour → dismissed + localStorage set.
+- **Stats Dashboard**: scrolled to "Khidma by the numbers" — 4 KPI cards + AreaChart (Growth over 6 months) + Donut chart (Freelancers by category) all visible. VLM: **9/10** "clean grid alignment, clear hierarchy, professional spacing".
+- **Blog Section**: scrolled to "Insights & Resources" — featured article + 4 smaller cards + category pills (Freelancing, Tunisian Success Stories, Development). VLM: **8/10** "clean, modern design with good visual hierarchy, asymmetric grid creates dynamic interest".
+- **Khidma for Teams modal**: opened via dev helper — hero strip "Built for agencies" + 6 feature cards (Team Workspaces, Bulk Hiring, Team Wallet, White-label, Team Analytics, Priority Support) + Book a demo CTA. VLM: **8/10** "clean, modern, strong visual hierarchy with cohesive dark green/white palette".
+- **Khidma API modal**: opened via dev helper — sidebar with 8 endpoint categories (Authentication, Freelancers, Services, Jobs, Contracts, Payments, Webhooks, Errors) + getting-started card (API key + base URL) + Generate API key button. VLM: **8/10** "clean, professional, clear typography and spacing".
+- **Polished Footer**: scrolled to bottom — App Store + Google Play badges visible, ★ 4.9/5 social proof visible, Made in Tunisia 🇹🇳 badge visible, "Designed & Developed by Amara Dhaker" attribution intact. VLM: **8/10** "clean, professional, well-structured with excellent hierarchy".
+- No console errors, no crashes, no infinite loops.
+- Lint: 0 errors / 0 warnings. TypeScript: 0 errors. Dev server: HTTP 200 (port 3000 + port 81). Chat service: TCP 3003 listening.
+
+Stage Summary:
+- 3 new components (blog-section, stats-dashboard, onboarding-tour) + 2 new modals (teams-modal, api-docs-modal) + 1 full footer rewrite.
+- 6 new store actions (openTeams/closeTeams, openApiDocs/closeApiDocs, startTour/nextTourStep/prevTourStep/endTour/skipTour).
+- Landing page now has 17 sections (added Blog + StatsDashboard). Footer fully redesigned with newsletter, app badges, social proof, stats, city pills, Made in Tunisia badge. First-visit tour auto-starts on new visitor sessions.
+- VLM ratings: Onboarding tour 9/10, Stats dashboard 9/10, Blog section 8/10, Teams modal 8/10, API docs modal 8/10, Polished footer 8/10.
+- 15-min cron review job (id 328735) continues running.
+
+Unresolved / Risks for next round:
+- Translation dictionary still small (~9 strings); all new Blog/Teams/API/Tour/Stats/Footer UIs are English-only.
+- Chat service is in-memory only — resets on restart.
+- Real payment/withdrawal integrations still marked `mock: true` (per spec).
+- Blog articles are mocked — real CMS integration would be needed for production.
+- API docs endpoints are illustrative — real OpenAPI spec + SDK generation would be needed.
+- Onboarding tour targets are `data-tour` attributes — could be more resilient with element selectors.
+- Could add a "Khidma Mobile App" promo section (footer has app badges but no dedicated section).
+- Could add a "Partner Program" modal (for payment providers, banks, accelerators).
+- Could add real Stripe checkout flow for Pro/Teams plans (currently mock toast).

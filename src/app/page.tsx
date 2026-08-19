@@ -20,6 +20,8 @@ import {
   Pricing,
   Testimonials,
   StatsBanner,
+  StatsDashboard,
+  BlogSection,
   FAQ,
   FinalCTA,
 } from "@/components/sections";
@@ -124,8 +126,20 @@ const PrivacyModal = dynamic(
   () => import("@/components/modals/privacy-modal").then((m) => m.PrivacyModal),
   { ssr: false }
 );
+const TeamsModal = dynamic(
+  () => import("@/components/modals/teams-modal").then((m) => m.TeamsModal),
+  { ssr: false }
+);
+const ApiDocsModal = dynamic(
+  () => import("@/components/modals/api-docs-modal").then((m) => m.ApiDocsModal),
+  { ssr: false }
+);
 const CookieConsent = dynamic(
   () => import("@/components/khidma/cookie-consent").then((m) => m.CookieConsent),
+  { ssr: false }
+);
+const OnboardingTour = dynamic(
+  () => import("@/components/khidma/onboarding-tour").then((m) => m.OnboardingTour),
   { ssr: false }
 );
 
@@ -166,11 +180,13 @@ export default function Home() {
               <FeaturedServices />
               <OpenJobs />
               <StatsBanner />
+              <StatsDashboard />
               <WhyKhidma />
               <PaymentExplainer />
               <WithdrawalOptions />
               <Pricing />
               <Testimonials />
+              <BlogSection />
               <FAQ />
               <FinalCTA />
             </>
@@ -213,9 +229,14 @@ export default function Home() {
       <ProModal />
       <ReferralModal />
       <PrivacyModal />
+      <TeamsModal />
+      <ApiDocsModal />
 
       {/* Global cookie consent banner — self-renders on first visit */}
       <CookieConsent />
+
+      {/* Global onboarding tour — auto-starts on first visit, self-renders */}
+      <OnboardingTour />
     </div>
   );
 }

@@ -346,6 +346,7 @@ export function Hero() {
             {/* Trust chips with live counters */}
             <motion.ul
               variants={itemVariants}
+              data-tour="trust-chips"
               className="mt-8 flex flex-wrap gap-x-6 gap-y-3"
             >
               {trustChips.map((chip, idx) => (
@@ -366,7 +367,7 @@ export function Hero() {
             </motion.ul>
 
             {/* Khidma Trust Seal — premium verified Tunisian talent badge */}
-            <motion.div variants={itemVariants} className="mt-6">
+            <motion.div variants={itemVariants} className="mt-6" data-tour="trust-seal">
               <TrustSeal variant="full" />
             </motion.div>
 

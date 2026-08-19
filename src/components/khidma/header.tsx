@@ -117,7 +117,7 @@ export function Header() {
           </button>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav data-tour="nav" className="hidden lg:flex items-center gap-1">
             {navItemsResolved.map((item) => {
               const Icon = item.icon;
               const active = view === item.id;
@@ -146,9 +146,10 @@ export function Header() {
           </nav>
 
           {/* Search (desktop) — clicking opens command palette */}
-          <div className="hidden md:flex flex-1 max-w-md mx-2">
+          <div data-tour="search" className="hidden md:flex flex-1 max-w-md mx-2">
             <button
               onClick={() => openCommandPalette()}
+              aria-label="Search freelancers, services, skills"
               className="group relative w-full h-10 rounded-md border border-border/60 bg-muted/40 hover:bg-muted/60 hover:border-border transition-all flex items-center gap-2 pl-3 pr-2 text-left"
             >
               <Search className="size-4 text-muted-foreground pointer-events-none" />
@@ -320,6 +321,7 @@ export function Header() {
                 </Button>
                 <Button
                   size="sm"
+                  data-tour="join"
                   onClick={() => openAuth("register")}
                   className="hidden sm:inline-flex bg-[#2b3d3d] hover:bg-[#192d2f] text-white gap-1.5 group"
                 >

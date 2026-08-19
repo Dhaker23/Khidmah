@@ -52,6 +52,8 @@ interface ModalState {
   proOpen: boolean;
   referralOpen: boolean;
   privacyOpen: boolean;
+  teamsOpen: boolean;
+  apiDocsOpen: boolean;
 }
 
 export type FavoriteType = "freelancer" | "service" | "job";
@@ -120,6 +122,10 @@ interface AppState {
   closeReferral: () => void;
   openPrivacy: () => void;
   closePrivacy: () => void;
+  openTeams: () => void;
+  closeTeams: () => void;
+  openApiDocs: () => void;
+  closeApiDocs: () => void;
   // demo logged-in user (no real auth)
   currentUser: { name: string; type: "freelancer" | "client"; avatar: string } | null;
   login: (name: string, type: "freelancer" | "client") => void;
@@ -153,6 +159,14 @@ interface AppState {
   recentlyViewed: RecentlyViewedItem[];
   trackView: (id: string, type: FavoriteType) => void;
   clearRecentlyViewed: () => void;
+  // onboarding tour (first-visit guided walkthrough)
+  tourActive: boolean;
+  tourStep: number;
+  startTour: () => void;
+  nextTourStep: () => void;
+  prevTourStep: () => void;
+  endTour: () => void;
+  skipTour: () => void;
 }
 
 const DEFAULT_NOTIFICATIONS: Notification[] = [
@@ -231,6 +245,8 @@ export const useApp = create<AppState>((set) => ({
     proOpen: false,
     referralOpen: false,
     privacyOpen: false,
+    teamsOpen: false,
+    apiDocsOpen: false,
   },
   openAuth: (mode = "login") =>
     set((s) => ({ modal: { ...s.modal, authOpen: true, authMode: mode } })),
@@ -347,6 +363,10 @@ export const useApp = create<AppState>((set) => ({
   closeReferral: () => set((s) => ({ modal: { ...s.modal, referralOpen: false } })),
   openPrivacy: () => set((s) => ({ modal: { ...s.modal, privacyOpen: true } })),
   closePrivacy: () => set((s) => ({ modal: { ...s.modal, privacyOpen: false } })),
+  openTeams: () => set((s) => ({ modal: { ...s.modal, teamsOpen: true } })),
+  closeTeams: () => set((s) => ({ modal: { ...s.modal, teamsOpen: false } })),
+  openApiDocs: () => set((s) => ({ modal: { ...s.modal, apiDocsOpen: true } })),
+  closeApiDocs: () => set((s) => ({ modal: { ...s.modal, apiDocsOpen: false } })),
   currentUser: null,
   login: (name, type) =>
     set({
@@ -477,6 +497,33 @@ export const useApp = create<AppState>((set) => ({
       }
     }
     set({ recentlyViewed: [] });
+  },
+  // === Onboarding tour ===
+  tourActive: false,
+  tourStep: 0,
+  startTour: () => set({ tourActive: true, tourStep: 0 }),
+  nextTourStep: () =>
+    set((s) => ({ tourStep: s.tourStep + 1 })),
+  prevTourStep: () => set((s) => ({ tourStep: Math.max(0, s.tourStep - 1) })),
+  endTour: () => {
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem("khidma:tour-completed", "true");
+      } catch {
+        /* ignore */
+      }
+    }
+    set({ tourActive: false, tourStep: 0 });
+  },
+  skipTour: () => {
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem("khidma:tour-completed", "true");
+      } catch {
+        /* ignore */
+      }
+    }
+    set({ tourActive: false, tourStep: 0 });
   },
 }));
 
