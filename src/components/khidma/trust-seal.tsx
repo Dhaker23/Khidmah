@@ -94,17 +94,23 @@ export function TrustSeal({
                 "radial-gradient(closest-side, transparent 62%, black 64%, black 100%)",
             }}
           />
-          {/* Inner seal */}
+          {/* Inner seal — uses the real Khidma logo image */}
           <motion.span
             aria-hidden
             className={cn(
-              "relative flex size-5 items-center justify-center rounded-full",
+              "relative flex size-5 items-center justify-center rounded-full overflow-hidden",
               "bg-khidma-gradient text-white shadow-sm"
             )}
             animate={animate ? { scale: [1, 1.04, 1] } : undefined}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <KhidmaMark className="size-3.5" />
+            <Image
+              src="/khidma-logo.png"
+              alt=""
+              width={20}
+              height={20}
+              className="size-full object-cover"
+            />
           </motion.span>
         </span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[#32504d] leading-none">
@@ -161,8 +167,14 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
               "radial-gradient(closest-side, transparent 56%, black 58%, black 100%)",
           }}
         />
-        <span className="relative flex size-8 items-center justify-center rounded-full bg-khidma-gradient text-white shadow-md">
-          <KhidmaMark className="size-5" />
+        <span className="relative flex size-8 items-center justify-center rounded-full overflow-hidden bg-khidma-gradient text-white shadow-md">
+          <Image
+            src="/khidma-logo.png"
+            alt=""
+            width={32}
+            height={32}
+            className="size-full object-cover"
+          />
         </span>
       </span>
 
