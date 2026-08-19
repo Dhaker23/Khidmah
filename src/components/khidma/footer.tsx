@@ -60,7 +60,7 @@ const CITIES = ["Tunis", "Sfax", "Sousse", "Kairouan", "Nabeul"];
 interface NavLink {
   label: string;
   view?: "freelancers" | "jobs" | "services" | "how-it-works" | "dashboard" | "home";
-  action?: "apiDocs" | "teams" | "help";
+  action?: "apiDocs" | "teams" | "help" | "partners";
 }
 
 interface NavCol {
@@ -100,6 +100,7 @@ const footerNav: NavCol[] = [
       { label: "All Services", view: "services" },
       { label: "Open Jobs", view: "jobs" },
       { label: "Categories", view: "home" },
+      { label: "Partner Program", action: "partners" },
     ],
   },
   {
@@ -383,6 +384,7 @@ export function Footer() {
     openApiDocs,
     openTeams,
     openHelp,
+    openPartners,
     startTour,
   } = useApp();
 
@@ -390,6 +392,7 @@ export function Footer() {
     if (link.action === "apiDocs") return openApiDocs();
     if (link.action === "teams") return openTeams();
     if (link.action === "help") return openHelp();
+    if (link.action === "partners") return openPartners();
     if (link.view) setView(link.view);
   };
 

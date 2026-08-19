@@ -202,6 +202,38 @@ export function OnboardingTour() {
       /* ignore */
     }
     if (completed || currentUser) return;
+
+    // Don't auto-start the tour until the cookie consent banner has been
+    // resolved — otherwise both overlays compete for the user's attention
+    // (VLM QA feedback round 7).
+    let cookieResolved = false;
+    try {
+      cookieResolved = !!window.localStorage.getItem("khidma:cookie-consent");
+    } catch {
+      /* ignore */
+    }
+    if (!cookieResolved) {
+      // Poll for cookie consent resolution (max 30s, then start anyway).
+      let elapsed = 0;
+      const interval = window.setInterval(() => {
+        elapsed += 500;
+        let resolved = false;
+        try {
+          resolved = !!window.localStorage.getItem("khidma:cookie-consent");
+        } catch {
+          /* ignore */
+        }
+        if (resolved || elapsed >= 30000) {
+          window.clearInterval(interval);
+          const view = useApp.getState().view;
+          if (view === "home") {
+            window.setTimeout(() => startTour(), 800);
+          }
+        }
+      }, 500);
+      return () => window.clearInterval(interval);
+    }
+
     const timer = window.setTimeout(() => {
       // Only auto-start on the home view (avoid running on sub-views).
       const view = useApp.getState().view;

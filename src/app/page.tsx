@@ -15,13 +15,16 @@ import {
   FeaturedServices,
   OpenJobs,
   WhyKhidma,
+  TrustCenter,
   PaymentExplainer,
   WithdrawalOptions,
   Pricing,
   Testimonials,
+  SuccessStories,
   StatsBanner,
   StatsDashboard,
   BlogSection,
+  MobileAppPromo,
   FAQ,
   FinalCTA,
 } from "@/components/sections";
@@ -134,6 +137,10 @@ const ApiDocsModal = dynamic(
   () => import("@/components/modals/api-docs-modal").then((m) => m.ApiDocsModal),
   { ssr: false }
 );
+const PartnersModal = dynamic(
+  () => import("@/components/modals/partners-modal").then((m) => m.PartnersModal),
+  { ssr: false }
+);
 const CookieConsent = dynamic(
   () => import("@/components/khidma/cookie-consent").then((m) => m.CookieConsent),
   { ssr: false }
@@ -182,11 +189,14 @@ export default function Home() {
               <StatsBanner />
               <StatsDashboard />
               <WhyKhidma />
+              <TrustCenter />
               <PaymentExplainer />
               <WithdrawalOptions />
               <Pricing />
               <Testimonials />
+              <SuccessStories />
               <BlogSection />
+              <MobileAppPromo />
               <FAQ />
               <FinalCTA />
             </>
@@ -231,6 +241,7 @@ export default function Home() {
       <PrivacyModal />
       <TeamsModal />
       <ApiDocsModal />
+      <PartnersModal />
 
       {/* Global cookie consent banner — self-renders on first visit */}
       <CookieConsent />

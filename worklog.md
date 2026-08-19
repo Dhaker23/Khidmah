@@ -1192,3 +1192,180 @@ Unresolved / Risks for next round:
 - Could add a "Khidma Mobile App" promo section (footer has app badges but no dedicated section).
 - Could add a "Partner Program" modal (for payment providers, banks, accelerators).
 - Could add real Stripe checkout flow for Pro/Teams plans (currently mock toast).
+
+---
+Task ID: ROUND7-STYLING-1
+Agent: full-stack-developer (success stories + trust center)
+Task: Build 2 new landing page sections — `success-stories.tsx` (long-form case-study section with featured before/after story + 3 story cards + metrics row) and `trust-center.tsx` (consolidated trust signals: 4 pillars + 5-step verification timeline + 6 security badges + 4 stats + dispute resolution card + CTA). Wire both into landing composition + barrel exports.
+
+Work Log:
+- Read worklog, `src/lib/khidma-data.ts` (freelancers f1–f6, trustStats, formatTND, formatNumber), `src/app/page.tsx` (existing landing composition), `src/components/sections/index.ts` (barrel), `src/components/khidma/reveal.tsx` (Reveal/BrandDivider/SectionHeading), `src/components/khidma/verification.tsx` (VerificationBadge), and existing `testimonials.tsx` / `why-khidma.tsx` / `blog-section.tsx` / `payment-explainer.tsx` for pattern reference.
+- Confirmed store exposes `openOnboarding`, `openHelp`, `setView` (via `useApp`).
+- Created `src/components/sections/success-stories.tsx`:
+  - SectionHeading (eyebrow "KHIDMA SUCCESS STORIES" + title "Real freelancers. Real journeys. Real results." + description).
+  - Featured story card (full-width, 12-col grid split 7/5): left = avatar + name + title + Top Rated badge + location + large italic quote + "Read full story" button (→ toast "Full case study coming soon") + tags; right = dark teal panel with Before/After comparison (Before: TND 800/mo, 2 clients, 0 portfolio reviews | After: TND 5,000/mo, 12 clients, 4.9★ rating) + highlighted "+525% income in 18 months" outcome. Featured freelancer = Amira Ben Salah (f1, developer student→5K/mo).
+  - 3 story cards in `lg:grid-cols-3` grid: Yassine Gharbi (f2, designer → built 6-person agency in Sfax), Mehdi Trabelsi (f4, voice-over → 40+ international ads), Omar Jlassi (f6, 3D artist → TND 4,200/mo with EU brands). Each card = avatar + name + title + city + 3-line excerpt + key outcome tile + tags.
+  - Metrics row (4 big numbers in gradient panel): TND 2.4M+ total earned by top 100, 340% average income increase, 87% of top freelancers joined in 2023, 12 months average to Top Rated.
+  - All entrance animations via `Reveal` + framer-motion `whileInView` with staggered delays; hover lift on cards; `useReducedMotion` respected everywhere (initial/whileHover set to `undefined` when reduced).
+- Created `src/components/sections/trust-center.tsx`:
+  - SectionHeading (eyebrow "TRUST & SAFETY" + title "The Khidma Trust Center" + description).
+  - 4 pillar cards (`lg:grid-cols-4`): Identity Verification (ShieldCheck), Portfolio Review (Briefcase), Escrow Protection (Lock), Two-sided Reviews (Star) — each with icon tile + title + description, hover lift.
+  - BrandDivider "VERIFICATION PROCESS" + heading + 5-step timeline (Registration → Email Verify → Profile + Portfolio → Admin Review → Verified Badge). Desktop: horizontal row with gradient connecting line behind numbered icon circles. Mobile: vertical with left-aligned connector line. Each step = numbered circle + icon + title + description.
+  - BrandDivider "SECURITY & COMPLIANCE" + 6 security badge tiles (`sm:grid-cols-2 lg:grid-cols-3`): GDPR Compliant, Data Encrypted, SOC 2 Ready, PCI DSS (via partners), 2FA Available, Audit Logs — each with icon + label + sub.
+  - 4 stat cards (`lg:grid-cols-4`): 100% identity-verified, TND 0 lost to scams, < 24h dispute resolution, 1,248 admin-reviewed portfolios (uses `trustStats.verifiedFreelancers` + `formatNumber`).
+  - Dispute resolution card (12-col grid 4/8 split): dark teal left panel with "If something goes wrong" + Scale icon + "Learn more" button (→ `openHelp()`); right panel with 3-step process (Open a dispute → Our team reviews evidence → Fair resolution within 48h), each numbered + icon + title + description.
+  - CTA panel: "Start with confidence" + ShieldCheck icon + "Become a verified freelancer" (→ `openOnboarding()`) + "Hire trusted talent" (→ `setView('freelancers')`).
+  - All animations framer-motion + `useReducedMotion`; BrandDivider used between sub-sections per spec.
+- Updated `src/components/sections/index.ts` barrel: added `export { TrustCenter }` (after WhyKhidma) and `export { SuccessStories }` (after Testimonials).
+- Updated `src/app/page.tsx`: imported `TrustCenter` + `SuccessStories`; inserted `<TrustCenter />` after `<WhyKhidma />` and before `<PaymentExplainer />`; inserted `<SuccessStories />` after `<Testimonials />` and before `<BlogSection />`.
+- Verification: `bun run lint` → 0 errors / 0 warnings. Dev server: recompiled cleanly, `GET / 200` on homepage with both new sections rendered.
+- Wrote work record to `/agent-ctx/ROUND7-STYLING-1-success-stories-trust-center.md`.
+
+Stage Summary:
+- 2 new section components (`success-stories.tsx`, `trust-center.tsx`) — both `"use client"`, Khidma teal palette only (#192d2f #2b3d3d #32504d #475959 #6e8580 #748684 #9bb3ae), mobile responsive (cards stack, timeline becomes vertical on mobile), `prefers-reduced-motion` respected everywhere, framer-motion for all animations, lucide-react icons throughout.
+- Success Stories covers 4 freelancer profiles (Amira/dev-student→5K, Yassine/designer-agency, Mehdi/voice-over-international, Omar/3D-EU-brands) using real mock data avatars + names + cities from `freelancers[]`.
+- Trust Center consolidates ALL trust signals (4 pillars + 5-step timeline + 6 security badges + 4 stats + dispute card + CTA) with CTAs wired to real store actions (`openOnboarding`, `openHelp`, `setView`).
+- Barrel exports updated; landing composition now flows: Hero → TrustStrip → HowItWorks → Categories → FeaturedFreelancers → FeaturedServices → OpenJobs → StatsBanner → StatsDashboard → WhyKhidma → **TrustCenter** → PaymentExplainer → WithdrawalOptions → Pricing → Testimonials → **SuccessStories** → BlogSection → FAQ → FinalCTA.
+- Lint: 0 errors / 0 warnings. Dev server: HTTP 200 on `/`. No console errors.
+
+Unresolved / Notes for next round:
+- Success Stories "Read full story" button currently toasts "coming soon" — real implementation would open a dedicated case-study modal or route (but `/`-only constraint means a modal would be the path).
+- The 5th profile mentioned in spec (copywriter who doubled her rates, Rania Khelifi f5) is not featured as a separate story card — only 4 of 5 profiles covered. Could add a 4th card or fold her into the metrics/excerpts if full 5-profile coverage is required. Currently the spec said "4-5 mock success stories" and 4 satisfies that.
+- Trust Center stats are static mock values (100%, TND 0, < 24h, 1,248) — real implementation would aggregate from DB.
+- Security/compliance badges (GDPR, SOC 2, PCI DSS) are aspirational — Khidma is not yet certified. Badges are presentation-only.
+- Dispute resolution "Learn more" opens the generic Help modal — a dedicated Disputes help article would be more contextual.
+
+## Concurrent issue noticed (not in my scope)
+- A parallel agent added `src/components/sections/mobile-app-promo.tsx` + wired it into `page.tsx` (line 199) + barrel (line 18). That file has a runtime bug in `drawFinder` (line 310): `grid[startR + i][startC + 7]` fails with `Cannot set properties of undefined (setting '7')` because the QR matrix grid is undersized. This causes `GET / 500` on the homepage.
+- My sections (`success-stories.tsx`, `trust-center.tsx`) compiled cleanly and rendered successfully (multiple `GET / 200` responses observed before mobile-app-promo was added to the composition).
+- Lint passes for my files. The 500 is entirely from `mobile-app-promo.tsx` — out of my task scope; flagging for the owner agent / next round.
+
+---
+Task ID: ROUND7-FEATURES-1
+Agent: full-stack-developer (partners + mobile promo)
+Task: Add 2 new features to Khidma — (1) `PartnersModal` (Khidma Partner Program for payment providers, banks, accelerators, educational institutions) + (2) `MobileAppPromo` landing section (phone mockup + 6 features + app store badges + QR code mock).
+
+Work Log:
+- Read worklog for project context. Confirmed Khidma teal palette (#475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff), single `/` route, existing components in `@/components/khidma/reveal.tsx` (Reveal/Section/SectionHeading/BrandDivider), `@/components/khidma/logo.tsx` (KhidmaLogo), shadcn `Dialog` + `Accordion` + `Select` + `Input` + `Textarea` + `Label` + `Button` + `Badge` + `ScrollArea` + `Separator`. framer-motion + sonner + lucide-react installed. `useApp` global store exposes `modal.*`, `open*()` / `close*()`, `openPro()`, `openAuth(mode)`, `setView(view)`, `pushNotification({type, title, body, link})`, `currentUser`.
+- Studied existing `TeamsModal` (`teams-modal.tsx`) + `BlogSection` (`blog-section.tsx`) + footer (`footer.tsx`) + `page.tsx` + `store.ts` to mirror conventions exactly (gradient header, ScrollArea body, motion staggered cards, accordion FAQ, NavLink action pattern in footer).
+- **Extended `src/lib/store.ts`** with partner modal state + actions:
+  - Added `partnersOpen: boolean` to `ModalState` interface.
+  - Added `openPartners()` + `closePartners()` to `AppState` interface.
+  - Initial state: `partnersOpen: false`.
+  - Implementation: standard pattern (`set((s) => ({ modal: { ...s.modal, partnersOpen: true } }))`).
+- **Feature 1 — `partners-modal.tsx`** (`src/components/modals/partners-modal.tsx`):
+  - shadcn `Dialog` with `max-w-4xl`. Header: gradient (`from-[#192d2f] via-[#2b3d3d] to-[#32504d]`) with `Handshake` icon + "Khidma Partner Program" + subtitle "Join the Khidma ecosystem. Grow with us." + close button (top-right `DialogClose`).
+  - **Hero strip** — gradient (`from-[#32504d] via-[#475959] to-[#6e8580]`) headline "Built for payment providers, banks, accelerators, and educational institutions" + 3 trust badges (12+ active partners, TND 2.4M+ processed jointly, 41 countries reached).
+  - **Partner types** — 2×2 grid of 4 cards (Payment Providers / Banks & Financial Institutions / Accelerators & Incubators / Educational Institutions). Each card: icon + title + tagline eyebrow + description + 2×2 feature list with Check icons. Staggered entrance (motion `opacity: 0, y: 16 → 1, 0`, delay `0.05 + index * 0.08`).
+  - **Benefits grid** — 6 cards in `sm:grid-cols-2 lg:grid-cols-3` (Revenue sharing up to 30% / Co-marketing budget / Dedicated partner portal / API access / Priority support / Quarterly business reviews). Same stagger pattern.
+  - **Partner tiers** — 3 cards in `sm:grid-cols-3`. Associate (Free to join): Basic API, 10% revenue share, co-branded assets, community support. Premier (TND 5,000/year, highlighted with "Most popular" badge): Enhanced API, 20% revenue share, TND 5,000 co-marketing budget, dedicated account manager. Strategic (Custom): Full white-label, 30% revenue share, joint product roadmap, executive sponsor. framer-motion `whileHover={{ y: -4 }}` (skipped under reduced-motion).
+  - **Partner logos row** — 5 styled text pills (BIAT Bank, Tunisian Post, D17, Flat6Labs Tunis, Esprit University) with `Building2` icon + `whileHover={{ y: -2 }}` micro-interaction. Includes "illustrative" disclaimer.
+  - **CTA "Become a partner" form** — `PartnerApplicationForm` component using `useApp().pushNotification`. 5 fields: Name (Input, required), Email (Input, regex-validated, required), Company (Input, required), Partner type (Select with 5 options: Payment Provider / Bank / Accelerator / Educational Institution / Other, required), Message (Textarea, optional). Apply now button (primary, `bg-[#32504d]`) → 700ms simulated submit (spinner) → `toast.success("Application received!")` + `pushNotification({ type: "system", title: "Partner application submitted", body: "${name} (${company}) applied as ${typeLabel}.", link: "dashboard" })` + form reset + `closePartners()`. "Schedule a call" ghost button → `toast.info("Our team will reach out")`. Validation errors via `toast.error`.
+  - **FAQ** — 4 questions using shadcn `Accordion`: (1) What are the revenue share terms? (10–30% of Khidma's net platform fee, monthly payout by 15th). (2) How long is the onboarding? (Associate self-serve <1 day, Premier ~2 weeks, Strategic 4–6 weeks). (3) What technical requirements? (HTTPS, HMAC-SHA256 webhooks, sandbox, SDKs in JS/Python/PHP/cURL, TLS 1.2 minimum). (4) Can we white-label? (Yes — Strategic gets full white-label + custom domain + co-branded cards + dedicated RM; Premier gets co-branded assets only).
+  - Self-renders based on `modal.partnersOpen`.
+- **Feature 2 — `mobile-app-promo.tsx`** (`src/components/sections/mobile-app-promo.tsx`):
+  - 2-column layout (desktop): phone mockup (left, `order-2 lg:order-1`) + content (right, `order-1 lg:order-2`). Stacks on mobile.
+  - **Phone mockup** — styled div `aspect-[9/19] w-full` with `border-[6px] border-[#0e1a1b] rounded-[2rem] shadow-2xl`. Inside: gradient screen (`from-[#192d2f] via-[#2b3d3d] to-[#0e1a1b]`), decorative side buttons, notch, Khidma logo + greeting header, fake freelancer card (DiceBear avatar + "Amira Ben Salah" + "UI/UX Designer · Tunis" + 5.0 amber badge + TND 80/hr + disabled "View profile" button), 3 mini-stats (TND 12K balance / 8 active / 4.9 rating), bottom nav bar with 5 icons (Home active, Search, Wallet, Chat, Profile). Animated push notification toast (motion `opacity: 0, y: -8 → 1, 0` delay 0.6s) showing "New proposal · Khidma".
+  - framer-motion `whileHover={{ rotate: -1.2, y: -6 }}` on the phone (subtle tilt, 0.4s easeOut). Skipped under reduced-motion.
+  - **Reveal** wraps the section entrance.
+  - **Right column**: SectionHeading eyebrow "KHIDMA MOBILE", title "Take Khidma everywhere you go." (with teal-gradient highlight on "everywhere you go."), description.
+  - **Feature list** — 6 items in 2-col grid (Instant push notifications / Real-time chat / Wallet + earnings / Biometric login Face ID/fingerprint / Offline mode / Quick withdrawal). Each item: motion.li with `initial={{ opacity: 0, x: -8 }}` + Check icon in teal-tinted circle + feature icon (Zap / MessageCircle / Wallet / Fingerprint / WifiOff / ArrowDownToLine).
+  - **App store badges** — `AppStoreButton` + `GooglePlayButton` styled as dark teal pill buttons with Apple/Play lucide icons. Click → `toast.info("App coming soon! We'll notify you.")`.
+  - **Stats row** — 4.9★ App Store (amber star) · 100K+ downloads (pulsing emerald dot, `animate={{ scale: [1, 1.18, 1], opacity: [1, 0.65, 1] }} transition={{ duration: 2, repeat: Infinity }}`) · 41 countries. Pulse skipped under reduced-motion.
+  - **QR code mock** — `useQrMatrix()` hook generates deterministic 21×21 boolean grid (LCG-based, no Math.random so SSR-safe). Three finder patterns (7×7) at corners, alternating timing patterns on row 6 / col 6, pseudo-random fill. Rendered as CSS grid (`gridTemplateColumns: repeat(21, 1fr)`) of black/white squares. Khidma logo overlay (size-7 white square with logo) at center. + "Scan to download" label.
+  - **Bug fix during dev**: initial `drawFinder` had out-of-bounds write when clearing separator rings (`startR + i` or `startC + i` exceeded `SIZE`). Dev log showed `TypeError: Cannot set properties of undefined (setting '7')` at `drawFinder`. Added bounds checks: `if (startR + 7 < SIZE && startC + i < SIZE)` and `if (startC + 7 < SIZE && startR + i < SIZE)`. After fix, page compiles and serves HTTP 200.
+- **Store + barrel + page.tsx + footer integration**:
+  - `src/lib/store.ts`: added `partnersOpen` + `openPartners()` + `closePartners()` (per spec).
+  - `src/components/modals/index.ts`: exported `PartnersModal`.
+  - `src/components/sections/index.ts`: exported `MobileAppPromo`.
+  - `src/app/page.tsx`: added `MobileAppPromo` to landing composition (after `<BlogSection />`, before `<FAQ />`); added dynamic import + mount for `<PartnersModal />` (ssr:false).
+  - `src/components/khidma/footer.tsx`: extended `NavLink.action` union with `"partners"`; added `{ label: "Partner Program", action: "partners" }` to Marketplace column (5th entry); destructured `openPartners` from `useApp()`; added `if (link.action === "partners") return openPartners();` branch to `onNavigate`.
+- **Verification**:
+  - `bun run lint` → 0 errors / 0 warnings (exit 0).
+  - Dev server: started fresh `next dev -p 3000` via `setsid -f` (the system's auto-started instance had crashed due to the QR matrix bug). `GET / 200 in 9.3s` on first compile, then ~250-350ms subsequent. No runtime errors after the QR fix.
+  - Verified new content in HTML output via `curl + grep`: "KHIDMA MOBILE" ✓, "Take Khidma" + "everywhere you go" ✓, "Scan to download" ✓, "BIAT Bank" ✓, "App Store" + "Google Play" ✓, "Partner Program" ✓ (footer link).
+  - All new components are `"use client"`.
+  - Khidma teal palette only — no indigo/blue.
+  - Mobile responsive: partner types 2×2 grid stacks to 1-col on mobile; benefits grid 1→2→3 cols; tier cards 1→3 cols; mobile-app-promo stacks phone on top of content on mobile.
+  - Accessible: sr-only DialogTitle/DialogDescription, aria-labels on close + app store buttons + Schedule a call, aria-labelledby on each section, escape closes via Dialog default, focus management via Radix Dialog default.
+  - `prefers-reduced-motion` respected throughout: partners-modal skips tier hover lift + partner-type entrance stagger + benefit entrance + logo hover lift; mobile-app-promo skips phone hover tilt + notification slide-down + feature stagger + 100K+ pulse dot.
+
+Files created (2):
+- `src/components/modals/partners-modal.tsx`
+- `src/components/sections/mobile-app-promo.tsx`
+
+Files modified (5):
+- `src/lib/store.ts` (+partnersOpen +openPartners/closePartners)
+- `src/components/modals/index.ts` (+1 export: PartnersModal)
+- `src/components/sections/index.ts` (+1 export: MobileAppPromo)
+- `src/app/page.tsx` (+1 dynamic import + 1 modal mount + MobileAppPromo in landing composition)
+- `src/components/khidma/footer.tsx` (+1 NavLink action type, +1 Partner Program link in Marketplace column, +1 branch in onNavigate)
+
+Stage Summary:
+- 2 new components delivered: PartnersModal (Khidma Partner Program — 4 partner types, 6 benefits, 3 tiers, partner logos, application form, 4-question FAQ) + MobileAppPromo (phone mockup + 6 features + app store badges + QR code mock + stats).
+- 2 new store actions: openPartners() / closePartners() (with `modal.partnersOpen` flag).
+- Landing page now has 18 sections (added MobileAppPromo between BlogSection and FAQ).
+- Global modal count: 20 (added PartnersModal).
+- Footer Marketplace column has new "Partner Program" link → openPartners().
+- Lint clean (0 errors), dev server HTTP 200, no runtime errors in new files.
+- All animations respect `prefers-reduced-motion`.
+
+Unresolved / Notes for next round:
+- Partner application form is mock — no real backend persistence. Would need a `partner_applications` Prisma model + API route.
+- Phone mockup is pure CSS/divs — for higher visual fidelity, swap for a real screenshot once the mobile app exists.
+- QR code is decorative — doesn't actually encode a URL. If scannable QR is needed, swap `useQrMatrix` for `qrcode.react` or `qr-code-styling`.
+- App store badges are mock → toast. Real implementation would link to App Store / Play Store URLs once published.
+- Partner logos (BIAT Bank / Tunisian Post / D17 / Flat6Labs Tunis / Esprit University) are illustrative — replace with actual partner logo SVGs (with permission) in production.
+- Tier CTAs ("Join free" / "Choose Premier" / "Talk to sales") currently just toast — could pre-fill the application form's partner-type Select + scroll to form.
+- The 3 trust badges (12+ active partners · TND 2.4M+ processed jointly · 41 countries reached) are mock figures — would come from a real partner-program stats API.
+- Found and fixed a runtime crash: the QR matrix `drawFinder` had out-of-bounds array writes when `startR + i` or `startC + i` exceeded `SIZE`. Added bounds checks. The dev server had died as a result; started a fresh `next dev -p 3000` instance via `setsid -f` (system's auto-restart may or may not have eventually picked it up).
+
+---
+Task ID: ROUND-7-VERIFICATION
+Agent: Z.ai Code (main)
+Task: 15-min cron review round 7 — QA current state, fix onboarding tour + cookie banner conflict, add Partner Program modal + Mobile App Promo section + Success Stories section + Trust Center section.
+
+Work Log:
+- Read worklog to understand current state (round 6 complete: 6 views + 19 modals + 17 landing sections + chat service + command palette + dark mode + i18n + favorites/compare/recently-viewed + share/report + help/pro/referral/privacy/cookie + live ticker + pricing + achievements + blog + teams + api docs + onboarding tour + stats dashboard + polished footer). Project stable: lint clean, TS clean, dev server + chat service healthy.
+- QA: dev server (port 3000) + chat service (port 3003) both healthy. agent-browser smoke test: page loads, no console errors. Footer verified intact with "Designed & Developed by Amara Dhaker" + contact email + WhatsApp + Made in Tunisia 🇹🇳. VLM noted "cookie banner and onboarding modal compete for attention" — flagged as bug to fix.
+- **Bug fix**: Updated `onboarding-tour.tsx` auto-start logic. Previously the tour started 1.5s after page load regardless of cookie banner state. Now it checks `localStorage["khidma:cookie-consent"]` first:
+  - If cookie consent already resolved → start tour after 1.5s (original behavior).
+  - If cookie consent NOT resolved → poll every 500ms for consent resolution (max 30s), then start tour 800ms after consent. This prevents both overlays from competing for the user's attention.
+- Extended Zustand store with `partnersOpen`/`openPartners`/`closePartners`.
+- Dispatched 2 parallel subagents (full-stack-developer):
+  1. **ROUND7-FEATURES-1**:
+     - `partners-modal.tsx` — Khidma Partner Program (max-w-4xl): hero strip + 3 trust badges (12+ partners, TND 2.4M+ processed, 41 countries) + 4 partner-type cards (Payment Providers, Banks & Financial Institutions, Accelerators & Incubators, Educational Institutions) + 6-benefit grid (Revenue sharing up to 30%, Co-marketing, Partner portal, API access, Priority support, Quarterly reviews) + 3 partner tiers (Associate Free, Premier TND 5K/yr, Strategic Custom) + partner logos row (BIAT, Tunisian Post, D17, Flat6Labs, Esprit) + application form (Name, Email, Company, Partner type, Message) + FAQ.
+     - `mobile-app-promo.tsx` — Mobile App Promo section: 2-column layout. Left: phone mockup (styled div with rounded corners + Khidma logo + fake freelancer card + animated notification + bottom nav). Right: eyebrow + title "Take Khidma everywhere you go" + 6-feature list (push notifications, real-time chat, wallet, biometric login, offline mode, quick withdrawals) + App Store + Google Play badges + stats (4.9★, 100K+ downloads, 41 countries) + QR code mock (21×21 deterministic grid). Added to landing page after Blog, before FAQ.
+     - Updated store + barrel + page.tsx + footer (added "Partner Program" link under Marketplace).
+  2. **ROUND7-STYLING-1**:
+     - `success-stories.tsx` — Success Stories case-study section: SectionHeading + featured story (Amira, full-width, 7/5 split, avatar + Top Rated badge + large italic quote + Before/After comparison panel: TND 800/mo → TND 5,000/mo, 2 → 12 clients, 0 → 4.9★, "+525% income in 18 months" highlight) + 3 story cards (Yassine designer→agency, Mehdi voice-over→international ads, Omar 3D artist→EU brands) + metrics row (TND 2.4M+ / 340% / 87% / 12 months). Added after Testimonials, before Blog.
+     - `trust-center.tsx` — Trust Center section: SectionHeading + 4 pillar cards (Identity Verification, Portfolio Review, Escrow Protection, Two-sided Reviews) + 5-step verification timeline (Registration → Email Verify → Profile+Portfolio → Admin Review → Verified Badge) + 6 security badges (GDPR, Data Encrypted, SOC 2, PCI DSS, 2FA, Audit Logs) + 4 stat cards (100% verified, TND 0 lost, <24h disputes, 1,248 portfolios) + dispute resolution card (3-step process) + CTA. Added after WhyKhidma, before PaymentExplainer.
+     - Both exported from sections barrel.
+
+QA verification (all via agent-browser through Caddy port 81):
+- **Tour + Cookie fix**: cleared localStorage → reloaded → cookie banner appeared ALONE (no tour). Clicked "Accept all" → cookie banner dismissed → tour auto-started ~1.2s later with "Welcome to Khidma 👋" step 1 of 6. Fix verified — no more competing overlays.
+- **Trust Center**: scrolled to "The Khidma Trust Center" — 4 pillar cards (Identity Verification, Portfolio Review, Escrow Protection, Two-sided Reviews) visible. VLM: **8/10** "clean, professional grid with good hierarchy".
+- **Success Stories**: scrolled to "Real freelancers. Real journeys." — featured story with Amira + Before/After comparison panel (TND 800→5,000/mo, 2→12 clients) visible. VLM: **9/10** "clean, professional, split-screen design balances emotional storytelling with hard data".
+- **Mobile App Promo**: scrolled to "Take Khidma everywhere you go" — phone mockup + 6-feature list + App Store/Google Play badges + QR code visible. VLM: **9/10** "clean, professional, excellent use of whitespace, highly polished".
+- **Partners modal**: opened via dev helper — hero strip "Built for payment providers, banks, accelerators" + 4 partner-type cards + application form. VLM: **8/10** "clean, modern UI with excellent typography hierarchy".
+- No console errors, no crashes, no infinite loops.
+- Lint: 0 errors / 0 warnings. TypeScript: 0 errors. Dev server: HTTP 200 (port 3000 + port 81). Chat service: TCP 3003 listening.
+
+Stage Summary:
+- 1 bug fix (tour waits for cookie consent) + 2 new modals (partners) + 3 new landing sections (mobile-app-promo, success-stories, trust-center).
+- 1 new store action (openPartners/closePartners).
+- Landing page now has 20 sections (added TrustCenter, SuccessStories, MobileAppPromo).
+- VLM ratings: Success Stories 9/10, Mobile App Promo 9/10, Trust Center 8/10, Partners modal 8/10.
+- 15-min cron review job (id 328735) continues running.
+
+Unresolved / Risks for next round:
+- Translation dictionary still small (~9 strings); all new Partners/Mobile/SuccessStories/TrustCenter UIs are English-only.
+- Chat service is in-memory only — resets on restart.
+- Real payment/withdrawal integrations still marked `mock: true` (per spec).
+- Blog articles are mocked — real CMS integration needed.
+- API docs endpoints are illustrative — real OpenAPI spec needed.
+- Mobile app is a mock promo — real app would need to be built.
+- Partner program form is a mock — real CRM integration needed.
+- Could add a "Khidma Community" section (forums, events, meetups).
+- Could add a "Khidma Awards" section (annual freelancer awards).
+- Could add real Stripe checkout for Pro/Teams/Partners plans.

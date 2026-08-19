@@ -1,0 +1,711 @@
+     1→"use client";
+     2→
+     3→/**
+     4→ * Khidma Footer — premium information-dense footer
+     5→ * -----------------------------------------------
+     6→ * Sections:
+     7→ *   1. Top strip — "Trusted by 1,248+ verified freelancers across 24 cities"
+     8→ *      + row of 5 Tunisian city pills (Tunis, Sfax, Sousse, Kairouan, Nabeul).
+     9→ *   2. Newsletter — "Join 8,420+ Khidma insiders" + subtitle + email input +
+    10→ *      Subscribe button + privacy note. Animated form feedback via framer-motion.
+    11→ *   3. Stats mini-row — 4 inline stats with count-up (1,248 freelancers ·
+    12→ *      8,420 projects · TND 1.24M paid · 41 countries).
+    13→ *   4. App download badges — App Store + Google Play mock badges (inline SVGs).
+    14→ *   5. Social proof — ★ 4.9/5 from 8,420+ reviews (5 star icons).
+    15→ *   6. Existing nav columns — For Clients / For Freelancers / Marketplace /
+    16→ *      Trust & Safety, plus new "Khidma API" + "Khidma for Teams" links.
+    17→ *   7. Bottom bar — Amara Dhaker attribution + contact email + WhatsApp +
+    18→ *      "Made in Tunisia 🇹🇳" badge + "Take the tour" button.
+    19→ *
+    20→ * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+    21→ * Animations: framer-motion + count-up; respects prefers-reduced-motion.
+    22→ */
+    23→
+    24→import { useEffect, useRef, useState } from "react";
+    25→import { motion, useInView, useReducedMotion, AnimatePresence } from "framer-motion";
+    26→import {
+    27→  Mail,
+    28→  MessageCircle,
+    29→  MapPin,
+    30→  Github,
+    31→  Linkedin,
+    32→  Twitter,
+    33→  Send,
+    34→  Shield,
+    35→  Users,
+    36→  Briefcase,
+    37→  ShoppingBag,
+    38→  HelpCircle,
+    39→  Star,
+    40→  Lock,
+    41→  CheckCircle2,
+    42→  Globe2,
+    43→  Wallet,
+    44→  ShieldCheck,
+    45→  Apple,
+    46→  Play,
+    47→  Sparkles,
+    48→  type LucideIcon,
+    49→} from "lucide-react";
+    50→import { KhidmaLogo } from "./logo";
+    51→import { Button } from "@/components/ui/button";
+    52→import { Input } from "@/components/ui/input";
+    53→import { Separator } from "@/components/ui/separator";
+    54→import { useApp } from "@/lib/store";
+    55→import { toast } from "sonner";
+    56→import { cn } from "@/lib/utils";
+    57→
+    58→const CITIES = ["Tunis", "Sfax", "Sousse", "Kairouan", "Nabeul"];
+    59→
+    60→interface NavLink {
+    61→  label: string;
+    62→  view?: "freelancers" | "jobs" | "services" | "how-it-works" | "dashboard" | "home";
+    63→  action?: "apiDocs" | "teams" | "help";
+    64→}
+    65→
+    66→interface NavCol {
+    67→  title: string;
+    68→  icon: LucideIcon;
+    69→  links: NavLink[];
+    70→}
+    71→
+    72→const footerNav: NavCol[] = [
+    73→  {
+    74→    title: "For Clients",
+    75→    icon: Users,
+    76→    links: [
+    77→      { label: "Find Talent", view: "freelancers" },
+    78→      { label: "Post a Job", view: "jobs" },
+    79→      { label: "Browse Services", view: "services" },
+    80→      { label: "How It Works", view: "how-it-works" },
+    81→      { label: "Khidma for Teams", action: "teams" },
+    82→    ],
+    83→  },
+    84→  {
+    85→    title: "For Freelancers",
+    86→    icon: Briefcase,
+    87→    links: [
+    88→      { label: "Find Work", view: "jobs" },
+    89→      { label: "Become Verified", view: "dashboard" },
+    90→      { label: "Create Service", view: "dashboard" },
+    91→      { label: "Withdrawal Options", view: "how-it-works" },
+    92→      { label: "Khidma API", action: "apiDocs" },
+    93→    ],
+    94→  },
+    95→  {
+    96→    title: "Marketplace",
+    97→    icon: ShoppingBag,
+    98→    links: [
+    99→      { label: "All Freelancers", view: "freelancers" },
+   100→      { label: "All Services", view: "services" },
+   101→      { label: "Open Jobs", view: "jobs" },
+   102→      { label: "Categories", view: "home" },
+   103→    ],
+   104→  },
+   105→  {
+   106→    title: "Trust & Safety",
+   107→    icon: Shield,
+   108→    links: [
+   109→      { label: "Verification Process", view: "how-it-works" },
+   110→      { label: "Secure Contracts", view: "how-it-works" },
+   111→      { label: "Dispute Resolution", view: "how-it-works" },
+   112→      { label: "1% Fee Explained", view: "how-it-works" },
+   113→      { label: "Help Center", action: "help" },
+   114→    ],
+   115→  },
+   116→];
+   117→
+   118→const socialLinks = [
+   119→  { icon: Github, label: "GitHub", href: "#" },
+   120→  { icon: Linkedin, label: "LinkedIn", href: "#" },
+   121→  { icon: Twitter, label: "Twitter", href: "#" },
+   122→];
+   123→
+   124→/* ------------------------------------------------------------------ */
+   125→/* Count-up hook                                                       */
+   126→/* ------------------------------------------------------------------ */
+   127→
+   128→function useCountUp(target: number, active: boolean, duration = 1500) {
+   129→  const [val, setVal] = useState(0);
+   130→  const prefersReduced = useReducedMotion();
+   131→
+   132→  useEffect(() => {
+   133→    if (!active) return;
+   134→    if (prefersReduced) {
+   135→      const raf = requestAnimationFrame(() => setVal(target));
+   136→      return () => cancelAnimationFrame(raf);
+   137→    }
+   138→    let raf = 0;
+   139→    const start = performance.now();
+   140→    const tick = (now: number) => {
+   141→      const progress = Math.min((now - start) / duration, 1);
+   142→      const eased = 1 - Math.pow(1 - progress, 3);
+   143→      setVal(target * eased);
+   144→      if (progress < 1) raf = requestAnimationFrame(tick);
+   145→    };
+   146→    raf = requestAnimationFrame(tick);
+   147→    return () => cancelAnimationFrame(raf);
+   148→  }, [active, target, duration, prefersReduced]);
+   149→
+   150→  return val;
+   151→}
+   152→
+   153→/* ------------------------------------------------------------------ */
+   154→/* Inline SVG app store badges                                          */
+   155→/* ------------------------------------------------------------------ */
+   156→
+   157→function AppStoreBadge() {
+   158→  return (
+   159→    <button
+   160→      type="button"
+   161→      aria-label="Download on the App Store"
+   162→      className="group flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all px-3 py-2"
+   163→      onClick={() => toast.info("iOS app coming soon — sign up to be notified.")}
+   164→    >
+   165→      <Apple className="size-5 text-white" />
+   166→      <div className="text-left leading-tight">
+   167→        <div className="text-[9px] text-white/60 uppercase tracking-wider">
+   168→          Download on the
+   169→        </div>
+   170→        <div className="text-xs font-semibold text-white">App Store</div>
+   171→      </div>
+   172→    </button>
+   173→  );
+   174→}
+   175→
+   176→function GooglePlayBadge() {
+   177→  return (
+   178→    <button
+   179→      type="button"
+   180→      aria-label="Get it on Google Play"
+   181→      className="group flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all px-3 py-2"
+   182→      onClick={() => toast.info("Android app coming soon — sign up to be notified.")}
+   183→    >
+   184→      <Play className="size-5 text-white fill-white" />
+   185→      <div className="text-left leading-tight">
+   186→        <div className="text-[9px] text-white/60 uppercase tracking-wider">
+   187→          Get it on
+   188→        </div>
+   189→        <div className="text-xs font-semibold text-white">Google Play</div>
+   190→      </div>
+   191→    </button>
+   192→  );
+   193→}
+   194→
+   195→/* ------------------------------------------------------------------ */
+   196→/* Stat item (count-up)                                                */
+   197→/* ------------------------------------------------------------------ */
+   198→
+   199→interface MiniStat {
+   200→  icon: LucideIcon;
+   201→  raw: number;
+   202→  format: (n: number) => string;
+   203→  label: string;
+   204→}
+   205→
+   206→const MINI_STATS: MiniStat[] = [
+   207→  {
+   208→    icon: Users,
+   209→    raw: 1248,
+   210→    format: (n) => Math.round(n).toLocaleString("en-US"),
+   211→    label: "freelancers",
+   212→  },
+   213→  {
+   214→    icon: Briefcase,
+   215→    raw: 8420,
+   216→    format: (n) => Math.round(n).toLocaleString("en-US"),
+   217→    label: "projects",
+   218→  },
+   219→  {
+   220→    icon: Wallet,
+   221→    raw: 1240000,
+   222→    format: (n) => `TND ${(Math.round(n) / 1_000_000).toFixed(2)}M`,
+   223→    label: "paid out",
+   224→  },
+   225→  {
+   226→    icon: Globe2,
+   227→    raw: 41,
+   228→    format: (n) => Math.round(n).toString(),
+   229→    label: "countries",
+   230→  },
+   231→];
+   232→
+   233→function MiniStatItem({ stat, index }: { stat: MiniStat; index: number }) {
+   234→  const ref = useRef<HTMLDivElement>(null);
+   235→  const inView = useInView(ref, { once: true, margin: "-40px" });
+   236→  const count = useCountUp(stat.raw, inView);
+   237→  const Icon = stat.icon;
+   238→
+   239→  return (
+   240→    <motion.div
+   241→      ref={ref}
+   242→      initial={{ opacity: 0, y: 12 }}
+   243→      whileInView={{ opacity: 1, y: 0 }}
+   244→      viewport={{ once: true }}
+   245→      transition={{ duration: 0.45, delay: index * 0.08 }}
+   246→      className="flex items-center gap-2.5"
+   247→    >
+   248→      <span className="flex size-8 items-center justify-center rounded-lg bg-white/5 border border-white/10">
+   249→        <Icon className="size-4 text-[#94a8a4]" />
+   250→      </span>
+   251→      <div className="leading-tight">
+   252→        <div className="font-display text-base sm:text-lg font-bold text-white tabular-nums">
+   253→          {stat.format(count)}
+   254→        </div>
+   255→        <div className="text-[10px] uppercase tracking-wider text-white/50">
+   256→          {stat.label}
+   257→        </div>
+   258→      </div>
+   259→    </motion.div>
+   260→  );
+   261→}
+   262→
+   263→/* ------------------------------------------------------------------ */
+   264→/* Animated underline link                                             */
+   265→/* ------------------------------------------------------------------ */
+   266→
+   267→function FooterLink({
+   268→  link,
+   269→  onNavigate,
+   270→}: {
+   271→  link: NavLink;
+   272→  onNavigate: (link: NavLink) => void;
+   273→}) {
+   274→  return (
+   275→    <li>
+   276→      <button
+   277→        onClick={() => onNavigate(link)}
+   278→        className="group relative text-sm text-white/70 hover:text-white transition-colors text-left"
+   279→      >
+   280→        <span>{link.label}</span>
+   281→        <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#748684] transition-all duration-300 group-hover:w-full" />
+   282→      </button>
+   283→    </li>
+   284→  );
+   285→}
+   286→
+   287→/* ------------------------------------------------------------------ */
+   288→/* Newsletter form                                                     */
+   289→/* ------------------------------------------------------------------ */
+   290→
+   291→function NewsletterForm() {
+   292→  const prefersReduced = useReducedMotion();
+   293→  const [email, setEmail] = useState("");
+   294→  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+   295→
+   296→  const onSubmit = (e: React.FormEvent) => {
+   297→    e.preventDefault();
+   298→    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+   299→      toast.error("Please enter a valid email address.");
+   300→      return;
+   301→    }
+   302→    setStatus("loading");
+   303→    window.setTimeout(() => {
+   304→      setStatus("done");
+   305→      toast.success("You're in! 🎉", {
+   306→        description: "You'll receive Khidma insights at " + email,
+   307→      });
+   308→      setEmail("");
+   309→      window.setTimeout(() => setStatus("idle"), 3500);
+   310→    }, 700);
+   311→  };
+   312→
+   313→  return (
+   314→    <div>
+   315→      <div className="flex flex-col sm:flex-row gap-3">
+   316→        <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-3 flex-1">
+   317→          <div className="relative flex-1">
+   318→            <Input
+   319→              type="email"
+   320→              value={email}
+   321→              onChange={(e) => setEmail(e.target.value)}
+   322→              placeholder="you@email.com"
+   323→              aria-label="Email address"
+   324→              disabled={status === "loading" || status === "done"}
+   325→              className="bg-white/5 border-white/15 text-white placeholder:text-white/40 h-12 pr-10 focus-visible:border-[#748684]"
+   326→            />
+   327→            <AnimatePresence mode="wait">
+   328→              {status === "done" && (
+   329→                <motion.span
+   330→                  key="ok"
+   331→                  initial={prefersReduced ? undefined : { opacity: 0, scale: 0.5 }}
+   332→                  animate={prefersReduced ? undefined : { opacity: 1, scale: 1 }}
+   333→                  exit={prefersReduced ? undefined : { opacity: 0, scale: 0.5 }}
+   334→                  className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-400"
+   335→                  aria-hidden
+   336→                >
+   337→                  <CheckCircle2 className="size-4" />
+   338→                </motion.span>
+   339→              )}
+   340→            </AnimatePresence>
+   341→          </div>
+   342→          <Button
+   343→            type="submit"
+   344→            size="lg"
+   345→            disabled={status === "loading" || status === "done"}
+   346→            className="bg-[#32504d] hover:bg-[#475959] text-white h-12 px-6 group"
+   347→          >
+   348→            {status === "loading" ? (
+   349→              <>
+   350→                <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+   351→                Subscribing…
+   352→              </>
+   353→            ) : status === "done" ? (
+   354→              <>
+   355→                <CheckCircle2 className="size-4" />
+   356→                Subscribed
+   357→              </>
+   358→            ) : (
+   359→              <>
+   360→                Subscribe
+   361→                <Send className="size-4 transition-transform group-hover:translate-x-0.5" />
+   362→              </>
+   363→            )}
+   364→          </Button>
+   365→        </form>
+   366→      </div>
+   367→      <div className="mt-3 flex items-center gap-1.5 text-[11px] text-white/45">
+   368→        <Lock className="size-3" />
+   369→        <span>We respect your privacy. Unsubscribe anytime.</span>
+   370→      </div>
+   371→    </div>
+   372→  );
+   373→}
+   374→
+   375→/* ------------------------------------------------------------------ */
+   376→/* Footer                                                              */
+   377→/* ------------------------------------------------------------------ */
+   378→
+   379→export function Footer() {
+   380→  const prefersReduced = useReducedMotion();
+   381→  const {
+   382→    setView,
+   383→    openApiDocs,
+   384→    openTeams,
+   385→    openHelp,
+   386→    startTour,
+   387→  } = useApp();
+   388→
+   389→  const onNavigate = (link: NavLink) => {
+   390→    if (link.action === "apiDocs") return openApiDocs();
+   391→    if (link.action === "teams") return openTeams();
+   392→    if (link.action === "help") return openHelp();
+   393→    if (link.view) setView(link.view);
+   394→  };
+   395→
+   396→  return (
+   397→    <footer className="mt-auto bg-[#0e1a1b] text-white relative overflow-hidden">
+   398→      {/* Decorative top gradient line */}
+   399→      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#748684] to-transparent opacity-50" />
+   400→      {/* Decorative dot grid */}
+   401→      <div
+   402→        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+   403→        style={{
+   404→          backgroundImage:
+   405→            "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+   406→          backgroundSize: "32px 32px",
+   407→        }}
+   408→      />
+   409→
+   410→      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+   411→        {/* === 1. Top strip — trust + city pills === */}
+   412→        <motion.div
+   413→          initial={prefersReduced ? undefined : { opacity: 0, y: 12 }}
+   414→          whileInView={prefersReduced ? undefined : { opacity: 1, y: 0 }}
+   415→          viewport={{ once: true }}
+   416→          transition={{ duration: 0.5 }}
+   417→          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-8 border-b border-white/10"
+   418→        >
+   419→          <div className="flex items-center gap-3">
+   420→            <span className="flex size-9 items-center justify-center rounded-full bg-[#32504d]/30 ring-1 ring-[#32504d]/40">
+   421→              <ShieldCheck className="size-4 text-[#94a8a4]" />
+   422→            </span>
+   423→            <div className="leading-tight">
+   424→              <div className="text-sm font-semibold text-white">
+   425→                Trusted by{" "}
+   426→                <span className="text-[#94a8a4]">1,248+ verified freelancers</span>
+   427→              </div>
+   428→              <div className="text-xs text-white/55">
+   429→                across 24 cities in Tunisia &amp; beyond
+   430→              </div>
+   431→            </div>
+   432→          </div>
+   433→          <div className="flex flex-wrap items-center gap-1.5">
+   434→            {CITIES.map((c) => (
+   435→              <span
+   436→                key={c}
+   437→                className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70"
+   438→              >
+   439→                {c}
+   440→              </span>
+   441→            ))}
+   442→            <span className="rounded-full border border-[#32504d]/40 bg-[#32504d]/15 px-2.5 py-1 text-[11px] font-semibold text-[#94a8a4]">
+   443→              +19
+   444→            </span>
+   445→          </div>
+   446→        </motion.div>
+   447→
+   448→        {/* === 2. Newsletter === */}
+   449→        <div className="grid gap-8 lg:grid-cols-2 items-center py-10 border-b border-white/10">
+   450→          <div>
+   451→            <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">
+   452→              Join{" "}
+   453→              <span className="bg-khidma-gradient bg-clip-text text-transparent">
+   454→                8,420+ Khidma insiders
+   455→              </span>
+   456→            </h3>
+   457→            <p className="mt-2 text-white/70 text-sm sm:text-base max-w-md">
+   458→              Get exclusive market insights, freelancer spotlights, and platform
+   459→              updates. No spam, unsubscribe anytime.
+   460→            </p>
+   461→          </div>
+   462→          <NewsletterForm />
+   463→        </div>
+   464→
+   465→        {/* === 3. Stats mini-row + App badges + Social proof === */}
+   466→        <div className="grid gap-8 py-10 border-b border-white/10 lg:grid-cols-12">
+   467→          {/* Mini stats */}
+   468→          <div className="lg:col-span-6">
+   469→            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45 mb-4">
+   470→              Platform at a glance
+   471→            </div>
+   472→            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+   473→              {MINI_STATS.map((s, i) => (
+   474→                <MiniStatItem key={s.label} stat={s} index={i} />
+   475→              ))}
+   476→            </div>
+   477→          </div>
+   478→
+   479→          {/* App badges */}
+   480→          <div className="lg:col-span-3">
+   481→            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45 mb-4">
+   482→              Download the Khidma app
+   483→            </div>
+   484→            <div className="flex flex-col gap-2.5">
+   485→              <AppStoreBadge />
+   486→              <GooglePlayBadge />
+   487→            </div>
+   488→          </div>
+   489→
+   490→          {/* Social proof */}
+   491→          <div className="lg:col-span-3">
+   492→            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45 mb-4">
+   493→              Loved by the community
+   494→            </div>
+   495→            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+   496→              <div className="flex items-center gap-2">
+   497→                {Array.from({ length: 5 }).map((_, i) => (
+   498→                  <Star
+   499→                    key={i}
+   500→                    className="size-4 fill-amber-400 text-amber-400"
+   501→                    aria-hidden
+   502→                  />
+   503→                ))}
+   504→              </div>
+   505→              <div className="mt-2 font-display text-xl font-bold text-white">
+   506→                4.9 <span className="text-sm font-medium text-white/60">/ 5.0</span>
+   507→              </div>
+   508→              <div className="text-[11px] text-white/55">
+   509→                from 8,420+ verified reviews
+   510→              </div>
+   511→            </div>
+   512→          </div>
+   513→        </div>
+   514→
+   515→        {/* === 4. Main footer (Brand + Nav) === */}
+   516→        <div className="grid gap-8 lg:gap-12 py-12 lg:grid-cols-12">
+   517→          {/* Brand + Contact */}
+   518→          <div className="lg:col-span-4 space-y-6">
+   519→            <div>
+   520→              <KhidmaLogo
+   521→                variant="full"
+   522→                size="md"
+   523→                className="[&_span]:text-white [&_span:nth-child(2)]:text-white/60"
+   524→              />
+   525→              <p className="mt-4 text-sm text-white/70 max-w-sm leading-relaxed">
+   526→                Khidma (خدمة) is a trusted freelance marketplace connecting
+   527→                verified Tunisian talent with clients locally and globally.
+   528→                Work. Earn. Grow.
+   529→              </p>
+   530→            </div>
+   531→
+   532→            {/* Contact */}
+   533→            <div className="space-y-3">
+   534→              <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50">
+   535→                Contact
+   536→              </h4>
+   537→              <a
+   538→                href="mailto:dhakeramarawork@gmail.com"
+   539→                className="group flex items-center gap-2.5 text-sm text-white/80 hover:text-white transition-colors"
+   540→              >
+   541→                <span className="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#32504d] transition-colors">
+   542→                  <Mail className="size-4" />
+   543→                </span>
+   544→                <span className="relative">
+   545→                  dhakeramarawork@gmail.com
+   546→                  <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#748684] transition-all duration-300 group-hover:w-full" />
+   547→                </span>
+   548→              </a>
+   549→              <a
+   550→                href="https://wa.me/21699495558"
+   551→                target="_blank"
+   552→                rel="noopener noreferrer"
+   553→                className="group flex items-center gap-2.5 text-sm text-white/80 hover:text-white transition-colors"
+   554→              >
+   555→                <span className="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#32504d] transition-colors">
+   556→                  <MessageCircle className="size-4" />
+   557→                </span>
+   558→                <span className="relative">
+   559→                  WhatsApp: +216 99 49 55 58
+   560→                  <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#748684] transition-all duration-300 group-hover:w-full" />
+   561→                </span>
+   562→              </a>
+   563→              <div className="flex items-center gap-2.5 text-sm text-white/80">
+   564→                <span className="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+   565→                  <MapPin className="size-4" />
+   566→                </span>
+   567→                Tunis, Tunisia · Serving Worldwide
+   568→              </div>
+   569→            </div>
+   570→
+   571→            {/* Social */}
+   572→            <div className="flex items-center gap-2">
+   573→              {socialLinks.map((s) => {
+   574→                const Icon = s.icon;
+   575→                return (
+   576→                  <a
+   577→                    key={s.label}
+   578→                    href={s.href}
+   579→                    aria-label={s.label}
+   580→                    className="size-9 rounded-lg bg-white/5 border border-white/10 hover:bg-[#32504d] hover:border-[#32504d] hover:scale-105 flex items-center justify-center transition-all"
+   581→                  >
+   582→                    <Icon className="size-4" />
+   583→                  </a>
+   584→                );
+   585→              })}
+   586→              <Button
+   587→                variant="outline"
+   588→                size="sm"
+   589→                onClick={() => startTour()}
+   590→                className="ml-2 border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white gap-1.5"
+   591→              >
+   592→                <Sparkles className="size-3.5" />
+   593→                Take the tour
+   594→              </Button>
+   595→            </div>
+   596→          </div>
+   597→
+   598→          {/* Nav columns */}
+   599→          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+   600→            {footerNav.map((col) => {
+   601→              const Icon = col.icon;
+   602→              return (
+   603→                <div key={col.title} className="space-y-4">
+   604→                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/50">
+   605→                    <Icon className="size-3.5" />
+   606→                    {col.title}
+   607→                  </div>
+   608→                  <ul className="space-y-2.5">
+   609→                    {col.links.map((link) => (
+   610→                      <FooterLink
+   611→                        key={link.label}
+   612→                        link={link}
+   613→                        onNavigate={onNavigate}
+   614→                      />
+   615→                    ))}
+   616→                  </ul>
+   617→                </div>
+   618→              );
+   619→            })}
+   620→          </div>
+   621→        </div>
+   622→
+   623→        <Separator className="bg-white/10" />
+   624→
+   625→        {/* Trust strip */}
+   626→        <div className="py-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-xs text-white/60">
+   627→          <div className="flex items-center gap-2">
+   628→            <Shield className="size-3.5 text-[#748684]" />
+   629→            Identity + Portfolio Verification
+   630→          </div>
+   631→          <div className="flex items-center gap-2">
+   632→            <Briefcase className="size-3.5 text-[#748684]" />
+   633→            Secure Contracts + Escrow
+   634→          </div>
+   635→          <div className="flex items-center gap-2">
+   636→            <Users className="size-3.5 text-[#748684]" />
+   637→            Real People. Real Reviews.
+   638→          </div>
+   639→          <div className="flex items-center gap-2">
+   640→            <HelpCircle className="size-3.5 text-[#748684]" />
+   641→            Transparent 1% Platform Fee
+   642→          </div>
+   643→        </div>
+   644→
+   645→        <Separator className="bg-white/10" />
+   646→
+   647→        {/* === Bottom bar === */}
+   648→        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+   649→          <div className="text-xs text-white/50 space-y-1 max-w-xl">
+   650→            <p>© {new Date().getFullYear()} Khidma — خدمة. All rights reserved.</p>
+   651→            <p>
+   652→              Designed &amp; Developed by{" "}
+   653→              <a
+   654→                href="mailto:dhakeramarawork@gmail.com"
+   655→                className="font-medium text-white/80 hover:text-white underline-offset-2 hover:underline"
+   656→              >
+   657→                Amara Dhaker
+   658→              </a>
+   659→              . Bringing ideas to life through modern digital experiences.
+   660→            </p>
+   661→            <p className="flex items-center justify-center sm:justify-start gap-2 pt-1">
+   662→              <a
+   663→                href="mailto:dhakeramarawork@gmail.com"
+   664→                className="hover:text-white/80 transition-colors inline-flex items-center gap-1"
+   665→              >
+   666→                <Mail className="size-3" /> dhakeramarawork@gmail.com
+   667→              </a>
+   668→              <span className="text-white/30">·</span>
+   669→              <a
+   670→                href="https://wa.me/21699495558"
+   671→                target="_blank"
+   672→                rel="noopener noreferrer"
+   673→                className="hover:text-white/80 transition-colors inline-flex items-center gap-1"
+   674→              >
+   675→                <MessageCircle className="size-3" /> +216 99 49 55 58
+   676→              </a>
+   677→            </p>
+   678→          </div>
+   679→          <div className="flex items-center gap-3 flex-wrap justify-center">
+   680→            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/40 bg-[#32504d]/15 px-3 py-1 text-[11px] font-semibold text-[#94a8a4]">
+   681→              Made in Tunisia 🇹🇳
+   682→            </span>
+   683→            <div className="flex items-center gap-3 text-xs text-white/50">
+   684→              <button
+   685→                onClick={() => useApp.getState().openPrivacy()}
+   686→                className="hover:text-white/80 transition-colors"
+   687→              >
+   688→                Privacy
+   689→              </button>
+   690→              <button
+   691→                onClick={() => useApp.getState().openHelp()}
+   692→                className="hover:text-white/80 transition-colors"
+   693→              >
+   694→                Terms
+   695→              </button>
+   696→              <button
+   697→                onClick={() => useApp.getState().openHelp()}
+   698→                className="hover:text-white/80 transition-colors"
+   699→              >
+   700→                Trust &amp; Safety
+   701→              </button>
+   702→            </div>
+   703→          </div>
+   704→        </div>
+   705→      </div>
+   706→    </footer>
+   707→  );
+   708→}
+   709→
+   710→export default Footer;
+   711→

@@ -54,6 +54,7 @@ interface ModalState {
   privacyOpen: boolean;
   teamsOpen: boolean;
   apiDocsOpen: boolean;
+  partnersOpen: boolean;
 }
 
 export type FavoriteType = "freelancer" | "service" | "job";
@@ -126,6 +127,8 @@ interface AppState {
   closeTeams: () => void;
   openApiDocs: () => void;
   closeApiDocs: () => void;
+  openPartners: () => void;
+  closePartners: () => void;
   // demo logged-in user (no real auth)
   currentUser: { name: string; type: "freelancer" | "client"; avatar: string } | null;
   login: (name: string, type: "freelancer" | "client") => void;
@@ -247,6 +250,7 @@ export const useApp = create<AppState>((set) => ({
     privacyOpen: false,
     teamsOpen: false,
     apiDocsOpen: false,
+    partnersOpen: false,
   },
   openAuth: (mode = "login") =>
     set((s) => ({ modal: { ...s.modal, authOpen: true, authMode: mode } })),
@@ -367,6 +371,8 @@ export const useApp = create<AppState>((set) => ({
   closeTeams: () => set((s) => ({ modal: { ...s.modal, teamsOpen: false } })),
   openApiDocs: () => set((s) => ({ modal: { ...s.modal, apiDocsOpen: true } })),
   closeApiDocs: () => set((s) => ({ modal: { ...s.modal, apiDocsOpen: false } })),
+  openPartners: () => set((s) => ({ modal: { ...s.modal, partnersOpen: true } })),
+  closePartners: () => set((s) => ({ modal: { ...s.modal, partnersOpen: false } })),
   currentUser: null,
   login: (name, type) =>
     set({
