@@ -26,6 +26,7 @@ import {
   Banknote,
   ArrowRight,
   CreditCard,
+  Wallet as WalletIcon,
 } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
@@ -138,6 +139,7 @@ export function WalletModal() {
     closeWallet,
     openAuth,
     currentUser,
+    openTopup,
   } = useApp();
   const [tab, setTab] = useState<"balance" | "history" | "methods">("balance");
 
@@ -298,6 +300,19 @@ export function WalletModal() {
                       Request Withdrawal
                     </Button>
 
+                    <Button
+                      variant="outline"
+                      className="w-full border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+                      onClick={() => {
+                        closeWallet();
+                        // Defer to allow close transition to start cleanly
+                        setTimeout(() => openTopup(), 120);
+                      }}
+                    >
+                      <WalletIcon className="size-4" />
+                      Top up wallet
+                    </Button>
+
                     <div className="text-center text-xs">
                       <button
                         onClick={() => setTab("history")}
@@ -452,6 +467,17 @@ export function WalletModal() {
               </span>{" "}
               available to withdraw
             </div>
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full sm:w-auto border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+              onClick={() => {
+                closeWallet();
+                setTimeout(() => openTopup(), 120);
+              }}
+            >
+              <Plus className="size-3.5" /> Top up
+            </Button>
             <Button
               size="sm"
               variant="outline"

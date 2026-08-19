@@ -11,7 +11,7 @@ export function Categories() {
   const { setView } = useApp();
 
   return (
-    <section className="py-16 sm:py-24 bg-muted/30">
+    <section id="categories" className="py-16 sm:py-24 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14">
           <Reveal className="max-w-2xl">

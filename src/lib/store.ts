@@ -30,6 +30,14 @@ export interface ReportPayload {
   entityTitle: string;
 }
 
+export interface ReviewPayload {
+  contractTitle: string;
+  reviewerName: string;
+  revieweeName: string;
+  revieweeAvatar: string;
+  contractId: string;
+}
+
 interface ModalState {
   authOpen: boolean;
   authMode: "login" | "register";
@@ -49,6 +57,9 @@ interface ModalState {
   sharePayload: SharePayload | null;
   reportOpen: boolean;
   reportPayload: ReportPayload | null;
+  reviewOpen: boolean;
+  reviewPayload: ReviewPayload | null;
+  topupOpen: boolean;
   helpOpen: boolean;
   proOpen: boolean;
   referralOpen: boolean;
@@ -117,6 +128,10 @@ interface AppState {
   closeShare: () => void;
   openReport: (payload: ReportPayload) => void;
   closeReport: () => void;
+  openReview: (payload: ReviewPayload) => void;
+  closeReview: () => void;
+  openTopup: () => void;
+  closeTopup: () => void;
   openHelp: () => void;
   closeHelp: () => void;
   openPro: () => void;
@@ -248,6 +263,9 @@ export const useApp = create<AppState>((set) => ({
     sharePayload: null,
     reportOpen: false,
     reportPayload: null,
+    reviewOpen: false,
+    reviewPayload: null,
+    topupOpen: false,
     helpOpen: false,
     proOpen: false,
     referralOpen: false,
@@ -364,6 +382,11 @@ export const useApp = create<AppState>((set) => ({
   openReport: (payload) =>
     set((s) => ({ modal: { ...s.modal, reportOpen: true, reportPayload: payload } })),
   closeReport: () => set((s) => ({ modal: { ...s.modal, reportOpen: false } })),
+  openReview: (payload) =>
+    set((s) => ({ modal: { ...s.modal, reviewOpen: true, reviewPayload: payload } })),
+  closeReview: () => set((s) => ({ modal: { ...s.modal, reviewOpen: false } })),
+  openTopup: () => set((s) => ({ modal: { ...s.modal, topupOpen: true } })),
+  closeTopup: () => set((s) => ({ modal: { ...s.modal, topupOpen: false } })),
   openHelp: () => set((s) => ({ modal: { ...s.modal, helpOpen: true } })),
   closeHelp: () => set((s) => ({ modal: { ...s.modal, helpOpen: false } })),
   openPro: () => set((s) => ({ modal: { ...s.modal, proOpen: true } })),

@@ -29,6 +29,7 @@ import { LiveActivityTicker } from "@/components/khidma/live-activity-ticker";
 import { KhidmaPulse } from "@/components/khidma/khidma-pulse";
 import { useTypewriter } from "@/components/khidma/use-typewriter";
 import { useApp } from "@/lib/store";
+import { useT } from "@/lib/use-t";
 import {
   freelancers,
   trustStats,
@@ -147,9 +148,16 @@ function MagneticCard({
 
 export function Hero() {
   const { setView, openOnboarding } = useApp();
+  const { t } = useT();
   const featured = freelancers.slice(0, 3);
   const prefersReducedMotion = useReducedMotion();
-  const { text: typedText, animating: typing } = useTypewriter(HEADLINE_PHRASES);
+  const headlinePhrases = [
+    t("hero.phrase1"),
+    t("hero.phrase2"),
+    t("hero.phrase3"),
+    t("hero.phrase4"),
+  ];
+  const { text: typedText, animating: typing } = useTypewriter(headlinePhrases);
 
   // Mouse parallax (subtle)
   const sectionRef = useRef<HTMLElement>(null);
@@ -208,6 +216,7 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
+      id="hero"
       data-cursor-glow
       className="relative overflow-hidden bg-khidma-radial bg-dot-grid"
     >
@@ -285,7 +294,7 @@ export function Hero() {
                   className="size-1.5 rounded-full bg-emerald-400"
                 />
                 <Sparkles className="size-3.5 text-[#94a8a4]" />
-                Built for Tunisian talent &amp; clients worldwide
+                {t("hero.eyebrow")}
               </span>
             </motion.div>
 
@@ -314,7 +323,7 @@ export function Hero() {
                 className="relative font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05]"
                 style={{ textShadow: "0 2px 24px rgba(0,0,0,0.3)" }}
               >
-                Find trusted talent.
+                {t("hero.titleLine1")}
                 <br />
                 <span className="text-khidma-gradient">
                   {typedText}
@@ -346,10 +355,9 @@ export function Hero() {
               variants={itemVariants}
               className="mt-6 max-w-xl text-base sm:text-lg text-white/75 leading-relaxed"
             >
-              A professional marketplace connecting verified Tunisian freelancers
-              with clients locally and globally.{" "}
+              {t("hero.subtitle")}{" "}
               <span className="font-semibold text-white/95">
-                Real people. Real skills. Real trust.
+                {t("hero.trust.realPeople")}
               </span>
             </motion.p>
 
@@ -363,7 +371,7 @@ export function Hero() {
                 className="group h-12 px-6 bg-white text-[#192d2f] hover:bg-white hover:shadow-[0_8px_40px_-4px_rgba(255,255,255,0.5)] transition-all"
               >
                 <Search className="size-4 transition-transform group-hover:scale-110" />
-                Find a Freelancer
+                {t("cta.findFreelancer")}
                 <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-1" />
               </Button>
               <Button
@@ -373,7 +381,7 @@ export function Hero() {
                 className="group h-12 px-6 border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white hover:border-white/50 transition-all backdrop-blur-sm"
               >
                 <Rocket className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:rotate-12" />
-                Start Freelancing
+                {t("cta.startFreelancing")}
               </Button>
             </motion.div>
 

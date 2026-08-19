@@ -14,7 +14,7 @@ export function Testimonials() {
     .slice(0, 4);
 
   return (
-    <section className="py-16 sm:py-24 bg-background">
+    <section id="testimonials" className="py-16 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-10 sm:mb-14">
           <Reveal>

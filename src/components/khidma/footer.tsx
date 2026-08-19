@@ -51,6 +51,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useApp } from "@/lib/store";
+import { useT } from "@/lib/use-t";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -331,6 +332,7 @@ function NewsletterForm() {
 
 export function Footer() {
   const prefersReduced = useReducedMotion();
+  const { t } = useT();
   const {
     setView,
     openApiDocs,
@@ -602,16 +604,16 @@ export function Footer() {
         {/* === Bottom bar === */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="text-xs text-white/50 space-y-1 max-w-xl">
-            <p>© {new Date().getFullYear()} Khidma — خدمة. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Khidma — خدمة. {t("footer.rights").replace(/^© \d+ Khidma — خدمة\. /, "")}</p>
             <p>
-              Designed &amp; Developed by{" "}
+              {t("footer.designedBy")}{" "}
               <a
                 href="mailto:dhakeramarawork@gmail.com"
                 className="font-medium text-white/80 hover:text-white underline-offset-2 hover:underline"
               >
                 Amara Dhaker
               </a>
-              . Bringing ideas to life through modern digital experiences.
+              . {t("footer.tagline")}.
             </p>
             <p className="flex items-center justify-center sm:justify-start gap-2 pt-1">
               <a

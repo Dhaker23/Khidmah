@@ -104,7 +104,7 @@ function StatItem({ stat, index }: { stat: Stat; index: number }) {
 
 export function StatsBanner() {
   return (
-    <section className="relative bg-khidma-gradient overflow-hidden">
+    <section id="stats" className="relative bg-khidma-gradient overflow-hidden">
       <div
         className="absolute inset-0 opacity-25 pointer-events-none bg-dot-grid"
         aria-hidden

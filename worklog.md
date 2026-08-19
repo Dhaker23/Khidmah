@@ -1885,3 +1885,206 @@ Unresolved / Risks for next round:
 - Stats view charts use mock data — real analytics API needed.
 - Could add real Stripe checkout for Pro/Teams/Partners/Academy plans.
 - Could add a "Khidma Wallet" mobile top-up flow.
+
+---
+Task ID: ROUND11-FEATURES-1
+Agent: full-stack-developer (review + topup modals)
+Task: Build 2 new Khidma modals — (1) `review-modal.tsx` for rating/reviewing a freelancer after a completed contract (overall 5-star rating + 4 metric rows + public review + private feedback + recommend toggle + anonymous checkbox), and (2) `topup-modal.tsx` for topping up wallet balance (quick amounts + custom amount + 4 payment methods + card details + promo code + summary). Wire store state, barrel, page.tsx mount, and add "Top up" entry points in WalletModal.
+
+Work Log:
+- Read `worklog.md` (full project context — 27 landing sections, 7 views, 22 modals; Round 10 added scroll-progress, Tunisian Cities, Stats view, section-rhythm dividers; lint clean).
+- Read precedent components: `report-modal.tsx` (self-render Dialog + payload + reset-on-open pattern, eslint-disable react-hooks/set-state-in-effect comment), `wallet-modal.tsx` (Khidma teal gradient header, tabs, sticky footer, formatTND), `share-modal.tsx` (AnimatePresence conditional content), `khidma-data.ts` (`formatTND`, `withdrawalMethods`), `globals.css` (`.bg-khidma-gradient` utility, palette tokens), `khidma/logo.tsx` (KhidmaLogo API), shadcn `dialog`/`switch`/`radio-group`/`avatar`/`checkbox` primitives.
+
+### Store changes — `src/lib/store.ts`
+- Added new exported `ReviewPayload` interface: `{ contractTitle, reviewerName, revieweeName, revieweeAvatar, contractId }`.
+- Added 3 new fields to `ModalState` interface + initial state: `reviewOpen: boolean`, `reviewPayload: ReviewPayload | null`, `topupOpen: boolean`.
+- Added 5 new actions to `AppState`: `openReview(payload)`, `closeReview()`, `openTopup()`, `closeTopup()`.
+
+### Feature 1 — `src/components/modals/review-modal.tsx` (~360 LOC)
+- Self-renders based on `modal.reviewOpen`. `max-w-lg` Dialog. Khidma teal gradient header.
+- Header: Avatar (reviewee) + "Rate your experience" title + "How was your experience with {revieweeName}?" subtitle + contract title (truncated) + close button.
+- Overall rating: 5 interactive star buttons (40px), motion-button `whileHover` scale 1.12 + `whileTap` scale 0.92 + spring. Hover preview (`overallHover`). Animated label "5/5 · Excellent" / "Tap a star to rate" using AnimatePresence.
+- Metric ratings: 4 rows (icon chip + label + small star row 18px) — Communication (MessageSquare), Quality of Work (Sparkles), On-time Delivery (Clock), Professionalism (Briefcase).
+- Public review Textarea (4 rows, min 50 / max 500 chars) with live char counter (gray<50, teal 50–450, amber 450–500).
+- Private feedback Textarea (2 rows, max 400 chars, optional) — "Private notes for Khidma (not visible to {revieweeName})".
+- Would recommend Switch (teal checked state).
+- Anonymous Checkbox (teal checked state).
+- Footer: status badge (Ready/Log in required/Fill fields) on desktop, Cancel ghost, Submit Review primary (disabled until overall + all 4 metrics + 50+ char public review). Loader2 spinner on submit.
+- On submit: `pushNotification({ type: "review", title: "Review submitted", body: "Your review for {revieweeName} has been published.", link: "dashboard" })` + `toast.success("Review submitted! ⭐", { description: "{overall}/5 · {label}" })` + close + reset (useEffect on `[reviewOpen, reviewPayload?.contractId]`).
+- `prefers-reduced-motion`: disabled star scale + label fade. ARIA radiogroup/radio/aria-checked per star.
+
+### Feature 2 — `src/components/modals/topup-modal.tsx` (~440 LOC)
+- Self-renders based on `modal.topupOpen`. `max-w-md` Dialog. Khidma teal gradient header with KhidmaLogo symbol + "Top up your wallet" + "Add funds to hire freelancers faster." subtitle.
+- Current balance card: Available TND 4,250.00 + Pending TND 1,800.00 (2-decimal places via `formatAmount` helper).
+- Amount selection: 5 quick-amount buttons (TND 50/100/250/500/1,000) in 3-col mobile / 5-col sm grid + custom amount input (TND prefix, numeric inputMode, clamp 10–10,000, amber hint when out of range, green check when valid). framer-motion `whileHover`/`whileTap` scale on quick buttons (disabled under reduced motion).
+- Payment method: RadioGroup with 4 options (icon chip + label + description): Credit/Debit Card (CreditCard, "Visa, Mastercard"), Bank Transfer (Building, "BIAT, TIJARI, Zitouna"), D17 Mobile (Smartphone, "Instant mobile payment"), Tunisian Post (Mail, "Post office transfer").
+- Card details (conditionally rendered via AnimatePresence when method === "card"): card number (grouped 4-digit blocks, max 16), expiry (MM/YY auto-format), CVC (3-4 digits), name on card. All with autocomplete hints.
+- Summary card (teal-tinted): Amount + Discount line (when promo applied) + Processing fee Free + Total + "Funds available instantly" with Zap icon.
+- Promo code input + Apply button. Mocks 3 codes: KHIDMA10 (10% off), WELCOME (5% off), TUNISIA (15% off). Success toast + failure toast. Hint shows valid codes on failure.
+- Trust signal: ShieldCheck + "256-bit TLS encryption. Card details processed by PCI-DSS payment partner, never stored."
+- Footer: selected-method badge (icon + label) on desktop + Cancel ghost + "Top up TND {X}" primary (shows discounted total). Loader2 spinner on submit. Disabled when amount invalid OR card fields invalid.
+- On submit: `pushNotification({ type: "payment", title: "Top-up successful", body: "TND {X} added to your wallet.", link: "dashboard" })` + `toast.success("Payment successful! 💰", { description: "{amount} added to your wallet" })` + close + reset (useEffect on `[topupOpen]`).
+- `prefers-reduced-motion`: disabled button scale + card details fade-only AnimatePresence.
+
+### Barrel + page wiring + entry points
+- `src/components/modals/index.ts`: added ReviewModal + TopupModal exports.
+- `src/app/page.tsx`: added 2 dynamic imports (ssr:false) + 2 modal mounts in global modals block (after `<NewsletterModal />`).
+- `src/components/modals/wallet-modal.tsx`:
+  - Added `Wallet as WalletIcon` import + `openTopup` from store.
+  - Added "Top up wallet" outline button (teal-bordered, with Wallet icon) in balance tab below "Request Withdrawal" — calls `closeWallet()` + `setTimeout(() => openTopup(), 120)`.
+  - Added smaller "Top up" outline button in sticky footer next to "Manage methods" — same wiring.
+
+### Verification
+- `bun run lint` → **0 errors / 0 warnings** (exit 0) on first pass.
+- `bunx tsc --noEmit` → 0 errors in any new/modified files (only pre-existing unrelated errors in `examples/` + `skills/`).
+- Dev server (Next.js 16.1.3 Turbopack): `GET /` → **HTTP 200**, page rendered 1,075,023 bytes, title confirmed.
+- All "use client". Khidma teal palette only. Mobile responsive. `prefers-reduced-motion` respected. framer-motion throughout (motion.button, AnimatePresence, useReducedMotion). sonner toasts. ARIA labels/radiogroups/aria-checked/focus-visible rings.
+
+Stage Summary:
+- 2 new modal files: `review-modal.tsx` (~360 LOC) + `topup-modal.tsx` (~440 LOC).
+- 4 modified files: `store.ts` (ReviewPayload interface + 3 modal fields + 4 actions), `modals/index.ts` (2 exports), `page.tsx` (2 dynamic imports + 2 mounts), `wallet-modal.tsx` (2 Top up buttons + openTopup wiring + Wallet icon import).
+- Project now has **24 modals** (was 22). 2 new entry points for TopupModal inside WalletModal (balance tab + sticky footer). ReviewModal's `openReview(payload)` action is globally available — dashboard-view can call it from a "Leave review" button on completed-contract rows (not wired in this round).
+- All Khidma teal palette (#475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff). No indigo/blue. Lint: 0/0. TypeScript: clean. Dev server: HTTP 200.
+- Wrote work record to `/home/z/my-project/agent-ctx/ROUND11-FEATURES-1-review-topup-modals.md`.
+
+Unresolved / Risks for next round:
+- `openReview(payload)` action exists but no "Leave review" button on dashboard-view contract rows yet — wiring it from dashboard-view would close the loop (payload requires `{ contractTitle, reviewerName, revieweeName, revieweeAvatar, contractId }`).
+- Top-up is client-side mock — no real payment gateway integration.
+- Promo codes mocked to 3 codes — production would call backend validation.
+- Card fields validated by length/format only (no Luhn checksum).
+- `useEffect` reset-on-open uses `react-hooks/set-state-in-effect` eslint-disable comment (matches `report-modal.tsx` precedent — required because form lifetime is tied to global store open state with no parent prop to `key` on).
+
+### Files created
+- `src/components/modals/review-modal.tsx`
+- `src/components/modals/topup-modal.tsx`
+- `/home/z/my-project/agent-ctx/ROUND11-FEATURES-1-review-topup-modals.md`
+
+### Files modified
+- `src/lib/store.ts`
+- `src/components/modals/index.ts`
+- `src/app/page.tsx`
+- `src/components/modals/wallet-modal.tsx`
+
+---
+Task ID: ROUND11-STYLING-1
+Agent: full-stack-developer (glowing CTA + FAQ polish + scroll dots)
+Task: Premium styling polish — (1) FinalCTA glowing primary CTA + animated gradient mesh + "Take the tour" button, (2) FAQ accordion styling (chevron rotation, left-border accent, background tint, better typography) + "Was this helpful?" feedback row + "Contact support" CTA card, (3) NEW ScrollToSection floating dot navigation (desktop only, IntersectionObserver-tracked, framer-motion layoutId active fill).
+
+Work Log:
+- Read worklog + existing `final-cta.tsx` + `faq.tsx` + `reveal.tsx` + `accordion.tsx` + `store.ts` + `page.tsx` to understand the existing patterns I had to preserve (Reveal wrapper, useApp destructure, Radix accordion's `[&[data-state=open]>svg]:rotate-180` default, dark `bg-[#192d2f]` section bg, openOnboarding/setView/openHelp/startTour all on the store).
+- Inspected the `<section>` opening tags of all 10 major landing sections to plan ID additions: hero, categories, featured-freelancers, featured-services, open-jobs, stats-banner, testimonials all lacked IDs (pricing + blog already had them; faq ID added during its rewrite).
+
+Files created (1):
+- `src/components/khidma/scroll-to-section.tsx` (~165 LOC) — Premium floating dot navigation:
+  - Position: `hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-end gap-3` (desktop-only, vertically centered, right edge).
+  - 10 sections: hero, categories, featured-freelancers, featured-services, open-jobs, stats, pricing, testimonials, blog, faq.
+  - Active tracking: single IntersectionObserver with `rootMargin: "-45% 0px -45% 0px"` (thin middle-of-viewport slice). For each entry that intersects, store `intersectionRatio` in a Map; pick the most-visible as `activeId`. Observing deferred via `requestAnimationFrame` so all sections are mounted first.
+  - Per dot: muted 8px base dot animates to 16px on hover (spring 380/28); active dot replaces base with `<motion.span layoutId="khidma-scroll-dot-active-fill">` (absolute inset-0, bg-[#32504d], shadow-[0_0_8px_rgba(50,80,77,0.55)]) — slides smoothly between dots when active section changes.
+  - Tooltip: AnimatePresence-wrapped `<motion.span>` slides in from x:6 → 0 over 180ms; positioned LEFT of the dot (button uses `flex justify-end gap-2` so dot stays anchored to the right viewport edge while tooltip grows leftward).
+  - Click: `document.getElementById(id)?.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" })`.
+  - Accessibility: `<nav aria-label="On-page section navigation">`, each button has `aria-label="Scroll to {label} section"` + `aria-current={isActive ? "location" : undefined}`.
+  - prefers-reduced-motion: tooltip uses `initial={{opacity:1}}` (no slide); all dot/fill transitions `duration: 0`; smooth-scroll falls back to `behavior: "auto"`.
+
+Files modified (10):
+- `src/components/sections/final-cta.tsx` — Premium glowing CTA + animated gradient mesh + Take the tour:
+  - Added `startTour` to the destructure from `useApp()`.
+  - 3 drifting blurred blobs (gradient mesh): `motion.div` with `blur-[120-140px]`, radial-gradient backgrounds in #32504d / #748684 / #6e8580; each animates `x`/`y`/`opacity` over 20s/22s/24s with `repeat: Infinity, ease: "easeInOut"`. Only rendered when `!prefersReduced`.
+  - Premium glowing primary CTA: wrapped `<Button>` in `<motion.div whileHover={{scale:1.02}} whileTap={{scale:0.99}}>` (spring 400/22). Behind button: `<motion.div className="absolute -inset-4 rounded-full blur-2xl">` with `radial-gradient(circle, rgba(50,80,77,0.85) 0%, rgba(50,80,77,0.4) 45%, transparent 75%)`. Animates opacity `[0.4, 0.7, 0.4]` over 2.5s. Reduced-motion: static opacity 0.55, no animation.
+  - "Take the tour" button (NEW): `<Button variant="ghost" onClick={startTour}>` with `<Compass>` icon (rotates 24° on hover via `group-hover:rotate-[24deg]`).
+  - Preserved: openOnboarding, setView, trust line, Sparkles eyebrow, Reveal wrapper, dark bg, dot-grid overlay, static radial-gradient backdrop.
+- `src/components/sections/faq.tsx` — Accordion styling + feedback row + Contact support CTA:
+  - Added `id="faq"` to the section element.
+  - Added imports: `useState`, `Button`, `toast` (sonner), `cn`, 5 new Lucide icons.
+  - AccordionItem className additions: `data-[state=open]:bg-[#32504d]/[0.04]` (subtle teal tint) + `data-[state=open]:shadow-[inset_2px_0_0_0_#32504d]` (left-border accent via inset shadow — no layout shift) + `rounded-md transition-colors duration-200`.
+  - AccordionTrigger className addition: `[&>svg]:duration-300 [&>svg]:ease-out` (smoother chevron rotation 180° — default 200ms linear → 300ms ease-out).
+  - Question typography: `text-sm sm:text-base` → `text-base sm:text-lg` + `tracking-tight` (slightly larger, tighter).
+  - NEW `FeedbackRow` sub-component (rendered inside each AccordionContent): "Was this helpful?" label + Yes/No buttons with ThumbsUp/ThumbsDown icons. Local `useState<"yes"|"no"|null>` per item. Click → `toast("Thanks for your feedback!", {description: ...})`. Voted button stays highlighted teal (`bg-[#32504d]/15 text-[#32504d]`). Re-click same = no-op.
+  - NEW "Contact support" CTA card at bottom of FAQ section: `<Card>` with teal gradient bg + `<LifeBuoy>` icon in teal circle + "Still have questions?" heading + 24h-reply text + `<Button onClick={openHelp}>Contact support</Button>` (with `<Mail>` icon). Wrapped in `<Reveal delay={0.1}>`.
+  - Preserved: left-column onboarding CTA card (openOnboarding + setView("freelancers")), all 8 FAQ Q&A items with icons.
+- `src/components/sections/hero.tsx` — added `id="hero"` to the `<section>` opening tag.
+- `src/components/sections/categories.tsx` — added `id="categories"`.
+- `src/components/sections/featured-freelancers.tsx` — added `id="featured-freelancers"`.
+- `src/components/sections/featured-services.tsx` — added `id="featured-services"`.
+- `src/components/sections/open-jobs.tsx` — added `id="open-jobs"`.
+- `src/components/sections/stats-banner.tsx` — added `id="stats"`.
+- `src/components/sections/testimonials.tsx` — added `id="testimonials"`.
+- `src/app/page.tsx` — imported `ScrollToSection` from `@/components/khidma/scroll-to-section`; rendered it conditionally as `{view === "home" && <ScrollToSection />}` immediately after `<CursorGlow />` (between header and main).
+
+Verification:
+- `bun run lint` → 0 errors / 0 warnings (exit 0) on first pass.
+- `bunx tsc --noEmit` → 0 errors in any of my 11 files (3 pre-existing errors in `examples/` + `skills/` are unrelated).
+- Dev server (Next.js 16.1.3 Turbopack): `GET /` → HTTP 200, 1,079,018 bytes, 0.31s.
+- HTML content verification (curl + grep):
+  - All 10 section IDs in DOM: hero, categories, featured-freelancers, featured-services, open-jobs, stats, pricing, testimonials, blog, faq ✓
+  - ScrollToSection nav rendered with `aria-label="On-page section navigation"` ✓
+  - All 10 "Scroll to {Section} section" aria-labels present ✓
+  - "Become a Verified Freelancer" CTA present (no regression) ✓
+  - "Take the tour" button present ✓ (NEW)
+  - "Hire Talent" button present (no regression) ✓
+  - "Questions, answered." heading + all 8 FAQ questions in DOM ✓
+  - "Contact support" button + "Still have questions?" CTA card heading present ✓ (NEW)
+- "Was this helpful?" feedback row only mounts when accordion item is expanded (Radix default — content unmounts when closed). Source verified; will appear on user click.
+
+Stage Summary:
+- 1 new file (scroll-to-section.tsx) + 2 polished section files (final-cta.tsx, faq.tsx) + 7 ID-additions to section elements + 1 mounting change in page.tsx = 11 files touched.
+- Premium glowing CTA pulse + animated gradient mesh (3 drifting blobs, 20s loop) added to FinalCTA. "Take the tour" button added (calls `startTour()` from store).
+- FAQ accordion now has teal left-border accent + subtle bg tint on expanded items, smoother chevron rotation, larger/better question typography, per-item "Was this helpful?" Yes/No feedback row firing sonner toast, and a "Contact support" CTA card at the bottom (calls `openHelp()`).
+- Floating section-navigation dots (desktop-only) track active section via IntersectionObserver + slide the active teal fill via framer-motion layoutId. Hover expands muted dot 8→16px + shows tooltip.
+- All Khidma teal palette only. `prefers-reduced-motion` respected everywhere (static glow, no mesh, instant transitions, no smooth-scroll). framer-motion used throughout (motion.div glow pulse + mesh drift + button scale; motion.span dot hover + active fill layoutId; AnimatePresence tooltip).
+- Lint clean. TypeScript clean. Dev server: HTTP 200. Existing functionality preserved (openOnboarding, setView, openHelp, startTour, accordion Q&A, trust line, Reveal wrappers, left-column onboarding card).
+
+Unresolved / Risks for next round:
+- FeedbackRow vote state resets when accordion item is closed (Radix unmounts closed content). If persistent feedback state is desired, lift `useState` to FAQ level keyed by item index, or persist to localStorage.
+- IntersectionObserver uses a thin middle-viewport slice (`-45% 0px -45% 0px`); on very short sections (e.g. stats-banner) the active state might briefly flicker when scrolling past. Acceptable for the 10 chosen sections.
+- The layoutId active-fill slide animation restarts when ScrollToSection remounts (after navigating away from `view === "home"` and back) — no slide on first render.
+- 3-blob animated mesh in FinalCTA adds GPU load on low-end devices without reduced-motion enabled; acceptable for a single landing-page section.
+
+---
+Task ID: ROUND-11-VERIFICATION
+Agent: Z.ai Code (main)
+Task: 15-min cron review round 11 — QA current state, wire useT() i18n into hero + footer (make 60+ translation strings functional), add Rate & Review modal + Wallet Top-up modal + glowing CTA + FAQ polish + scroll-to-section dots.
+
+Work Log:
+- Read worklog to understand current state (round 10 complete: 7 views + 21 modals + 27 landing sections + i18n dictionary with 60+ strings + scroll progress + Tunisian cities + stats view + section rhythm). Project stable: lint clean, TS clean, dev server + chat service healthy.
+- QA: dev server (port 3000) + chat service (port 3003) both healthy. agent-browser smoke test: page loads, no console errors. Footer verified intact with "Designed & Developed by Amara Dhaker" + contact email + WhatsApp + Made in Tunisia 🇹🇳.
+- **i18n wiring** (done directly): The #1 unresolved item from round 10 was "Wire useT() into actual components — the 60+ strings exist but most sections still use hardcoded English."
+  - Wired `useT()` into `hero.tsx`: imported `useT`, replaced hardcoded strings with `t()` calls for hero.eyebrow, hero.titleLine1, hero.subtitle, hero.trust.realPeople, cta.findFreelancer, cta.startFreelancing. Also wired the 4 typewriter phrases (hero.phrase1-4) so they now translate when language changes.
+  - Wired `useT()` into `footer.tsx`: imported `useT`, replaced hardcoded strings with `t()` calls for footer.rights, footer.designedBy, footer.tagline, footer.madeInTunisia, footer.privacy, footer.terms, footer.trustSafety.
+  - Verified via agent-browser: switched to Arabic → hero shows "مصمم للمواهب التونسية والعملاء حول العالم" + "ابحث عن مستقل" + "ابدأ العمل الحر". Footer shows "تصميم وتطوير Amara Dhaker" + translated tagline. RTL layout correct (dir="rtl", lang="ar"). VLM: **9/10** "modern, clean, professional, excellent visual hierarchy".
+- Dispatched 2 parallel subagents (full-stack-developer):
+  1. **ROUND11-FEATURES-1**:
+     - `review-modal.tsx` — Rate & Review modal: 5-star overall rating (interactive, hover preview, 40px stars), 4 metric rows (Communication/Quality of Work/On-time Delivery/Professionalism) each with 5 small stars, public review textarea (min 50/max 500 chars + counter), private feedback textarea, "Would recommend" toggle, "Post anonymously" checkbox. Submit disabled until overall + all 4 metrics + min 50 chars. On submit → pushNotification + toast + close.
+     - `topup-modal.tsx` — Wallet Top-up modal: current balance card (Available TND 4,250 + Pending TND 1,800), 5 quick amounts (50/100/250/500/1000) + custom input, 4 payment methods (Credit Card / Bank Transfer / D17 Mobile / Tunisian Post) with conditional card details form, summary card (amount + free fee + total), promo code input (3 valid mock codes: KHIDMA10/WELCOME/TUNISIA). On submit → pushNotification + toast + close.
+     - Updated store (ReviewPayload + 3 new modal fields + 4 actions), barrel, page.tsx (2 dynamic imports + mounts), wallet-modal (added "Top up" buttons → openTopup).
+  2. **ROUND11-STYLING-1**:
+     - Polished `final-cta.tsx`: added premium glowing CTA button (animated radial gradient pulse 0.4→0.7→0.4 over 2.5s, hover scales 1.02, blurred teal #32504d glow), 3-blob animated gradient mesh (20s/22s/24s drift), "Take the tour" secondary button (→ startTour()). VLM: **8/10** "glowing button, excellent hierarchy, professional and trustworthy".
+     - Polished `faq.tsx`: added teal left-border accent on expanded items, subtle teal background tint, smoother chevron rotation (300ms), bumped question typography (font-display, text-base sm:text-lg), "Was this helpful?" feedback row (Yes/No with thumbs icons → toast), "Contact support" CTA card (→ openHelp()).
+     - Created `scroll-to-section.tsx`: premium floating dot navigation (desktop-only, fixed right-6 top-1/2). 10 dots for major sections (Hero/Categories/Featured Freelancers/Services/Jobs/Stats/Pricing/Testimonials/Blog/FAQ). Active dot tracked via IntersectionObserver, slides between dots via framer-motion layoutId. Hover expands dot 8→16px + tooltip. Click → smooth scroll. Respects reduced-motion.
+     - Added `id` attributes to 7 section elements for the dots to target. Mounted `<ScrollToSection />` in page.tsx (home view only).
+
+QA verification (all via agent-browser through Caddy port 81):
+- **i18n hero in Arabic**: switched to Arabic → hero eyebrow "مصمم للمواهب التونسية والعملاء حول العالم", title "اعثر على موهبة موثوقة.", CTAs "ابحث عن مستقل" + "ابدأ العمل الحر", subtitle in Arabic, "Real people. Real skills. Real trust." → "أشخاص حقيقيون. مهارات حقيقية. ثقة حقيقية.". RTL layout correct. VLM: **9/10**.
+- **i18n footer in Arabic**: "تصميم وتطوير Amara Dhaker" + "نحو الأفكار إلى حياة عبر تجارب رقمية حديثة." — footer attribution translated. Amara Dhaker name + email + WhatsApp preserved.
+- **Rate & Review modal**: opened via dev helper → "Rate your experience" + "How was your experience with Amira Ben Salah?" + 5-star overall + 4 metric rows (Communication/Quality/Delivery/Professionalism) + public review + private feedback + recommend toggle + anonymous checkbox + Submit. VLM: confirmed structure.
+- **Wallet Top-up modal**: opened via dev helper → "Top up your wallet" + balance card (TND 4,250 + TND 1,800) + 5 quick amounts + 4 payment methods + summary + promo code. VLM: **9/10** "clean hierarchy, good whitespace, clear visual distinction".
+- **Final CTA glowing**: scrolled to "Join Khidma Today" → glowing primary CTA button + "Take the tour" button visible. VLM: **8/10** "glowing button, excellent hierarchy, professional".
+- **Scroll-to-section dots**: verified 10 navigation buttons in DOM ("Scroll to Home section", "Scroll to Categories section", etc.). Desktop-only, fixed right side.
+- No console errors, no crashes, no infinite loops.
+- Lint: 0 errors / 0 warnings. TypeScript: 0 errors. Dev server: HTTP 200 (port 3000 + port 81). Chat service: TCP 3003 listening.
+
+Stage Summary:
+- i18n wired into hero + footer (the #1 unresolved item from round 10 is now resolved — translation strings are actually functional, verified in Arabic RTL).
+- 2 new modals (review-modal, topup-modal) → project now has 24 modals.
+- 1 new global component (scroll-to-section) + 2 polished sections (final-cta with glowing CTA + mesh, faq with accents + feedback + support CTA).
+- Landing page still 27 sections but with enhanced final-cta + faq. Scroll-to-section dots on desktop right side.
+- VLM ratings: Arabic hero 9/10, Top-up modal 9/10, Final CTA 8/10.
+- 15-min cron review job (id 328735) continues running.
+
+Unresolved / Risks for next round:
+- i18n is now wired into hero + footer but NOT yet into the other 25+ landing sections (categories, featured-freelancers, services, jobs, etc.) — they still use hardcoded English. Could continue wiring useT() into more sections.
+- The search bar placeholder + live notification toasts remain in English even in Arabic mode (VLM noted this).
+- Chat service is in-memory only — resets on restart.
+- Real payment/withdrawal integrations still marked `mock: true` (per spec).
+- Blog/Community/Awards/Academy/Podcast/Cities content is mocked.
+- Could add real Stripe checkout for Pro/Teams/Partners plans.
+- Could add a "Khidma Wallet" mobile top-up flow (topup modal added but real payment processing needed).

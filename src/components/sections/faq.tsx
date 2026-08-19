@@ -1,15 +1,32 @@
 "use client";
 
-import { HelpCircle, ShieldCheck, Wallet, CreditCard, Globe2, Scale, Percent, UserCheck } from "lucide-react";
+import { useState } from "react";
+import {
+  CreditCard,
+  Globe2,
+  HelpCircle,
+  LifeBuoy,
+  Mail,
+  Percent,
+  Scale,
+  ShieldCheck,
+  ThumbsDown,
+  ThumbsUp,
+  UserCheck,
+  Wallet,
+} from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Reveal } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface QA {
   question: string;
@@ -68,10 +85,60 @@ const faqs: QA[] = [
   },
 ];
 
-export function FAQ() {
-  const { openOnboarding, setView } = useApp();
+/** "Was this helpful?" mini-feedback row — Yes/No buttons with thumbs icons. */
+function FeedbackRow() {
+  const [vote, setVote] = useState<"yes" | "no" | null>(null);
+
+  const handleVote = (choice: "yes" | "no") => {
+    if (vote === choice) return;
+    setVote(choice);
+    toast("Thanks for your feedback!", {
+      description:
+        choice === "yes"
+          ? "Glad this answer helped."
+          : "We'll work on improving this answer.",
+    });
+  };
+
   return (
-    <section className="py-16 sm:py-24 bg-muted/30">
+    <div className="mt-4 flex items-center gap-2 pt-3 border-t border-border/40">
+      <span className="text-xs text-muted-foreground">Was this helpful?</span>
+      <button
+        type="button"
+        onClick={() => handleVote("yes")}
+        aria-pressed={vote === "yes"}
+        className={cn(
+          "inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-colors",
+          vote === "yes"
+            ? "bg-[#32504d]/15 text-[#32504d]"
+            : "text-muted-foreground hover:bg-accent hover:text-foreground"
+        )}
+      >
+        <ThumbsUp className="size-3.5" />
+        Yes
+      </button>
+      <button
+        type="button"
+        onClick={() => handleVote("no")}
+        aria-pressed={vote === "no"}
+        className={cn(
+          "inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-colors",
+          vote === "no"
+            ? "bg-[#32504d]/15 text-[#32504d]"
+            : "text-muted-foreground hover:bg-accent hover:text-foreground"
+        )}
+      >
+        <ThumbsDown className="size-3.5" />
+        No
+      </button>
+    </div>
+  );
+}
+
+export function FAQ() {
+  const { openOnboarding, setView, openHelp } = useApp();
+  return (
+    <section id="faq" className="py-16 sm:py-24 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           {/* Left: heading */}
@@ -129,14 +196,20 @@ export function FAQ() {
                     <AccordionItem
                       key={qa.question}
                       value={`faq-${i}`}
-                      className="px-3 sm:px-4 first:pt-2 last:pb-2"
+                      className={cn(
+                        "px-3 sm:px-4 first:pt-2 last:pb-2 rounded-md transition-colors duration-200",
+                        // Subtle teal background tint on expanded item
+                        "data-[state=open]:bg-[#32504d]/[0.04]",
+                        // Left-border accent (teal) on expanded item via inset shadow (no layout shift)
+                        "data-[state=open]:shadow-[inset_2px_0_0_0_#32504d]"
+                      )}
                     >
-                      <AccordionTrigger className="hover:no-underline">
+                      <AccordionTrigger className="hover:no-underline [&>svg]:duration-300 [&>svg]:ease-out">
                         <span className="flex items-center gap-3 text-left">
                           <span className="flex size-7 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] shrink-0">
                             <Icon className="size-3.5" />
                           </span>
-                          <span className="font-display text-sm sm:text-base font-semibold text-foreground">
+                          <span className="font-display text-base sm:text-lg font-semibold tracking-tight text-foreground">
                             {qa.question}
                           </span>
                         </span>
@@ -145,6 +218,7 @@ export function FAQ() {
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           {qa.answer}
                         </p>
+                        <FeedbackRow />
                       </AccordionContent>
                     </AccordionItem>
                   );
@@ -153,6 +227,34 @@ export function FAQ() {
             </Card>
           </Reveal>
         </div>
+
+        {/* Contact support CTA card — at the bottom of the FAQ section */}
+        <Reveal delay={0.1} className="mt-10">
+          <Card className="mx-auto max-w-3xl p-6 sm:p-8 border-[#32504d]/20 bg-gradient-to-br from-[#32504d]/[0.05] via-[#748684]/[0.03] to-transparent">
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+              <div className="flex size-12 items-center justify-center rounded-full bg-[#32504d]/10 text-[#32504d] shrink-0">
+                <LifeBuoy className="size-6" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-display text-lg sm:text-xl font-semibold tracking-tight text-foreground">
+                  Still have questions?
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Our support team replies within 24 hours, 7 days a week.
+                  We&apos;re here to help with verification, payments,
+                  contracts, and anything else.
+                </p>
+              </div>
+              <Button
+                onClick={openHelp}
+                className="bg-[#2b3d3d] hover:bg-[#32504d] text-white shrink-0"
+              >
+                <Mail className="size-4" />
+                Contact support
+              </Button>
+            </div>
+          </Card>
+        </Reveal>
       </div>
     </section>
   );

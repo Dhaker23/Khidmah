@@ -5,6 +5,7 @@ import { Header } from "@/components/khidma/header";
 import { Footer } from "@/components/khidma/footer";
 import { CursorGlow } from "@/components/khidma/cursor-glow";
 import { ScrollProgress } from "@/components/khidma/scroll-progress";
+import { ScrollToSection } from "@/components/khidma/scroll-to-section";
 import { FreelancerGridSkeleton } from "@/components/khidma/skeletons";
 import { PageTransition } from "@/components/khidma/page-transition";
 import {
@@ -163,6 +164,14 @@ const NewsletterModal = dynamic(
   () => import("@/components/modals/newsletter-modal").then((m) => m.NewsletterModal),
   { ssr: false }
 );
+const ReviewModal = dynamic(
+  () => import("@/components/modals/review-modal").then((m) => m.ReviewModal),
+  { ssr: false }
+);
+const TopupModal = dynamic(
+  () => import("@/components/modals/topup-modal").then((m) => m.TopupModal),
+  { ssr: false }
+);
 const CookieConsent = dynamic(
   () => import("@/components/khidma/cookie-consent").then((m) => m.CookieConsent),
   { ssr: false }
@@ -196,6 +205,9 @@ export default function Home() {
 
       {/* Cursor-following glow — only visible over [data-cursor-glow] areas */}
       <CursorGlow />
+
+      {/* Floating section-navigation dots — only on the home view (desktop lg+) */}
+      {view === "home" && <ScrollToSection />}
 
       <main className="flex-1">
         <PageTransition
@@ -285,6 +297,8 @@ export default function Home() {
       <ApiDocsModal />
       <PartnersModal />
       <NewsletterModal />
+      <ReviewModal />
+      <TopupModal />
 
       {/* Global cookie consent banner — self-renders on first visit */}
       <CookieConsent />
