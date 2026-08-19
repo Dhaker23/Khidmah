@@ -50,8 +50,8 @@ export const metadata: Metadata = {
   creator: "Amara Dhaker",
   publisher: "Khidma",
   icons: {
-    icon: "/khidma-logo.png",
-    apple: "/khidma-logo.png",
+    icon: "/khidma-logo-v2.png",
+    apple: "/khidma-logo-v2.png",
   },
   openGraph: {
     title: "Khidma — Trusted Tunisian Freelance Marketplace",

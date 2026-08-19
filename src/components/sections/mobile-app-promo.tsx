@@ -148,7 +148,7 @@ function PhoneMockup() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1.5">
                 <Image
-                  src="/khidma-logo.png"
+                  src="/khidma-logo-v2.png"
                   alt="Khidma logo"
                   width={22}
                   height={22}
@@ -334,7 +334,7 @@ function QrMock() {
         {/* Khidma logo overlay (center) */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-7 rounded-md bg-white border border-border/70 flex items-center justify-center z-10">
           <Image
-            src="/khidma-logo.png"
+            src="/khidma-logo-v2.png"
             alt=""
             width={18}
             height={18}

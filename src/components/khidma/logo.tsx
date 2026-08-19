@@ -25,7 +25,7 @@ export function KhidmaLogo({
     return (
       <div className={cn("relative", className)}>
         <Image
-          src="/khidma-logo.png"
+          src="/khidma-logo-v2.png"
           alt="Khidma logo"
           width={s.icon}
           height={s.icon}
@@ -38,7 +38,7 @@ export function KhidmaLogo({
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
       <Image
-        src="/khidma-logo.png"
+        src="/khidma-logo-v2.png"
         alt="Khidma logo"
         width={s.icon}
         height={s.icon}

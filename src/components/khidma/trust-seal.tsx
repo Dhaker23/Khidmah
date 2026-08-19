@@ -105,7 +105,7 @@ export function TrustSeal({
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
-              src="/khidma-logo.png"
+              src="/khidma-logo-v2.png"
               alt=""
               width={20}
               height={20}
@@ -169,7 +169,7 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
         />
         <span className="relative flex size-8 items-center justify-center rounded-full overflow-hidden bg-khidma-gradient text-white shadow-md">
           <Image
-            src="/khidma-logo.png"
+            src="/khidma-logo-v2.png"
             alt=""
             width={32}
             height={32}

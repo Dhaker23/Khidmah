@@ -164,7 +164,7 @@ export function NewsletterModal() {
 
           <div className="flex items-center gap-2.5">
             <Image
-              src="/khidma-logo.png"
+              src="/khidma-logo-v2.png"
               alt="Khidma logo"
               width={36}
               height={36}
