@@ -7,7 +7,6 @@ import { Reveal } from "@/components/khidma/reveal";
 import {
   trustStats,
   formatNumber,
-  formatTND,
 } from "@/lib/khidma-data";
 
 interface Stat {
@@ -33,7 +32,7 @@ const stats: Stat[] = [
   {
     icon: Wallet,
     raw: trustStats.totalPaidOut,
-    format: (n) => formatTND(Math.round(n)),
+    format: (n) => `TND ${(Math.round(n) / 1000).toFixed(0)}K`,
     label: "total paid out",
   },
   {
@@ -86,7 +85,7 @@ function StatItem({ stat, index }: { stat: Stat; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="border-l-2 border-white/15 pl-4 sm:pl-5"
+      className="border-l-2 border-white/15 pl-4 sm:pl-5 min-w-0 overflow-hidden"
     >
       <div className="flex items-center gap-2 mb-2 text-white/70">
         <Icon className="size-4" />
