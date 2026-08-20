@@ -24,7 +24,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "@/components/khidma/verification";
-import { TrustSeal } from "@/components/khidma/trust-seal";
 import { LiveActivityTicker } from "@/components/khidma/live-activity-ticker";
 import { KhidmaPulse } from "@/components/khidma/khidma-pulse";
 import { useTypewriter } from "@/components/khidma/use-typewriter";
@@ -407,11 +406,6 @@ export function Hero() {
                 </motion.li>
               ))}
             </motion.ul>
-
-            {/* Khidma Trust Seal — premium verified Tunisian talent badge */}
-            <motion.div variants={itemVariants} className="mt-6" data-tour="trust-seal">
-              <TrustSeal variant="full" />
-            </motion.div>
 
             {/* Khidma Pulse — live real-time-feeling metrics widget */}
             <motion.div variants={itemVariants} className="mt-6 max-w-xl">
