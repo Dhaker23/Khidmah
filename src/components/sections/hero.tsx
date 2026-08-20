@@ -25,7 +25,6 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "@/components/khidma/verification";
 import { LiveActivityTicker } from "@/components/khidma/live-activity-ticker";
-import { KhidmaPulse } from "@/components/khidma/khidma-pulse";
 import { useTypewriter } from "@/components/khidma/use-typewriter";
 import { useApp } from "@/lib/store";
 import { useT } from "@/lib/use-t";
@@ -406,11 +405,6 @@ export function Hero() {
                 </motion.li>
               ))}
             </motion.ul>
-
-            {/* Khidma Pulse — live real-time-feeling metrics widget */}
-            <motion.div variants={itemVariants} className="mt-6 max-w-xl">
-              <KhidmaPulse />
-            </motion.div>
 
             {/* Live activity ticker — real-time platform events */}
             <motion.div variants={itemVariants} className="mt-6 max-w-xl">
