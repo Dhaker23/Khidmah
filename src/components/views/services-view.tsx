@@ -111,8 +111,8 @@ function ServiceSkeleton({ className }: { className?: string }) {
 function EmptyState({ onClear }: { onClear: () => void }) {
   return (
     <Card className="p-12 text-center border-dashed">
-      <div className="size-16 rounded-full bg-[#32504d]/10 mx-auto flex items-center justify-center">
-        <Package className="size-8 text-[#32504d]" />
+      <div className="size-16 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 mx-auto flex items-center justify-center">
+        <Package className="size-8 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <h3 className="font-display text-lg font-semibold mt-4 text-foreground">
         No services match your selection
@@ -180,7 +180,7 @@ export function ServicesView() {
           variant="ghost"
           size="sm"
           onClick={() => setView("home")}
-          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] -ml-2"
+          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] dark:text-[#94a8a4] -ml-2"
         >
           <ArrowLeft className="size-4" />
           Back to home
@@ -199,7 +199,7 @@ export function ServicesView() {
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Layers className="size-4 text-[#32504d]" />
+            <Layers className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             <span>
               <span className="font-semibold text-foreground">
                 {filtered.length}
@@ -227,7 +227,7 @@ export function ServicesView() {
                   "shrink-0 px-4 h-9 rounded-full border text-sm font-medium transition-all flex items-center gap-1.5",
                   active
                     ? "bg-[#2b3d3d] border-[#2b3d3d] text-white shadow-sm"
-                    : "border-border bg-background text-muted-foreground hover:border-[#32504d]/50 hover:text-[#2b3d3d]"
+                    : "border-border bg-background text-muted-foreground hover:border-[#32504d]/50 hover:text-[#2b3d3d] dark:text-[#94a8a4]"
                 )}
               >
                 {cat.name}
@@ -331,7 +331,7 @@ export function ServicesView() {
             variant="ghost"
             size="sm"
             onClick={clearAll}
-            className="h-7 text-xs text-muted-foreground hover:text-[#32504d] -ml-1"
+            className="h-7 text-xs text-muted-foreground hover:text-[#32504d] dark:text-[#9bb3ae] -ml-1"
           >
             Clear all
           </Button>

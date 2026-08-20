@@ -152,7 +152,7 @@ const TIERS = [
     range: "10+ referrals",
     reward: "100 TND + 10% cashback",
     icon: Crown,
-    accent: "text-[#32504d] bg-[#32504d]/15 border-[#32504d]/40",
+    accent: "text-[#32504d] dark:text-[#9bb3ae] bg-[#32504d]/15 dark:bg-[#32504d]/25 border-[#32504d]/40",
   },
 ];
 
@@ -163,7 +163,7 @@ const STATUS_STYLES: Record<ReferralRow["status"], string> = {
 };
 
 const STATS = [
-  { label: "Friends Invited", value: 8, icon: Users, accent: "bg-[#32504d]/10 text-[#32504d]" },
+  { label: "Friends Invited", value: 8, icon: Users, accent: "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]" },
   { label: "Joined", value: 5, icon: UserPlus, accent: "bg-amber-500/10 text-amber-700 dark:text-amber-300" },
   { label: "Earned", value: "200 TND", icon: Wallet, accent: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" },
 ];
@@ -338,22 +338,22 @@ export function ReferralModal() {
             </div>
 
             {/* Progress card */}
-            <div className="rounded-xl border border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/10 to-transparent p-4">
+            <div className="rounded-xl border border-[#32504d]/30 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/10 to-transparent p-4">
               <div className="flex items-center justify-between gap-2 mb-2">
                 <p className="text-sm font-semibold inline-flex items-center gap-1.5">
-                  <TrendingUp className="size-4 text-[#32504d]" />
+                  <TrendingUp className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                   You&apos;re 2 referrals away from Gold tier!
                 </p>
-                <Badge className="bg-[#32504d]/15 text-[#32504d] border-0">
+                <Badge className="bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] border-0">
                   {current} / {target}
                 </Badge>
               </div>
               <Progress
                 value={pct}
-                className="h-2 bg-[#32504d]/15"
+                className="h-2 bg-[#32504d]/15 dark:bg-[#32504d]/25"
               />
               <p className="text-xs text-muted-foreground mt-2.5">
-                Reach <span className="font-semibold text-[#32504d]">Gold tier</span> to unlock{" "}
+                Reach <span className="font-semibold text-[#32504d] dark:text-[#9bb3ae]">Gold tier</span> to unlock{" "}
                 <span className="font-medium">10% cashback on all earnings for 30 days</span>.
               </p>
             </div>
@@ -393,7 +393,7 @@ export function ReferralModal() {
                       <div className="absolute -top-2 -left-2 size-6 rounded-full bg-[#32504d] text-white grid place-items-center text-[10px] font-bold shadow-sm">
                         {step.n}
                       </div>
-                      <Icon className="size-5 text-[#32504d] mb-1.5 mt-1" />
+                      <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae] mb-1.5 mt-1" />
                       <p className="text-sm font-semibold leading-tight">{step.title}</p>
                       <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
                         {step.desc}
@@ -454,7 +454,7 @@ export function ReferralModal() {
             {/* Tier rewards */}
             <div>
               <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 inline-flex items-center gap-1.5">
-                <Trophy className="size-3.5 text-[#32504d]" />
+                <Trophy className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                 Tier rewards
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -486,7 +486,7 @@ export function ReferralModal() {
           {/* Footer */}
           <div className="px-5 sm:px-6 py-4 border-t border-border/60 bg-gradient-to-b from-[#32504d]/5 to-transparent flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
             <p className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
-              <Sparkles className="size-3.5 text-[#32504d]" />
+              <Sparkles className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
               Start inviting your network today
             </p>
             <div className="flex items-center gap-2">

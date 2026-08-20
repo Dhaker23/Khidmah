@@ -113,7 +113,7 @@ export function TrustSeal({
             />
           </motion.span>
         </span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#32504d] leading-none">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#32504d] dark:text-[#94a8a4] leading-none">
           Verified
         </span>
       </span>
@@ -151,10 +151,10 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
       className={cn(
         "relative inline-flex items-center gap-3 rounded-2xl cursor-pointer",
-        "border border-white/15 bg-[#32504d]/15 backdrop-blur-md",
+        "border border-[#32504d]/20 dark:border-white/15 bg-[#32504d]/10 dark:bg-[#32504d]/15 backdrop-blur-md",
         "px-3.5 py-2.5 shadow-lg shadow-[#192d2f]/10",
-        "hover:bg-[#32504d]/25 hover:border-white/25 transition-all",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
+        "hover:bg-[#32504d]/20 dark:hover:bg-[#32504d]/25 hover:border-[#32504d]/40 dark:hover:border-white/25 transition-all",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32504d]/40 dark:focus-visible:ring-white/40",
         className
       )}
       aria-label="Khidma Trust Seal — click to scroll to top"
@@ -192,7 +192,7 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
           <span className="font-display text-sm font-bold tracking-tight text-foreground">
             Trust Seal
           </span>
-          <BadgeCheck className="size-3.5 text-[#32504d]" />
+          <BadgeCheck className="size-3.5 text-[#32504d] dark:text-[#94a8a4]" />
         </div>
         <p className="text-[11px] text-muted-foreground leading-tight">
           Verified Tunisian Talent
@@ -208,7 +208,7 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
                 className="inline-flex items-center gap-1"
                 title={c.hint}
               >
-                <Icon className="size-3 text-[#32504d]" />
+                <Icon className="size-3 text-[#32504d] dark:text-[#94a8a4]" />
                 <span className="text-[10px] font-medium text-foreground/80">
                   {c.label}
                 </span>
@@ -224,8 +224,8 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
       </div>
 
       {/* Right edge accent — shield */}
-      <span className="hidden sm:flex size-8 items-center justify-center rounded-lg bg-[#32504d]/15 ml-1">
-        <ShieldCheck className="size-4 text-[#32504d]" />
+      <span className="hidden sm:flex size-8 items-center justify-center rounded-lg bg-[#32504d]/15 dark:bg-[#32504d]/25 ml-1">
+        <ShieldCheck className="size-4 text-[#32504d] dark:text-[#94a8a4]" />
       </span>
     </motion.button>
   );

@@ -63,8 +63,8 @@ function PhaseHeader({ phase, idx }: { phase: Phase; idx: number }) {
   const Icon = phase.icon;
   return (
     <div className="flex items-center gap-3 mb-5">
-      <div className="relative flex size-12 items-center justify-center rounded-xl bg-[#32504d]/10">
-        <Icon className="size-6 text-[#32504d]" />
+      <div className="relative flex size-12 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20">
+        <Icon className="size-6 text-[#32504d] dark:text-[#9bb3ae]" />
         <span className="absolute -top-2 -right-2 size-6 rounded-full bg-[#2b3d3d] text-white text-[10px] font-bold flex items-center justify-center">
           {idx}
         </span>
@@ -97,13 +97,13 @@ function VerticalTimeline({ steps }: { steps: Step[] }) {
               className="relative"
             >
               {/* number circle */}
-              <div className="absolute -left-8 sm:-left-10 top-2 size-8 rounded-full bg-background border-2 border-[#32504d] flex items-center justify-center text-[11px] font-bold text-[#32504d]">
+              <div className="absolute -left-8 sm:-left-10 top-2 size-8 rounded-full bg-background border-2 border-[#32504d] flex items-center justify-center text-[11px] font-bold text-[#32504d] dark:text-[#9bb3ae]">
                 {i + 1}
               </div>
               <Card className="khidma-card p-4 hover:border-[#32504d]/40">
                 <div className="flex items-start gap-3">
-                  <div className="size-8 shrink-0 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-                    <Icon className="size-4 text-[#32504d]" />
+                  <div className="size-8 shrink-0 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+                    <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-sm text-foreground">
@@ -138,10 +138,10 @@ function HorizontalStepGrid({ steps }: { steps: Step[] }) {
           >
             <Card className="khidma-card h-full p-4 hover:border-[#475959]/40">
               <div className="flex items-center justify-between mb-3">
-                <div className="size-9 rounded-lg bg-[#475959]/10 flex items-center justify-center">
-                  <Icon className="size-4 text-[#475959]" />
+                <div className="size-9 rounded-lg bg-[#475959]/10 dark:bg-[#475959]/20 flex items-center justify-center">
+                  <Icon className="size-4 text-[#475959] dark:text-[#94a8a4]" />
                 </div>
-                <span className="font-display text-2xl font-bold text-[#475959]/15 leading-none">
+                <span className="font-display text-2xl font-bold text-[#475959] dark:text-[#94a8a4]/15 leading-none">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
@@ -461,7 +461,7 @@ export function HowItWorksView() {
           variant="ghost"
           size="sm"
           onClick={() => setView("home")}
-          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] -ml-2"
+          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] dark:text-[#94a8a4] -ml-2"
         >
           <ArrowLeft className="size-4" />
           Back to home
@@ -500,7 +500,7 @@ export function HowItWorksView() {
         className="mb-16 sm:mb-24"
       >
         <div className="flex items-center gap-3 mb-2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#32504d]/10 px-3 py-1 text-xs font-semibold text-[#32504d]">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 px-3 py-1 text-xs font-semibold text-[#32504d] dark:text-[#9bb3ae]">
             <UserPlus className="size-3.5" />
             For Freelancers
           </span>
@@ -538,7 +538,7 @@ export function HowItWorksView() {
         className="mb-16 sm:mb-24"
       >
         <div className="flex items-center gap-3 mb-2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#475959]/10 px-3 py-1 text-xs font-semibold text-[#475959]">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#475959]/10 dark:bg-[#475959]/20 px-3 py-1 text-xs font-semibold text-[#475959] dark:text-[#94a8a4]">
             <FileText className="size-3.5" />
             For Clients
           </span>
@@ -576,7 +576,7 @@ export function HowItWorksView() {
         className="mb-16 sm:mb-24"
       >
         <div className="flex items-center gap-3 mb-2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#2b3d3d]/10 px-3 py-1 text-xs font-semibold text-[#2b3d3d]">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#2b3d3d]/10 dark:bg-[#2b3d3d]/25 px-3 py-1 text-xs font-semibold text-[#2b3d3d] dark:text-[#94a8a4]">
             <ShieldCheck className="size-3.5" />
             Trust System
           </span>
@@ -601,8 +601,8 @@ export function HowItWorksView() {
                 transition={{ duration: 0.4, delay: i * 0.08 }}
               >
                 <Card className="khidma-card h-full p-6 hover:border-[#32504d]/40">
-                  <div className="size-12 rounded-xl bg-[#32504d]/10 flex items-center justify-center mb-4">
-                    <Icon className="size-6 text-[#32504d]" />
+                  <div className="size-12 rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center mb-4">
+                    <Icon className="size-6 text-[#32504d] dark:text-[#9bb3ae]" />
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground">
                     {card.title}
@@ -617,7 +617,7 @@ export function HowItWorksView() {
                         key={pt}
                         className="flex items-center gap-2 text-xs text-muted-foreground"
                       >
-                        <CheckCircle2 className="size-3.5 text-[#32504d]" />
+                        <CheckCircle2 className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                         {pt}
                       </li>
                     ))}
@@ -662,7 +662,7 @@ export function HowItWorksView() {
               transition={{ duration: 0.35, delay: i * 0.03 }}
             >
               <Card className="khidma-card h-full p-4 hover:border-[#32504d]/40 flex items-start gap-3">
-                <div className="size-11 rounded-xl bg-[#32504d]/10 flex items-center justify-center text-xl shrink-0">
+                <div className="size-11 rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center text-xl shrink-0">
                   {m.logo}
                 </div>
                 <div className="flex-1 min-w-0">

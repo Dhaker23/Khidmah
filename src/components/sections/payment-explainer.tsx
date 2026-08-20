@@ -52,7 +52,7 @@ export function PaymentExplainer() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 sm:gap-6">
           {/* Example calculation card */}
           <Reveal className="lg:col-span-3">
-            <Card className="h-full p-6 sm:p-8 border-[#32504d]/20 bg-gradient-to-br from-[#192d2f] to-[#2b3d3d] text-white overflow-hidden relative">
+            <Card className="h-full p-6 sm:p-8 border-[#32504d]/20 dark:border-[#32504d]/30 bg-gradient-to-br from-[#192d2f] to-[#2b3d3d] text-white overflow-hidden relative">
               <div
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{
@@ -143,7 +143,7 @@ export function PaymentExplainer() {
             <Reveal delay={0.1}>
               <Card className="h-full p-6 border-border/60">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="flex size-8 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d]">
+                  <span className="flex size-8 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
                     <TrendingUp className="size-4" />
                   </span>
                   <h3 className="font-display text-base font-semibold text-foreground">
@@ -157,7 +157,7 @@ export function PaymentExplainer() {
                       className="flex items-center justify-between text-sm"
                     >
                       <span className="flex items-center gap-2 text-muted-foreground">
-                        <Check className="size-4 text-[#32504d] shrink-0" />
+                        <Check className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
                         {item.label}
                       </span>
                       <span className="font-semibold text-foreground">

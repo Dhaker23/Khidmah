@@ -225,7 +225,7 @@ export function ShareModal() {
         >
           <DialogHeader className="px-5 pt-5 pb-3 border-b border-border/60">
             <DialogTitle className="flex items-center gap-2 text-base font-display font-bold">
-              <Share2 className="size-4 text-[#32504d]" />
+              <Share2 className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
               Share
             </DialogTitle>
             <DialogDescription className="text-xs">
@@ -321,7 +321,7 @@ export function ShareModal() {
               type="button"
               variant="outline"
               onClick={handleShareViaMessages}
-              className="w-full h-10 border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#192d2f]"
+              className="w-full h-10 border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#192d2f]"
             >
               <MessageSquare className="size-4" />
               Share via messages
@@ -329,7 +329,7 @@ export function ShareModal() {
           </div>
 
           <DialogFooter className="px-5 py-3 border-t border-border/60 bg-muted/20 flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-start">
-            <ShieldCheck className="size-3.5 text-[#32504d] shrink-0" />
+            <ShieldCheck className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
             <p className="text-[11px] text-muted-foreground leading-snug">
               Anyone with this link can view the public profile.
             </p>

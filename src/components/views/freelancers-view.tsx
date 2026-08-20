@@ -255,7 +255,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
       {/* top row: title + clear */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="size-4 text-[#32504d]" />
+          <SlidersHorizontal className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           <span className="font-display text-sm font-semibold">Filters</span>
           {activeFilterCount > 0 && (
             <Badge className="bg-[#32504d] text-white hover:bg-[#32504d] text-[10px] h-5 px-1.5">
@@ -268,7 +268,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
           size="sm"
           onClick={onClear}
           disabled={activeFilterCount === 0}
-          className="h-7 text-xs text-muted-foreground hover:text-[#32504d]"
+          className="h-7 text-xs text-muted-foreground hover:text-[#32504d] dark:text-[#9bb3ae]"
         >
           <RotateCcw className="size-3" />
           Clear all
@@ -292,7 +292,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
                   onCheckedChange={() => toggleArrayValue("categoryIds", cat.id)}
                   className="data-[state=checked]:bg-[#32504d] data-[state=checked]:border-[#32504d]"
                 />
-                <span className="text-sm flex-1 group-hover:text-[#2b3d3d]">
+                <span className="text-sm flex-1 group-hover:text-[#2b3d3d] dark:text-[#94a8a4]">
                   {cat.name}
                 </span>
                 <Badge variant="outline" className="text-[10px] h-5 px-1.5">
@@ -320,7 +320,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
                   "text-[11px] px-2.5 py-1 rounded-full border transition-colors",
                   active
                     ? "bg-[#32504d] border-[#32504d] text-white"
-                    : "border-border text-muted-foreground hover:border-[#32504d]/50 hover:text-[#2b3d3d] bg-background"
+                    : "border-border text-muted-foreground hover:border-[#32504d]/50 hover:text-[#2b3d3d] dark:text-[#94a8a4] bg-background"
                 )}
               >
                 {skill}
@@ -381,7 +381,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
             >
               <RadioGroupItem
                 value={opt.value}
-                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d]"
+                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d] dark:text-[#9bb3ae]"
               />
               {opt.label}
             </label>
@@ -407,8 +407,8 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
                   onCheckedChange={() => toggleVerification(opt.key)}
                   className="data-[state=checked]:bg-[#32504d] data-[state=checked]:border-[#32504d]"
                 />
-                <Icon className="size-3.5 text-[#748684] group-hover:text-[#32504d]" />
-                <span className="text-sm group-hover:text-[#2b3d3d]">
+                <Icon className="size-3.5 text-[#748684] group-hover:text-[#32504d] dark:text-[#9bb3ae]" />
+                <span className="text-sm group-hover:text-[#2b3d3d] dark:text-[#94a8a4]">
                   {opt.label}
                 </span>
               </label>
@@ -446,8 +446,8 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
 function EmptyState({ onClear }: { onClear: () => void }) {
   return (
     <Card className="p-12 text-center border-dashed">
-      <div className="size-16 rounded-full bg-[#32504d]/10 mx-auto flex items-center justify-center">
-        <Users className="size-8 text-[#32504d]" />
+      <div className="size-16 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 mx-auto flex items-center justify-center">
+        <Users className="size-8 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <h3 className="font-display text-lg font-semibold mt-4 text-foreground">
         No freelancers match your filters
@@ -532,7 +532,7 @@ export function FreelancersView() {
           variant="ghost"
           size="sm"
           onClick={() => setView("home")}
-          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] -ml-2"
+          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] dark:text-[#94a8a4] -ml-2"
         >
           <ArrowLeft className="size-4" />
           Back to home
@@ -550,7 +550,7 @@ export function FreelancersView() {
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Users className="size-4 text-[#32504d]" />
+            <Users className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             <span>
               Showing{" "}
               <span className="font-semibold text-foreground">
@@ -693,26 +693,26 @@ export function FreelancersView() {
                     onClick={() => setLayout("grid")}
                     className={cn(
                       "gap-2 cursor-pointer",
-                      layout === "grid" && "bg-accent text-[#32504d]"
+                      layout === "grid" && "bg-accent text-[#32504d] dark:text-[#9bb3ae]"
                     )}
                   >
                     <LayoutGrid className="size-4" />
                     Grid view
                     {layout === "grid" && (
-                      <CheckCircle2 className="size-3.5 ml-auto text-[#32504d]" />
+                      <CheckCircle2 className="size-3.5 ml-auto text-[#32504d] dark:text-[#9bb3ae]" />
                     )}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => setLayout("list")}
                     className={cn(
                       "gap-2 cursor-pointer",
-                      layout === "list" && "bg-accent text-[#32504d]"
+                      layout === "list" && "bg-accent text-[#32504d] dark:text-[#9bb3ae]"
                     )}
                   >
                     <ListIcon className="size-4" />
                     List view
                     {layout === "list" && (
-                      <CheckCircle2 className="size-3.5 ml-auto text-[#32504d]" />
+                      <CheckCircle2 className="size-3.5 ml-auto text-[#32504d] dark:text-[#9bb3ae]" />
                     )}
                   </DropdownMenuItem>
                 </DropdownMenuContent>

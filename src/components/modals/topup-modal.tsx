@@ -326,7 +326,7 @@ export function TopupModal() {
                         "rounded-lg border px-2 py-2 text-xs font-semibold tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32504d]/40 focus-visible:ring-offset-1",
                         active
                           ? "border-[#32504d] bg-[#32504d] text-white shadow-sm"
-                          : "border-border/60 bg-background text-foreground hover:border-[#32504d]/40 hover:bg-[#32504d]/5"
+                          : "border-border/60 bg-background text-foreground hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                       )}
                     >
                       {formatTND(n)}
@@ -348,7 +348,7 @@ export function TopupModal() {
                   className="pl-11 h-9 text-xs tabular-nums focus-visible:ring-[#32504d]/30"
                 />
                 {amount !== "" && amountValid && (
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#32504d]">
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#32504d] dark:text-[#9bb3ae]">
                     <Check className="size-3.5" />
                   </span>
                 )}
@@ -381,20 +381,20 @@ export function TopupModal() {
                       className={cn(
                         "flex items-start gap-3 rounded-lg border px-3 py-2 cursor-pointer transition-colors",
                         active
-                          ? "border-[#32504d] bg-[#32504d]/5"
+                          ? "border-[#32504d] bg-[#32504d]/5 dark:bg-[#32504d]/15"
                           : "border-border/60 hover:border-border hover:bg-muted/30"
                       )}
                     >
                       <RadioGroupItem
                         id={`method-${m.key}`}
                         value={m.key}
-                        className="mt-0.5 data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d]"
+                        className="mt-0.5 data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d] dark:text-[#9bb3ae]"
                       />
                       <span
                         className={cn(
                           "flex size-7 items-center justify-center rounded-md shrink-0 transition-colors",
                           active
-                            ? "bg-[#32504d]/15 text-[#32504d]"
+                            ? "bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae]"
                             : "bg-muted text-muted-foreground"
                         )}
                       >
@@ -520,7 +520,7 @@ export function TopupModal() {
             </AnimatePresence>
 
             {/* Summary card */}
-            <div className="rounded-xl border border-[#32504d]/20 bg-[#32504d]/5 p-3 space-y-1.5">
+            <div className="rounded-xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 space-y-1.5">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">Amount</span>
                 <span className="font-semibold tabular-nums">
@@ -532,26 +532,26 @@ export function TopupModal() {
                   <span className="text-muted-foreground">
                     Discount ({promoApplied.code} · −{promoApplied.discount}%)
                   </span>
-                  <span className="font-semibold tabular-nums text-[#32504d]">
+                  <span className="font-semibold tabular-nums text-[#32504d] dark:text-[#9bb3ae]">
                     −{formatAmount(numericAmount - discountedAmount)}
                   </span>
                 </div>
               )}
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">Processing fee</span>
-                <span className="font-semibold text-[#32504d]">Free</span>
+                <span className="font-semibold text-[#32504d] dark:text-[#9bb3ae]">Free</span>
               </div>
               <div className="border-t border-[#32504d]/15 my-1" />
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-foreground">
                   Total
                 </span>
-                <span className="text-base font-bold tabular-nums text-[#2b3d3d]">
+                <span className="text-base font-bold tabular-nums text-[#2b3d3d] dark:text-[#94a8a4]">
                   {formatAmount(discountedAmount)}
                 </span>
               </div>
               <div className="flex items-center gap-1.5 pt-1">
-                <Zap className="size-3 text-[#32504d]" />
+                <Zap className="size-3 text-[#32504d] dark:text-[#9bb3ae]" />
                 <span className="text-[10px] text-muted-foreground">
                   Funds available instantly
                 </span>
@@ -590,13 +590,13 @@ export function TopupModal() {
                   size="sm"
                   onClick={handleApplyPromo}
                   disabled={!promoInput.trim()}
-                  className="h-9 text-xs border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+                  className="h-9 text-xs border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]"
                 >
                   Apply
                 </Button>
               </div>
               {promoStatus === "valid" && promoApplied && (
-                <p className="text-[10px] text-[#32504d] flex items-center gap-1">
+                <p className="text-[10px] text-[#32504d] dark:text-[#9bb3ae] flex items-center gap-1">
                   <Check className="size-3" />
                   {promoApplied.code} applied — {promoApplied.discount}% off
                 </p>
@@ -610,7 +610,7 @@ export function TopupModal() {
 
             {/* Trust signal */}
             <div className="flex items-start gap-2 text-[10px] text-muted-foreground leading-snug">
-              <ShieldCheck className="size-3.5 text-[#32504d] shrink-0 mt-0.5" />
+              <ShieldCheck className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
               <span>
                 Khidma uses 256-bit TLS encryption. Card details are processed
                 by our PCI-DSS payment partner and never stored on our servers.
@@ -623,7 +623,7 @@ export function TopupModal() {
               {selectedMethod && (
                 <Badge
                   variant="outline"
-                  className="text-[10px] gap-1 border-[#32504d]/30 text-[#32504d]"
+                  className="text-[10px] gap-1 border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae]"
                 >
                   <selectedMethod.icon className="size-2.5" />
                   {selectedMethod.label}

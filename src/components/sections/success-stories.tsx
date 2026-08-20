@@ -198,16 +198,16 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
       whileHover={prefersReduced ? undefined : { y: -4 }}
       className="group relative"
     >
-      <Card className="overflow-hidden border-[#32504d]/20 hover:border-[#32504d]/40 hover:shadow-2xl hover:shadow-[#32504d]/10 transition-all duration-300 p-0">
+      <Card className="overflow-hidden border-[#32504d]/20 dark:border-[#32504d]/30 hover:border-[#32504d]/40 hover:shadow-2xl hover:shadow-[#32504d]/10 transition-all duration-300 p-0">
         <div className="grid grid-cols-1 lg:grid-cols-12">
           {/* Left: freelancer + quote */}
           <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 relative">
             <Quote
-              className="absolute top-6 right-6 size-10 text-[#32504d]/10"
+              className="absolute top-6 right-6 size-10 text-[#32504d] dark:text-[#9bb3ae]/10"
               aria-hidden
             />
             <div className="flex items-center gap-2 mb-5">
-              <Badge className="bg-[#32504d]/10 border-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/15">
+              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 border-[#32504d]/25 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/15 dark:bg-[#32504d]/25">
                 <Sparkles className="size-3 mr-1" />
                 Featured story
               </Badge>
@@ -218,7 +218,7 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
             </div>
 
             <div className="flex items-center gap-4 mb-6">
-              <Avatar className="size-16 border-2 border-[#32504d]/30">
+              <Avatar className="size-16 border-2 border-[#32504d]/30 dark:border-[#32504d]/30">
                 <AvatarImage src={story.avatar} alt={story.name} />
                 <AvatarFallback className="bg-[#32504d] text-white text-lg">
                   {story.name.charAt(0)}
@@ -386,7 +386,7 @@ function StoryCard({ story, index }: { story: SuccessStory; index: number }) {
             </AvatarFallback>
           </Avatar>
           <div className="min-w-0">
-            <h4 className="font-display text-sm font-semibold text-foreground truncate group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
+            <h4 className="font-display text-sm font-semibold text-foreground truncate group-hover:text-[#32504d] dark:text-[#9bb3ae] dark:group-hover:text-[#9bb3ae] transition-colors">
               {story.name}
             </h4>
             <p className="text-xs text-muted-foreground truncate">{story.title}</p>
@@ -401,7 +401,7 @@ function StoryCard({ story, index }: { story: SuccessStory; index: number }) {
           {story.excerpt}
         </p>
 
-        <div className="mt-5 rounded-lg bg-gradient-to-br from-[#32504d]/10 to-[#6e8580]/8 dark:from-[#32504d]/20 dark:to-[#6e8580]/12 border border-[#32504d]/20 px-4 py-3">
+        <div className="mt-5 rounded-lg bg-gradient-to-br from-[#32504d]/10 to-[#6e8580]/8 dark:from-[#32504d]/20 dark:to-[#6e8580]/12 border border-[#32504d]/20 dark:border-[#32504d]/30 px-4 py-3">
           <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-[#748684] dark:text-[#9bb3ae] font-semibold mb-0.5">
             <ArrowUpRight className="size-3" />
             Key outcome
@@ -459,7 +459,7 @@ function MetricTile({
       }}
       className="group relative text-center sm:text-left"
     >
-      <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto sm:mx-0 transition-transform duration-200 group-hover:-translate-y-0.5">
+      <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto sm:mx-0 transition-transform duration-200 group-hover:-translate-y-0.5">
         <Icon className="size-5" />
       </div>
       <div className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">

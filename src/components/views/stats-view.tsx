@@ -259,8 +259,8 @@ function KpiCard({ kpi, index }: { kpi: Kpi; index: number }) {
           }}
         />
         <div className="relative flex items-start justify-between gap-2">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-[#32504d]/10 ring-1 ring-[#32504d]/15">
-            <Icon className="size-5 text-[#32504d]" />
+          <span className="flex size-10 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 ring-1 ring-[#32504d]/15">
+            <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <TrendBadge trend={kpi.trend} delta={kpi.delta} />
         </div>
@@ -410,12 +410,12 @@ const ACTIVITY_META: Record<
   (typeof ACTIVITY_EVENTS)[number]["type"],
   { icon: LucideIcon; ring: string; bg: string; text: string }
 > = {
-  verified: { icon: ShieldCheck, ring: "ring-[#32504d]/25", bg: "bg-[#32504d]/10", text: "text-[#32504d]" },
+  verified: { icon: ShieldCheck, ring: "ring-[#32504d]/25", bg: "bg-[#32504d]/10 dark:bg-[#32504d]/20", text: "text-[#32504d] dark:text-[#9bb3ae]" },
   completed: { icon: CheckCircle2, ring: "ring-[#6e8580]/25", bg: "bg-[#6e8580]/15", text: "text-[#6e8580]" },
   payment: { icon: CreditCard, ring: "ring-[#748684]/25", bg: "bg-[#748684]/15", text: "text-[#748684]" },
-  review: { icon: Star, ring: "ring-[#475959]/25", bg: "bg-[#475959]/15", text: "text-[#475959]" },
-  joined: { icon: Users, ring: "ring-[#2b3d3d]/25", bg: "bg-[#2b3d3d]/15", text: "text-[#2b3d3d]" },
-  milestone: { icon: Sparkles, ring: "ring-[#32504d]/25", bg: "bg-[#32504d]/10", text: "text-[#32504d]" },
+  review: { icon: Star, ring: "ring-[#475959]/25", bg: "bg-[#475959]/15 dark:bg-[#475959]/25", text: "text-[#475959] dark:text-[#94a8a4]" },
+  joined: { icon: Users, ring: "ring-[#2b3d3d]/25", bg: "bg-[#2b3d3d]/15 dark:bg-[#2b3d3d]/30", text: "text-[#2b3d3d] dark:text-[#94a8a4]" },
+  milestone: { icon: Sparkles, ring: "ring-[#32504d]/25", bg: "bg-[#32504d]/10 dark:bg-[#32504d]/20", text: "text-[#32504d] dark:text-[#9bb3ae]" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -898,7 +898,7 @@ function GeographicDistribution() {
   return (
     <Card className="p-5 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
-        <Globe2 className="size-4 text-[#32504d]" />
+        <Globe2 className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
         <h3 className="font-display text-base sm:text-lg font-bold tracking-tight">
           Geographic distribution
         </h3>
@@ -963,8 +963,8 @@ function PerformanceMetrics() {
             transition={{ duration: 0.45, delay: i * 0.06 }}
           >
             <Card className="h-full p-5">
-              <span className="flex size-9 items-center justify-center rounded-lg bg-[#32504d]/10 ring-1 ring-[#32504d]/15">
-                <Icon className="size-4 text-[#32504d]" />
+              <span className="flex size-9 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 ring-1 ring-[#32504d]/15">
+                <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
               </span>
               <div className="mt-3 font-display text-2xl font-bold tabular-nums text-foreground">
                 {m.value}

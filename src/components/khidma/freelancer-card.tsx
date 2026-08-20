@@ -138,7 +138,7 @@ export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: Fr
               <AvatarFallback>{f.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0 pt-7">
-              <h3 className="font-semibold text-sm leading-tight truncate group-hover:text-[#32504d] transition-colors">
+              <h3 className="font-semibold text-sm leading-tight truncate group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
                 {f.name}
               </h3>
               <p className="text-xs text-muted-foreground truncate">{f.title}</p>

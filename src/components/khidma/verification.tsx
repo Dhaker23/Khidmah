@@ -25,32 +25,32 @@ const config: Record<
   email: {
     label: "Email Verified",
     icon: Mail,
-    color: "text-[#32504d]",
-    bg: "bg-[#32504d]/10 border-[#32504d]/20",
+    color: "text-[#32504d] dark:text-[#9bb3ae]",
+    bg: "bg-[#32504d]/10 dark:bg-[#32504d]/20 border-[#32504d]/20 dark:border-[#32504d]/30",
   },
   phone: {
     label: "Phone Verified",
     icon: Phone,
-    color: "text-[#475959]",
-    bg: "bg-[#475959]/10 border-[#475959]/20",
+    color: "text-[#475959] dark:text-[#94a8a4]",
+    bg: "bg-[#475959]/10 dark:bg-[#475959]/20 border-[#475959]/20 dark:border-[#475959]/30",
   },
   identity: {
     label: "Identity Verified",
     icon: ShieldCheck,
-    color: "text-[#2b3d3d]",
-    bg: "bg-[#2b3d3d]/10 border-[#2b3d3d]/20",
+    color: "text-[#2b3d3d] dark:text-[#9bb3ae]",
+    bg: "bg-[#2b3d3d]/10 dark:bg-[#2b3d3d]/30 border-[#2b3d3d]/20 dark:border-[#2b3d3d]/40",
   },
   portfolio: {
     label: "Portfolio Reviewed",
     icon: Briefcase,
-    color: "text-[#32504d]",
-    bg: "bg-[#32504d]/10 border-[#32504d]/20",
+    color: "text-[#32504d] dark:text-[#9bb3ae]",
+    bg: "bg-[#32504d]/10 dark:bg-[#32504d]/20 border-[#32504d]/20 dark:border-[#32504d]/30",
   },
   topRated: {
     label: "Top Rated",
     icon: Star,
-    color: "text-amber-700",
-    bg: "bg-amber-50 border-amber-200",
+    color: "text-amber-700 dark:text-amber-400",
+    bg: "bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30",
   },
 };
 
@@ -109,7 +109,7 @@ export function VerificationChecklist({
           <CheckCircle2
             className={cn(
               "size-4 shrink-0",
-              it.done ? "text-[#32504d]" : "text-muted-foreground/40"
+              it.done ? "text-[#32504d] dark:text-[#9bb3ae]" : "text-muted-foreground/40"
             )}
           />
           <span className={it.done ? "text-foreground" : "text-muted-foreground line-through"}>
@@ -139,8 +139,8 @@ export function TrustBadge({
         className
       )}
     >
-      <div className="size-9 rounded-lg bg-[#32504d]/10 flex items-center justify-center shrink-0">
-        <Icon className="size-4 text-[#32504d]" />
+      <div className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/25 flex items-center justify-center shrink-0">
+        <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <div className="min-w-0">
         <div className="text-xs text-muted-foreground truncate">{label}</div>

@@ -99,7 +99,7 @@ function FavoriteFreelancerRow({
     >
       <Avatar className="size-10 border border-border/60 shrink-0">
         <AvatarImage src={f.avatar} alt={f.name} />
-        <AvatarFallback className="bg-[#32504d]/10 text-[#32504d]">
+        <AvatarFallback className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
           {f.name.charAt(0)}
         </AvatarFallback>
       </Avatar>
@@ -119,7 +119,7 @@ function FavoriteFreelancerRow({
             {f.rating.toFixed(1)}
           </span>
           <span className="inline-flex items-center gap-0.5">
-            <Wallet className="size-2.5 text-[#32504d]" />
+            <Wallet className="size-2.5 text-[#32504d] dark:text-[#9bb3ae]" />
             {formatTND(f.hourlyRate)}/hr
           </span>
           <span className="inline-flex items-center gap-0.5">
@@ -194,7 +194,7 @@ function FavoriteServiceRow({
             <Star className="size-2.5 fill-amber-400 text-amber-400" />
             {s.rating.toFixed(1)} ({formatNumber(s.ordersCount)})
           </span>
-          <span className="font-semibold text-[#32504d]">
+          <span className="font-semibold text-[#32504d] dark:text-[#9bb3ae]">
             {formatTND(s.startingPrice)}
           </span>
           <span className="inline-flex items-center gap-0.5">
@@ -249,8 +249,8 @@ function FavoriteJobRow({
       transition={{ duration: 0.25, ease: "easeOut" }}
       className="group flex items-center gap-3 p-3 rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:shadow-sm transition-all"
     >
-      <div className="size-10 rounded-lg bg-[#32504d]/10 flex items-center justify-center shrink-0">
-        <Briefcase className="size-4 text-[#32504d]" />
+      <div className="size-10 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0">
+        <Briefcase className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium leading-tight line-clamp-1">{job.title}</p>
@@ -258,7 +258,7 @@ function FavoriteJobRow({
           {job.type === "FIXED" ? "Fixed" : "Hourly"} · {job.location}
         </p>
         <div className="flex items-center gap-2 mt-1 text-[10px] text-muted-foreground">
-          <span className="inline-flex items-center gap-0.5 font-semibold text-[#32504d]">
+          <span className="inline-flex items-center gap-0.5 font-semibold text-[#32504d] dark:text-[#9bb3ae]">
             <Wallet className="size-2.5" />
             {formatTND(job.budget.min)}–{formatTND(job.budget.max)}
           </span>
@@ -353,10 +353,10 @@ function EmptyState({ onClose }: { onClose: () => void }) {
     >
       <div className="relative mb-5">
         <div className="size-24 rounded-full bg-gradient-to-br from-[#32504d]/15 to-[#32504d]/5 flex items-center justify-center">
-          <Heart className="size-10 text-[#32504d]" />
+          <Heart className="size-10 text-[#32504d] dark:text-[#9bb3ae]" />
         </div>
-        <span className="absolute -top-1 -right-1 size-7 rounded-full bg-background border-2 border-[#32504d]/20 flex items-center justify-center">
-          <Bookmark className="size-3.5 text-[#32504d]" />
+        <span className="absolute -top-1 -right-1 size-7 rounded-full bg-background border-2 border-[#32504d]/20 dark:border-[#32504d]/30 flex items-center justify-center">
+          <Bookmark className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
         </span>
       </div>
       <h3 className="font-display text-lg font-semibold text-foreground">
@@ -572,7 +572,7 @@ export function FavoritesModal() {
                     <Button
                       variant="link"
                       size="sm"
-                      className="mt-2 text-[#32504d]"
+                      className="mt-2 text-[#32504d] dark:text-[#9bb3ae]"
                       onClick={() => {
                         setSearch("");
                         setTab("all");

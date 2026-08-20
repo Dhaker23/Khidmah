@@ -32,14 +32,14 @@ const typeConfig: Record<
   string,
   { icon: LucideIcon; color: string; bg: string }
 > = {
-  application: { icon: ShieldCheck, color: "text-[#32504d]", bg: "bg-[#32504d]/10" },
-  proposal: { icon: Briefcase, color: "text-[#475959]", bg: "bg-[#475959]/10" },
-  message: { icon: MessageSquare, color: "text-[#748684]", bg: "bg-[#748684]/10" },
-  payment: { icon: Wallet, color: "text-emerald-700", bg: "bg-emerald-50" },
-  review: { icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
-  system: { icon: Info, color: "text-[#2b3d3d]", bg: "bg-[#2b3d3d]/10" },
-  job: { icon: Briefcase, color: "text-[#32504d]", bg: "bg-[#32504d]/10" },
-  service: { icon: Briefcase, color: "text-[#475959]", bg: "bg-[#475959]/10" },
+  application: { icon: ShieldCheck, color: "text-[#32504d] dark:text-[#9bb3ae]", bg: "bg-[#32504d]/10 dark:bg-[#32504d]/25" },
+  proposal: { icon: Briefcase, color: "text-[#475959] dark:text-[#94a8a4]", bg: "bg-[#475959]/10 dark:bg-[#475959]/25" },
+  message: { icon: MessageSquare, color: "text-[#748684] dark:text-[#94a8a4]", bg: "bg-[#748684]/10 dark:bg-[#748684]/25" },
+  payment: { icon: Wallet, color: "text-emerald-700 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-500/10" },
+  review: { icon: Star, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-500/10" },
+  system: { icon: Info, color: "text-[#2b3d3d] dark:text-[#94a8a4]", bg: "bg-[#2b3d3d]/10 dark:bg-[#2b3d3d]/30" },
+  job: { icon: Briefcase, color: "text-[#32504d] dark:text-[#9bb3ae]", bg: "bg-[#32504d]/10 dark:bg-[#32504d]/25" },
+  service: { icon: Briefcase, color: "text-[#475959] dark:text-[#94a8a4]", bg: "bg-[#475959]/10 dark:bg-[#475959]/25" },
 };
 
 export function NotificationsDropdown() {
@@ -102,7 +102,7 @@ export function NotificationsDropdown() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 text-[11px] text-[#32504d] hover:text-[#2b3d3d] hover:bg-[#32504d]/10"
+                className="h-7 text-[11px] text-[#32504d] hover:text-[#2b3d3d] hover:bg-[#32504d]/10 dark:text-[#9bb3ae] dark:hover:text-white dark:hover:bg-[#32504d]/25"
                 onClick={() => markAllNotificationsRead()}
               >
                 <CheckCheck className="size-3 mr-1" />
@@ -143,7 +143,7 @@ export function NotificationsDropdown() {
                       onClick={() => handleNotifClick(n.id, n.link)}
                       className={cn(
                         "w-full flex items-start gap-3 px-3 py-3 text-left hover:bg-muted/60 transition-colors",
-                        !n.read && "bg-[#32504d]/[0.04]"
+                        !n.read && "bg-[#32504d]/[0.04] dark:bg-[#32504d]/10"
                       )}
                     >
                       <div
@@ -188,7 +188,7 @@ export function NotificationsDropdown() {
               setOpen(false);
               setView("dashboard");
             }}
-            className="text-[#32504d] hover:text-[#2b3d3d] font-medium"
+            className="text-[#32504d] hover:text-[#2b3d3d] dark:text-[#9bb3ae] dark:hover:text-white font-medium"
           >
             View all activity →
           </button>

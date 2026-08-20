@@ -428,8 +428,8 @@ export function CreateServiceModal() {
                     key={s.name}
                     className={cn(
                       "flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] transition-colors",
-                      active && "bg-[#32504d]/10 text-[#32504d] font-semibold",
-                      done && "text-[#32504d]",
+                      active && "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] font-semibold",
+                      done && "text-[#32504d] dark:text-[#9bb3ae]",
                       !active && !done && "text-muted-foreground"
                     )}
                   >
@@ -437,7 +437,7 @@ export function CreateServiceModal() {
                       className={cn(
                         "size-4 rounded-full flex items-center justify-center text-[9px]",
                         active && "bg-[#32504d] text-white",
-                        done && "bg-[#32504d]/15 text-[#32504d]",
+                        done && "bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae]",
                         !active && !done && "bg-muted text-muted-foreground"
                       )}
                     >
@@ -509,7 +509,7 @@ export function CreateServiceModal() {
                               return (
                                 <SelectItem key={c.id} value={c.id}>
                                   <div className="flex items-center gap-2">
-                                    <Icon className="size-3.5 text-[#32504d]" />
+                                    <Icon className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                                     <span>{c.name}</span>
                                     <span className="text-muted-foreground text-[10px]">
                                       ({c.count})
@@ -575,7 +575,7 @@ export function CreateServiceModal() {
                                   key={s}
                                   type="button"
                                   onClick={() => addSkill(s)}
-                                  className="text-[10px] px-2 py-0.5 rounded-full bg-muted hover:bg-[#32504d]/10 hover:text-[#32504d] transition-colors"
+                                  className="text-[10px] px-2 py-0.5 rounded-full bg-muted hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:text-[#32504d] dark:text-[#9bb3ae] transition-colors"
                                 >
                                   + {s}
                                 </button>
@@ -587,7 +587,7 @@ export function CreateServiceModal() {
                             {form.skills.map((s) => (
                               <Badge
                                 key={s}
-                                className="bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20 gap-1 pr-1"
+                                className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30 gap-1 pr-1"
                               >
                                 <Tag className="size-2.5" />
                                 {s}
@@ -595,7 +595,7 @@ export function CreateServiceModal() {
                                   type="button"
                                   aria-label={`Remove ${s}`}
                                   onClick={() => removeSkill(s)}
-                                  className="hover:bg-[#32504d]/20 rounded-full size-4 flex items-center justify-center"
+                                  className="hover:bg-[#32504d]/20 dark:bg-[#32504d]/30 rounded-full size-4 flex items-center justify-center"
                                 >
                                   <span className="text-[10px]">×</span>
                                 </button>
@@ -615,7 +615,7 @@ export function CreateServiceModal() {
                               onClick={() =>
                                 toast.info("Cover image upload coming soon")
                               }
-                              className="text-[#32504d] hover:underline"
+                              className="text-[#32504d] dark:text-[#9bb3ae] hover:underline"
                             >
                               browse
                             </button>
@@ -654,8 +654,8 @@ export function CreateServiceModal() {
                           )
                         )}
                       </div>
-                      <div className="rounded-lg border border-[#32504d]/20 bg-[#32504d]/5 p-3 flex items-start gap-2.5">
-                        <DollarSign className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+                      <div className="rounded-lg border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 flex items-start gap-2.5">
+                        <DollarSign className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                         <p className="text-[11px] text-muted-foreground leading-relaxed">
           Khidma takes a <strong>1% platform fee</strong> on completed orders —
           the lowest in the industry. Your starting price (shown in the header)
@@ -685,7 +685,7 @@ export function CreateServiceModal() {
                               className="rounded-xl border border-border/70 overflow-hidden"
                             >
                               <div className="flex items-center gap-2 px-3 py-2 bg-muted/40 border-b border-border/60">
-                                <HelpCircle className="size-4 text-[#32504d] shrink-0" />
+                                <HelpCircle className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
                                 <Input
                                   value={f.question}
                                   onChange={(e) =>
@@ -839,8 +839,8 @@ export function CreateServiceModal() {
                           />
                         </dl>
                       </div>
-                      <div className="rounded-lg border border-[#32504d]/20 bg-[#32504d]/5 p-3 flex items-start gap-2.5">
-                        <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+                      <div className="rounded-lg border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 flex items-start gap-2.5">
+                        <ShieldCheck className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                         <p className="text-[11px] text-muted-foreground leading-relaxed">
                           By publishing, you confirm this service complies with
                           Khidma&apos;s guidelines. Each order is protected by
@@ -916,8 +916,8 @@ function StepHeader({
 }) {
   return (
     <div className="flex items-start gap-3 mb-2">
-      <span className="size-9 rounded-lg bg-[#32504d]/10 flex items-center justify-center shrink-0">
-        <Icon className="size-4 text-[#32504d]" />
+      <span className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0">
+        <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
       </span>
       <div>
         <h3 className="text-sm font-semibold">{title}</h3>
@@ -1044,8 +1044,8 @@ function PackageCard({
                   transition={{ duration: 0.15 }}
                   className="flex items-center gap-1.5"
                 >
-                  <span className="size-4 rounded-full bg-[#32504d]/10 flex items-center justify-center shrink-0">
-                    <Check className="size-2.5 text-[#32504d]" />
+                  <span className="size-4 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0">
+                    <Check className="size-2.5 text-[#32504d] dark:text-[#9bb3ae]" />
                   </span>
                   <Input
                     value={f}
@@ -1077,13 +1077,13 @@ function PackageCard({
           <button
             type="button"
             onClick={onAddFeature}
-            className="text-[10px] text-[#32504d] hover:underline flex items-center gap-1"
+            className="text-[10px] text-[#32504d] dark:text-[#9bb3ae] hover:underline flex items-center gap-1"
           >
             <Plus className="size-2.5" /> Add feature
           </button>
         </div>
         {pkgKey === "basic" && startingPriceRef !== null && (
-          <div className="rounded-md bg-[#32504d]/5 border border-[#32504d]/20 px-2 py-1 text-[10px] text-[#32504d] flex items-center gap-1">
+          <div className="rounded-md bg-[#32504d]/5 dark:bg-[#32504d]/15 border border-[#32504d]/20 dark:border-[#32504d]/30 px-2 py-1 text-[10px] text-[#32504d] dark:text-[#9bb3ae] flex items-center gap-1">
             <DollarSign className="size-2.5" />
             This sets your starting price:{" "}
             <strong>{formatTND(startingPriceRef)}</strong>

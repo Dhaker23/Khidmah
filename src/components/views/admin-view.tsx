@@ -199,8 +199,8 @@ function KpiTile({
   tone: "default" | "info" | "amber" | "emerald" | "red";
 }) {
   const tones: Record<string, string> = {
-    default: "bg-[#475959]/10 text-[#475959]",
-    info: "bg-[#32504d]/10 text-[#32504d]",
+    default: "bg-[#475959]/10 dark:bg-[#475959]/20 text-[#475959] dark:text-[#94a8a4]",
+    info: "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]",
     amber: "bg-amber-50 text-amber-700",
     emerald: "bg-emerald-50 text-emerald-700",
     red: "bg-red-50 text-red-700",
@@ -329,7 +329,7 @@ function ApplicationQueue({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm flex items-center gap-2">
-            <ListChecks className="size-4 text-[#32504d]" />
+            <ListChecks className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Application Queue
             <Badge className="ml-auto bg-muted text-muted-foreground border-transparent">
               {apps.length}
@@ -369,7 +369,7 @@ function ApplicationQueue({
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <ListChecks className="size-4 text-[#32504d]" />
+            <ListChecks className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Application Queue
           </CardTitle>
           <Badge className="bg-muted text-muted-foreground border-transparent">
@@ -393,7 +393,7 @@ function ApplicationQueue({
                   className={cn(
                     "group w-full text-left rounded-lg border px-3 py-2.5 transition-colors",
                     active
-                      ? "border-[#32504d] bg-[#32504d]/5"
+                      ? "border-[#32504d] bg-[#32504d]/5 dark:bg-[#32504d]/15"
                       : "border-border bg-card hover:border-[#748684]/60 hover:bg-muted/50",
                   )}
                 >
@@ -477,7 +477,7 @@ function InfoRow({
 
 function SkillChip({ skill }: { skill: string }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-[#748684]/30 bg-[#748684]/5 px-2 py-0.5 text-[11px] font-medium text-[#475959]">
+    <span className="inline-flex items-center rounded-full border border-[#748684]/30 bg-[#748684]/5 px-2 py-0.5 text-[11px] font-medium text-[#475959] dark:text-[#94a8a4]">
       {skill}
     </span>
   );
@@ -583,7 +583,7 @@ function FreelancerInfoColumn({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm flex items-center gap-2">
-            <User className="size-4 text-[#32504d]" />
+            <User className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Profile Photo
           </CardTitle>
         </CardHeader>
@@ -622,7 +622,7 @@ function FreelancerInfoColumn({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <FileText className="size-4 text-[#32504d]" />
+            <FileText className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Personal Information
           </CardTitle>
         </CardHeader>
@@ -647,7 +647,7 @@ function FreelancerInfoColumn({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Briefcase className="size-4 text-[#32504d]" />
+            <Briefcase className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Professional Information
           </CardTitle>
         </CardHeader>
@@ -693,7 +693,7 @@ function FreelancerInfoColumn({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Sparkles className="size-4 text-[#32504d]" />
+            <Sparkles className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Skills
             <Badge className="ml-auto bg-muted text-muted-foreground border-transparent">
               {f.skills.length}
@@ -713,7 +713,7 @@ function FreelancerInfoColumn({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <History className="size-4 text-[#32504d]" />
+            <History className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Experience
           </CardTitle>
         </CardHeader>
@@ -725,7 +725,7 @@ function FreelancerInfoColumn({
       {/* Public profile CTA */}
       <Button
         variant="outline"
-        className="w-full border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+        className="w-full border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]"
         onClick={() => onOpenPublic(f.id)}
       >
         <Eye className="size-4" />
@@ -791,7 +791,7 @@ function PortfolioItemCard({
             <Badge className="bg-[#192d2f]/90 text-white border-transparent backdrop-blur">
               {item.category}
             </Badge>
-            <Badge className="bg-white/90 text-[#2b3d3d] border-transparent backdrop-blur">
+            <Badge className="bg-white/90 text-[#2b3d3d] dark:text-[#94a8a4] border-transparent backdrop-blur">
               Role: {item.role}
             </Badge>
           </div>
@@ -882,7 +882,7 @@ function PortfolioItemCard({
                   href={item.liveUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-1.5 rounded-md border border-[#32504d]/40 bg-[#32504d]/5 px-2.5 py-1 text-xs font-medium text-[#32504d] hover:bg-[#32504d]/10"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-[#32504d]/40 bg-[#32504d]/5 dark:bg-[#32504d]/15 px-2.5 py-1 text-xs font-medium text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20"
                 >
                   <Globe className="size-3" />
                   Live URL
@@ -894,7 +894,7 @@ function PortfolioItemCard({
                   href={item.repoUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-1.5 rounded-md border border-[#475959]/40 bg-[#475959]/5 px-2.5 py-1 text-xs font-medium text-[#475959] hover:bg-[#475959]/10"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-[#475959]/40 bg-[#475959]/5 dark:bg-[#475959]/15 px-2.5 py-1 text-xs font-medium text-[#475959] dark:text-[#94a8a4] hover:bg-[#475959]/10 dark:bg-[#475959]/20"
                 >
                   <ExternalLink className="size-3" />
                   Repo URL
@@ -1034,7 +1034,7 @@ function PortfolioReviewColumn({
       <div className="flex items-center justify-between gap-2">
         <div>
           <h3 className="font-display text-lg font-semibold text-foreground flex items-center gap-2">
-            <LayoutGrid className="size-5 text-[#32504d]" />
+            <LayoutGrid className="size-5 text-[#32504d] dark:text-[#9bb3ae]" />
             Portfolio Review
           </h3>
           <p className="text-xs text-muted-foreground">
@@ -1042,7 +1042,7 @@ function PortfolioReviewColumn({
             reject.
           </p>
         </div>
-        <Badge className="bg-[#32504d]/10 text-[#32504d] border-transparent">
+        <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-transparent">
           {items.length} {items.length === 1 ? "item" : "items"}
         </Badge>
       </div>
@@ -1147,7 +1147,7 @@ function VerificationPanel({ app }: { app: AdminApplication }) {
     <Card className="p-0 overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm flex items-center gap-2">
-          <ShieldCheck className="size-4 text-[#32504d]" />
+          <ShieldCheck className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           Verification Status
         </CardTitle>
       </CardHeader>
@@ -1183,8 +1183,8 @@ function VerificationPanel({ app }: { app: AdminApplication }) {
             </li>
           ))}
         </ul>
-        <div className="mt-2 flex items-center justify-between gap-2 rounded-md bg-[#32504d]/5 px-3 py-1.5">
-          <span className="text-[11px] font-medium text-[#32504d]">
+        <div className="mt-2 flex items-center justify-between gap-2 rounded-md bg-[#32504d]/5 dark:bg-[#32504d]/15 px-3 py-1.5">
+          <span className="text-[11px] font-medium text-[#32504d] dark:text-[#9bb3ae]">
             Overall
           </span>
           <span
@@ -1216,7 +1216,7 @@ function RiskPanel({ app }: { app: AdminApplication }) {
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <ShieldAlert className="size-4 text-[#32504d]" />
+            <ShieldAlert className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Risk Signals
           </CardTitle>
           <span
@@ -1364,10 +1364,10 @@ function ChecklistPanel({
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <ListChecks className="size-4 text-[#32504d]" />
+            <ListChecks className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Admin Review Checklist
           </CardTitle>
-          <Badge className="bg-[#32504d]/10 text-[#32504d] border-transparent">
+          <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-transparent">
             {checked}/{total}
           </Badge>
         </div>
@@ -1588,7 +1588,7 @@ function DecisionPanel({
                 {decision ? decisionMeta[decision].label.toUpperCase() : "—"}
               </span>{" "}
               application{" "}
-              <span className="font-mono text-[#32504d]">{app.id}</span> for{" "}
+              <span className="font-mono text-[#32504d] dark:text-[#9bb3ae]">{app.id}</span> for{" "}
               <span className="font-semibold">{app.freelancer.name}</span>. This
               action will be logged and the freelancer will be notified.
             </DialogDescription>
@@ -1671,10 +1671,10 @@ function AdminNotesTab({
   return (
     <div className="space-y-4">
       {/* Add note form */}
-      <Card className="p-0 overflow-hidden border-[#32504d]/30">
+      <Card className="p-0 overflow-hidden border-[#32504d]/30 dark:border-[#32504d]/30">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Plus className="size-4 text-[#32504d]" />
+            <Plus className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Add Admin Note
           </CardTitle>
           <CardDescription className="text-xs">
@@ -1912,7 +1912,7 @@ function AuditLogTab({ app }: { app: AdminApplication }) {
                     <span className="font-medium">{row.actor}</span>
                   </TableCell>
                   <TableCell>
-                    <code className="text-[11px] font-mono rounded bg-muted px-1.5 py-0.5 text-[#32504d]">
+                    <code className="text-[11px] font-mono rounded bg-muted px-1.5 py-0.5 text-[#32504d] dark:text-[#9bb3ae]">
                       {row.action}
                     </code>
                   </TableCell>
@@ -1945,12 +1945,12 @@ function BottomSection({
     <Card className="p-0 overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-base font-display flex items-center gap-2">
-          <FileText className="size-4 text-[#32504d]" />
+          <FileText className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           Notes · History · Audit Log
         </CardTitle>
         <CardDescription>
           Internal collaboration record for application{" "}
-          <span className="font-mono text-[#32504d]">{app.id}</span>.
+          <span className="font-mono text-[#32504d] dark:text-[#9bb3ae]">{app.id}</span>.
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-0">
@@ -2307,7 +2307,7 @@ export default function AdminView() {
                 variant="outline"
                 size="sm"
                 onClick={goToNext}
-                className="border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+                className="border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]"
               >
                 Next Application
                 <ArrowRight className="size-4" />
@@ -2405,7 +2405,7 @@ export default function AdminView() {
         <footer className="mt-auto border-t border-border bg-muted/30">
           <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 py-4 text-xs text-muted-foreground flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="size-3.5 text-[#32504d]" />
+              <ShieldCheck className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
               Khidma Admin Review Console · Restricted access
             </div>
             <div>

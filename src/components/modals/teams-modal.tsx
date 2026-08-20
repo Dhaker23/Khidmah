@@ -254,7 +254,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       transition={{ duration: 0.4, delay: prefersReduced ? 0 : 0.04 * index }}
       className="group rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:shadow-md hover:shadow-[#32504d]/5 transition-all p-4 sm:p-5"
     >
-      <div className="size-9 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center mb-3 group-hover:bg-[#32504d] group-hover:text-white transition-colors">
+      <div className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center mb-3 group-hover:bg-[#32504d] group-hover:text-white transition-colors">
         <Icon className="size-4.5" />
       </div>
       <h4 className="font-display text-sm font-semibold text-foreground mb-1.5">
@@ -335,7 +335,7 @@ function UseCaseTab({ uc }: { uc: UseCase }) {
     >
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="size-8 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center">
+          <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center">
             <Icon className="size-4" />
           </span>
           <h4 className="font-display text-base font-semibold">{uc.label}</h4>
@@ -352,8 +352,8 @@ function UseCaseTab({ uc }: { uc: UseCase }) {
           ))}
         </ul>
       </div>
-      <div className="relative rounded-xl border border-[#32504d]/20 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 p-5">
-        <Quote className="size-6 text-[#32504d]/30 mb-2" aria-hidden />
+      <div className="relative rounded-xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 p-5">
+        <Quote className="size-6 text-[#32504d] dark:text-[#9bb3ae]/30 mb-2" aria-hidden />
         <p className="text-sm text-foreground/90 leading-relaxed italic mb-3">
           "{uc.quote.text}"
         </p>
@@ -518,7 +518,7 @@ export function TeamsModal() {
               </section>
 
               {/* CTA */}
-              <section className="rounded-xl border border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5 sm:p-6">
+              <section className="rounded-xl border border-[#32504d]/30 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5 sm:p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
                     <h3 className="font-display text-base sm:text-lg font-semibold flex items-center gap-2">

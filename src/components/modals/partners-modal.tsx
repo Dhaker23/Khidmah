@@ -308,7 +308,7 @@ function PartnerTypeCard({
       className="group rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:shadow-md hover:shadow-[#32504d]/5 transition-all p-5"
     >
       <div className="flex items-start gap-3">
-        <div className="size-10 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center shrink-0 group-hover:bg-[#32504d] group-hover:text-white transition-colors">
+        <div className="size-10 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center shrink-0 group-hover:bg-[#32504d] group-hover:text-white transition-colors">
           <Icon className="size-5" />
         </div>
         <div className="min-w-0">
@@ -352,7 +352,7 @@ function BenefitCard({ benefit, index }: { benefit: Benefit; index: number }) {
       }}
       className="flex items-start gap-3 rounded-xl border border-border/60 bg-card p-4"
     >
-      <span className="size-9 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center shrink-0">
+      <span className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center shrink-0">
         <Icon className="size-4.5" />
       </span>
       <div className="min-w-0">
@@ -739,7 +739,7 @@ export function PartnersModal() {
               {/* CTA — Become a partner form */}
               <section
                 aria-labelledby="partners-cta-heading"
-                className="rounded-xl border border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5 sm:p-6"
+                className="rounded-xl border border-[#32504d]/30 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5 sm:p-6"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <span className="size-8 rounded-lg bg-[#32504d] text-white flex items-center justify-center">

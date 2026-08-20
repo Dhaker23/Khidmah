@@ -327,7 +327,7 @@ function TopBar({ me }: { me: (typeof freelancers)[number] }) {
                     </span>
                     <Badge
                       variant="outline"
-                      className="text-[9px] h-4 px-1 border-[#32504d]/30 text-[#32504d]"
+                      className="text-[9px] h-4 px-1 border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae]"
                     >
                       3 new
                     </Badge>
@@ -375,7 +375,7 @@ function TopBar({ me }: { me: (typeof freelancers)[number] }) {
           {/* Wallet mini-card */}
           <button
             onClick={openWallet}
-            className="flex items-center gap-2.5 rounded-xl border border-border/60 bg-card pl-2.5 pr-3 py-1.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+            className="flex items-center gap-2.5 rounded-xl border border-border/60 bg-card pl-2.5 pr-3 py-1.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
             aria-label="Open wallet"
           >
             <span className="size-7 rounded-lg bg-khidma-gradient flex items-center justify-center">
@@ -449,7 +449,7 @@ function SidebarContent({
               <Icon
                 className={cn(
                   "size-4 shrink-0",
-                  active ? "text-white" : "group-hover:text-[#32504d]"
+                  active ? "text-white" : "group-hover:text-[#32504d] dark:text-[#9bb3ae]"
                 )}
               />
               <span className="truncate">{item.label}</span>
@@ -460,7 +460,7 @@ function SidebarContent({
                     "ml-auto h-5 px-1.5 text-[10px] font-semibold",
                     active
                       ? "bg-white/15 text-white border-white/20"
-                      : "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/25"
+                      : "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/25 dark:border-[#32504d]/30"
                   )}
                 >
                   {item.badge}
@@ -615,7 +615,7 @@ function OverviewTab({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: i * 0.05 }}
             >
-              <Card className="p-4 border-border/60 hover:border-[#32504d]/30 transition-colors h-full">
+              <Card className="p-4 border-border/60 hover:border-[#32504d]/30 dark:border-[#32504d]/30 transition-colors h-full">
                 <div className="flex items-start justify-between">
                   <span
                     className="size-9 rounded-lg flex items-center justify-center"
@@ -728,7 +728,7 @@ function OverviewTab({
         <Card className="p-5 border-border/60">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-display text-lg font-bold">Recent Activity</h3>
-            <button className="text-[11px] text-[#32504d] hover:underline">
+            <button className="text-[11px] text-[#32504d] dark:text-[#9bb3ae] hover:underline">
               View all
             </button>
           </div>
@@ -796,7 +796,7 @@ function OverviewTab({
                   }
                   toast.info(`${q.label} — coming up`);
                 }}
-                className="text-left rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:bg-[#32504d]/5 p-3 transition-colors"
+                className="text-left rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 transition-colors"
               >
                 <span className="size-9 rounded-lg bg-[#2b3d3d] flex items-center justify-center mb-2">
                   <Icon className="size-4 text-white" />
@@ -973,7 +973,7 @@ function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
             <Badge
               key={l}
               variant="secondary"
-              className="bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20"
+              className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30"
             >
               {l} — Native / Fluent
             </Badge>
@@ -1102,8 +1102,8 @@ function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
             <Card key={s.key} className="p-5 border-border/60">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-                    <Icon className="size-4 text-[#32504d]" />
+                  <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+                    <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                   </span>
                   <h3 className="font-display text-base font-semibold">
                     {s.title}
@@ -1459,7 +1459,7 @@ function ProposalsTab() {
               "rounded-lg px-3 py-1.5 text-xs font-medium border transition-colors",
               filter === f.key
                 ? "bg-[#2b3d3d] text-white border-[#2b3d3d]"
-                : "bg-card text-muted-foreground border-border/60 hover:text-foreground hover:border-[#32504d]/30"
+                : "bg-card text-muted-foreground border-border/60 hover:text-foreground hover:border-[#32504d]/30 dark:border-[#32504d]/30"
             )}
           >
             {f.label}
@@ -1647,7 +1647,7 @@ function ContractsTab() {
                               key={idx}
                               className="flex items-center gap-3 rounded-lg border border-border/60 bg-card p-3"
                             >
-                              <div className="flex items-center justify-center size-7 rounded-full bg-[#32504d]/10 text-xs font-bold text-[#32504d] shrink-0">
+                              <div className="flex items-center justify-center size-7 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 text-xs font-bold text-[#32504d] dark:text-[#9bb3ae] shrink-0">
                                 {idx + 1}
                               </div>
                               <div className="flex-1 min-w-0">
@@ -1904,7 +1904,7 @@ function WalletTab() {
           {withdrawalMethods.map((m) => (
             <div
               key={m.id}
-              className="rounded-xl border border-border/60 p-3 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+              className="rounded-xl border border-border/60 p-3 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
             >
               <div className="flex items-start gap-2.5">
                 <span className="size-9 rounded-lg bg-muted flex items-center justify-center text-lg shrink-0">
@@ -1915,7 +1915,7 @@ function WalletTab() {
                   <p className="text-[10px] text-muted-foreground">
                     {m.type} · {m.fee} fee
                   </p>
-                  <div className="flex items-center gap-1 mt-1 text-[10px] text-[#32504d]">
+                  <div className="flex items-center gap-1 mt-1 text-[10px] text-[#32504d] dark:text-[#9bb3ae]">
                     <Clock className="size-2.5" />
                     {m.time}
                   </div>
@@ -1924,8 +1924,8 @@ function WalletTab() {
             </div>
           ))}
         </div>
-        <div className="mt-4 rounded-xl border border-[#32504d]/20 bg-[#32504d]/5 p-3 flex gap-2.5">
-          <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+        <div className="mt-4 rounded-xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 flex gap-2.5">
+          <ShieldCheck className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
           <p className="text-xs text-muted-foreground leading-relaxed">
             Khidma uses secure escrow for all transactions. Withdrawals are
             processed within 1-3 business days depending on the method chosen.
@@ -2096,8 +2096,8 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
       {/* Account info */}
       <Card className="p-5 border-border/60">
         <div className="flex items-center gap-2 mb-4">
-          <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-            <User className="size-4 text-[#32504d]" />
+          <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+            <User className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <h3 className="font-display text-base font-semibold">Account Information</h3>
         </div>
@@ -2141,8 +2141,8 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
       {/* Security */}
       <Card className="p-5 border-border/60">
         <div className="flex items-center gap-2 mb-4">
-          <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-            <Lock className="size-4 text-[#32504d]" />
+          <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+            <Lock className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <h3 className="font-display text-base font-semibold">Security</h3>
         </div>
@@ -2194,8 +2194,8 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
       {/* Notifications */}
       <Card className="p-5 border-border/60">
         <div className="flex items-center gap-2 mb-4">
-          <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-            <BellRing className="size-4 text-[#32504d]" />
+          <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+            <BellRing className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <h3 className="font-display text-base font-semibold">Notifications</h3>
         </div>
@@ -2226,8 +2226,8 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
       {/* Privacy */}
       <Card className="p-5 border-border/60">
         <div className="flex items-center gap-2 mb-4">
-          <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-            <EyeOff className="size-4 text-[#32504d]" />
+          <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+            <EyeOff className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <h3 className="font-display text-base font-semibold">Privacy</h3>
         </div>
@@ -2276,8 +2276,8 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
       {/* Payment methods */}
       <Card className="p-5 border-border/60">
         <div className="flex items-center gap-2 mb-4">
-          <span className="size-8 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-            <CreditCard className="size-4 text-[#32504d]" />
+          <span className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+            <CreditCard className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <h3 className="font-display text-base font-semibold">Payment Methods</h3>
         </div>
@@ -2402,7 +2402,7 @@ export function DashboardView() {
           <div className="flex items-center gap-1.5">
             {currentNav && (
               <>
-                <currentNav.icon className="size-3.5 text-[#32504d]" />
+                <currentNav.icon className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                 <span className="text-sm font-medium">{currentNav.label}</span>
               </>
             )}

@@ -72,11 +72,11 @@ export function WhyKhidma() {
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#32504d]/10 px-3 py-1 text-xs font-medium text-[#32504d]">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 px-3 py-1 text-xs font-medium text-[#32504d] dark:text-[#9bb3ae]">
                   <ShieldCheck className="size-3.5" />
                   Identity Verified
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#475959]/10 px-3 py-1 text-xs font-medium text-[#475959]">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#475959]/10 dark:bg-[#475959]/20 px-3 py-1 text-xs font-medium text-[#475959] dark:text-[#94a8a4]">
                   <Lock className="size-3.5" />
                   Escrow Protected
                 </span>
@@ -96,7 +96,7 @@ export function WhyKhidma() {
                 return (
                   <Reveal key={f.title} delay={0.05 * i}>
                     <Card className="group h-full p-5 border-border/60 hover:border-[#32504d]/40 khidma-card">
-                      <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] mb-3 transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                      <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-3 transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
                         <Icon className="size-5" />
                       </div>
                       <h3 className="font-display text-base font-semibold text-foreground">

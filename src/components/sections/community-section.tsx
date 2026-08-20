@@ -259,7 +259,7 @@ export function CommunitySection() {
               <LiftCard className="h-full">
                 <Card className="h-full flex flex-col p-6 border-border/60 hover:border-[#32504d]/40 transition-colors">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d]">
+                    <span className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
                       <Icon className="size-5" />
                     </span>
                     <h3 className="font-display text-lg font-bold text-foreground">
@@ -269,7 +269,7 @@ export function CommunitySection() {
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {f.description}
                   </p>
-                  <div className="mt-4 rounded-lg bg-[#32504d]/5 border border-[#32504d]/15 px-3 py-2">
+                  <div className="mt-4 rounded-lg bg-[#32504d]/5 dark:bg-[#32504d]/15 border border-[#32504d]/15 px-3 py-2">
                     <p className="text-xs font-medium text-foreground/85">
                       {f.note}
                     </p>
@@ -277,7 +277,7 @@ export function CommunitySection() {
                   <button
                     type="button"
                     onClick={f.onCta}
-                    className="mt-4 group inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] hover:text-[#2b3d3d] transition-colors self-start"
+                    className="mt-4 group inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] dark:text-[#9bb3ae] hover:text-[#2b3d3d] dark:text-[#94a8a4] transition-colors self-start"
                   >
                     {f.cta}
                     <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -308,7 +308,7 @@ export function CommunitySection() {
                   description: "Loading upcoming Khidma meetups and workshops.",
                 })
               }
-              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] hover:text-[#2b3d3d] transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] dark:text-[#9bb3ae] hover:text-[#2b3d3d] dark:text-[#94a8a4] transition-colors"
             >
               View all
               <ArrowRight className="size-3.5" />
@@ -433,7 +433,7 @@ export function CommunitySection() {
                     </p>
                     <Badge
                       variant="outline"
-                      className="mt-2.5 border-[#32504d]/30 bg-[#32504d]/8 text-[#32504d] gap-1"
+                      className="mt-2.5 border-[#32504d]/30 dark:border-[#32504d]/30 bg-[#32504d]/8 text-[#32504d] dark:text-[#9bb3ae] gap-1"
                     >
                       <UserCheck className="size-3" />
                       Top Contributor

@@ -107,7 +107,7 @@ export function ServiceCard({ service: s, index = 0 }: { service: Service; index
           )}
 
           {/* Title */}
-          <h3 className="font-semibold text-sm leading-snug line-clamp-2 group-hover:text-[#32504d] transition-colors min-h-[2.5rem]">
+          <h3 className="font-semibold text-sm leading-snug line-clamp-2 group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors min-h-[2.5rem]">
             {s.title}
           </h3>
 

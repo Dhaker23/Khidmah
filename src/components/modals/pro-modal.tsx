@@ -111,7 +111,7 @@ export function ProModal() {
                     transition={{ delay: i * 0.06, duration: 0.3 }}
                     className="flex items-center gap-2.5 text-sm"
                   >
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#32504d]/10 text-[#32504d]">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
                       <Icon className="size-3.5" />
                     </span>
                     <span className="text-foreground">{perk.label}</span>
@@ -123,8 +123,8 @@ export function ProModal() {
 
             <Separator />
 
-            <div className="rounded-xl bg-[#32504d]/5 border border-[#32504d]/15 p-3 flex items-start gap-2.5">
-              <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+            <div className="rounded-xl bg-[#32504d]/5 dark:bg-[#32504d]/15 border border-[#32504d]/15 p-3 flex items-start gap-2.5">
+              <ShieldCheck className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
               <p className="text-[11px] text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">
                   30-day money-back guarantee.

@@ -306,7 +306,7 @@ export function OnboardingWizard() {
                 <span className="text-muted-foreground">
                   Step {step + 1} / {TOTAL_STEPS}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#32504d]/10 text-[#32504d] px-2 py-0.5 text-[11px] font-semibold">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] px-2 py-0.5 text-[11px] font-semibold">
                   <CurrentIcon className="size-3" />
                   {stepMeta[step].name}
                 </span>
@@ -433,7 +433,7 @@ export function OnboardingWizard() {
                         {languages.map((l) => (
                           <Badge
                             key={l}
-                            className="bg-[#32504d]/10 text-[#32504d] hover:bg-[#32504d]/20 gap-1"
+                            className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/20 dark:bg-[#32504d]/30 gap-1"
                           >
                             {l}
                             <button
@@ -466,7 +466,7 @@ export function OnboardingWizard() {
                             size="sm"
                             variant="ghost"
                             onClick={addLanguage}
-                            className="h-7 px-2 text-[#32504d]"
+                            className="h-7 px-2 text-[#32504d] dark:text-[#9bb3ae]"
                           >
                             <Plus className="size-3" />
                           </Button>
@@ -508,7 +508,7 @@ export function OnboardingWizard() {
                             key={t}
                             type="button"
                             onClick={() => setProf({ ...prof, title: t })}
-                            className="text-[11px] rounded-full border border-border bg-muted/40 px-2 py-0.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5"
+                            className="text-[11px] rounded-full border border-border bg-muted/40 px-2 py-0.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                           >
                             {t}
                           </button>
@@ -645,14 +645,14 @@ export function OnboardingWizard() {
                             className={cn(
                               "cursor-pointer rounded-lg border p-2.5 text-xs",
                               prof.availability === o.v
-                                ? "border-[#32504d] bg-[#32504d]/5"
+                                ? "border-[#32504d] bg-[#32504d]/5 dark:bg-[#32504d]/15"
                                 : "border-border"
                             )}
                           >
                             <div className="flex items-center gap-2">
                               <RadioGroupItem
                                 value={o.v}
-                                className="data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d]"
+                                className="data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d] dark:text-[#9bb3ae]"
                               />
                               <span className="font-semibold">{o.l}</span>
                             </div>
@@ -723,7 +723,7 @@ export function OnboardingWizard() {
                                       "text-xs rounded-full border px-2.5 py-1 transition-colors",
                                       active
                                         ? "bg-[#32504d] border-[#32504d] text-white"
-                                        : "bg-muted/40 border-border hover:border-[#32504d]/40 hover:bg-[#32504d]/5"
+                                        : "bg-muted/40 border-border hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                                     )}
                                   >
                                     {active && (
@@ -1060,8 +1060,8 @@ export function OnboardingWizard() {
                           className={cn(
                             "rounded-2xl border-2 border-dashed p-8 flex flex-col items-center justify-center gap-3 transition-colors",
                             photoPreview
-                              ? "border-[#32504d]/40 bg-[#32504d]/5"
-                              : "border-border hover:border-[#32504d]/40 hover:bg-[#32504d]/5"
+                              ? "border-[#32504d]/40 bg-[#32504d]/5 dark:bg-[#32504d]/15"
+                              : "border-border hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                           )}
                         >
                           {photoPreview ? (
@@ -1073,8 +1073,8 @@ export function OnboardingWizard() {
                               />
                             </div>
                           ) : (
-                            <div className="size-20 rounded-full bg-[#32504d]/10 flex items-center justify-center">
-                              <Upload className="size-7 text-[#32504d]" />
+                            <div className="size-20 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+                              <Upload className="size-7 text-[#32504d] dark:text-[#9bb3ae]" />
                             </div>
                           )}
                           <div className="text-center">
@@ -1151,14 +1151,14 @@ export function OnboardingWizard() {
                     <div className="space-y-3">
                       {/* Email verification */}
                       <div className="rounded-xl border border-border/70 p-3.5 flex items-start gap-3">
-                        <span className="size-9 rounded-lg bg-[#32504d]/10 flex items-center justify-center shrink-0">
-                          <Mail className="size-4 text-[#32504d]" />
+                        <span className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0">
+                          <Mail className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                         </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <p className="text-sm font-semibold">Email verification</p>
                             {verif.email && (
-                              <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5">
+                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5">
                                 <CheckCircle2 className="size-3" />
                                 Verified
                               </Badge>
@@ -1181,14 +1181,14 @@ export function OnboardingWizard() {
 
                       {/* Phone (OTP) */}
                       <div className="rounded-xl border border-border/70 p-3.5 flex items-start gap-3">
-                        <span className="size-9 rounded-lg bg-[#475959]/10 flex items-center justify-center shrink-0">
-                          <Phone className="size-4 text-[#475959]" />
+                        <span className="size-9 rounded-lg bg-[#475959]/10 dark:bg-[#475959]/20 flex items-center justify-center shrink-0">
+                          <Phone className="size-4 text-[#475959] dark:text-[#94a8a4]" />
                         </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <p className="text-sm font-semibold">Phone (OTP)</p>
                             {verif.phone && (
-                              <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5">
+                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5">
                                 <CheckCircle2 className="size-3" />
                                 Verified
                               </Badge>
@@ -1239,8 +1239,8 @@ export function OnboardingWizard() {
 
                       {/* Identity upload */}
                       <div className="rounded-xl border border-border/70 p-3.5 flex items-start gap-3">
-                        <span className="size-9 rounded-lg bg-[#2b3d3d]/10 flex items-center justify-center shrink-0">
-                          <IdCard className="size-4 text-[#2b3d3d]" />
+                        <span className="size-9 rounded-lg bg-[#2b3d3d]/10 dark:bg-[#2b3d3d]/25 flex items-center justify-center shrink-0">
+                          <IdCard className="size-4 text-[#2b3d3d] dark:text-[#94a8a4]" />
                         </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
@@ -1248,7 +1248,7 @@ export function OnboardingWizard() {
                               Identity verification
                             </p>
                             {verif.identity && (
-                              <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5">
+                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5">
                                 <CheckCircle2 className="size-3" />
                                 Uploaded
                               </Badge>
@@ -1302,7 +1302,7 @@ export function OnboardingWizard() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="rounded-xl border border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/5 to-transparent p-4"
+                          className="rounded-xl border border-[#32504d]/30 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/5 to-transparent p-4"
                         >
                           <div className="flex items-center gap-3">
                             {photoPreview ? (
@@ -1312,7 +1312,7 @@ export function OnboardingWizard() {
                                 className="size-14 rounded-full object-cover ring-2 ring-[#32504d]/30"
                               />
                             ) : (
-                              <div className="size-14 rounded-full bg-[#32504d]/20 flex items-center justify-center text-[#32504d]">
+                              <div className="size-14 rounded-full bg-[#32504d]/20 dark:bg-[#32504d]/30 flex items-center justify-center text-[#32504d] dark:text-[#9bb3ae]">
                                 <User className="size-5" />
                               </div>
                             )}
@@ -1417,7 +1417,7 @@ export function OnboardingWizard() {
                               <Badge
                                 key={s}
                                 variant="outline"
-                                className="bg-[#32504d]/5 text-[#32504d] text-[10px]"
+                                className="bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] text-[10px]"
                               >
                                 {s}
                               </Badge>
@@ -1472,7 +1472,7 @@ export function OnboardingWizard() {
                           <li>
                             Email:{" "}
                             {verif.email ? (
-                              <span className="text-[#32504d]">✓ verified</span>
+                              <span className="text-[#32504d] dark:text-[#9bb3ae]">✓ verified</span>
                             ) : (
                               <span className="text-muted-foreground">pending</span>
                             )}
@@ -1480,7 +1480,7 @@ export function OnboardingWizard() {
                           <li>
                             Phone:{" "}
                             {verif.phone ? (
-                              <span className="text-[#32504d]">✓ verified</span>
+                              <span className="text-[#32504d] dark:text-[#9bb3ae]">✓ verified</span>
                             ) : (
                               <span className="text-muted-foreground">pending</span>
                             )}
@@ -1488,7 +1488,7 @@ export function OnboardingWizard() {
                           <li>
                             Identity:{" "}
                             {verif.identity ? (
-                              <span className="text-[#32504d]">✓ uploaded</span>
+                              <span className="text-[#32504d] dark:text-[#9bb3ae]">✓ uploaded</span>
                             ) : (
                               <span className="text-muted-foreground">pending</span>
                             )}
@@ -1498,7 +1498,7 @@ export function OnboardingWizard() {
                     </div>
 
                     <div className="rounded-xl border border-border bg-muted/30 p-3 flex gap-2.5">
-                      <Sparkles className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+                      <Sparkles className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                       <p className="text-xs text-muted-foreground">
                         By submitting, you confirm the information above is accurate.
                         Our admin team reviews applications within 48 hours. Verified

@@ -57,7 +57,7 @@ export function Categories() {
                       >
                         <Icon className="size-5" />
                       </div>
-                      <ArrowRight className="size-4 text-muted-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#32504d]" />
+                      <ArrowRight className="size-4 text-muted-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#32504d] dark:text-[#9bb3ae]" />
                     </div>
 
                     <div className="flex items-baseline gap-2">

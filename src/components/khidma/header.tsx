@@ -113,7 +113,11 @@ export function Header() {
             className="flex items-center gap-2 transition-opacity hover:opacity-90 shrink-0 z-10"
             aria-label="Khidma home"
           >
-            <KhidmaLogo variant="full" size="sm" />
+            <KhidmaLogo
+              variant="full"
+              size="sm"
+              className={cn(!scrolled && "[&_span]:text-white")}
+            />
           </button>
 
           {/* Desktop Nav — absolutely centered */}
@@ -127,9 +131,13 @@ export function Header() {
                   onClick={() => setView(item.id as never)}
                   className={cn(
                     "relative inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                    active
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                    scrolled
+                      ? active
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                      : active
+                      ? "text-white"
+                      : "text-white/75 hover:text-white hover:bg-white/10"
                   )}
                 >
                   <Icon className="size-3.5" />
@@ -137,7 +145,10 @@ export function Header() {
                   {active && (
                     <motion.div
                       layoutId="nav-underline"
-                      className="absolute inset-x-2 -bottom-px h-0.5 bg-[#32504d] rounded-full"
+                      className={cn(
+                        "absolute inset-x-2 -bottom-px h-0.5 rounded-full",
+                        scrolled ? "bg-[#32504d]" : "bg-white"
+                      )}
                     />
                   )}
                 </button>
@@ -155,7 +166,12 @@ export function Header() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="hidden md:inline-flex gap-1.5 text-[#32504d] hover:text-[#2b3d3d] hover:bg-[#32504d]/10"
+                      className={cn(
+                        "hidden md:inline-flex gap-1.5",
+                        scrolled
+                          ? "text-[#32504d] hover:text-[#2b3d3d] hover:bg-[#32504d]/10"
+                          : "text-white/90 hover:text-white hover:bg-white/10"
+                      )}
                     >
                       <PlusCircle className="size-4" />
                       Create
@@ -193,7 +209,10 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden md:inline-flex relative h-9 w-9"
+                  className={cn(
+                    "hidden md:inline-flex relative h-9 w-9",
+                    !scrolled && "text-white/90 hover:text-white hover:bg-white/10"
+                  )}
                   aria-label="Messages"
                   onClick={() => openMessaging()}
                 >
@@ -201,13 +220,18 @@ export function Header() {
                   <span className="absolute top-1 right-1 size-2 rounded-full bg-[#32504d]" />
                 </Button>
 
-                <NotificationsDropdown />
+                <div className={cn(!scrolled && "[&_svg]:text-white [&_button]:text-white [&_button:hover]:bg-white/10")}>
+                  <NotificationsDropdown />
+                </div>
 
                 {/* Favorites */}
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden md:inline-flex relative h-9 w-9"
+                  className={cn(
+                    "hidden md:inline-flex relative h-9 w-9",
+                    !scrolled && "text-white/90 hover:text-white hover:bg-white/10"
+                  )}
                   aria-label={`Saved items${favoritesCount > 0 ? ` (${favoritesCount})` : ""}`}
                   onClick={() => openFavorites()}
                 >
@@ -221,14 +245,17 @@ export function Header() {
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="inline-flex items-center gap-2 rounded-full pl-1.5 pr-2 py-1 hover:bg-muted/60 transition-colors">
+                    <button className={cn(
+                      "inline-flex items-center gap-2 rounded-full pl-1.5 pr-2 py-1 transition-colors",
+                      scrolled ? "hover:bg-muted/60" : "hover:bg-white/10"
+                    )}>
                       <Avatar className="size-8 border border-border/60">
                         <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
                         <AvatarFallback>
                           {currentUser.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
-                      <ChevronDown className="size-3.5 text-muted-foreground" />
+                      <ChevronDown className={cn("size-3.5", scrolled ? "text-muted-foreground" : "text-white/70")} />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
@@ -279,26 +306,29 @@ export function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <div className="hidden md:block ml-1">
+                <div className={cn("hidden md:block ml-1", !scrolled && "text-white [&_svg]:text-white")}>
                   <ThemeToggle />
                 </div>
-                <div className="hidden md:block">
+                <div className={cn("hidden md:block", !scrolled && "text-white [&_svg]:text-white")}>
                   <LanguageSwitcher />
                 </div>
               </>
             ) : (
               <>
-                <div className="hidden md:block">
+                <div className={cn("hidden md:block", !scrolled && "text-white [&_svg]:text-white")}>
                   <ThemeToggle />
                 </div>
-                <div className="hidden md:block">
+                <div className={cn("hidden md:block", !scrolled && "text-white [&_svg]:text-white")}>
                   <LanguageSwitcher />
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => openAuth("login")}
-                  className="hidden sm:inline-flex"
+                  className={cn(
+                    "hidden sm:inline-flex",
+                    !scrolled && "text-white/90 hover:text-white hover:bg-white/10"
+                  )}
                 >
                   {t("nav.login")}
                 </Button>
@@ -317,7 +347,14 @@ export function Header() {
             {/* Mobile menu */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "lg:hidden",
+                    !scrolled && "text-white/90 hover:text-white hover:bg-white/10"
+                  )}
+                >
                   <Menu className="size-5" />
                 </Button>
               </SheetTrigger>

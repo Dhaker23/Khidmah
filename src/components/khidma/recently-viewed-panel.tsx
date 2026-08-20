@@ -53,17 +53,17 @@ const typeMeta = {
   freelancer: {
     label: "Freelancer",
     icon: Users,
-    color: "text-[#32504d] bg-[#32504d]/10 border-[#32504d]/20",
+    color: "text-[#32504d] bg-[#32504d]/10 border-[#32504d]/20 dark:text-[#9bb3ae] dark:bg-[#32504d]/25 dark:border-[#32504d]/30",
   },
   service: {
     label: "Service",
     icon: ShoppingBag,
-    color: "text-[#475959] bg-[#475959]/10 border-[#475959]/20",
+    color: "text-[#475959] bg-[#475959]/10 border-[#475959]/20 dark:text-[#94a8a4] dark:bg-[#475959]/25 dark:border-[#475959]/30",
   },
   job: {
     label: "Job",
     icon: Briefcase,
-    color: "text-[#2b3d3d] bg-[#2b3d3d]/10 border-[#2b3d3d]/20",
+    color: "text-[#2b3d3d] bg-[#2b3d3d]/10 border-[#2b3d3d]/20 dark:text-[#94a8a4] dark:bg-[#2b3d3d]/30 dark:border-[#2b3d3d]/40",
   },
 } as const;
 
@@ -85,7 +85,7 @@ function RecentRow({ item }: { item: RecentlyViewedItem }) {
     thumb = (
       <Avatar className="size-8 border border-border/60">
         <AvatarImage src={f.avatar} alt={f.name} />
-        <AvatarFallback className="text-[10px] bg-[#32504d]/10 text-[#32504d]">
+        <AvatarFallback className="text-[10px] bg-[#32504d]/10 text-[#32504d] dark:bg-[#32504d]/25 dark:text-[#9bb3ae]">
           {f.name.charAt(0)}
         </AvatarFallback>
       </Avatar>
@@ -112,8 +112,8 @@ function RecentRow({ item }: { item: RecentlyViewedItem }) {
     primary = job.title;
     secondary = job.category;
     thumb = (
-      <div className="size-8 rounded-md bg-[#32504d]/10 flex items-center justify-center shrink-0">
-        <Briefcase className="size-3.5 text-[#32504d]" />
+      <div className="size-8 rounded-md bg-[#32504d]/10 dark:bg-[#32504d]/25 flex items-center justify-center shrink-0">
+        <Briefcase className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
     );
   }
@@ -136,7 +136,7 @@ function RecentRow({ item }: { item: RecentlyViewedItem }) {
     >
       <div className="shrink-0">{thumb}</div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium leading-tight truncate group-hover:text-[#32504d] transition-colors">
+        <p className="text-xs font-medium leading-tight truncate group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
           {primary}
         </p>
         <p className="text-[10px] text-muted-foreground truncate">{secondary}</p>
@@ -173,7 +173,7 @@ function EmptyState() {
       <Button
         variant="link"
         size="sm"
-        className="mt-1 h-7 text-xs text-[#32504d]"
+        className="mt-1 h-7 text-xs text-[#32504d] dark:text-[#9bb3ae]"
         onClick={() => setView("freelancers")}
       >
         Browse talent
@@ -205,10 +205,10 @@ export function RecentlyViewedPanel() {
           <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-border/60 bg-muted/30">
             <CollapsibleTrigger asChild>
               <button
-                className="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-[#32504d] transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-[#32504d] dark:hover:text-[#9bb3ae] transition-colors"
                 aria-label={open ? "Collapse recently viewed" : "Expand recently viewed"}
               >
-                <Clock className="size-4 text-[#32504d]" />
+                <Clock className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                 Recently Viewed
                 {recent.length > 0 && (
                   <Badge
@@ -266,7 +266,7 @@ export function RecentlyViewedPanel() {
 
                   {recentlyViewed.length > 5 && (
                     <div className="pt-1.5 pb-1 flex items-center justify-center gap-1 text-[10px] text-muted-foreground">
-                      <Sparkles className="size-3 text-[#32504d]" />
+                      <Sparkles className="size-3 text-[#32504d] dark:text-[#9bb3ae]" />
                       +{recentlyViewed.length - 5} more in your history
                     </div>
                   )}

@@ -197,7 +197,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="size-4 text-[#32504d]" />
+          <SlidersHorizontal className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
           <span className="font-display text-sm font-semibold">Filters</span>
           {activeFilterCount > 0 && (
             <Badge className="bg-[#32504d] text-white hover:bg-[#32504d] text-[10px] h-5 px-1.5">
@@ -210,7 +210,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
           size="sm"
           onClick={onClear}
           disabled={activeFilterCount === 0}
-          className="h-7 text-xs text-muted-foreground hover:text-[#32504d]"
+          className="h-7 text-xs text-muted-foreground hover:text-[#32504d] dark:text-[#9bb3ae]"
         >
           <RotateCcw className="size-3" />
           Clear all
@@ -239,7 +239,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
             >
               <RadioGroupItem
                 value={opt.value}
-                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d]"
+                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d] dark:text-[#9bb3ae]"
               />
               {opt.label}
             </label>
@@ -270,7 +270,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
             >
               <RadioGroupItem
                 value={opt.value}
-                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d]"
+                className="border-[#748684] data-[state=checked]:border-[#32504d] text-[#32504d] dark:text-[#9bb3ae]"
               />
               {opt.label}
             </label>
@@ -321,7 +321,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
                   onCheckedChange={() => toggleCategory(cat.id)}
                   className="data-[state=checked]:bg-[#32504d] data-[state=checked]:border-[#32504d]"
                 />
-                <span className="text-sm flex-1 group-hover:text-[#2b3d3d]">
+                <span className="text-sm flex-1 group-hover:text-[#2b3d3d] dark:text-[#94a8a4]">
                   {cat.name}
                 </span>
               </label>
@@ -358,7 +358,7 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
       <FilterSection title="Client Trust">
         <label className="flex items-center justify-between gap-3 cursor-pointer">
           <div className="flex items-start gap-2.5">
-            <ShieldCheck className="size-4 text-[#32504d] mt-0.5" />
+            <ShieldCheck className="size-4 text-[#32504d] dark:text-[#9bb3ae] mt-0.5" />
             <div>
               <div className="text-sm font-medium">Verified clients only</div>
               <div className="text-xs text-muted-foreground">
@@ -384,8 +384,8 @@ function FiltersPanel({ filters, setFilters, onClear }: FiltersPanelProps) {
 function EmptyState({ onClear }: { onClear: () => void }) {
   return (
     <Card className="p-12 text-center border-dashed">
-      <div className="size-16 rounded-full bg-[#32504d]/10 mx-auto flex items-center justify-center">
-        <Briefcase className="size-8 text-[#32504d]" />
+      <div className="size-16 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 mx-auto flex items-center justify-center">
+        <Briefcase className="size-8 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <h3 className="font-display text-lg font-semibold mt-4 text-foreground">
         No open jobs match your filters
@@ -447,7 +447,7 @@ export function JobsView() {
           variant="ghost"
           size="sm"
           onClick={() => setView("home")}
-          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] -ml-2"
+          className="mb-4 text-muted-foreground hover:text-[#2b3d3d] dark:text-[#94a8a4] -ml-2"
         >
           <ArrowLeft className="size-4" />
           Back to home
@@ -465,7 +465,7 @@ export function JobsView() {
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Briefcase className="size-4 text-[#32504d]" />
+            <Briefcase className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             <span>
               <span className="font-semibold text-foreground">
                 {sorted.length}

@@ -242,7 +242,7 @@ export function TunisianCities() {
 
               {/* decorative blur blobs */}
               <div
-                className="absolute -top-20 -left-20 size-72 rounded-full bg-[#32504d]/20 blur-3xl pointer-events-none"
+                className="absolute -top-20 -left-20 size-72 rounded-full bg-[#32504d]/20 dark:bg-[#32504d]/30 blur-3xl pointer-events-none"
                 aria-hidden
               />
               <div
@@ -306,7 +306,7 @@ export function TunisianCities() {
                   duration: 0.4,
                 }}
                 onClick={() => goToBrowse(c)}
-                className="flex flex-col items-start gap-1 p-3 rounded-lg border border-border/60 bg-card text-left hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+                className="flex flex-col items-start gap-1 p-3 rounded-lg border border-border/60 bg-card text-left hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
               >
                 <span className="text-[10px] text-muted-foreground tabular-nums">
                   #{c.rank}
@@ -364,12 +364,12 @@ export function TunisianCities() {
                         <button
                           type="button"
                           onClick={() => goToBrowse(c)}
-                          className="w-full text-left px-5 py-4 hover:bg-[#32504d]/5 transition-colors focus-visible:outline-none focus-visible:bg-[#32504d]/5"
+                          className="w-full text-left px-5 py-4 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors focus-visible:outline-none focus-visible:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                           aria-label={`Browse ${formatNumber(c.count)} freelancers in ${c.name}`}
                         >
                           <div className="flex items-start gap-3">
                             {/* rank pill */}
-                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#32504d]/10 text-[11px] font-bold text-[#32504d] tabular-nums">
+                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[11px] font-bold text-[#32504d] dark:text-[#9bb3ae] tabular-nums">
                               {c.rank}
                             </span>
 
@@ -383,7 +383,7 @@ export function TunisianCities() {
                                     {formatNumber(c.count)} · {pct.toFixed(1)}%
                                   </span>
                                   {/* "Browse {city}" — appears on hover/focus */}
-                                  <span className="hidden sm:inline-flex items-center gap-0.5 text-xs font-medium text-[#32504d] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 transition-all duration-200">
+                                  <span className="hidden sm:inline-flex items-center gap-0.5 text-xs font-medium text-[#32504d] dark:text-[#9bb3ae] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 transition-all duration-200">
                                     Browse
                                     <ArrowUpRight className="size-3" />
                                   </span>
@@ -467,7 +467,7 @@ export function TunisianCities() {
                 key={stat.label}
                 className="p-4 sm:p-5 border-border/60 bg-card text-center"
               >
-                <div className="font-display text-2xl sm:text-3xl font-bold text-[#32504d] tabular-nums">
+                <div className="font-display text-2xl sm:text-3xl font-bold text-[#32504d] dark:text-[#9bb3ae] tabular-nums">
                   {stat.value}
                 </div>
                 <div className="mt-1 text-xs sm:text-sm text-foreground font-medium">
@@ -484,7 +484,7 @@ export function TunisianCities() {
         {/* Inline MapPin badge — gives the section a Khidma-branded footer cue */}
         <Reveal delay={0.2}>
           <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-            <MapPin className="size-3.5 text-[#32504d]" />
+            <MapPin className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
             <span>
               Khidma is built in Tunisia 🇹🇳 — for Tunisian freelancers and the
               clients who hire them.

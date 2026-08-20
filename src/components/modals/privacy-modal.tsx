@@ -201,7 +201,7 @@ export function PrivacyModal() {
                             "size-8 rounded-lg grid place-items-center shrink-0",
                             cat.id === "essential"
                               ? "bg-[#32504d] text-white"
-                              : "bg-[#32504d]/10 text-[#32504d]"
+                              : "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]"
                           )}
                         >
                           <Icon className="size-4" />
@@ -212,7 +212,7 @@ export function PrivacyModal() {
                               {cat.title}
                             </p>
                             {cat.locked && (
-                              <Badge className="bg-[#32504d]/10 text-[#32504d] border-0 text-[10px] uppercase tracking-wider">
+                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-0 text-[10px] uppercase tracking-wider">
                                 Always on
                               </Badge>
                             )}
@@ -251,9 +251,9 @@ export function PrivacyModal() {
                   <button
                     type="button"
                     onClick={handleDownloadData}
-                    className="flex items-start gap-2.5 rounded-xl border border-border/70 bg-card p-3.5 text-left hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+                    className="flex items-start gap-2.5 rounded-xl border border-border/70 bg-card p-3.5 text-left hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
                   >
-                    <Download className="size-5 text-[#32504d] shrink-0 mt-0.5" />
+                    <Download className="size-5 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                     <div>
                       <p className="text-sm font-semibold">Download my data</p>
                       <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
@@ -310,7 +310,7 @@ export function PrivacyModal() {
                   id="policy-heading"
                   className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 inline-flex items-center gap-1.5"
                 >
-                  <FileText className="size-3.5 text-[#32504d]" />
+                  <FileText className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                   Privacy policy summary
                 </h3>
                 <div className="space-y-2.5 text-[12px] text-muted-foreground leading-relaxed">
@@ -331,7 +331,7 @@ export function PrivacyModal() {
                     of these rights, use the controls above or email{" "}
                     <a
                       href="mailto:privacy@khidma.tn"
-                      className="text-[#32504d] underline underline-offset-2 hover:text-[#192d2f]"
+                      className="text-[#32504d] dark:text-[#9bb3ae] underline underline-offset-2 hover:text-[#192d2f]"
                     >
                       privacy@khidma.tn
                     </a>

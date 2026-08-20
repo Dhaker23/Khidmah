@@ -172,7 +172,7 @@ function CategoryBadge({ category }: { category: Exclude<Category, "All"> }) {
   return (
     <Badge
       variant="outline"
-      className="bg-[#32504d]/8 border-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] backdrop-blur-sm"
+      className="bg-[#32504d]/8 border-[#32504d]/25 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] backdrop-blur-sm"
     >
       {category}
     </Badge>
@@ -250,7 +250,7 @@ function FeaturedCard({ article }: { article: Article }) {
         </div>
 
         <div className="p-6 sm:p-7 space-y-4">
-          <h3 className="font-display text-2xl sm:text-[28px] font-bold leading-tight tracking-tight text-foreground group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
+          <h3 className="font-display text-2xl sm:text-[28px] font-bold leading-tight tracking-tight text-foreground group-hover:text-[#32504d] dark:text-[#9bb3ae] dark:group-hover:text-[#9bb3ae] transition-colors">
             <button
               type="button"
               onClick={() => toast.info("Article reader coming soon", { description: article.title })}
@@ -267,7 +267,7 @@ function FeaturedCard({ article }: { article: Article }) {
             <Button
               variant="ghost"
               size="sm"
-              className="text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 -mr-2"
+              className="text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 -mr-2"
               onClick={() => toast.info("Article reader coming soon", { description: article.title })}
             >
               Read article
@@ -314,7 +314,7 @@ function SmallCard({ article, index }: { article: Article; index: number }) {
           </div>
         </div>
         <div className="p-4 flex flex-col flex-1 gap-2.5">
-          <h4 className="font-display text-sm font-semibold leading-snug text-foreground group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors line-clamp-2">
+          <h4 className="font-display text-sm font-semibold leading-snug text-foreground group-hover:text-[#32504d] dark:text-[#9bb3ae] dark:group-hover:text-[#9bb3ae] transition-colors line-clamp-2">
             {article.title}
           </h4>
           <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
@@ -471,7 +471,7 @@ export function BlogSection() {
 
         {/* Newsletter */}
         <Reveal>
-          <div className="relative overflow-hidden rounded-2xl border border-[#32504d]/20 bg-gradient-to-br from-[#32504d]/10 via-[#6e8580]/8 to-[#748684]/10 dark:from-[#32504d]/20 dark:via-[#6e8580]/12 dark:to-[#748684]/15 p-6 sm:p-8">
+          <div className="relative overflow-hidden rounded-2xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/10 via-[#6e8580]/8 to-[#748684]/10 dark:from-[#32504d]/20 dark:via-[#6e8580]/12 dark:to-[#748684]/15 p-6 sm:p-8">
             <div
               className="absolute inset-0 opacity-[0.05] pointer-events-none"
               style={{

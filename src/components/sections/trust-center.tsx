@@ -239,7 +239,7 @@ function PillarCard({
       className="h-full"
     >
       <Card className="group h-full p-5 sm:p-6 border-border/60 hover:border-[#32504d]/40 hover:shadow-lg hover:shadow-[#32504d]/8 transition-all duration-300">
-        <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5">
+        <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5">
           <Icon className="size-5" />
         </div>
         <h3 className="font-display text-base font-semibold text-foreground mb-1.5">
@@ -335,7 +335,7 @@ function SecurityBadgeTile({
       whileHover={prefersReduced ? undefined : { y: -3 }}
       className="group flex items-center gap-3 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 hover:border-[#32504d]/40 transition-colors"
     >
-      <div className="size-9 rounded-lg bg-[#32504d]/10 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110">
+      <div className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110">
         <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <div className="min-w-0">
@@ -370,7 +370,7 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
       className="group"
     >
       <Card className="h-full p-5 sm:p-6 border-border/60 hover:border-[#32504d]/40 transition-colors text-center">
-        <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto transition-transform duration-200 group-hover:-translate-y-0.5">
+        <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto transition-transform duration-200 group-hover:-translate-y-0.5">
           <Icon className="size-5" />
         </div>
         <div className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
@@ -394,7 +394,7 @@ function DisputeCard() {
 
   return (
     <Reveal>
-      <Card className="overflow-hidden border-[#32504d]/20 p-0">
+      <Card className="overflow-hidden border-[#32504d]/20 dark:border-[#32504d]/30 p-0">
         <div className="grid grid-cols-1 lg:grid-cols-12">
           {/* Left: heading + CTA */}
           <div className="lg:col-span-4 p-6 sm:p-8 bg-gradient-to-br from-[#192d2f] to-[#2b3d3d] text-white relative overflow-hidden">
@@ -549,7 +549,7 @@ export function TrustCenter() {
 
         {/* CTA */}
         <Reveal>
-          <div className="mt-12 sm:mt-16 rounded-2xl border border-[#32504d]/20 bg-gradient-to-br from-[#32504d]/10 via-[#6e8580]/8 to-[#748684]/10 dark:from-[#32504d]/20 dark:via-[#6e8580]/12 dark:to-[#748684]/15 p-6 sm:p-8 lg:p-10 text-center">
+          <div className="mt-12 sm:mt-16 rounded-2xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/10 via-[#6e8580]/8 to-[#748684]/10 dark:from-[#32504d]/20 dark:via-[#6e8580]/12 dark:to-[#748684]/15 p-6 sm:p-8 lg:p-10 text-center">
             <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d] text-white mx-auto mb-4">
               <ShieldCheck className="size-6" />
             </div>
@@ -573,7 +573,7 @@ export function TrustCenter() {
                 type="button"
                 variant="outline"
                 onClick={() => setView("freelancers")}
-                className="h-11 px-6 border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 group"
+                className="h-11 px-6 border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 group"
               >
                 <Users className="mr-2 size-4" />
                 Hire trusted talent

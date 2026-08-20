@@ -277,7 +277,7 @@ export function ReviewModal() {
                       <>
                         <span className="font-bold">{overall}/5</span>
                         <span className="text-muted-foreground mx-1">·</span>
-                        <span className="text-[#32504d]">
+                        <span className="text-[#32504d] dark:text-[#9bb3ae]">
                           {RATING_LABELS[overall]}
                         </span>
                       </>
@@ -294,7 +294,7 @@ export function ReviewModal() {
             {/* Metric ratings — 4 rows */}
             <div className="space-y-2">
               <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-                Rate specific aspects <span className="text-[#32504d]">*</span>
+                Rate specific aspects <span className="text-[#32504d] dark:text-[#9bb3ae]">*</span>
               </span>
               <ul className="space-y-1.5">
                 {METRICS.map((m) => {
@@ -308,7 +308,7 @@ export function ReviewModal() {
                       className={cn(
                         "flex items-center justify-between gap-3 rounded-lg border px-3 py-2 transition-colors",
                         rated
-                          ? "border-[#32504d]/30 bg-[#32504d]/5"
+                          ? "border-[#32504d]/30 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15"
                           : "border-border/60 hover:bg-muted/30"
                       )}
                     >
@@ -317,7 +317,7 @@ export function ReviewModal() {
                           className={cn(
                             "flex size-7 items-center justify-center rounded-md shrink-0 transition-colors",
                             rated
-                              ? "bg-[#32504d]/15 text-[#32504d]"
+                              ? "bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae]"
                               : "bg-muted text-muted-foreground"
                           )}
                         >
@@ -353,7 +353,7 @@ export function ReviewModal() {
                   htmlFor="public-review"
                   className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground"
                 >
-                  Public review <span className="text-[#32504d]">*</span>
+                  Public review <span className="text-[#32504d] dark:text-[#9bb3ae]">*</span>
                 </Label>
                 <span
                   className={cn(
@@ -362,7 +362,7 @@ export function ReviewModal() {
                       ? "text-muted-foreground"
                       : publicReview.length > MAX_PUBLIC_CHARS * 0.9
                         ? "text-amber-600"
-                        : "text-[#32504d]"
+                        : "text-[#32504d] dark:text-[#9bb3ae]"
                   )}
                 >
                   {publicReview.length}/{MAX_PUBLIC_CHARS}
@@ -450,7 +450,7 @@ export function ReviewModal() {
                 className={cn(
                   "text-[10px] gap-1",
                   canSubmit
-                    ? "border-[#32504d]/30 text-[#32504d] bg-[#32504d]/5"
+                    ? "border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] bg-[#32504d]/5 dark:bg-[#32504d]/15"
                     : "text-muted-foreground"
                 )}
               >

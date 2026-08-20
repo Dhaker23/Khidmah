@@ -251,7 +251,7 @@ export function AuthModal() {
                       <button
                         type="button"
                         onClick={() => toast.info("Password recovery coming soon.")}
-                        className="text-xs text-[#32504d] hover:underline"
+                        className="text-xs text-[#32504d] hover:underline dark:text-[#9bb3ae]"
                       >
                         Forgot password?
                       </button>
@@ -294,7 +294,7 @@ export function AuthModal() {
                   <button
                     type="button"
                     onClick={() => setTab("register")}
-                    className="text-[#32504d] font-semibold hover:underline"
+                    className="text-[#32504d] font-semibold hover:underline dark:text-[#9bb3ae]"
                   >
                     Sign up
                   </button>
@@ -456,11 +456,11 @@ export function AuthModal() {
                     />
                     <span className="text-muted-foreground leading-snug">
                       I agree to Khidma&apos;s{" "}
-                      <span className="text-[#32504d] hover:underline cursor-pointer">
+                      <span className="text-[#32504d] hover:underline cursor-pointer dark:text-[#9bb3ae]">
                         Terms of Service
                       </span>{" "}
                       and{" "}
-                      <span className="text-[#32504d] hover:underline cursor-pointer">
+                      <span className="text-[#32504d] hover:underline cursor-pointer dark:text-[#9bb3ae]">
                         Privacy Policy
                       </span>
                       .
@@ -482,7 +482,7 @@ export function AuthModal() {
                   <button
                     type="button"
                     onClick={() => setTab("login")}
-                    className="text-[#32504d] font-semibold hover:underline"
+                    className="text-[#32504d] font-semibold hover:underline dark:text-[#9bb3ae]"
                   >
                     Log in
                   </button>
@@ -494,7 +494,7 @@ export function AuthModal() {
       </Tabs>
 
       <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-        <Sparkles className="size-3 text-[#32504d]" />
+        <Sparkles className="size-3 text-[#32504d] dark:text-[#9bb3ae]" />
         Demo mode — any email & password will work
       </div>
     </div>

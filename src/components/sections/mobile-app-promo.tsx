@@ -473,7 +473,7 @@ function FeatureItem({ feature, index }: { feature: Feature; index: number }) {
       }}
       className="flex items-start gap-2.5"
     >
-      <span className="mt-0.5 flex size-5 items-center justify-center rounded-full bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae]">
+      <span className="mt-0.5 flex size-5 items-center justify-center rounded-full bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae]">
         <Check className="size-3.5" />
       </span>
       <span className="flex items-center gap-1.5 text-sm text-foreground/85">

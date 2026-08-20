@@ -538,7 +538,7 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
 
   return (
     <div className="relative group">
-      <pre className="overflow-x-auto rounded-lg bg-[#0e1a1b] text-[#d4e5e0] p-4 text-xs leading-relaxed font-mono border border-[#32504d]/30">
+      <pre className="overflow-x-auto rounded-lg bg-[#0e1a1b] text-[#d4e5e0] p-4 text-xs leading-relaxed font-mono border border-[#32504d]/30 dark:border-[#32504d]/30">
         <code>{code}</code>
       </pre>
       <button
@@ -620,7 +620,7 @@ function SidebarList({
             className={cn(
               "w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors text-left",
               isActive
-                ? "bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] font-medium"
+                ? "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] font-medium"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
             )}
           >
@@ -674,7 +674,7 @@ function RightContent({ category }: { category: Category }) {
       {/* Getting started special card */}
       {category.id === "getting-started" && (
         <div className="space-y-4">
-          <div className="rounded-xl border border-[#32504d]/25 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5">
+          <div className="rounded-xl border border-[#32504d]/25 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">

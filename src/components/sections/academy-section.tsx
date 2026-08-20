@@ -77,7 +77,7 @@ const LEVEL_STYLES: Record<Level, string> = {
   Beginner: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
   Intermediate: "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
   Advanced: "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-300",
-  "All Levels": "border-[#32504d]/30 bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae]",
+  "All Levels": "border-[#32504d]/30 dark:border-[#32504d]/30 bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]",
 };
 
 const FEATURED_COURSE: Course = {
@@ -270,7 +270,7 @@ function CategoryBadge({ category }: { category: string }) {
   return (
     <Badge
       variant="outline"
-      className="bg-[#32504d]/8 border-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] backdrop-blur-sm"
+      className="bg-[#32504d]/8 border-[#32504d]/25 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] backdrop-blur-sm"
     >
       {category}
     </Badge>
@@ -494,7 +494,7 @@ function CourseCard({ course, index }: { course: Course; index: number }) {
 
           {/* Body */}
           <div className="flex flex-col gap-3 p-4 flex-1">
-            <h3 className="font-display text-base font-semibold leading-snug text-foreground group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors line-clamp-2">
+            <h3 className="font-display text-base font-semibold leading-snug text-foreground group-hover:text-[#32504d] dark:text-[#9bb3ae] dark:group-hover:text-[#9bb3ae] transition-colors line-clamp-2">
               {course.title}
             </h3>
 
@@ -520,7 +520,7 @@ function CourseCard({ course, index }: { course: Course; index: number }) {
                     description: `You've joined "${course.title}".`,
                   })
                 }
-                className="w-full border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 hover:text-[#32504d] dark:hover:text-[#9bb3ae]"
+                className="w-full border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:text-[#32504d] dark:text-[#9bb3ae] dark:hover:text-[#9bb3ae]"
               >
                 <Play className="size-3.5" />
                 Enroll free
@@ -544,7 +544,7 @@ function PathCard({ path, index }: { path: LearningPath; index: number }) {
       <LiftCard className="h-full">
         <Card className="group h-full p-5 border-border/60 hover:border-[#32504d]/50 hover:shadow-lg hover:shadow-[#32504d]/10 transition-all duration-300 flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae]">
+            <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
               <Icon className="size-5" />
             </span>
             <Badge
@@ -580,7 +580,7 @@ function PathCard({ path, index }: { path: LearningPath; index: number }) {
                 description: `${path.courseCount} courses · ${path.hours}h of content`,
               })
             }
-            className="mt-auto inline-flex items-center justify-center gap-1.5 self-start rounded-md bg-[#32504d]/10 hover:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] text-sm font-semibold h-9 px-3 transition-colors"
+            className="mt-auto inline-flex items-center justify-center gap-1.5 self-start rounded-md bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] text-sm font-semibold h-9 px-3 transition-colors"
           >
             View path
             <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />

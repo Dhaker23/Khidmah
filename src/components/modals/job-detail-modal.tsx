@@ -107,7 +107,7 @@ export function JobDetailModal() {
           {/* Header */}
           <div className="relative px-5 sm:px-7 pt-6 pb-4 border-b border-border/60 bg-gradient-to-br from-[#32504d]/5 to-transparent">
             <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-              <Badge variant="outline" className="text-[10px] gap-1 bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20">
+              <Badge variant="outline" className="text-[10px] gap-1 bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30">
                 <Layers className="size-2.5" />
                 {job.category}
               </Badge>
@@ -139,7 +139,7 @@ export function JobDetailModal() {
                       size="icon"
                       variant="ghost"
                       aria-label={`Share ${job.title}`}
-                      className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+                      className="size-8 text-muted-foreground hover:text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20"
                       onClick={() =>
                         openShare({
                           entityType: "job",
@@ -181,7 +181,7 @@ export function JobDetailModal() {
                 Posted by{" "}
                 <span className="text-foreground font-semibold">{job.postedBy}</span>
                 {job.verifiedClient && (
-                  <ShieldCheck className="size-3.5 inline ml-1 text-[#32504d]" />
+                  <ShieldCheck className="size-3.5 inline ml-1 text-[#32504d] dark:text-[#9bb3ae]" />
                 )}
               </span>
               <span>· {job.postedAt}</span>
@@ -190,8 +190,8 @@ export function JobDetailModal() {
 
             {/* Budget box */}
             <div className="mt-3 rounded-xl border border-border/70 bg-card/60 p-3 flex items-center gap-3">
-              <span className="size-10 rounded-lg bg-[#32504d]/10 flex items-center justify-center">
-                <Wallet className="size-5 text-[#32504d]" />
+              <span className="size-10 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+                <Wallet className="size-5 text-[#32504d] dark:text-[#9bb3ae]" />
               </span>
               <div>
                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
@@ -235,7 +235,7 @@ export function JobDetailModal() {
                     <Badge
                       key={s}
                       variant="outline"
-                      className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+                      className="bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30 text-[11px]"
                     >
                       {s}
                     </Badge>
@@ -258,7 +258,7 @@ export function JobDetailModal() {
                       key={i}
                       className="flex items-start gap-2 text-sm text-muted-foreground"
                     >
-                      <CheckCircle2 className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                       <span>{r}</span>
                     </li>
                   ))}
@@ -276,7 +276,7 @@ export function JobDetailModal() {
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-semibold">{job.postedBy}</span>
                       {job.verifiedClient && (
-                        <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5 text-[10px]">
+                        <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5 text-[10px]">
                           <ShieldCheck className="size-2.5" />
                           Verified
                         </Badge>

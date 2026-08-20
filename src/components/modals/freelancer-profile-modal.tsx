@@ -112,11 +112,11 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
     SELF_DECLARED: { label: "Self-declared", color: "bg-amber-500/10 text-amber-700" },
     ADMIN_VERIFIED: {
       label: "Admin verified",
-      color: "bg-[#32504d]/10 text-[#32504d]",
+      color: "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]",
     },
     EXTERNALLY_VERIFIED: {
       label: "Externally verified",
-      color: "bg-[#32504d]/10 text-[#32504d]",
+      color: "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]",
     },
   } as const;
   const v = verifMap[item.verification];
@@ -141,7 +141,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           />
         )}
         <div className="absolute top-2 left-2">
-          <Badge className="bg-white/90 text-[#2b3d3d] hover:bg-white/90 text-[10px] gap-1">
+          <Badge className="bg-white/90 text-[#2b3d3d] dark:text-[#94a8a4] hover:bg-white/90 text-[10px] gap-1">
             <Icon className="size-2.5" />
             {meta.label}
           </Badge>
@@ -186,7 +186,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
             <Badge
               key={s}
               variant="outline"
-              className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+              className="text-[10px] bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30"
             >
               {s}
             </Badge>
@@ -203,8 +203,8 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
             >
               <div className="mt-3 pt-3 border-t border-border/60 space-y-2">
                 {item.results && (
-                  <div className="rounded-md bg-[#32504d]/5 border border-[#32504d]/20 p-2.5">
-                    <p className="text-[10px] uppercase font-semibold text-[#32504d] tracking-wider">
+                  <div className="rounded-md bg-[#32504d]/5 dark:bg-[#32504d]/15 border border-[#32504d]/20 dark:border-[#32504d]/30 p-2.5">
+                    <p className="text-[10px] uppercase font-semibold text-[#32504d] dark:text-[#9bb3ae] tracking-wider">
                       Results achieved
                     </p>
                     <p className="text-xs text-foreground mt-0.5">{item.results}</p>
@@ -219,7 +219,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
                       href={item.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-[#32504d] hover:underline"
+                      className="inline-flex items-center gap-1 text-xs text-[#32504d] dark:text-[#9bb3ae] hover:underline"
                     >
                       <ExternalLink className="size-3" /> Live
                     </a>
@@ -229,7 +229,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
                       href={item.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-[#32504d] hover:underline"
+                      className="inline-flex items-center gap-1 text-xs text-[#32504d] dark:text-[#9bb3ae] hover:underline"
                     >
                       <Github className="size-3" /> Repo
                     </a>
@@ -364,7 +364,7 @@ export function FreelancerProfileModal() {
                   </Badge>
                 )}
               </div>
-              <p className="text-sm text-[#32504d] font-medium">{f.title}</p>
+              <p className="text-sm text-[#32504d] dark:text-[#9bb3ae] font-medium">{f.title}</p>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
                   <MapPin className="size-3" />
@@ -413,7 +413,7 @@ export function FreelancerProfileModal() {
                     size="icon"
                     variant="ghost"
                     aria-label={`Share ${f.name}'s profile`}
-                    className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+                    className="size-8 text-muted-foreground hover:text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20"
                     onClick={() =>
                       openShare({
                         entityType: "freelancer",
@@ -495,7 +495,7 @@ export function FreelancerProfileModal() {
                   <TabsTrigger
                     key={t.v}
                     value={t.v}
-                    className="rounded-md data-[state=active]:bg-[#32504d]/10 data-[state=active]:text-[#32504d] data-[state=active]:shadow-none text-xs px-3 h-8"
+                    className="rounded-md data-[state=active]:bg-[#32504d]/10 dark:bg-[#32504d]/20 data-[state=active]:text-[#32504d] dark:text-[#9bb3ae] data-[state=active]:shadow-none text-xs px-3 h-8"
                   >
                     {t.l}
                   </TabsTrigger>
@@ -520,7 +520,7 @@ export function FreelancerProfileModal() {
                               <Badge
                                 key={s}
                                 variant="outline"
-                                className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+                                className="bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30 text-[11px]"
                               >
                                 {s}
                               </Badge>
@@ -547,7 +547,7 @@ export function FreelancerProfileModal() {
                         </div>
                         <div>
                           <h3 className="text-sm font-semibold mb-2 inline-flex items-center gap-1.5">
-                            <GraduationCap className="size-4 text-[#32504d]" />
+                            <GraduationCap className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                             Education
                           </h3>
                           <ul className="space-y-2">
@@ -571,7 +571,7 @@ export function FreelancerProfileModal() {
                                 key={c.id}
                                 className="flex items-center gap-2 text-xs"
                               >
-                                <CheckCircle2 className="size-3.5 text-[#32504d]" />
+                                <CheckCircle2 className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                                 <span className="text-foreground">{c.name}</span>
                                 <span className="text-muted-foreground">· {c.year}</span>
                               </li>
@@ -583,7 +583,7 @@ export function FreelancerProfileModal() {
                       <div className="space-y-4">
                         <div className="rounded-xl border border-border/70 p-4">
                           <h3 className="text-sm font-semibold mb-3 inline-flex items-center gap-1.5">
-                            <Award className="size-4 text-[#32504d]" />
+                            <Award className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                             Why clients trust {f.name.split(" ")[0]}
                           </h3>
                           <VerificationChecklist
@@ -597,7 +597,7 @@ export function FreelancerProfileModal() {
                               <Badge
                                 key={b}
                                 variant="outline"
-                                className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+                                className="text-[10px] bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30"
                               >
                                 {b}
                               </Badge>
@@ -677,7 +677,7 @@ export function FreelancerProfileModal() {
                       >
                         <button
                           onClick={() => openService(s.id)}
-                          className="w-full text-left rounded-xl border border-border/70 p-4 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors group"
+                          className="w-full text-left rounded-xl border border-border/70 p-4 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors group"
                         >
                           <div className="flex items-start gap-3">
                             <div className="relative size-16 rounded-lg overflow-hidden bg-muted shrink-0">
@@ -690,7 +690,7 @@ export function FreelancerProfileModal() {
                               />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <h4 className="text-sm font-semibold leading-snug group-hover:text-[#32504d] transition-colors">
+                              <h4 className="text-sm font-semibold leading-snug group-hover:text-[#32504d] dark:text-[#9bb3ae] transition-colors">
                                 {s.title}
                               </h4>
                               <div className="flex items-center gap-2 mt-1 text-[11px] text-muted-foreground">
@@ -708,7 +708,7 @@ export function FreelancerProfileModal() {
                                   <Badge
                                     key={sk}
                                     variant="outline"
-                                    className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+                                    className="text-[10px] bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30"
                                   >
                                     {sk}
                                   </Badge>
@@ -722,7 +722,7 @@ export function FreelancerProfileModal() {
                               <div className="font-bold text-foreground">
                                 {formatTND(s.startingPrice)}
                               </div>
-                              <ChevronRight className="size-4 text-muted-foreground ml-auto mt-1 group-hover:text-[#32504d]" />
+                              <ChevronRight className="size-4 text-muted-foreground ml-auto mt-1 group-hover:text-[#32504d] dark:text-[#9bb3ae]" />
                             </div>
                           </div>
                         </button>
@@ -825,7 +825,7 @@ export function FreelancerProfileModal() {
                   <div className="p-4 sm:p-5 space-y-4">
                     <div>
                       <h3 className="text-sm font-semibold inline-flex items-center gap-1.5">
-                        <Award className="size-4 text-[#32504d]" />
+                        <Award className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                         Achievements
                       </h3>
                       <p className="text-xs text-muted-foreground mt-0.5">

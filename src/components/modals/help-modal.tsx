@@ -309,7 +309,7 @@ export function HelpModal() {
               "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors",
               isActive
                 ? "bg-[#32504d] text-white shadow-sm"
-                : "text-muted-foreground hover:bg-[#32504d]/10 hover:text-[#192d2f]"
+                : "text-muted-foreground hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:text-[#192d2f]"
             )}
           >
             <Icon className="size-4 shrink-0" />
@@ -402,7 +402,7 @@ export function HelpModal() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="w-full justify-between border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5"
+                    className="w-full justify-between border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                   >
                     <span className="inline-flex items-center gap-2">
                       {(() => {
@@ -451,9 +451,9 @@ export function HelpModal() {
                           return (
                             <div
                               key={card.title}
-                              className="group rounded-xl border border-border/70 bg-card p-3.5 transition-colors hover:border-[#32504d]/40 hover:bg-[#32504d]/5"
+                              className="group rounded-xl border border-border/70 bg-card p-3.5 transition-colors hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                             >
-                              <div className="size-8 rounded-lg bg-[#32504d]/10 text-[#32504d] grid place-items-center mb-2">
+                              <div className="size-8 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] grid place-items-center mb-2">
                                 <Icon className="size-4" />
                               </div>
                               <p className="text-sm font-semibold leading-tight">
@@ -466,7 +466,7 @@ export function HelpModal() {
                                 type="button"
                                 size="sm"
                                 variant="ghost"
-                                className="mt-2 h-7 px-2 text-[11px] text-[#32504d] hover:bg-[#32504d]/10 hover:text-[#192d2f]"
+                                className="mt-2 h-7 px-2 text-[11px] text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:text-[#192d2f]"
                                 onClick={card.onClick}
                               >
                                 {card.cta}
@@ -513,7 +513,7 @@ export function HelpModal() {
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="mt-3 border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5"
+                          className="mt-3 border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                           onClick={() => setQuery("")}
                         >
                           Browse all topics
@@ -569,7 +569,7 @@ export function HelpModal() {
                             type="button"
                             size="sm"
                             variant="outline"
-                            className="border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#192d2f]"
+                            className="border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#192d2f]"
                             onClick={() => {
                               closeHelp();
                               openMessaging();

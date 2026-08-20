@@ -132,11 +132,11 @@ export function ServiceDetailModal() {
                     priority
                   />
                   <div className="absolute top-2 left-2 flex gap-1.5">
-                    <Badge className="bg-white/90 text-[#2b3d3d] hover:bg-white/90 text-[10px] gap-1">
+                    <Badge className="bg-white/90 text-[#2b3d3d] dark:text-[#94a8a4] hover:bg-white/90 text-[10px] gap-1">
                       <Zap className="size-2.5" />
                       {service.deliveryDays}d delivery
                     </Badge>
-                    <Badge className="bg-white/90 text-[#2b3d3d] hover:bg-white/90 text-[10px] gap-1">
+                    <Badge className="bg-white/90 text-[#2b3d3d] dark:text-[#94a8a4] hover:bg-white/90 text-[10px] gap-1">
                       <Clock className="size-2.5" />
                       {service.revisions} revisions
                     </Badge>
@@ -148,7 +148,7 @@ export function ServiceDetailModal() {
                   {freelancer && (
                     <button
                       onClick={() => openFreelancer(freelancer.id)}
-                      className="w-full text-left flex items-center gap-3 rounded-xl border border-border/70 p-2.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+                      className="w-full text-left flex items-center gap-3 rounded-xl border border-border/70 p-2.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
                     >
                       <Avatar className="size-10">
                         <AvatarImage src={freelancer.avatar} alt={freelancer.name} />
@@ -193,7 +193,7 @@ export function ServiceDetailModal() {
                               size="icon"
                               variant="ghost"
                               aria-label={`Share ${service.title}`}
-                              className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+                              className="size-8 text-muted-foreground hover:text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20"
                               onClick={() =>
                                 openShare({
                                   entityType: "service",
@@ -260,7 +260,7 @@ export function ServiceDetailModal() {
                         <Badge
                           key={s}
                           variant="outline"
-                          className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+                          className="bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30 text-[11px]"
                         >
                           {s}
                         </Badge>
@@ -332,7 +332,7 @@ export function ServiceDetailModal() {
                                   key={feat}
                                   className="flex items-start gap-2 text-xs"
                                 >
-                                  <CheckCircle2 className="size-3.5 text-[#32504d] shrink-0 mt-0.5" />
+                                  <CheckCircle2 className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                                   <span className="text-muted-foreground">{feat}</span>
                                 </li>
                               ))}
@@ -354,7 +354,7 @@ export function ServiceDetailModal() {
                     </div>
                     <div className="flex items-baseline justify-between">
                       <h3 className="text-lg font-bold">{currentPkg.name}</h3>
-                      <span className="text-2xl font-bold text-[#32504d]">
+                      <span className="text-2xl font-bold text-[#32504d] dark:text-[#9bb3ae]">
                         {formatTND(currentPkg.price)}
                       </span>
                     </div>
@@ -366,7 +366,7 @@ export function ServiceDetailModal() {
                         Delivery
                       </div>
                       <div className="text-sm font-semibold flex items-center gap-1">
-                        <Clock className="size-3.5 text-[#32504d]" />
+                        <Clock className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                         {currentPkg.deliveryDays} days
                       </div>
                     </div>
@@ -375,7 +375,7 @@ export function ServiceDetailModal() {
                         Revisions
                       </div>
                       <div className="text-sm font-semibold flex items-center gap-1">
-                        <CheckCircle2 className="size-3.5 text-[#32504d]" />
+                        <CheckCircle2 className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                         {currentPkg.revisions}
                       </div>
                     </div>
@@ -384,7 +384,7 @@ export function ServiceDetailModal() {
                   <ul className="space-y-1.5 text-xs">
                     {currentPkg.features.slice(0, 5).map((f) => (
                       <li key={f} className="flex items-start gap-1.5">
-                        <CheckCircle2 className="size-3 text-[#32504d] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="size-3 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                         <span className="text-muted-foreground">{f}</span>
                       </li>
                     ))}
@@ -399,7 +399,7 @@ export function ServiceDetailModal() {
                   </Button>
 
                   <p className="text-[11px] text-muted-foreground text-center">
-                    <CheckCircle2 className="size-3 inline mr-1 text-[#32504d]" />
+                    <CheckCircle2 className="size-3 inline mr-1 text-[#32504d] dark:text-[#9bb3ae]" />
                     Protected by Khidma escrow — funds released only when you approve
                   </p>
 

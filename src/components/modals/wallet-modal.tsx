@@ -129,7 +129,7 @@ const statusStyles: Record<string, string> = {
   AVAILABLE: "bg-emerald-500/10 text-emerald-700 border-emerald-200",
   PENDING: "bg-amber-500/10 text-amber-700 border-amber-200",
   PROCESSING: "bg-blue-500/10 text-blue-700 border-blue-200",
-  WITHDRAWN: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20",
+  WITHDRAWN: "bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30",
   REFUNDED: "bg-rose-500/10 text-rose-700 border-rose-200",
 };
 
@@ -218,7 +218,7 @@ export function WalletModal() {
                   <TabsTrigger
                     key={t.v}
                     value={t.v}
-                    className="rounded-md data-[state=active]:bg-[#32504d]/10 data-[state=active]:text-[#32504d] data-[state=active]:shadow-none text-xs px-3 h-8"
+                    className="rounded-md data-[state=active]:bg-[#32504d]/10 dark:bg-[#32504d]/20 data-[state=active]:text-[#32504d] dark:text-[#9bb3ae] data-[state=active]:shadow-none text-xs px-3 h-8"
                   >
                     {t.l}
                   </TabsTrigger>
@@ -302,7 +302,7 @@ export function WalletModal() {
 
                     <Button
                       variant="outline"
-                      className="w-full border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+                      className="w-full border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]"
                       onClick={() => {
                         closeWallet();
                         // Defer to allow close transition to start cleanly
@@ -316,7 +316,7 @@ export function WalletModal() {
                     <div className="text-center text-xs">
                       <button
                         onClick={() => setTab("history")}
-                        className="text-[#32504d] hover:underline inline-flex items-center gap-1"
+                        className="text-[#32504d] dark:text-[#9bb3ae] hover:underline inline-flex items-center gap-1"
                       >
                         View full history <ArrowRight className="size-3" />
                       </button>
@@ -415,7 +415,7 @@ export function WalletModal() {
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.04 }}
-                          className="rounded-xl border border-border/70 p-3 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 transition-colors"
+                          className="rounded-xl border border-border/70 p-3 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
                         >
                           <div className="flex items-start gap-2.5">
                             <span className="size-9 rounded-lg bg-muted flex items-center justify-center text-lg shrink-0">
@@ -426,7 +426,7 @@ export function WalletModal() {
                               <p className="text-[10px] text-muted-foreground">
                                 {m.type} · {m.fee} fee
                               </p>
-                              <div className="flex items-center gap-1 mt-1 text-[10px] text-[#32504d]">
+                              <div className="flex items-center gap-1 mt-1 text-[10px] text-[#32504d] dark:text-[#9bb3ae]">
                                 <Clock className="size-2.5" />
                                 {m.time}
                               </div>
@@ -445,8 +445,8 @@ export function WalletModal() {
                       <Plus className="size-3.5" /> Add new method
                     </Button>
 
-                    <div className="rounded-xl border border-[#32504d]/20 bg-[#32504d]/5 p-3 flex gap-2.5">
-                      <CreditCard className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+                    <div className="rounded-xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 flex gap-2.5">
+                      <CreditCard className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                       <p className="text-[11px] text-muted-foreground leading-relaxed">
                         Khidma uses secure escrow for all transactions. Withdrawals
                         are processed within 1-3 business days depending on the
@@ -470,7 +470,7 @@ export function WalletModal() {
             <Button
               size="sm"
               variant="outline"
-              className="w-full sm:w-auto border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+              className="w-full sm:w-auto border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]"
               onClick={() => {
                 closeWallet();
                 setTimeout(() => openTopup(), 120);

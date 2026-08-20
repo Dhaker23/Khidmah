@@ -407,7 +407,7 @@ function EpisodeRow({ episode }: { episode: Episode }) {
     >
       <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border border-transparent hover:border-border/60 hover:bg-background transition-all">
         {/* Episode number (mobile compact) */}
-        <div className="hidden sm:flex size-9 shrink-0 items-center justify-center rounded-lg border border-[#32504d]/20 bg-[#32504d]/5">
+        <div className="hidden sm:flex size-9 shrink-0 items-center justify-center rounded-lg border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15">
           <span className="font-display text-xs font-bold text-[#32504d] dark:text-[#9bb3ae]">
             {episode.number}
           </span>
@@ -433,7 +433,7 @@ function EpisodeRow({ episode }: { episode: Episode }) {
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
             Episode {episode.number}
           </p>
-          <h4 className="font-display text-sm sm:text-base font-semibold leading-snug text-foreground truncate group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
+          <h4 className="font-display text-sm sm:text-base font-semibold leading-snug text-foreground truncate group-hover:text-[#32504d] dark:text-[#9bb3ae] dark:group-hover:text-[#9bb3ae] transition-colors">
             {episode.title}
           </h4>
           <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">

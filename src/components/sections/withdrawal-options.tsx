@@ -33,9 +33,9 @@ const groups: { key: GroupKey; label: string; icon: typeof MapPin; description: 
 ];
 
 const typeColors: Record<string, string> = {
-  Local: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20",
-  Bank: "bg-[#475959]/10 text-[#475959] border-[#475959]/20",
-  International: "bg-[#6e8580]/10 text-[#6e8580] border-[#6e8580]/20",
+  Local: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20 dark:bg-[#32504d]/25 dark:text-[#9bb3ae] dark:border-[#32504d]/30",
+  Bank: "bg-[#475959]/10 text-[#475959] border-[#475959]/20 dark:bg-[#475959]/25 dark:text-[#94a8a4] dark:border-[#475959]/30",
+  International: "bg-[#6e8580]/10 text-[#6e8580] border-[#6e8580]/20 dark:bg-[#6e8580]/25 dark:text-[#9bb3ae] dark:border-[#6e8580]/30",
 };
 
 export function WithdrawalOptions() {
@@ -65,16 +65,16 @@ export function WithdrawalOptions() {
                   className={cn(
                     "flex-1 flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all",
                     isActive
-                      ? "border-[#32504d] bg-[#32504d]/5 shadow-sm"
-                      : "border-border/60 bg-card hover:border-[#32504d]/40"
+                      ? "border-[#32504d] dark:border-[#32504d]/60 bg-[#32504d]/5 dark:bg-[#32504d]/15 shadow-sm"
+                      : "border-border/60 bg-card hover:border-[#32504d]/40 dark:hover:border-[#32504d]/40"
                   )}
                 >
                   <span
                     className={cn(
                       "flex size-9 items-center justify-center rounded-lg",
                       isActive
-                        ? "bg-[#32504d] text-white"
-                        : "bg-[#32504d]/10 text-[#32504d]"
+                        ? "bg-[#32504d] text-white dark:bg-[#32504d]/80"
+                        : "bg-[#32504d]/10 text-[#32504d] dark:bg-[#32504d]/25 dark:text-[#9bb3ae]"
                     )}
                   >
                     <Icon className="size-4" />
@@ -83,7 +83,7 @@ export function WithdrawalOptions() {
                     <span
                       className={cn(
                         "block text-sm font-semibold",
-                        isActive ? "text-[#32504d]" : "text-foreground"
+                        isActive ? "text-[#32504d] dark:text-[#9bb3ae]" : "text-foreground"
                       )}
                     >
                       {g.label}
@@ -110,9 +110,9 @@ export function WithdrawalOptions() {
           >
             {filtered.map((m, i) => (
               <Reveal key={m.id} delay={0.05 * i}>
-                <Card className="p-5 border-border/60 hover:border-[#32504d]/40 khidma-card">
+                <Card className="p-5 border-border/60 hover:border-[#32504d]/40 dark:hover:border-[#32504d]/40 khidma-card">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/5 text-2xl">
+                    <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/5 dark:bg-[#32504d]/15 text-2xl">
                       <span aria-hidden>{m.logo}</span>
                     </div>
                     <Badge
@@ -131,7 +131,7 @@ export function WithdrawalOptions() {
                         Fee
                       </div>
                       <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
-                        <Wallet className="size-3.5 text-[#32504d]" />
+                        <Wallet className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                         {m.fee}
                       </div>
                     </div>
@@ -140,7 +140,7 @@ export function WithdrawalOptions() {
                         Time
                       </div>
                       <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
-                        <Clock className="size-3.5 text-[#475959]" />
+                        <Clock className="size-3.5 text-[#475959] dark:text-[#94a8a4]" />
                         {m.time}
                       </div>
                     </div>

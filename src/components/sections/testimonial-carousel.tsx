@@ -200,7 +200,7 @@ function TestimonialCard({ item }: { item: ShowcaseTestimonial }) {
       {/* Big decorative quote mark */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-6 left-6 select-none font-display text-[120px] leading-[0.8] text-[#32504d]/15 sm:text-[160px]"
+        className="pointer-events-none absolute -top-6 left-6 select-none font-display text-[120px] leading-[0.8] text-[#32504d] dark:text-[#9bb3ae]/15 sm:text-[160px]"
       >
         ❝
       </div>
@@ -220,9 +220,9 @@ function TestimonialCard({ item }: { item: ShowcaseTestimonial }) {
 
       {/* Author row */}
       <div className="mt-7 flex flex-col items-center gap-3 sm:mt-8 sm:flex-row sm:justify-center sm:gap-4">
-        <Avatar className="size-14 border-2 border-[#32504d]/20 shadow-sm">
+        <Avatar className="size-14 border-2 border-[#32504d]/20 dark:border-[#32504d]/30 shadow-sm">
           <AvatarImage src={item.authorAvatar} alt={item.authorName} />
-          <AvatarFallback className="bg-[#32504d]/10 text-[#32504d] font-semibold">
+          <AvatarFallback className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] font-semibold">
             {item.authorName.charAt(0)}
           </AvatarFallback>
         </Avatar>
@@ -239,7 +239,7 @@ function TestimonialCard({ item }: { item: ShowcaseTestimonial }) {
             </span>
           </div>
           <div className="text-sm text-muted-foreground">
-            {item.authorTitle} · <span className="text-[#32504d] font-medium">{item.authorCompany}</span>
+            {item.authorTitle} · <span className="text-[#32504d] dark:text-[#9bb3ae] font-medium">{item.authorCompany}</span>
           </div>
         </div>
       </div>
@@ -401,7 +401,7 @@ export function TestimonialCarousel() {
       {/* Decorative blobs */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-32 top-10 -z-10 size-72 rounded-full bg-[#32504d]/10 blur-3xl"
+        className="pointer-events-none absolute -left-32 top-10 -z-10 size-72 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 blur-3xl"
       />
       <div
         aria-hidden
@@ -456,7 +456,7 @@ export function TestimonialCarousel() {
                   className={cn(
                     "inline-flex size-11 items-center justify-center rounded-full border border-border/60",
                     "bg-background/70 text-foreground backdrop-blur-md shadow-sm transition-all",
-                    "hover:border-[#32504d]/40 hover:bg-[#32504d]/5 hover:text-[#32504d]",
+                    "hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32504d]/40",
                     "active:scale-95"
                   )}
@@ -503,7 +503,7 @@ export function TestimonialCarousel() {
                   className={cn(
                     "inline-flex size-11 items-center justify-center rounded-full border border-border/60",
                     "bg-background/70 text-foreground backdrop-blur-md shadow-sm transition-all",
-                    "hover:border-[#32504d]/40 hover:bg-[#32504d]/5 hover:text-[#32504d]",
+                    "hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 hover:text-[#32504d] dark:text-[#9bb3ae]",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32504d]/40",
                     "active:scale-95"
                   )}

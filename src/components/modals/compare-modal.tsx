@@ -248,8 +248,8 @@ function VChip({ on, icon: Icon }: { on: boolean; icon: typeof Mail }) {
       </span>
     );
   return (
-    <span className="inline-flex items-center justify-center size-5 rounded-full bg-[#32504d]/10 border border-[#32504d]/20">
-      <CheckCircle2 className="size-3 text-[#32504d]" />
+    <span className="inline-flex items-center justify-center size-5 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 border border-[#32504d]/20 dark:border-[#32504d]/30">
+      <CheckCircle2 className="size-3 text-[#32504d] dark:text-[#9bb3ae]" />
     </span>
   );
 }
@@ -265,8 +265,8 @@ function EmptyState() {
       transition={{ duration: 0.4 }}
       className="flex-1 flex flex-col items-center justify-center py-20 text-center"
     >
-      <div className="size-20 rounded-full bg-[#32504d]/10 flex items-center justify-center mb-5">
-        <Users className="size-9 text-[#32504d]" />
+      <div className="size-20 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center mb-5">
+        <Users className="size-9 text-[#32504d] dark:text-[#9bb3ae]" />
       </div>
       <h3 className="font-display text-xl font-semibold text-foreground">
         No freelancers to compare yet
@@ -303,7 +303,7 @@ function ColumnHeader({
     <div className="flex flex-col items-center gap-2 p-3">
       <Avatar className="size-14 border-2 border-background ring-1 ring-border/60">
         <AvatarImage src={f.avatar} alt={f.name} />
-        <AvatarFallback className="bg-[#32504d]/10 text-[#32504d] font-semibold">
+        <AvatarFallback className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] font-semibold">
           {f.name.charAt(0)}
         </AvatarFallback>
       </Avatar>
@@ -313,7 +313,7 @@ function ColumnHeader({
             closeCompare();
             openFreelancer(f.id);
           }}
-          className="font-semibold text-sm leading-tight hover:text-[#32504d] transition-colors truncate block w-full"
+          className="font-semibold text-sm leading-tight hover:text-[#32504d] dark:text-[#9bb3ae] transition-colors truncate block w-full"
           title={f.name}
         >
           {f.name}
@@ -344,10 +344,10 @@ function AddAnotherColumn() {
         closeCompare();
         setView("freelancers");
       }}
-      className="h-full min-h-[180px] w-full flex flex-col items-center justify-center gap-2 p-3 border-2 border-dashed border-border/60 rounded-lg text-muted-foreground hover:border-[#32504d]/40 hover:text-[#32504d] hover:bg-[#32504d]/5 transition-colors"
+      className="h-full min-h-[180px] w-full flex flex-col items-center justify-center gap-2 p-3 border-2 border-dashed border-border/60 rounded-lg text-muted-foreground hover:border-[#32504d]/40 hover:text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 transition-colors"
       aria-label="Add another freelancer to comparison"
     >
-      <span className="size-10 rounded-full bg-[#32504d]/10 flex items-center justify-center">
+      <span className="size-10 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
         <Plus className="size-5" />
       </span>
       <span className="text-xs font-medium text-center leading-tight">
@@ -494,7 +494,7 @@ export function CompareModal() {
                             className={cn(
                               "bg-background p-3 flex items-center justify-center text-center relative transition-colors hover:bg-[#32504d]/[0.04]",
                               bestIdx === ci &&
-                                "bg-[#32504d]/10 ring-1 ring-inset ring-[#32504d]/30"
+                                "bg-[#32504d]/10 dark:bg-[#32504d]/20 ring-1 ring-inset ring-[#32504d]/30"
                             )}
                           >
                             {row.render(f)}

@@ -332,7 +332,7 @@ export function ReportModal() {
 
           <DialogFooter className="px-5 py-3 border-t border-border/60 bg-muted/20 flex-row items-center gap-2">
             <p className="text-[11px] text-muted-foreground leading-snug mr-auto hidden sm:block">
-              <ShieldAlert className="size-3 inline mr-1 -mt-0.5 text-[#32504d]" />
+              <ShieldAlert className="size-3 inline mr-1 -mt-0.5 text-[#32504d] dark:text-[#9bb3ae]" />
               Confidential — only Khidma moderation sees this.
             </p>
             <DialogClose asChild>

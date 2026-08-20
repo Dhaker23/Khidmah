@@ -40,7 +40,7 @@ export function Testimonials() {
             <Reveal key={r.id} delay={0.05 * i}>
               <Card className="group h-full p-6 border-border/60 hover:border-[#32504d]/40 khidma-card relative overflow-hidden">
                 <Quote
-                  className="absolute top-5 right-5 size-8 text-[#32504d]/8"
+                  className="absolute top-5 right-5 size-8 text-[#32504d] dark:text-[#9bb3ae]/8"
                   aria-hidden
                 />
                 <div className="flex items-center gap-1 mb-4">
@@ -65,7 +65,7 @@ export function Testimonials() {
                 <div className="mt-5 pt-5 border-t border-border/60 flex items-center gap-3">
                   <Avatar className="size-10 border border-border/60">
                     <AvatarImage src={r.fromAvatar} alt={r.fromName} />
-                    <AvatarFallback className="bg-[#32504d]/10 text-[#32504d]">
+                    <AvatarFallback className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
                       {r.fromName.charAt(0)}
                     </AvatarFallback>
                   </Avatar>

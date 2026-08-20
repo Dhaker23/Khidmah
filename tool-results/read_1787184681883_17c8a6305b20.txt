@@ -1,0 +1,252 @@
+     1→/home/z/my-project/src/lib/dashboard-mock.ts:202:    className: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/25",
+     2→/home/z/my-project/src/lib/dashboard-mock.ts:321:    className: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/25",
+     3→/home/z/my-project/src/lib/dashboard-mock.ts:359:    className: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/25",
+     4→/home/z/my-project/src/lib/dashboard-mock.ts:479:  WITHDRAWN: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/25",
+     5→/home/z/my-project/src/lib/admin-mock.ts:724:    color: "text-[#32504d]",
+     6→/home/z/my-project/src/components/sections/pricing.tsx:153:              Simple, transparent <span className="text-[#32504d]">pricing</span>
+     7→/home/z/my-project/src/components/sections/pricing.tsx:296:                              : "bg-[#32504d]/10 text-[#32504d]"
+     8→/home/z/my-project/src/components/sections/pricing.tsx:316:                <Sparkles className="size-4 text-[#32504d]" />
+     9→/home/z/my-project/src/components/sections/pricing.tsx:333:              <ShieldCheck className="size-5 text-[#32504d] shrink-0" />
+    10→/home/z/my-project/src/components/sections/withdrawal-options.tsx:36:  Local: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20",
+    11→/home/z/my-project/src/components/sections/withdrawal-options.tsx:77:                        : "bg-[#32504d]/10 text-[#32504d]"
+    12→/home/z/my-project/src/components/sections/withdrawal-options.tsx:86:                        isActive ? "text-[#32504d]" : "text-foreground"
+    13→/home/z/my-project/src/components/sections/withdrawal-options.tsx:134:                        <Wallet className="size-3.5 text-[#32504d]" />
+    14→/home/z/my-project/src/components/sections/trust-center.tsx:242:        <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5">
+    15→/home/z/my-project/src/components/sections/trust-center.tsx:293:                <Icon className="size-6 text-[#32504d] dark:text-[#9bb3ae]" />
+    16→/home/z/my-project/src/components/sections/trust-center.tsx:339:        <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+    17→/home/z/my-project/src/components/sections/trust-center.tsx:373:        <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto transition-transform duration-200 group-hover:-translate-y-0.5">
+    18→/home/z/my-project/src/components/sections/trust-center.tsx:460:                      <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+    19→/home/z/my-project/src/components/sections/trust-center.tsx:499:              <span className="text-[#32504d] dark:text-[#9bb3ae]">
+    20→/home/z/my-project/src/components/sections/trust-center.tsx:576:                className="h-11 px-6 border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 group"
+    21→/home/z/my-project/src/components/sections/mobile-app-promo.tsx:365:          <ArrowDownToLine className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
+    22→/home/z/my-project/src/components/sections/mobile-app-promo.tsx:476:      <span className="mt-0.5 flex size-5 items-center justify-center rounded-full bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae]">
+    23→/home/z/my-project/src/components/sections/mobile-app-promo.tsx:512:                <span className="text-[#32504d] dark:text-[#9bb3ae]">
+    24→/home/z/my-project/src/components/sections/tunisian-cities.tsx:372:                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#32504d]/10 text-[11px] font-bold text-[#32504d] tabular-nums">
+    25→/home/z/my-project/src/components/sections/tunisian-cities.tsx:386:                                  <span className="hidden sm:inline-flex items-center gap-0.5 text-xs font-medium text-[#32504d] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 transition-all duration-200">
+    26→/home/z/my-project/src/components/sections/tunisian-cities.tsx:470:                <div className="font-display text-2xl sm:text-3xl font-bold text-[#32504d] tabular-nums">
+    27→/home/z/my-project/src/components/sections/tunisian-cities.tsx:487:            <MapPin className="size-3.5 text-[#32504d]" />
+    28→/home/z/my-project/src/components/sections/success-stories.tsx:206:              className="absolute top-6 right-6 size-10 text-[#32504d]/10"
+    29→/home/z/my-project/src/components/sections/success-stories.tsx:210:              <Badge className="bg-[#32504d]/10 border-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/15">
+    30→/home/z/my-project/src/components/sections/success-stories.tsx:389:            <h4 className="font-display text-sm font-semibold text-foreground truncate group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
+    31→/home/z/my-project/src/components/sections/success-stories.tsx:462:      <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto sm:mx-0 transition-transform duration-200 group-hover:-translate-y-0.5">
+    32→/home/z/my-project/src/components/sections/success-stories.tsx:495:              <span className="text-[#32504d] dark:text-[#9bb3ae]">
+    33→/home/z/my-project/src/components/sections/success-stories.tsx:521:              <CheckCircle2 className="size-5 text-[#32504d] dark:text-[#9bb3ae]" />
+    34→/home/z/my-project/src/components/sections/testimonial-carousel.tsx:203:        className="pointer-events-none absolute -top-6 left-6 select-none font-display text-[120px] leading-[0.8] text-[#32504d]/15 sm:text-[160px]"
+    35→/home/z/my-project/src/components/sections/testimonial-carousel.tsx:225:          <AvatarFallback className="bg-[#32504d]/10 text-[#32504d] font-semibold">
+    36→/home/z/my-project/src/components/sections/testimonial-carousel.tsx:242:            {item.authorTitle} · <span className="text-[#32504d] font-medium">{item.authorCompany}</span>
+    37→/home/z/my-project/src/components/sections/testimonial-carousel.tsx:459:                    "hover:border-[#32504d]/40 hover:bg-[#32504d]/5 hover:text-[#32504d]",
+    38→/home/z/my-project/src/components/sections/testimonial-carousel.tsx:506:                    "hover:border-[#32504d]/40 hover:bg-[#32504d]/5 hover:text-[#32504d]",
+    39→/home/z/my-project/src/components/sections/payment-explainer.tsx:146:                  <span className="flex size-8 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d]">
+    40→/home/z/my-project/src/components/sections/payment-explainer.tsx:160:                        <Check className="size-4 text-[#32504d] shrink-0" />
+    41→/home/z/my-project/src/components/sections/awards-section.tsx:326:            <span className="text-[#32504d] dark:text-[#9bb3ae]">
+    42→/home/z/my-project/src/components/sections/awards-section.tsx:373:                  <p className="mt-0.5 text-sm font-semibold text-[#32504d] dark:text-[#9bb3ae]">
+    43→/home/z/my-project/src/components/sections/awards-section.tsx:392:              <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d]">
+    44→/home/z/my-project/src/components/sections/awards-section.tsx:485:                    <span className="font-display text-lg font-bold text-[#32504d] dark:text-[#9bb3ae] leading-none">
+    45→/home/z/my-project/src/components/sections/how-it-works.tsx:65:              <span className="inline-flex items-center gap-2 rounded-full bg-[#32504d]/10 px-3 py-1 text-xs font-semibold text-[#32504d]">
+    46→/home/z/my-project/src/components/sections/how-it-works.tsx:90:                      <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d]">
+    47→/home/z/my-project/src/components/sections/how-it-works.tsx:93:                      <span className="font-display text-5xl font-bold text-[#32504d]/10 leading-none">
+    48→/home/z/my-project/src/components/sections/how-it-works.tsx:178:            <Wallet className="size-5 text-[#32504d] shrink-0" />
+    49→/home/z/my-project/src/components/sections/testimonials.tsx:43:                  className="absolute top-5 right-5 size-8 text-[#32504d]/8"
+    50→/home/z/my-project/src/components/sections/testimonials.tsx:68:                    <AvatarFallback className="bg-[#32504d]/10 text-[#32504d]">
+    51→/home/z/my-project/src/components/sections/stats-dashboard.tsx:184:            <Icon className="size-5 text-[#32504d]" />
+    52→/home/z/my-project/src/components/sections/stats-dashboard.tsx:509:        <Icon className="size-4 text-[#32504d]" />
+    53→/home/z/my-project/src/components/sections/stats-dashboard.tsx:535:            <span className="text-[#32504d]">numbers</span>
+    54→/home/z/my-project/src/components/sections/stats-dashboard.tsx:595:          className="group inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/30 bg-[#32504d]/5 px-3 py-1.5 text-xs font-semibold text-[#32504d] transition-colors hover:bg-[#32504d]/10 hover:border-[#32504d]/50"
+    55→/home/z/my-project/src/components/sections/categories.tsx:60:                      <ArrowRight className="size-4 text-muted-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#32504d]" />
+    56→/home/z/my-project/src/components/sections/academy-section.tsx:80:  "All Levels": "border-[#32504d]/30 bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae]",
+    57→/home/z/my-project/src/components/sections/academy-section.tsx:273:      className="bg-[#32504d]/8 border-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] backdrop-blur-sm"
+    58→/home/z/my-project/src/components/sections/academy-section.tsx:497:            <h3 className="font-display text-base font-semibold leading-snug text-foreground group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors line-clamp-2">
+    59→/home/z/my-project/src/components/sections/academy-section.tsx:523:                className="w-full border-[#32504d]/40 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 hover:text-[#32504d] dark:hover:text-[#9bb3ae]"
+    60→/home/z/my-project/src/components/sections/academy-section.tsx:547:            <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae]">
+    61→/home/z/my-project/src/components/sections/academy-section.tsx:583:            className="mt-auto inline-flex items-center justify-center gap-1.5 self-start rounded-md bg-[#32504d]/10 hover:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] text-sm font-semibold h-9 px-3 transition-colors"
+    62→/home/z/my-project/src/components/sections/academy-section.tsx:606:            <span className="text-[#32504d] dark:text-[#9bb3ae]">
+    63→/home/z/my-project/src/components/sections/academy-section.tsx:652:              <p className="font-display text-2xl font-bold text-[#32504d] dark:text-[#9bb3ae] leading-tight">
+    64→/home/z/my-project/src/components/sections/community-section.tsx:245:            <span className="text-[#32504d] dark:text-[#9bb3ae]">
+    65→/home/z/my-project/src/components/sections/community-section.tsx:262:                    <span className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d]">
+    66→/home/z/my-project/src/components/sections/community-section.tsx:280:                    className="mt-4 group inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] hover:text-[#2b3d3d] transition-colors self-start"
+    67→/home/z/my-project/src/components/sections/community-section.tsx:311:              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] hover:text-[#2b3d3d] transition-colors"
+    68→/home/z/my-project/src/components/sections/community-section.tsx:436:                      className="mt-2.5 border-[#32504d]/30 bg-[#32504d]/8 text-[#32504d] gap-1"
+    69→/home/z/my-project/src/components/sections/faq.tsx:113:            ? "bg-[#32504d]/15 text-[#32504d]"
+    70→/home/z/my-project/src/components/sections/faq.tsx:127:            ? "bg-[#32504d]/15 text-[#32504d]"
+    71→/home/z/my-project/src/components/sections/faq.tsx:159:                <HelpCircle className="size-5 text-[#32504d] shrink-0 mt-0.5" />
+    72→/home/z/my-project/src/components/sections/faq.tsx:209:                          <span className="flex size-7 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] shrink-0">
+    73→/home/z/my-project/src/components/sections/faq.tsx:235:              <div className="flex size-12 items-center justify-center rounded-full bg-[#32504d]/10 text-[#32504d] shrink-0">
+    74→/home/z/my-project/src/components/sections/blog-section.tsx:175:      className="bg-[#32504d]/8 border-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae] backdrop-blur-sm"
+    75→/home/z/my-project/src/components/sections/blog-section.tsx:253:          <h3 className="font-display text-2xl sm:text-[28px] font-bold leading-tight tracking-tight text-foreground group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
+    76→/home/z/my-project/src/components/sections/blog-section.tsx:270:              className="text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 -mr-2"
+    77→/home/z/my-project/src/components/sections/blog-section.tsx:317:          <h4 className="font-display text-sm font-semibold leading-snug text-foreground group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors line-clamp-2">
+    78→/home/z/my-project/src/components/sections/blog-section.tsx:422:              <span className="text-[#32504d] dark:text-[#9bb3ae]">Resources</span>
+    79→/home/z/my-project/src/components/sections/podcast-section.tsx:411:          <span className="font-display text-xs font-bold text-[#32504d] dark:text-[#9bb3ae]">
+    80→/home/z/my-project/src/components/sections/podcast-section.tsx:436:          <h4 className="font-display text-sm sm:text-base font-semibold leading-snug text-foreground truncate group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors">
+    81→/home/z/my-project/src/components/sections/podcast-section.tsx:510:                  <Icon className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
+    82→/home/z/my-project/src/components/sections/podcast-section.tsx:533:            The <span className="text-[#32504d] dark:text-[#9bb3ae]">Khidma Podcast</span>
+    83→/home/z/my-project/src/components/sections/podcast-section.tsx:577:              <p className="font-display text-2xl font-bold text-[#32504d] dark:text-[#9bb3ae] leading-tight">
+    84→/home/z/my-project/src/components/sections/why-khidma.tsx:75:                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#32504d]/10 px-3 py-1 text-xs font-medium text-[#32504d]">
+    85→/home/z/my-project/src/components/sections/why-khidma.tsx:99:                      <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d] mb-3 transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+    86→/home/z/my-project/src/components/modals/review-modal.tsx:280:                        <span className="text-[#32504d]">
+    87→/home/z/my-project/src/components/modals/review-modal.tsx:297:                Rate specific aspects <span className="text-[#32504d]">*</span>
+    88→/home/z/my-project/src/components/modals/review-modal.tsx:320:                              ? "bg-[#32504d]/15 text-[#32504d]"
+    89→/home/z/my-project/src/components/modals/review-modal.tsx:356:                  Public review <span className="text-[#32504d]">*</span>
+    90→/home/z/my-project/src/components/modals/review-modal.tsx:365:                        : "text-[#32504d]"
+    91→/home/z/my-project/src/components/modals/review-modal.tsx:453:                    ? "border-[#32504d]/30 text-[#32504d] bg-[#32504d]/5"
+    92→/home/z/my-project/src/components/modals/newsletter-modal.tsx:204:                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#32504d]/15 text-[#32504d]">
+    93→/home/z/my-project/src/components/modals/newsletter-modal.tsx:288:                          selected ? "text-[#32504d]" : "text-foreground"
+    94→/home/z/my-project/src/components/modals/newsletter-modal.tsx:338:            <Lock className="size-3.5 text-[#32504d] shrink-0 mt-0.5" />
+    95→/home/z/my-project/src/components/modals/privacy-modal.tsx:204:                              : "bg-[#32504d]/10 text-[#32504d]"
+    96→/home/z/my-project/src/components/modals/privacy-modal.tsx:215:                              <Badge className="bg-[#32504d]/10 text-[#32504d] border-0 text-[10px] uppercase tracking-wider">
+    97→/home/z/my-project/src/components/modals/privacy-modal.tsx:256:                    <Download className="size-5 text-[#32504d] shrink-0 mt-0.5" />
+    98→/home/z/my-project/src/components/modals/privacy-modal.tsx:313:                  <FileText className="size-3.5 text-[#32504d]" />
+    99→/home/z/my-project/src/components/modals/privacy-modal.tsx:334:                      className="text-[#32504d] underline underline-offset-2 hover:text-[#192d2f]"
+   100→/home/z/my-project/src/components/modals/service-detail-modal.tsx:196:                              className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+   101→/home/z/my-project/src/components/modals/service-detail-modal.tsx:263:                          className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+   102→/home/z/my-project/src/components/modals/service-detail-modal.tsx:335:                                  <CheckCircle2 className="size-3.5 text-[#32504d] shrink-0 mt-0.5" />
+   103→/home/z/my-project/src/components/modals/service-detail-modal.tsx:357:                      <span className="text-2xl font-bold text-[#32504d]">
+   104→/home/z/my-project/src/components/modals/service-detail-modal.tsx:369:                        <Clock className="size-3.5 text-[#32504d]" />
+   105→/home/z/my-project/src/components/modals/service-detail-modal.tsx:378:                        <CheckCircle2 className="size-3.5 text-[#32504d]" />
+   106→/home/z/my-project/src/components/modals/service-detail-modal.tsx:387:                        <CheckCircle2 className="size-3 text-[#32504d] shrink-0 mt-0.5" />
+   107→/home/z/my-project/src/components/modals/service-detail-modal.tsx:402:                    <CheckCircle2 className="size-3 inline mr-1 text-[#32504d]" />
+   108→/home/z/my-project/src/components/modals/auth-modal.tsx:254:                        className="text-xs text-[#32504d] hover:underline"
+   109→/home/z/my-project/src/components/modals/auth-modal.tsx:297:                    className="text-[#32504d] font-semibold hover:underline"
+   110→/home/z/my-project/src/components/modals/auth-modal.tsx:459:                      <span className="text-[#32504d] hover:underline cursor-pointer">
+   111→/home/z/my-project/src/components/modals/auth-modal.tsx:463:                      <span className="text-[#32504d] hover:underline cursor-pointer">
+   112→/home/z/my-project/src/components/modals/auth-modal.tsx:485:                    className="text-[#32504d] font-semibold hover:underline"
+   113→/home/z/my-project/src/components/modals/auth-modal.tsx:497:        <Sparkles className="size-3 text-[#32504d]" />
+   114→/home/z/my-project/src/components/modals/partners-modal.tsx:311:        <div className="size-10 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center shrink-0 group-hover:bg-[#32504d] group-hover:text-white transition-colors">
+   115→/home/z/my-project/src/components/modals/partners-modal.tsx:332:            <Check className="size-3 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
+   116→/home/z/my-project/src/components/modals/partners-modal.tsx:355:      <span className="size-9 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center shrink-0">
+   117→/home/z/my-project/src/components/modals/partners-modal.tsx:401:            <Check className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
+   118→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:115:      color: "bg-[#32504d]/10 text-[#32504d]",
+   119→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:119:      color: "bg-[#32504d]/10 text-[#32504d]",
+   120→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:189:              className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+   121→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:207:                    <p className="text-[10px] uppercase font-semibold text-[#32504d] tracking-wider">
+   122→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:222:                      className="inline-flex items-center gap-1 text-xs text-[#32504d] hover:underline"
+   123→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:232:                      className="inline-flex items-center gap-1 text-xs text-[#32504d] hover:underline"
+   124→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:367:              <p className="text-sm text-[#32504d] font-medium">{f.title}</p>
+   125→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:416:                    className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+   126→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:498:                    className="rounded-md data-[state=active]:bg-[#32504d]/10 data-[state=active]:text-[#32504d] data-[state=active]:shadow-none text-xs px-3 h-8"
+   127→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:523:                                className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+   128→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:550:                            <GraduationCap className="size-4 text-[#32504d]" />
+   129→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:574:                                <CheckCircle2 className="size-3.5 text-[#32504d]" />
+   130→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:586:                            <Award className="size-4 text-[#32504d]" />
+   131→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:600:                                className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+   132→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:693:                              <h4 className="text-sm font-semibold leading-snug group-hover:text-[#32504d] transition-colors">
+   133→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:711:                                    className="text-[10px] bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20"
+   134→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:725:                              <ChevronRight className="size-4 text-muted-foreground ml-auto mt-1 group-hover:text-[#32504d]" />
+   135→/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:828:                        <Award className="size-4 text-[#32504d]" />
+   136→/home/z/my-project/src/components/modals/create-service-modal.tsx:431:                      active && "bg-[#32504d]/10 text-[#32504d] font-semibold",
+   137→/home/z/my-project/src/components/modals/create-service-modal.tsx:432:                      done && "text-[#32504d]",
+   138→/home/z/my-project/src/components/modals/create-service-modal.tsx:440:                        done && "bg-[#32504d]/15 text-[#32504d]",
+   139→/home/z/my-project/src/components/modals/create-service-modal.tsx:512:                                    <Icon className="size-3.5 text-[#32504d]" />
+   140→/home/z/my-project/src/components/modals/create-service-modal.tsx:578:                                  className="text-[10px] px-2 py-0.5 rounded-full bg-muted hover:bg-[#32504d]/10 hover:text-[#32504d] transition-colors"
+   141→/home/z/my-project/src/components/modals/create-service-modal.tsx:590:                                className="bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20 gap-1 pr-1"
+   142→/home/z/my-project/src/components/modals/create-service-modal.tsx:618:                              className="text-[#32504d] hover:underline"
+   143→/home/z/my-project/src/components/modals/create-service-modal.tsx:658:                        <DollarSign className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+   144→/home/z/my-project/src/components/modals/create-service-modal.tsx:688:                                <HelpCircle className="size-4 text-[#32504d] shrink-0" />
+   145→/home/z/my-project/src/components/modals/create-service-modal.tsx:843:                        <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+   146→/home/z/my-project/src/components/modals/create-service-modal.tsx:920:        <Icon className="size-4 text-[#32504d]" />
+   147→/home/z/my-project/src/components/modals/create-service-modal.tsx:1048:                    <Check className="size-2.5 text-[#32504d]" />
+   148→/home/z/my-project/src/components/modals/create-service-modal.tsx:1080:            className="text-[10px] text-[#32504d] hover:underline flex items-center gap-1"
+   149→/home/z/my-project/src/components/modals/create-service-modal.tsx:1086:          <div className="rounded-md bg-[#32504d]/5 border border-[#32504d]/20 px-2 py-1 text-[10px] text-[#32504d] flex items-center gap-1">
+   150→/home/z/my-project/src/components/modals/compare-modal.tsx:252:      <CheckCircle2 className="size-3 text-[#32504d]" />
+   151→/home/z/my-project/src/components/modals/compare-modal.tsx:269:        <Users className="size-9 text-[#32504d]" />
+   152→/home/z/my-project/src/components/modals/compare-modal.tsx:306:        <AvatarFallback className="bg-[#32504d]/10 text-[#32504d] font-semibold">
+   153→/home/z/my-project/src/components/modals/compare-modal.tsx:316:          className="font-semibold text-sm leading-tight hover:text-[#32504d] transition-colors truncate block w-full"
+   154→/home/z/my-project/src/components/modals/compare-modal.tsx:347:      className="h-full min-h-[180px] w-full flex flex-col items-center justify-center gap-2 p-3 border-2 border-dashed border-border/60 rounded-lg text-muted-foreground hover:border-[#32504d]/40 hover:text-[#32504d] hover:bg-[#32504d]/5 transition-colors"
+   155→/home/z/my-project/src/components/modals/topup-modal.tsx:351:                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[#32504d]">
+   156→/home/z/my-project/src/components/modals/topup-modal.tsx:391:                        className="mt-0.5 data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d]"
+   157→/home/z/my-project/src/components/modals/topup-modal.tsx:397:                            ? "bg-[#32504d]/15 text-[#32504d]"
+   158→/home/z/my-project/src/components/modals/topup-modal.tsx:535:                  <span className="font-semibold tabular-nums text-[#32504d]">
+   159→/home/z/my-project/src/components/modals/topup-modal.tsx:542:                <span className="font-semibold text-[#32504d]">Free</span>
+   160→/home/z/my-project/src/components/modals/topup-modal.tsx:554:                <Zap className="size-3 text-[#32504d]" />
+   161→/home/z/my-project/src/components/modals/topup-modal.tsx:593:                  className="h-9 text-xs border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#32504d]"
+   162→/home/z/my-project/src/components/modals/topup-modal.tsx:599:                <p className="text-[10px] text-[#32504d] flex items-center gap-1">
+   163→/home/z/my-project/src/components/modals/topup-modal.tsx:613:              <ShieldCheck className="size-3.5 text-[#32504d] shrink-0 mt-0.5" />
+   164→/home/z/my-project/src/components/modals/topup-modal.tsx:626:                  className="text-[10px] gap-1 border-[#32504d]/30 text-[#32504d]"
+   165→/home/z/my-project/src/components/modals/share-modal.tsx:228:              <Share2 className="size-4 text-[#32504d]" />
+   166→/home/z/my-project/src/components/modals/share-modal.tsx:324:              className="w-full h-10 border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#192d2f]"
+   167→/home/z/my-project/src/components/modals/share-modal.tsx:332:            <ShieldCheck className="size-3.5 text-[#32504d] shrink-0" />
+   168→/home/z/my-project/src/components/modals/referral-modal.tsx:155:    accent: "text-[#32504d] bg-[#32504d]/15 border-[#32504d]/40",
+   169→/home/z/my-project/src/components/modals/referral-modal.tsx:166:  { label: "Friends Invited", value: 8, icon: Users, accent: "bg-[#32504d]/10 text-[#32504d]" },
+   170→/home/z/my-project/src/components/modals/referral-modal.tsx:344:                  <TrendingUp className="size-4 text-[#32504d]" />
+   171→/home/z/my-project/src/components/modals/referral-modal.tsx:347:                <Badge className="bg-[#32504d]/15 text-[#32504d] border-0">
+   172→/home/z/my-project/src/components/modals/referral-modal.tsx:356:                Reach <span className="font-semibold text-[#32504d]">Gold tier</span> to unlock{" "}
+   173→/home/z/my-project/src/components/modals/referral-modal.tsx:396:                      <Icon className="size-5 text-[#32504d] mb-1.5 mt-1" />
+   174→/home/z/my-project/src/components/modals/referral-modal.tsx:457:                <Trophy className="size-3.5 text-[#32504d]" />
+   175→/home/z/my-project/src/components/modals/referral-modal.tsx:489:              <Sparkles className="size-3.5 text-[#32504d]" />
+   176→/home/z/my-project/src/components/modals/teams-modal.tsx:257:      <div className="size-9 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center mb-3 group-hover:bg-[#32504d] group-hover:text-white transition-colors">
+   177→/home/z/my-project/src/components/modals/teams-modal.tsx:301:            <Check className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
+   178→/home/z/my-project/src/components/modals/teams-modal.tsx:338:          <span className="size-8 rounded-lg bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] flex items-center justify-center">
+   179→/home/z/my-project/src/components/modals/teams-modal.tsx:349:              <Check className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
+   180→/home/z/my-project/src/components/modals/teams-modal.tsx:356:        <Quote className="size-6 text-[#32504d]/30 mb-2" aria-hidden />
+   181→/home/z/my-project/src/components/modals/teams-modal.tsx:525:                      <CalendarDays className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+   182→/home/z/my-project/src/components/modals/favorites-modal.tsx:102:        <AvatarFallback className="bg-[#32504d]/10 text-[#32504d]">
+   183→/home/z/my-project/src/components/modals/favorites-modal.tsx:122:            <Wallet className="size-2.5 text-[#32504d]" />
+   184→/home/z/my-project/src/components/modals/favorites-modal.tsx:197:          <span className="font-semibold text-[#32504d]">
+   185→/home/z/my-project/src/components/modals/favorites-modal.tsx:253:        <Briefcase className="size-4 text-[#32504d]" />
+   186→/home/z/my-project/src/components/modals/favorites-modal.tsx:261:          <span className="inline-flex items-center gap-0.5 font-semibold text-[#32504d]">
+   187→/home/z/my-project/src/components/modals/favorites-modal.tsx:356:          <Heart className="size-10 text-[#32504d]" />
+   188→/home/z/my-project/src/components/modals/favorites-modal.tsx:359:          <Bookmark className="size-3.5 text-[#32504d]" />
+   189→/home/z/my-project/src/components/modals/favorites-modal.tsx:575:                      className="mt-2 text-[#32504d]"
+   190→/home/z/my-project/src/components/modals/pro-modal.tsx:114:                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#32504d]/10 text-[#32504d]">
+   191→/home/z/my-project/src/components/modals/pro-modal.tsx:127:              <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+   192→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:309:                <span className="inline-flex items-center gap-1 rounded-full bg-[#32504d]/10 text-[#32504d] px-2 py-0.5 text-[11px] font-semibold">
+   193→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:436:                            className="bg-[#32504d]/10 text-[#32504d] hover:bg-[#32504d]/20 gap-1"
+   194→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:469:                            className="h-7 px-2 text-[#32504d]"
+   195→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:655:                                className="data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d]"
+   196→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1077:                              <Upload className="size-7 text-[#32504d]" />
+   197→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1155:                          <Mail className="size-4 text-[#32504d]" />
+   198→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1161:                              <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5">
+   199→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1191:                              <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5">
+   200→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1251:                              <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5">
+   201→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1315:                              <div className="size-14 rounded-full bg-[#32504d]/20 flex items-center justify-center text-[#32504d]">
+   202→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1420:                                className="bg-[#32504d]/5 text-[#32504d] text-[10px]"
+   203→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1475:                              <span className="text-[#32504d]">✓ verified</span>
+   204→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1483:                              <span className="text-[#32504d]">✓ verified</span>
+   205→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1491:                              <span className="text-[#32504d]">✓ uploaded</span>
+   206→/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1501:                      <Sparkles className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+   207→/home/z/my-project/src/components/modals/help-modal.tsx:405:                    className="w-full justify-between border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5"
+   208→/home/z/my-project/src/components/modals/help-modal.tsx:456:                              <div className="size-8 rounded-lg bg-[#32504d]/10 text-[#32504d] grid place-items-center mb-2">
+   209→/home/z/my-project/src/components/modals/help-modal.tsx:469:                                className="mt-2 h-7 px-2 text-[11px] text-[#32504d] hover:bg-[#32504d]/10 hover:text-[#192d2f]"
+   210→/home/z/my-project/src/components/modals/help-modal.tsx:516:                          className="mt-3 border-[#32504d]/40 text-[#32504d] hover:bg-[#32504d]/5"
+   211→/home/z/my-project/src/components/modals/help-modal.tsx:572:                            className="border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5 hover:text-[#192d2f]"
+   212→/home/z/my-project/src/components/modals/job-detail-modal.tsx:110:              <Badge variant="outline" className="text-[10px] gap-1 bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20">
+   213→/home/z/my-project/src/components/modals/job-detail-modal.tsx:142:                      className="size-8 text-muted-foreground hover:text-[#32504d] hover:bg-[#32504d]/10"
+   214→/home/z/my-project/src/components/modals/job-detail-modal.tsx:184:                  <ShieldCheck className="size-3.5 inline ml-1 text-[#32504d]" />
+   215→/home/z/my-project/src/components/modals/job-detail-modal.tsx:194:                <Wallet className="size-5 text-[#32504d]" />
+   216→/home/z/my-project/src/components/modals/job-detail-modal.tsx:238:                      className="bg-[#32504d]/5 text-[#32504d] border-[#32504d]/20 text-[11px]"
+   217→/home/z/my-project/src/components/modals/job-detail-modal.tsx:261:                      <CheckCircle2 className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+   218→/home/z/my-project/src/components/modals/job-detail-modal.tsx:279:                        <Badge className="bg-[#32504d]/10 text-[#32504d] gap-0.5 text-[10px]">
+   219→/home/z/my-project/src/components/modals/report-modal.tsx:335:              <ShieldAlert className="size-3 inline mr-1 -mt-0.5 text-[#32504d]" />
+   220→/home/z/my-project/src/components/modals/post-job-modal.tsx:367:                      active && "bg-[#32504d]/10 text-[#32504d] font-semibold",
+   221→/home/z/my-project/src/components/modals/post-job-modal.tsx:368:                      done && "text-[#32504d]",
+   222→/home/z/my-project/src/components/modals/post-job-modal.tsx:376:                        done && "bg-[#32504d]/15 text-[#32504d]",
+   223→/home/z/my-project/src/components/modals/post-job-modal.tsx:442:                                    <Icon className="size-3.5 text-[#32504d]" />
+   224→/home/z/my-project/src/components/modals/post-job-modal.tsx:505:                                  className="text-[10px] px-2 py-0.5 rounded-full bg-muted hover:bg-[#32504d]/10 hover:text-[#32504d] transition-colors"
+   225→/home/z/my-project/src/components/modals/post-job-modal.tsx:517:                                className="bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20 gap-1 pr-1"
+   226→/home/z/my-project/src/components/modals/post-job-modal.tsx:721:                                <o.i className="size-3.5 text-[#32504d]" />
+   227→/home/z/my-project/src/components/modals/post-job-modal.tsx:736:                            <ShieldCheck className="size-4 text-[#32504d]" />
+   228→/home/z/my-project/src/components/modals/post-job-modal.tsx:778:                              className="text-[#32504d] hover:underline"
+   229→/home/z/my-project/src/components/modals/post-job-modal.tsx:891:                        <ShieldCheck className="size-4 text-[#32504d] shrink-0 mt-0.5" />
+   230→/home/z/my-project/src/components/modals/post-job-modal.tsx:968:        <Icon className="size-4 text-[#32504d]" />
+   231→/home/z/my-project/src/components/modals/api-docs-modal.tsx:623:                ? "bg-[#32504d]/10 text-[#32504d] dark:text-[#9bb3ae] font-medium"
+   232→/home/z/my-project/src/components/modals/api-docs-modal.tsx:664:          <category.icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+   233→/home/z/my-project/src/components/modals/api-docs-modal.tsx:684:                  <Key className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
+   234→/home/z/my-project/src/components/modals/api-docs-modal.tsx:692:                <code className="text-xs font-mono text-[#32504d] dark:text-[#9bb3ae] break-all">
+   235→/home/z/my-project/src/components/modals/api-docs-modal.tsx:701:                  <Terminal className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
+   236→/home/z/my-project/src/components/modals/api-docs-modal.tsx:729:              <code className="font-mono text-[#32504d] dark:text-[#9bb3ae]">429 Too Many Requests</code>{" "}
+   237→/home/z/my-project/src/components/modals/api-docs-modal.tsx:737:              <Code2 className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+   238→/home/z/my-project/src/components/modals/api-docs-modal.tsx:771:            <Terminal className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+   239→/home/z/my-project/src/components/modals/api-docs-modal.tsx:802:            <Webhook className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+   240→/home/z/my-project/src/components/modals/api-docs-modal.tsx:807:            <code className="font-mono text-[#32504d] dark:text-[#9bb3ae]">POST /webhooks</code>.
+   241→/home/z/my-project/src/components/modals/api-docs-modal.tsx:817:                <code className="text-sm font-mono font-semibold text-[#32504d] dark:text-[#9bb3ae]">
+   242→/home/z/my-project/src/components/modals/api-docs-modal.tsx:983:                className="font-medium text-[#32504d] dark:text-[#9bb3ae] hover:underline"
+   243→/home/z/my-project/src/components/modals/messaging-modal.tsx:494:                                <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-xs font-semibold">
+   244→/home/z/my-project/src/components/modals/messaging-modal.tsx:519:                      <Loader2 className="size-4 animate-spin text-[#32504d]" />
+   245→/home/z/my-project/src/components/modals/messaging-modal.tsx:531:                        className="text-[11px] text-[#32504d] hover:underline mt-1"
+   246→/home/z/my-project/src/components/modals/messaging-modal.tsx:558:                              <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-xs font-semibold">
+   247→/home/z/my-project/src/components/modals/messaging-modal.tsx:616:                      <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-xs font-semibold">
+   248→/home/z/my-project/src/components/modals/messaging-modal.tsx:626:                          <Badge className="text-[9px] gap-0.5 px-1.5 py-0 h-4 bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20">
+   249→/home/z/my-project/src/components/modals/messaging-modal.tsx:633:                          <span className="text-[#32504d]">typing…</span>
+   250→/home/z/my-project/src/components/modals/messaging-modal.tsx:673:                                  <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-[10px] font-semibold">
+   251→
+   252→[Showing results with pagination = limit: 250]

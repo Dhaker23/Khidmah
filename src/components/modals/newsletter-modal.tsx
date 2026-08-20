@@ -201,7 +201,7 @@ export function NewsletterModal() {
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className="flex items-center gap-2.5 text-sm"
               >
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#32504d]/15 text-[#32504d]">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#32504d]/15 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae]">
                   <Check className="size-3.5" />
                 </span>
                 <span className="text-foreground/90">{b}</span>
@@ -285,7 +285,7 @@ export function NewsletterModal() {
                       <span
                         className={cn(
                           "text-xs font-semibold",
-                          selected ? "text-[#32504d]" : "text-foreground"
+                          selected ? "text-[#32504d] dark:text-[#9bb3ae]" : "text-foreground"
                         )}
                       >
                         {f.label}
@@ -335,7 +335,7 @@ export function NewsletterModal() {
 
           {/* Privacy note */}
           <div className="flex items-start gap-2 rounded-lg bg-muted/40 border border-border/60 p-2.5">
-            <Lock className="size-3.5 text-[#32504d] shrink-0 mt-0.5" />
+            <Lock className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
             <p className="text-[11px] text-muted-foreground leading-relaxed">
               We respect your privacy. Unsubscribe anytime. No spam.
             </p>

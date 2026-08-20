@@ -72,7 +72,7 @@ export function CompareTray() {
             {/* Left: label + count */}
             <div className="hidden sm:flex flex-col shrink-0 min-w-[88px]">
               <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
-                <GitCompare className="size-3.5 text-[#32504d]" />
+                <GitCompare className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
                 Comparing
               </div>
               <div className="flex items-center gap-1.5 mt-0.5">
@@ -90,7 +90,7 @@ export function CompareTray() {
 
             {/* Mobile count badge */}
             <div className="sm:hidden flex flex-col items-center justify-center shrink-0 min-w-[44px]">
-              <GitCompare className="size-4 text-[#32504d]" />
+              <GitCompare className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
               <span className="text-[10px] font-semibold tabular-nums mt-0.5">
                 {count}/{MAX}
               </span>
@@ -112,7 +112,7 @@ export function CompareTray() {
                       )}
                     >
                       <AvatarImage src={f.avatar} alt={f.name} />
-                      <AvatarFallback className="text-[10px] bg-[#32504d]/10 text-[#32504d]">
+                      <AvatarFallback className="text-[10px] bg-[#32504d]/10 text-[#32504d] dark:bg-[#32504d]/25 dark:text-[#9bb3ae]">
                         {f.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
@@ -152,6 +152,7 @@ export function CompareTray() {
                 disabled={count < 2}
                 className={cn(
                   "h-8 gap-1.5 text-xs bg-[#32504d] hover:bg-[#2b3d3d] text-white",
+                  "dark:bg-[#32504d] dark:hover:bg-[#475959]",
                   "disabled:opacity-50 disabled:cursor-not-allowed"
                 )}
               >

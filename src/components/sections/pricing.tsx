@@ -150,7 +150,7 @@ export function Pricing() {
           eyebrow="Pricing"
           title={
             <>
-              Simple, transparent <span className="text-[#32504d]">pricing</span>
+              Simple, transparent <span className="text-[#32504d] dark:text-[#9bb3ae]">pricing</span>
             </>
           }
           description="Free to join. 1% fee per project. Optional Pro upgrades."
@@ -211,8 +211,8 @@ export function Pricing() {
                 className={cn(
                   "relative flex flex-col rounded-2xl border bg-card p-6 sm:p-7 transition-colors",
                   isPro
-                    ? "border-[#32504d] shadow-xl shadow-[#32504d]/10 lg:-translate-y-3"
-                    : "border-border/70 hover:border-[#32504d]/40"
+                    ? "border-[#32504d] dark:border-[#32504d]/60 shadow-xl shadow-[#32504d]/10 lg:-translate-y-3"
+                    : "border-border/70 hover:border-[#32504d]/40 dark:hover:border-[#32504d]/40"
                 )}
               >
                 {isPro && (
@@ -235,7 +235,7 @@ export function Pricing() {
                       />
                     )}
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                      <Badge className="bg-[#32504d] text-white border-0 px-3 py-1 gap-1 shadow-md">
+                      <Badge className="bg-[#32504d] text-white border-0 px-3 py-1 gap-1 shadow-md dark:bg-[#32504d]/80">
                         <Star className="size-3 fill-amber-300 text-amber-300" />
                         Most Popular
                       </Badge>
@@ -278,8 +278,8 @@ export function Pricing() {
                     className={cn(
                       "mt-5 w-full",
                       isPro
-                        ? "bg-[#32504d] text-white hover:bg-[#2b3d3d]"
-                        : "bg-[#2b3d3d] text-white hover:bg-[#192d2f]"
+                        ? "bg-[#32504d] text-white hover:bg-[#2b3d3d] dark:hover:bg-[#475959]"
+                        : "bg-[#2b3d3d] text-white hover:bg-[#192d2f] dark:bg-[#475959] dark:hover:bg-[#32504d]"
                     )}
                   >
                     {tier.cta.label}
@@ -293,7 +293,7 @@ export function Pricing() {
                             "mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full",
                             isPro
                               ? "bg-[#32504d] text-white"
-                              : "bg-[#32504d]/10 text-[#32504d]"
+                              : "bg-[#32504d]/10 text-[#32504d] dark:bg-[#32504d]/25 dark:text-[#9bb3ae]"
                           )}
                         >
                           <Check className="size-3" />
@@ -313,7 +313,7 @@ export function Pricing() {
           <div className="rounded-2xl border border-border/70 bg-card p-5 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="size-4 text-[#32504d]" />
+                <Sparkles className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                 <h4 className="text-sm font-semibold text-foreground">
                   All plans include
                 </h4>
@@ -329,8 +329,8 @@ export function Pricing() {
                 ))}
               </p>
             </div>
-            <div className="flex items-center gap-2 rounded-xl bg-[#32504d]/5 border border-[#32504d]/20 px-4 py-3 shrink-0">
-              <ShieldCheck className="size-5 text-[#32504d] shrink-0" />
+            <div className="flex items-center gap-2 rounded-xl bg-[#32504d]/5 dark:bg-[#32504d]/15 border border-[#32504d]/20 dark:border-[#32504d]/30 px-4 py-3 shrink-0">
+              <ShieldCheck className="size-5 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
               <div>
                 <div className="text-xs font-semibold text-foreground">
                   30-day money-back guarantee

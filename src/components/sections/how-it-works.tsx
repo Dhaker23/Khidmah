@@ -62,7 +62,7 @@ export function HowItWorks() {
         <div className="relative">
           <Reveal>
             <div className="mb-6 flex items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#32504d]/10 px-3 py-1 text-xs font-semibold text-[#32504d]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 px-3 py-1 text-xs font-semibold text-[#32504d] dark:text-[#9bb3ae]">
                 <UserCheck className="size-3.5" />
                 For Freelancers
               </span>
@@ -87,10 +87,10 @@ export function HowItWorks() {
                   <Card className="relative h-full p-6 border-border/60 hover:border-[#32504d]/40 khidma-card">
                     {/* Number badge */}
                     <div className="flex items-center justify-between mb-4">
-                      <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/10 text-[#32504d]">
+                      <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
                         <Icon className="size-6" />
                       </div>
-                      <span className="font-display text-5xl font-bold text-[#32504d]/10 leading-none">
+                      <span className="font-display text-5xl font-bold text-[#32504d] dark:text-[#9bb3ae]/10 leading-none">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
@@ -106,7 +106,7 @@ export function HowItWorks() {
                           Key action
                         </span>
                       </div>
-                      <p className="mt-1 text-sm font-medium text-[#2b3d3d]">
+                      <p className="mt-1 text-sm font-medium text-[#2b3d3d] dark:text-[#94a8a4]">
                         {step.action}
                       </p>
                     </div>
@@ -124,7 +124,7 @@ export function HowItWorks() {
         <div className="relative">
           <Reveal>
             <div className="mb-6 flex items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#475959]/10 px-3 py-1 text-xs font-semibold text-[#475959]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#475959]/10 dark:bg-[#475959]/20 px-3 py-1 text-xs font-semibold text-[#475959] dark:text-[#94a8a4]">
                 <FileText className="size-3.5" />
                 For Clients
               </span>
@@ -148,7 +148,7 @@ export function HowItWorks() {
                 <Reveal key={step.label} delay={0.05 * i}>
                   <Card className="group h-full p-5 border-border/60 hover:border-[#475959]/40 khidma-card">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="flex size-9 items-center justify-center rounded-lg bg-[#475959]/10 text-[#475959]">
+                      <div className="flex size-9 items-center justify-center rounded-lg bg-[#475959]/10 dark:bg-[#475959]/20 text-[#475959] dark:text-[#94a8a4]">
                         <Icon className="size-4" />
                       </div>
                       <span className="font-display text-sm font-semibold text-foreground">
@@ -161,7 +161,7 @@ export function HowItWorks() {
                     {i < clientSteps.length - 1 && (
                       <ArrowRight
                         className={cn(
-                          "hidden lg:block size-4 text-[#748684]/60 absolute -right-2.5 top-1/2 -translate-y-1/2 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#475959]"
+                          "hidden lg:block size-4 text-[#748684]/60 absolute -right-2.5 top-1/2 -translate-y-1/2 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#475959] dark:text-[#94a8a4]"
                         )}
                       />
                     )}
@@ -174,8 +174,8 @@ export function HowItWorks() {
 
         {/* Trust callout */}
         <Reveal className="mt-10 sm:mt-14">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-2xl border border-[#32504d]/20 bg-[#32504d]/5 p-5">
-            <Wallet className="size-5 text-[#32504d] shrink-0" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-2xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-5">
+            <Wallet className="size-5 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
             <p className="text-sm text-foreground">
               <span className="font-semibold">Escrow-protected contracts.</span>{" "}
               <span className="text-muted-foreground">

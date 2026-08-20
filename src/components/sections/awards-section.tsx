@@ -389,7 +389,7 @@ export function AwardsSection() {
         <Reveal>
           <Card className="h-full p-6 border-border/60 bg-background flex flex-col">
             <div className="flex items-center gap-3 mb-3">
-              <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 text-[#32504d]">
+              <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/25 dark:bg-[#32504d]/25 text-[#32504d] dark:text-[#9bb3ae]">
                 <Trophy className="size-5" />
               </span>
               <h3 className="font-display text-lg font-bold text-foreground">
@@ -478,7 +478,7 @@ export function AwardsSection() {
             {PAST_WINNERS.map((p, i) => (
               <Reveal key={p.year} delay={i * 0.06}>
                 <Card className="p-4 border-border/60 flex items-center gap-4">
-                  <div className="flex size-14 shrink-0 flex-col items-center justify-center rounded-xl border border-[#32504d]/20 bg-[#32504d]/5">
+                  <div className="flex size-14 shrink-0 flex-col items-center justify-center rounded-xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15">
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground">
                       Year
                     </span>

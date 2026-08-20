@@ -180,8 +180,8 @@ function KpiCard({ kpi, index }: { kpi: Kpi; index: number }) {
           }}
         />
         <div className="relative flex items-start justify-between gap-2">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-[#32504d]/10 ring-1 ring-[#32504d]/15">
-            <Icon className="size-5 text-[#32504d]" />
+          <span className="flex size-10 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 ring-1 ring-[#32504d]/15">
+            <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae]" />
           </span>
           <TrendBadge trend={kpi.trend} delta={kpi.delta} />
         </div>
@@ -505,8 +505,8 @@ function MiniStat({
       transition={{ duration: 0.45, delay: index * 0.08 }}
       className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/50 px-4 py-3"
     >
-      <span className="flex size-9 items-center justify-center rounded-lg bg-[#32504d]/10 ring-1 ring-[#32504d]/15">
-        <Icon className="size-4 text-[#32504d]" />
+      <span className="flex size-9 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 ring-1 ring-[#32504d]/15">
+        <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
       </span>
       <div className="leading-tight">
         <div className="font-display text-lg font-bold tabular-nums text-foreground">
@@ -532,7 +532,7 @@ export function StatsDashboard() {
         title={
           <>
             Khidma by the{" "}
-            <span className="text-[#32504d]">numbers</span>
+            <span className="text-[#32504d] dark:text-[#9bb3ae]">numbers</span>
           </>
         }
         description="Real-time platform metrics, updated continuously."
@@ -592,7 +592,7 @@ export function StatsDashboard() {
         <button
           type="button"
           onClick={() => setView("stats")}
-          className="group inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/30 bg-[#32504d]/5 px-3 py-1.5 text-xs font-semibold text-[#32504d] transition-colors hover:bg-[#32504d]/10 hover:border-[#32504d]/50"
+          className="group inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/30 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 px-3 py-1.5 text-xs font-semibold text-[#32504d] dark:text-[#9bb3ae] transition-colors hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:border-[#32504d]/50"
         >
           View full stats
           <TrendingUp className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />

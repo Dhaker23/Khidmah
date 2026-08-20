@@ -476,7 +476,7 @@ export function MessagingModal() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="overflow-hidden border-b border-border/60 bg-[#32504d]/5"
+                    className="overflow-hidden border-b border-border/60 bg-[#32504d]/5 dark:bg-[#32504d]/15"
                   >
                     <div className="p-3">
                       <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2 px-1">
@@ -487,11 +487,11 @@ export function MessagingModal() {
                           <li key={u.id}>
                             <button
                               onClick={() => handleStartWithUser(u)}
-                              className="w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-[#32504d]/10 transition-colors text-left"
+                              className="w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 transition-colors text-left"
                             >
                               <Avatar className="size-9 rounded-full">
                                 <AvatarImage src={u.avatar} alt={u.name} />
-                                <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-xs font-semibold">
+                                <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] text-xs font-semibold">
                                   {u.name.charAt(0)}
                                 </AvatarFallback>
                               </Avatar>
@@ -516,7 +516,7 @@ export function MessagingModal() {
                 <ul className="py-1">
                   {connecting && conversations.length === 0 && (
                     <li className="px-4 py-8 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
-                      <Loader2 className="size-4 animate-spin text-[#32504d]" />
+                      <Loader2 className="size-4 animate-spin text-[#32504d] dark:text-[#9bb3ae]" />
                       Connecting to chat…
                     </li>
                   )}
@@ -528,7 +528,7 @@ export function MessagingModal() {
                       </p>
                       <button
                         onClick={() => setShowDiscover(true)}
-                        className="text-[11px] text-[#32504d] hover:underline mt-1"
+                        className="text-[11px] text-[#32504d] dark:text-[#9bb3ae] hover:underline mt-1"
                       >
                         Start a new chat →
                       </button>
@@ -548,14 +548,14 @@ export function MessagingModal() {
                           className={cn(
                             "w-full px-3 py-2.5 flex items-start gap-2.5 text-left transition-colors border-l-2",
                             isActive
-                              ? "bg-[#32504d]/10 border-[#32504d]"
+                              ? "bg-[#32504d]/10 dark:bg-[#32504d]/20 border-[#32504d]"
                               : "border-transparent hover:bg-muted/60"
                           )}
                         >
                           <div className="relative">
                             <Avatar className="size-10 rounded-full">
                               <AvatarImage src={o.avatar} alt={o.name} />
-                              <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-xs font-semibold">
+                              <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] text-xs font-semibold">
                                 {o.name.charAt(0)}
                               </AvatarFallback>
                             </Avatar>
@@ -613,7 +613,7 @@ export function MessagingModal() {
                     </button>
                     <Avatar className="size-9 rounded-full">
                       <AvatarImage src={other.avatar} alt={other.name} />
-                      <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-xs font-semibold">
+                      <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] text-xs font-semibold">
                         {other.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
@@ -623,14 +623,14 @@ export function MessagingModal() {
                           {other.name}
                         </h3>
                         {other.id === "bot-amira" && (
-                          <Badge className="text-[9px] gap-0.5 px-1.5 py-0 h-4 bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20">
+                          <Badge className="text-[9px] gap-0.5 px-1.5 py-0 h-4 bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30">
                             <ShieldCheck className="size-2.5" /> Verified
                           </Badge>
                         )}
                       </div>
                       <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                         {isOtherTyping ? (
-                          <span className="text-[#32504d]">typing…</span>
+                          <span className="text-[#32504d] dark:text-[#9bb3ae]">typing…</span>
                         ) : isOtherOnline ? (
                           <>
                             <span className="size-1.5 rounded-full bg-emerald-500" />
@@ -670,7 +670,7 @@ export function MessagingModal() {
                               {!isOwn && (
                                 <Avatar className="size-7 rounded-full mb-0.5">
                                   <AvatarImage src={other.avatar} alt={other.name} />
-                                  <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-[10px] font-semibold">
+                                  <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] text-[10px] font-semibold">
                                     {other.name.charAt(0)}
                                   </AvatarFallback>
                                 </Avatar>
@@ -717,7 +717,7 @@ export function MessagingModal() {
                           >
                             <Avatar className="size-7 rounded-full mb-0.5">
                               <AvatarImage src={other.avatar} alt={other.name} />
-                              <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] text-[10px] font-semibold">
+                              <AvatarFallback className="bg-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] text-[10px] font-semibold">
                                 {other.name.charAt(0)}
                               </AvatarFallback>
                             </Avatar>
@@ -781,7 +781,7 @@ export function MessagingModal() {
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-10">
                   <div className="relative mb-6">
-                    <div className="absolute inset-0 -m-4 rounded-full bg-[#32504d]/5 blur-2xl" />
+                    <div className="absolute inset-0 -m-4 rounded-full bg-[#32504d]/5 dark:bg-[#32504d]/15 blur-2xl" />
                     <div className="relative size-20 rounded-full bg-khidma-gradient flex items-center justify-center mx-auto animate-float">
                       <MessageSquare className="size-9 text-white" />
                     </div>
@@ -794,7 +794,7 @@ export function MessagingModal() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="mt-5 border-[#32504d]/30 text-[#32504d] hover:bg-[#32504d]/5"
+                    className="mt-5 border-[#32504d]/30 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
                     onClick={() => setShowDiscover(true)}
                   >
                     <PenSquare className="size-3.5" /> Start a new chat

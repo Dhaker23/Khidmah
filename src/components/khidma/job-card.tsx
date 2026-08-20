@@ -59,7 +59,7 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {job.verifiedClient && (
-              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-[#32504d] font-medium shrink-0">
+              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-[#32504d] dark:text-[#9bb3ae] font-medium shrink-0">
                 <ShieldCheck className="size-3" />
                 Verified Client
               </span>
@@ -81,7 +81,7 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
           </div>
         </div>
 
-        <h3 className="font-semibold text-base leading-snug group-hover:text-[#32504d] transition-colors mb-2">
+        <h3 className="font-semibold text-base leading-snug group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors mb-2">
           {job.title}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{job.description}</p>
@@ -96,7 +96,7 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
 
         <div className="flex items-center justify-between pt-3 border-t border-border/60">
           <div className="flex items-center gap-1.5 text-sm">
-            <Wallet className="size-3.5 text-[#32504d]" />
+            <Wallet className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
             {job.type === "FIXED" ? (
               <span className="font-semibold">
                 {formatTND(job.budget.min)} – {formatTND(job.budget.max)}
@@ -122,7 +122,7 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
         <div className="flex items-center justify-between pt-3 mt-1">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Avatar className="size-5">
-              <AvatarFallback className="text-[8px] bg-[#32504d]/10 text-[#32504d]">
+              <AvatarFallback className="text-[8px] bg-[#32504d]/10 text-[#32504d] dark:bg-[#32504d]/25 dark:text-[#9bb3ae]">
                 {job.postedBy.charAt(0)}
               </AvatarFallback>
             </Avatar>
@@ -133,7 +133,7 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 text-xs opacity-0 group-hover:opacity-100 transition-opacity text-[#32504d] hover:text-[#2b3d3d] hover:bg-[#32504d]/10"
+            className="h-7 text-xs opacity-0 group-hover:opacity-100 transition-opacity text-[#32504d] dark:text-[#9bb3ae] hover:text-[#2b3d3d] dark:hover:text-white hover:bg-[#32504d]/10 dark:hover:bg-[#32504d]/25"
           >
             View
             <ChevronRight className="size-3 ml-0.5" />
