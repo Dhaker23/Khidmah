@@ -35,7 +35,7 @@ import { Card } from "@/components/ui/card";
 import { Reveal, SectionHeading } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
 import { formatNumber, trustStats } from "@/lib/khidma-data";
-import { CITIES_WITH_POS, TUNISIA_SVG_PATH } from "@/lib/tunisia-geo";
+import { CITIES_WITH_POS, TUNISIA_MAP_IMAGE } from "@/lib/tunisia-geo";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -223,27 +223,17 @@ export function TunisianCities() {
           {/* ─────────────────────────────────────────────────────── */}
           <Reveal className="lg:col-span-3" delay={0.05}>
             <Card className="relative overflow-hidden border-border/60 bg-gradient-to-br from-[#192d2f] via-[#2b3d3d] to-[#192d2f] h-[480px] sm:h-[560px] lg:h-[620px]">
-              {/* Accurate Tunisia SVG outline */}
+              {/* Accurate Tunisia map image */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden>
-                <svg
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="xMidYMid meet"
-                  className="h-full w-full"
-                  style={{ filter: "drop-shadow(0 0 20px rgba(116,134,132,0.15))" }}
-                >
-                  {/* Tunisia fill */}
-                  <path
-                    d={TUNISIA_SVG_PATH}
-                    fill="rgba(50, 80, 77, 0.25)"
-                    stroke="rgba(116, 134, 132, 0.4)"
-                    strokeWidth="0.4"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <img
+                  src={TUNISIA_MAP_IMAGE}
+                  alt="Map of Tunisia"
+                  className="h-full w-auto object-contain opacity-40"
+                />
               </div>
 
               {/* dot grid overlay */}
-              <div className="absolute inset-0 bg-dot-grid opacity-15" aria-hidden />
+              <div className="absolute inset-0 bg-dot-grid opacity-10" aria-hidden />
 
               {/* decorative blur blobs */}
               <div
