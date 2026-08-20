@@ -35,40 +35,26 @@ import { Card } from "@/components/ui/card";
 import { Reveal, SectionHeading } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
 import { formatNumber, trustStats } from "@/lib/khidma-data";
+import { CITIES_WITH_POS, TUNISIA_SVG_PATH } from "@/lib/tunisia-geo";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 // =====================================================================
-// Types & mock data
+// Types & data
 // =====================================================================
 
 interface CityPin {
   rank: number;
   name: string;
-  /** Number of verified freelancers based in this city. */
   count: number;
-  /** Relative x position on the stylized map, 0-100 (% of width). */
   x: number;
-  /** Relative y position on the stylized map, 0-100 (% of height). */
   y: number;
-  /** Top 2 categories freelancers in this city specialize in. */
+  lat: number;
+  lng: number;
   cats: [string, string];
 }
 
-const CITIES: CityPin[] = [
-  { rank: 1,  name: "Tunis",         count: 412, x: 48, y: 8,  cats: ["Web Development", "Graphic Design"] },
-  { rank: 2,  name: "Sfax",           count: 198, x: 52, y: 42, cats: ["Mobile Development", "Digital Marketing"] },
-  { rank: 3,  name: "Sousse",        count: 156, x: 54, y: 25, cats: ["UI/UX Design", "Video Editing"] },
-  { rank: 4,  name: "Monastir",      count: 124, x: 56, y: 30, cats: ["Voice Over", "Translation"] },
-  { rank: 5,  name: "Nabeul",         count: 98,  x: 62, y: 14, cats: ["3D Modeling", "Photography"] },
-  { rank: 6,  name: "Kairouan",       count: 76,  x: 40, y: 28, cats: ["Content Writing", "SEO"] },
-  { rank: 7,  name: "Bizerte",        count: 54,  x: 35, y: 4,  cats: ["Photography", "Web Development"] },
-  { rank: 8,  name: "Gabès",          count: 42,  x: 48, y: 58, cats: ["Translation", "Marketing"] },
-  { rank: 9,  name: "Djerba",         count: 38,  x: 60, y: 62, cats: ["Tourism Content", "Photography"] },
-  { rank: 10, name: "Sidi Bou Said",  count: 28,  x: 45, y: 6,  cats: ["Photography", "Art Direction"] },
-  { rank: 11, name: "Tozeur",         count: 18,  x: 22, y: 50, cats: ["Travel Writing", "Photography"] },
-  { rank: 12, name: "Tataouine",      count: 12,  x: 42, y: 82, cats: ["Travel Writing", "Videography"] },
-];
+const CITIES: CityPin[] = CITIES_WITH_POS;
 
 // Use the platform-wide total (1,248) for percentage math — this matches
 // the trustStats.verifiedFreelancers value used elsewhere on the page.
@@ -237,21 +223,27 @@ export function TunisianCities() {
           {/* ─────────────────────────────────────────────────────── */}
           <Reveal className="lg:col-span-3" delay={0.05}>
             <Card className="relative overflow-hidden border-border/60 bg-gradient-to-br from-[#192d2f] via-[#2b3d3d] to-[#192d2f] h-[480px] sm:h-[560px] lg:h-[620px]">
-              {/* Tunisia map outline background */}
-              <div
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                aria-hidden
-              >
-                <img
-                  src="/services/tunisia-map.png"
-                  alt=""
-                  className="h-full w-auto opacity-15 object-contain"
-                  style={{ filter: "brightness(1.5) contrast(0.8)" }}
-                />
+              {/* Accurate Tunisia SVG outline */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden>
+                <svg
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="xMidYMid meet"
+                  className="h-full w-full"
+                  style={{ filter: "drop-shadow(0 0 20px rgba(116,134,132,0.15))" }}
+                >
+                  {/* Tunisia fill */}
+                  <path
+                    d={TUNISIA_SVG_PATH}
+                    fill="rgba(50, 80, 77, 0.25)"
+                    stroke="rgba(116, 134, 132, 0.4)"
+                    strokeWidth="0.4"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
 
               {/* dot grid overlay */}
-              <div className="absolute inset-0 bg-dot-grid opacity-20" aria-hidden />
+              <div className="absolute inset-0 bg-dot-grid opacity-15" aria-hidden />
 
               {/* decorative blur blobs */}
               <div
