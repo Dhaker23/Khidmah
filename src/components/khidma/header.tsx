@@ -102,7 +102,7 @@ export function Header() {
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
           ? "bg-background/85 backdrop-blur-xl border-b border-border/60 shadow-sm"
-          : "bg-transparent"
+          : "bg-gradient-to-b from-[#192d2f]/95 via-[#192d2f]/80 to-transparent"
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
