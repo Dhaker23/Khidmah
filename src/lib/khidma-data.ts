@@ -354,7 +354,7 @@ export const freelancers: Freelancer[] = [
         title: "I will build a professional Next.js landing page",
         description:
           "Premium responsive landing page with animations, SEO optimization, and lead capture. Trusted by 80+ clients.",
-        cover: coverSeed("landing-service"),
+        cover: "/services/nextjs-landing.png",
         category: "Web Development",
         skills: ["Next.js", "Tailwind", "GSAP"],
         startingPrice: 350,
@@ -374,7 +374,7 @@ export const freelancers: Freelancer[] = [
         title: "I will develop a complete SaaS dashboard",
         description:
           "Multi-tenant admin dashboard with auth, role-based access, real-time charts, and API integrations.",
-        cover: coverSeed("saas-service"),
+        cover: "/services/saas-dashboard.png",
         category: "Web Development",
         skills: ["Next.js", "Prisma", "TypeScript", "Recharts"],
         startingPrice: 1200,
@@ -447,7 +447,7 @@ export const freelancers: Freelancer[] = [
         title: "I will design a modern UI for your web or mobile app",
         description:
           "Pixel-perfect, modern UI design in Figma. Includes design system, components, and developer handoff.",
-        cover: coverSeed("ui-service"),
+        cover: "/services/ui-design.png",
         category: "UI/UX Design",
         skills: ["Figma", "UI Design", "Design System"],
         startingPrice: 250,
@@ -506,7 +506,7 @@ export const freelancers: Freelancer[] = [
         title: "I will create professional motion graphics for your brand",
         description:
           "Animated logos, social media reels, and explainer videos that capture attention and elevate your brand.",
-        cover: coverSeed("motion-service"),
+        cover: "/services/motion-graphics.png",
         category: "Motion Graphics",
         skills: ["After Effects", "Motion Graphics", "Video Editing"],
         startingPrice: 180,
@@ -564,7 +564,7 @@ export const freelancers: Freelancer[] = [
         title: "I will record a professional Arabic or French voice over",
         description:
           "Studio-quality voice over for ads, videos, audiobooks, and corporate content. Arabic and French native.",
-        cover: coverSeed("voice-service"),
+        cover: "/services/voice-over.png",
         category: "Voice Over",
         skills: ["Voice Over", "Arabic", "French"],
         startingPrice: 80,
@@ -624,7 +624,7 @@ export const freelancers: Freelancer[] = [
         title: "I will write SEO-optimized blog articles in Arabic, French, or English",
         description:
           "High-quality, research-backed articles optimized for search engines and reader engagement.",
-        cover: coverSeed("writing-service"),
+        cover: "/services/seo-writing.png",
         category: "Writing",
         skills: ["Copywriting", "SEO", "Blog"],
         startingPrice: 60,
