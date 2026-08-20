@@ -116,7 +116,7 @@ export function Header() {
             <KhidmaLogo
               variant="full"
               size="sm"
-              className={cn(!scrolled && "[&_span]:text-white")}
+              className={cn(!scrolled && "[&_span]:!text-white")}
             />
           </button>
 
