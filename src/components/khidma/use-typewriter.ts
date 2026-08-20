@@ -23,10 +23,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
-const TYPE_DELAY_MS = 50;
-const HOLD_MS = 1500;
-const DELETE_DELAY_MS = 30;
-const EMPTY_MS = 500;
+const TYPE_DELAY_MS = 35;
+const HOLD_MS = 2500;
+const DELETE_DELAY_MS = 25;
+const EMPTY_MS = 300;
 
 type Phase = "typing" | "holding" | "deleting" | "empty";
 
@@ -130,17 +130,20 @@ export function useTypewriter(phrases: string[]): UseTypewriterResult {
       return () => clearTimeout(id);
     }
 
-    // Start the typewriter loop from the first phrase.
-    phaseRef.current = "typing";
-    posRef.current = 0;
+    // Start with the first phrase FULLY TYPED (instant, no animation on load)
+    // so the hero looks complete immediately. Only animate transitions
+    // between phrases (delete → re-type).
+    phaseRef.current = "holding";
+    posRef.current = phrases[0]?.length ?? 0;
     phraseRef.current = 0;
     // Defer the initial state sync to avoid cascading renders.
     const initId = setTimeout(() => {
-      setText("");
+      setText(phrases[0] ?? "");
       setPhraseIndex(0);
-      setAnimating(true);
+      setAnimating(false);
     }, 0);
-    timerRef.current = setTimeout(step, TYPE_DELAY_MS);
+    // Schedule the first transition (after HOLD_MS, start deleting).
+    timerRef.current = setTimeout(step, HOLD_MS);
 
     return () => {
       clearTimeout(initId);
