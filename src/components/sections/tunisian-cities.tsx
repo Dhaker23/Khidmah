@@ -56,18 +56,18 @@ interface CityPin {
 }
 
 const CITIES: CityPin[] = [
-  { rank: 1,  name: "Tunis",         count: 412, x: 55, y: 10, cats: ["Web Development", "Graphic Design"] },
-  { rank: 2,  name: "Sfax",           count: 198, x: 58, y: 50, cats: ["Mobile Development", "Digital Marketing"] },
-  { rank: 3,  name: "Sousse",        count: 156, x: 60, y: 28, cats: ["UI/UX Design", "Video Editing"] },
-  { rank: 4,  name: "Monastir",      count: 124, x: 65, y: 35, cats: ["Voice Over", "Translation"] },
-  { rank: 5,  name: "Nabeul",         count: 98,  x: 70, y: 18, cats: ["3D Modeling", "Photography"] },
-  { rank: 6,  name: "Kairouan",       count: 76,  x: 45, y: 32, cats: ["Content Writing", "SEO"] },
-  { rank: 7,  name: "Bizerte",        count: 54,  x: 38, y: 4,  cats: ["Photography", "Web Development"] },
-  { rank: 8,  name: "Gabès",          count: 42,  x: 55, y: 65, cats: ["Translation", "Marketing"] },
-  { rank: 9,  name: "Djerba",         count: 38,  x: 70, y: 70, cats: ["Tourism Content", "Photography"] },
-  { rank: 10, name: "Sidi Bou Said",  count: 28,  x: 50, y: 8,  cats: ["Photography", "Art Direction"] },
-  { rank: 11, name: "Tozeur",         count: 18,  x: 25, y: 60, cats: ["Travel Writing", "Photography"] },
-  { rank: 12, name: "Tataouine",      count: 12,  x: 50, y: 85, cats: ["Travel Writing", "Videography"] },
+  { rank: 1,  name: "Tunis",         count: 412, x: 48, y: 8,  cats: ["Web Development", "Graphic Design"] },
+  { rank: 2,  name: "Sfax",           count: 198, x: 52, y: 42, cats: ["Mobile Development", "Digital Marketing"] },
+  { rank: 3,  name: "Sousse",        count: 156, x: 54, y: 25, cats: ["UI/UX Design", "Video Editing"] },
+  { rank: 4,  name: "Monastir",      count: 124, x: 56, y: 30, cats: ["Voice Over", "Translation"] },
+  { rank: 5,  name: "Nabeul",         count: 98,  x: 62, y: 14, cats: ["3D Modeling", "Photography"] },
+  { rank: 6,  name: "Kairouan",       count: 76,  x: 40, y: 28, cats: ["Content Writing", "SEO"] },
+  { rank: 7,  name: "Bizerte",        count: 54,  x: 35, y: 4,  cats: ["Photography", "Web Development"] },
+  { rank: 8,  name: "Gabès",          count: 42,  x: 48, y: 58, cats: ["Translation", "Marketing"] },
+  { rank: 9,  name: "Djerba",         count: 38,  x: 60, y: 62, cats: ["Tourism Content", "Photography"] },
+  { rank: 10, name: "Sidi Bou Said",  count: 28,  x: 45, y: 6,  cats: ["Photography", "Art Direction"] },
+  { rank: 11, name: "Tozeur",         count: 18,  x: 22, y: 50, cats: ["Travel Writing", "Photography"] },
+  { rank: 12, name: "Tataouine",      count: 12,  x: 42, y: 82, cats: ["Travel Writing", "Videography"] },
 ];
 
 // Use the platform-wide total (1,248) for percentage math — this matches
@@ -237,8 +237,21 @@ export function TunisianCities() {
           {/* ─────────────────────────────────────────────────────── */}
           <Reveal className="lg:col-span-3" delay={0.05}>
             <Card className="relative overflow-hidden border-border/60 bg-gradient-to-br from-[#192d2f] via-[#2b3d3d] to-[#192d2f] h-[480px] sm:h-[560px] lg:h-[620px]">
+              {/* Tunisia map outline background */}
+              <div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                aria-hidden
+              >
+                <img
+                  src="/services/tunisia-map.png"
+                  alt=""
+                  className="h-full w-auto opacity-15 object-contain"
+                  style={{ filter: "brightness(1.5) contrast(0.8)" }}
+                />
+              </div>
+
               {/* dot grid overlay */}
-              <div className="absolute inset-0 bg-dot-grid opacity-30" aria-hidden />
+              <div className="absolute inset-0 bg-dot-grid opacity-20" aria-hidden />
 
               {/* decorative blur blobs */}
               <div
@@ -255,13 +268,21 @@ export function TunisianCities() {
                 className="absolute top-4 left-5 text-[10px] uppercase tracking-[0.3em] font-semibold text-white/40"
                 aria-hidden
               >
-                Tunisia
+                Tunisia 🇹🇳
               </span>
               <span
                 className="absolute top-4 right-5 text-[10px] uppercase tracking-[0.3em] font-semibold text-white/40"
                 aria-hidden
               >
                 24 cities
+              </span>
+
+              {/* Mediterranean Sea label */}
+              <span
+                className="absolute top-12 right-8 text-[9px] uppercase tracking-[0.2em] text-white/20 italic"
+                aria-hidden
+              >
+                Mediterranean Sea
               </span>
 
               {/* Pins */}
@@ -278,9 +299,17 @@ export function TunisianCities() {
               ))}
 
               {/* legend */}
-              <div className="absolute bottom-4 left-5 flex items-center gap-2 text-[10px] text-white/50">
-                <span className="size-2 rounded-full bg-[#32504d] ring-2 ring-white/60" />
-                <span>Tap a city to browse local freelancers</span>
+              <div className="absolute bottom-4 left-5 flex flex-col gap-1.5 text-[10px] text-white/50">
+                <div className="flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-[#32504d] ring-2 ring-white/60" />
+                  <span>Tap a city to browse local freelancers</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full bg-[#32504d]/60" />
+                  <span className="size-2.5 rounded-full bg-[#32504d]/80" />
+                  <span className="size-3.5 rounded-full bg-[#32504d]" />
+                  <span className="ml-1">More freelancers = bigger pin</span>
+                </div>
               </div>
 
               {/* "as of" caption */}
