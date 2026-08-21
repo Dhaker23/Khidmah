@@ -604,7 +604,7 @@ export function Footer() {
         {/* === Bottom bar === */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="text-xs text-white/50 space-y-1 max-w-xl">
-            <p>© {new Date().getFullYear()} Khidma — خدمة. {t("footer.rights").replace(/^© \d+ Khidma — خدمة\. /, "")}</p>
+            <p>© {new Date().getFullYear()} Khidma. All rights reserved.</p>
             <p>
               {t("footer.designedBy")}{" "}
               <a
