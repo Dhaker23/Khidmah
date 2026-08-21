@@ -615,23 +615,6 @@ export function Footer() {
               </a>
               . {t("footer.tagline")}.
             </p>
-            <p className="flex items-center justify-center sm:justify-start gap-2 pt-1">
-              <a
-                href="mailto:dhakeramarawork@gmail.com"
-                className="hover:text-white/80 transition-colors inline-flex items-center gap-1"
-              >
-                <Mail className="size-3" /> dhakeramarawork@gmail.com
-              </a>
-              <span className="text-white/30">·</span>
-              <a
-                href="https://wa.me/21699495558"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white/80 transition-colors inline-flex items-center gap-1"
-              >
-                <MessageCircle className="size-3" /> +216 99 49 55 58
-              </a>
-            </p>
           </div>
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/40 bg-[#32504d]/15 px-3 py-1 text-[11px] font-semibold text-[#94a8a4]">
