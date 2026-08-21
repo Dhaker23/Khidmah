@@ -36,7 +36,6 @@ import {
 } from "@/components/sections";
 import { AuthModal, OnboardingWizard } from "@/components/modals";
 import { CommandPalette } from "@/components/khidma/command-palette";
-import { BackToTop } from "@/components/khidma/back-to-top";
 import { CompareTray } from "@/components/khidma/compare-tray";
 import { LiveNotifications } from "@/components/khidma/live-notifications";
 import {
@@ -257,8 +256,7 @@ export default function Home() {
 
       <Footer />
 
-      {/* Floating back-to-top button with scroll progress ring */}
-      <BackToTop />
+
 
       {/* Floating compare queue bar — appears when freelancers are queued */}
       <CompareTray />
