@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "./verification";
-import { TrustSeal } from "./trust-seal";
 import { useApp } from "@/lib/store";
 import { formatTND, formatNumber, type Freelancer } from "@/lib/khidma-data";
 import { cn } from "@/lib/utils";
@@ -89,12 +88,6 @@ export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: Fr
               className={cn("size-3.5", isFav ? "fill-rose-500 text-rose-500" : "text-white")}
             />
           </button>
-          {/* Compact Trust Seal — top-left of cover strip for top-rated freelancers */}
-          {f.topRated && (
-            <div className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-white/15 backdrop-blur-md px-1.5 py-0.5 shadow-sm">
-              <TrustSeal variant="compact" animated={false} />
-            </div>
-          )}
           <div className="absolute bottom-2 left-3 flex items-center gap-1.5">
             <span className={cn("size-2 rounded-full", avail.color)} />
             <span className="text-[10px] uppercase tracking-wider text-white/90 font-medium">
