@@ -5,7 +5,7 @@
  * ----------------
  * Animated achievement badge system for Khidma freelancers.
  *
- * 8 achievement types — each with icon, name, description, color, unlock
+ * 8 achievement types , each with icon, name, description, color, unlock
  * criteria. The component takes a `freelancerId` and looks up the freelancer
  * in mock data to compute which badges are unlocked, and what progress each
  * locked badge has made towards its threshold.
@@ -128,7 +128,7 @@ const ACHIEVEMENTS: AchievementDef[] = [
     bg: "bg-blue-500/15",
     ring: "ring-blue-500/30",
     glow: "rgba(37,99,235,0.45)",
-    // Mock progress — freelancers with fast response times accumulate speed
+    // Mock progress , freelancers with fast response times accumulate speed
     progress: (f) => {
       // Fast response → counts as ~30+; "1 hour" qualifies
       const fast = f.responseTime.includes("1 hour") || f.responseTime.includes("minute");
@@ -278,8 +278,8 @@ export function AchievementBadges({
               role="listitem"
               title={
                 unlocked
-                  ? `${def.name} — ${def.description} (Unlocked)`
-                  : `${def.name} — ${def.description} (Locked)`
+                  ? `${def.name} , ${def.description} (Unlocked)`
+                  : `${def.name} , ${def.description} (Locked)`
               }
               initial={prefersReduced ? undefined : { opacity: 0, scale: 0.7 }}
               whileInView={

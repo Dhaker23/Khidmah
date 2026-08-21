@@ -40,7 +40,7 @@ const features = [
     icon: Star,
     title: "Real reviews from real projects",
     description:
-      "Reviews are tied to completed, paid contracts — never fakeable.",
+      "Reviews are tied to completed, paid contracts , never fakeable.",
   },
   {
     icon: Repeat,
@@ -67,7 +67,7 @@ export function WhyKhidma() {
               <p className="mt-4 text-base text-muted-foreground leading-relaxed">
                 Most marketplaces optimise for volume. Khidma optimises for trust.
                 We verify identity, protect payments, and let real work speak for
-                itself — so both sides can focus on doing great work instead of
+                itself , so both sides can focus on doing great work instead of
                 chasing ghosts.
               </p>
 

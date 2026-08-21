@@ -53,7 +53,7 @@ export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: Fr
     toggleCompare(f.id);
     if (!inCompare) {
       toast.success("Added to compare", {
-        description: `${f.name} — ${compareIds.length + 1}/3`,
+        description: `${f.name}, ${compareIds.length + 1}/3`,
       });
     }
   };
@@ -95,7 +95,7 @@ export function FreelancerCard({ freelancer: f, index = 0, layout = "grid" }: Fr
             </span>
           </div>
 
-          {/* Compare checkbox — bottom-right of cover strip */}
+          {/* Compare checkbox , bottom-right of cover strip */}
           <button
             onClick={onCompareClick}
             aria-label={inCompare ? `Remove ${f.name} from compare` : `Add ${f.name} to compare`}

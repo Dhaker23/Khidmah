@@ -87,13 +87,13 @@ const PILLARS: Pillar[] = [
     icon: Lock,
     title: "Escrow Protection",
     description:
-      "Client funds are held in escrow until milestones are approved. Freelancers get paid for completed work — always.",
+      "Client funds are held in escrow until milestones are approved. Freelancers get paid for completed work, always.",
   },
   {
     icon: Star,
     title: "Two-sided Reviews",
     description:
-      "Both clients and freelancers review each other after every contract. No fake reviews — all tied to real, paid projects.",
+      "Both clients and freelancers review each other after every contract. No fake reviews, all tied to real, paid projects.",
   },
 ];
 
@@ -200,7 +200,7 @@ const DISPUTE_STEPS: DisputeStep[] = [
     step: "2",
     title: "Our team reviews evidence",
     description:
-      "A Khidma mediator examines milestones, messages, deliverables, and escrow status — fairly and neutrally.",
+      "A Khidma mediator examines milestones, messages, deliverables, and escrow status, fairly and neutrally.",
     icon: Gavel,
   },
   {
@@ -239,9 +239,7 @@ function PillarCard({
       className="h-full"
     >
       <Card className="group h-full p-5 sm:p-6 border-border/60 hover:border-[#32504d]/40 hover:shadow-lg hover:shadow-[#32504d]/8 transition-all duration-300">
-        <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5">
-          <Icon className="size-5" />
-        </div>
+        <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
         <h3 className="font-display text-base font-semibold text-foreground mb-1.5">
           {pillar.title}
         </h3>
@@ -335,9 +333,7 @@ function SecurityBadgeTile({
       whileHover={prefersReduced ? undefined : { y: -3 }}
       className="group flex items-center gap-3 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 hover:border-[#32504d]/40 transition-colors"
     >
-      <div className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110">
-        <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
-      </div>
+      <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 transition-transform duration-200 group-hover:scale-110" />
       <div className="min-w-0">
         <div className="text-sm font-semibold text-foreground truncate">
           {badge.label}
@@ -370,9 +366,7 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
       className="group"
     >
       <Card className="h-full p-5 sm:p-6 border-border/60 hover:border-[#32504d]/40 transition-colors text-center">
-        <div className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto transition-transform duration-200 group-hover:-translate-y-0.5">
-          <Icon className="size-5" />
-        </div>
+        <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto transition-transform duration-200 group-hover:-translate-y-0.5" />
         <div className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           {stat.value}
         </div>
@@ -407,15 +401,13 @@ function DisputeCard() {
               aria-hidden
             />
             <div className="relative">
-              <div className="flex size-11 items-center justify-center rounded-xl bg-[#9bb3ae]/20 border border-[#9bb3ae]/30 mb-4">
-                <Scale className="size-5 text-[#9bb3ae]" />
-              </div>
+              <Scale className="size-5 text-[#9bb3ae] mb-4" />
               <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
                 If something goes wrong
               </h3>
               <p className="mt-2 text-sm text-white/75 leading-relaxed">
                 Disputes are rare on Khidma, but when they happen, our team
-                resolves them quickly and fairly — with full transparency for
+                resolves them quickly and fairly, with full transparency for
                 both sides.
               </p>
               <Button
@@ -501,7 +493,7 @@ export function TrustCenter() {
               </span>
             </>
           }
-          description="Everything we do is built around trust. Here's exactly how we protect both freelancers and clients — from identity verification to escrow, reviews, and dispute resolution."
+          description="Everything we do is built around trust. Here's exactly how we protect both freelancers and clients, from identity verification to escrow, reviews, and dispute resolution."
         />
 
         {/* 4 pillar cards */}
@@ -520,7 +512,7 @@ export function TrustCenter() {
           </h3>
           <p className="text-sm text-muted-foreground mb-8 max-w-2xl">
             Five steps stand between a new signup and a verified profile. Each
-            one adds a layer of trust — for clients and for the freelancer's
+            one adds a layer of trust, for clients and for the freelancer's
             own reputation.
           </p>
         </Reveal>

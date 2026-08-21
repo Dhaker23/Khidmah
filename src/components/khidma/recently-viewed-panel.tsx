@@ -10,7 +10,6 @@ import {
   ShoppingBag,
   Briefcase,
   Trash2,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -266,7 +265,6 @@ export function RecentlyViewedPanel() {
 
                   {recentlyViewed.length > 5 && (
                     <div className="pt-1.5 pb-1 flex items-center justify-center gap-1 text-[10px] text-muted-foreground">
-                      <Sparkles className="size-3 text-[#32504d] dark:text-[#9bb3ae]" />
                       +{recentlyViewed.length - 5} more in your history
                     </div>
                   )}

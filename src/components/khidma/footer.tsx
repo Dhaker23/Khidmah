@@ -1,23 +1,23 @@
 "use client";
 
 /**
- * Khidma Footer — premium information-dense footer
+ * Khidma Footer , premium information-dense footer
  * -----------------------------------------------
  * Sections:
- *   1. Top strip — "Trusted by 1,248+ verified freelancers across 24 cities"
+ *   1. Top strip , "Trusted by 1,248+ verified freelancers across 24 cities"
  *      + row of 5 Tunisian city pills (Tunis, Sfax, Sousse, Kairouan, Nabeul).
- *   2. Newsletter — "Join 8,420+ Khidma insiders" + subtitle + email input +
+ *   2. Newsletter , "Join 8,420+ Khidma insiders" + subtitle + email input +
  *      Subscribe button + privacy note. Animated form feedback via framer-motion.
- *   3. Stats mini-row — 4 inline stats with count-up (1,248 freelancers ·
+ *   3. Stats mini-row , 4 inline stats with count-up (1,248 freelancers ·
  *      8,420 projects · TND 1.24M paid · 41 countries).
- *   4. App download badges — App Store + Google Play mock badges (inline SVGs).
- *   5. Social proof — ★ 4.9/5 from 8,420+ reviews (5 star icons).
- *   6. Existing nav columns — For Clients / For Freelancers / Marketplace /
+ *   4. App download badges , App Store + Google Play mock badges (inline SVGs).
+ *   5. Social proof , ★ 4.9/5 from 8,420+ reviews (5 star icons).
+ *   6. Existing nav columns , For Clients / For Freelancers / Marketplace /
  *      Trust & Safety, plus new "Khidma API" + "Khidma for Teams" links.
- *   7. Bottom bar — Amara Dhaker attribution + contact email + WhatsApp +
- *      "Made in Tunisia 🇹🇳" badge + "Take the tour" button.
+ *   7. Bottom bar , Amara Dhaker attribution + contact email + WhatsApp +
+ *      "Made in Tunisia" badge + "Take the tour" button.
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
  * Animations: framer-motion + count-up; respects prefers-reduced-motion.
  */
 
@@ -43,7 +43,6 @@ import {
   ShieldCheck,
   Apple,
   Play,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import { KhidmaLogo } from "./logo";
@@ -161,7 +160,7 @@ function AppStoreBadge() {
       type="button"
       aria-label="Download on the App Store"
       className="group flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all px-3 py-2"
-      onClick={() => toast.info("iOS app coming soon — sign up to be notified.")}
+      onClick={() => toast.info("iOS app coming soon , sign up to be notified.")}
     >
       <Apple className="size-5 text-white" />
       <div className="text-left leading-tight">
@@ -180,7 +179,7 @@ function GooglePlayBadge() {
       type="button"
       aria-label="Get it on Google Play"
       className="group flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all px-3 py-2"
-      onClick={() => toast.info("Android app coming soon — sign up to be notified.")}
+      onClick={() => toast.info("Android app coming soon , sign up to be notified.")}
     >
       <Play className="size-5 text-white fill-white" />
       <div className="text-left leading-tight">
@@ -365,7 +364,7 @@ export function Footer() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        {/* === 1. Top strip — trust + city pills === */}
+        {/* === 1. Top strip , trust + city pills === */}
         <motion.div
           initial={prefersReduced ? undefined : { opacity: 0, y: 12 }}
           whileInView={prefersReduced ? undefined : { opacity: 1, y: 0 }}
@@ -526,7 +525,7 @@ export function Footer() {
             </div>
 
             {/* Social */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {socialLinks.map((s) => {
                 const Icon = s.icon;
                 return (
@@ -534,9 +533,9 @@ export function Footer() {
                     key={s.label}
                     href={s.href}
                     aria-label={s.label}
-                    className="size-9 rounded-lg bg-white/5 border border-white/10 hover:bg-[#32504d] hover:border-[#32504d] hover:scale-105 flex items-center justify-center transition-all"
+                    className="text-white/70 hover:text-white transition-colors"
                   >
-                    <Icon className="size-4" />
+                    <Icon className="size-5" />
                   </a>
                 );
               })}
@@ -544,9 +543,8 @@ export function Footer() {
                 variant="outline"
                 size="sm"
                 onClick={() => startTour()}
-                className="ml-2 border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white gap-1.5"
+                className="ml-2 border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
               >
-                <Sparkles className="size-3.5" />
                 Take the tour
               </Button>
             </div>
@@ -618,7 +616,7 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/40 bg-[#32504d]/15 px-3 py-1 text-[11px] font-semibold text-[#94a8a4]">
-              Made in Tunisia 🇹🇳
+              Made in Tunisia
             </span>
             <div className="flex items-center gap-3 text-xs text-white/50">
               <button

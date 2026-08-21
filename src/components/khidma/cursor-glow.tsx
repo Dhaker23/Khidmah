@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 
 /**
- * CursorGlow — a subtle cursor-following radial glow that appears
+ * CursorGlow , a subtle cursor-following radial glow that appears
  * only when the pointer is over a `[data-cursor-glow]` element.
  *
  * - Uses `useMotionValue` + `useSpring` (stiffness 150, damping 20) for

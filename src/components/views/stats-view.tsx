@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * StatsView — Khidma Platform Stats interactive view
+ * StatsView , Khidma Platform Stats interactive view
  * ----------------------------------------------
  * A dedicated full-page interactive analytics dashboard (different from the
  * landing-page `StatsDashboard` section). Reached via the ⌘K command palette
@@ -9,20 +9,20 @@
  * stats-dashboard section.
  *
  * Layout (mobile-first, stacks to single column on small screens):
- *   1. Header — title + subtitle + back-to-home + "Last updated: just now" + refresh
- *   2. Time range tabs — 7d / 30d / 90d / 1y (visual filter on mock data)
- *   3. 4 KPI cards — count-up + trend + mini sparkline
+ *   1. Header , title + subtitle + back-to-home + "Last updated: just now" + refresh
+ *   2. Time range tabs , 7d / 30d / 90d / 1y (visual filter on mock data)
+ *   3. 4 KPI cards , count-up + trend + mini sparkline
  *   4. Charts grid (2×2 on desktop):
- *      - Growth chart (AreaChart, full width row 1) — signups + completions
+ *      - Growth chart (AreaChart, full width row 1) , signups + completions
  *      - Category distribution (PieChart donut, row 2 left)
  *      - Revenue by month (BarChart, row 2 right)
  *      - Top cities (horizontal BarChart, row 3, full width)
- *   5. Activity feed — last 10 platform events with color-coded icons
- *   6. Geographic distribution — top 5 countries with flags + percentages
- *   7. Performance metrics — 4 stat cards
+ *   5. Activity feed , last 10 platform events with color-coded icons
+ *   6. Geographic distribution , top 5 countries with flags + percentages
+ *   7. Performance metrics , 4 stat cards
  *
  * Uses recharts (AreaChart, PieChart, BarChart). Respects `prefers-reduced-motion`.
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -54,6 +54,7 @@ import {
   TrendingUp,
   TrendingDown,
   ShieldCheck,
+  Award,
   CheckCircle2,
   CreditCard,
   Star,
@@ -61,7 +62,6 @@ import {
   MapPin,
   Globe2,
   Heart,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -374,11 +374,11 @@ const CITIES_DATA = [
 ];
 
 const COUNTRIES = [
-  { code: "TN", name: "Tunisia", count: 1012, flag: "🇹🇳" },
-  { code: "FR", name: "France", count: 89, flag: "🇫🇷" },
-  { code: "DE", name: "Germany", count: 47, flag: "🇩🇪" },
-  { code: "CA", name: "Canada", count: 32, flag: "🇨🇦" },
-  { code: "AE", name: "UAE", count: 28, flag: "🇦🇪" },
+  { code: "TN", name: "Tunisia", count: 1012 },
+  { code: "FR", name: "France", count: 89 },
+  { code: "DE", name: "Germany", count: 47 },
+  { code: "CA", name: "Canada", count: 32 },
+  { code: "AE", name: "UAE", count: 28 },
 ];
 
 const PERFORMANCE = [
@@ -394,15 +394,15 @@ const ACTIVITY_EVENTS: {
   text: string;
   time: string;
 }[] = [
-  { id: "e1", type: "verified", text: "New freelancer verified — Aymen K. (Developer)", time: "just now" },
-  { id: "e2", type: "completed", text: "Project completed — 'SaaS landing page'", time: "2 min ago" },
-  { id: "e3", type: "payment", text: "Payment released — TND 1,240 to wallet", time: "6 min ago" },
+  { id: "e1", type: "verified", text: "New freelancer verified , Aymen K. (Developer)", time: "just now" },
+  { id: "e2", type: "completed", text: "Project completed , 'SaaS landing page'", time: "2 min ago" },
+  { id: "e3", type: "payment", text: "Payment released , TND 1,240 to wallet", time: "6 min ago" },
   { id: "e4", type: "review", text: "5-star review left by Sarah Chen", time: "12 min ago" },
-  { id: "e5", type: "joined", text: "New client registered — Digital Agency TN", time: "18 min ago" },
-  { id: "e6", type: "milestone", text: "Milestone approved — 'Design system kit'", time: "27 min ago" },
-  { id: "e7", type: "verified", text: "Identity verified — Rania B. (Designer)", time: "34 min ago" },
-  { id: "e8", type: "payment", text: "Withdrawal processed — TND 3,200", time: "41 min ago" },
-  { id: "e9", type: "completed", text: "Project completed — 'Mobile onboarding flow'", time: "52 min ago" },
+  { id: "e5", type: "joined", text: "New client registered , Digital Agency TN", time: "18 min ago" },
+  { id: "e6", type: "milestone", text: "Milestone approved , 'Design system kit'", time: "27 min ago" },
+  { id: "e7", type: "verified", text: "Identity verified , Rania B. (Designer)", time: "34 min ago" },
+  { id: "e8", type: "payment", text: "Withdrawal processed , TND 3,200", time: "41 min ago" },
+  { id: "e9", type: "completed", text: "Project completed , 'Mobile onboarding flow'", time: "52 min ago" },
   { id: "e10", type: "review", text: "5-star review left by Karim Bouazizi", time: "1 hour ago" },
 ];
 
@@ -415,7 +415,7 @@ const ACTIVITY_META: Record<
   payment: { icon: CreditCard, ring: "ring-[#748684]/25", bg: "bg-[#748684]/15", text: "text-[#748684]" },
   review: { icon: Star, ring: "ring-[#475959]/25", bg: "bg-[#475959]/15 dark:bg-[#475959]/25", text: "text-[#475959] dark:text-[#94a8a4]" },
   joined: { icon: Users, ring: "ring-[#2b3d3d]/25", bg: "bg-[#2b3d3d]/15 dark:bg-[#2b3d3d]/30", text: "text-[#2b3d3d] dark:text-[#94a8a4]" },
-  milestone: { icon: Sparkles, ring: "ring-[#32504d]/25", bg: "bg-[#32504d]/10 dark:bg-[#32504d]/20", text: "text-[#32504d] dark:text-[#9bb3ae]" },
+  milestone: { icon: Award, ring: "ring-[#32504d]/25", bg: "bg-[#32504d]/10 dark:bg-[#32504d]/20", text: "text-[#32504d] dark:text-[#9bb3ae]" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -916,9 +916,6 @@ function GeographicDistribution() {
               className="rounded-xl border border-border/60 bg-card/50 p-4"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-2xl leading-none" aria-hidden>
-                  {c.flag}
-                </span>
                 <span className="text-[11px] font-semibold tabular-nums text-muted-foreground">
                   {pct.toFixed(1)}%
                 </span>

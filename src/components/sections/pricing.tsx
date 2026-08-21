@@ -20,7 +20,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   Check,
   ShieldCheck,
-  Sparkles,
   Star,
 } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/khidma/reveal";
@@ -313,7 +312,6 @@ export function Pricing() {
           <div className="rounded-2xl border border-border/70 bg-card p-5 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
                 <h4 className="text-sm font-semibold text-foreground">
                   All plans include
                 </h4>

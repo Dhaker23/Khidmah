@@ -9,7 +9,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
  * Two responsibilities:
  *  1. Wrap children with a smooth opacity + slight-y fade between views.
  *  2. Render a brief teal "curtain" wipe that sweeps left-to-right (300ms)
- *     whenever the active view changes — adding a tactile premium feel.
+ *     whenever the active view changes , adding a tactile premium feel.
  *
  * Accessibility:
  *  - When `prefers-reduced-motion` is set, the curtain is skipped entirely
@@ -22,7 +22,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
  * -------------------------------------------------------------------------- */
 
 interface PageTransitionProps {
-  /** Unique key per view — changing this triggers the curtain + fade. */
+  /** Unique key per view , changing this triggers the curtain + fade. */
   viewKey: string | number;
   children: ReactNode;
   /** Optional className applied to the wrapping motion.div. */
@@ -34,7 +34,7 @@ export function PageTransition({ viewKey, children, className }: PageTransitionP
   const firstRender = useRef(true);
   const [curtainVisible, setCurtainVisible] = useState(false);
 
-  // Trigger a fresh curtain wipe whenever the view changes — but skip
+  // Trigger a fresh curtain wipe whenever the view changes , but skip
   // the very first mount so the page doesn't wipe on initial load.
   useEffect(() => {
     if (firstRender.current) {
@@ -70,7 +70,7 @@ export function PageTransition({ viewKey, children, className }: PageTransitionP
         </motion.div>
       </AnimatePresence>
 
-      {/* Curtain overlay — sits above main content but below modals (z-50) */}
+      {/* Curtain overlay , sits above main content but below modals (z-50) */}
       <AnimatePresence>
         {curtainVisible && (
           <motion.div

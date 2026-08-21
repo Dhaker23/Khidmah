@@ -20,7 +20,6 @@ import {
   Clock,
   Briefcase,
   Languages,
-  Sparkles,
   CheckCircle2,
   X,
   Plus,
@@ -149,7 +148,7 @@ const ROWS: RowSpec[] = [
   {
     key: "skills",
     label: "Top Skills",
-    icon: Sparkles,
+    icon: Award,
     render: (f) => (
       <div className="flex flex-wrap gap-1 justify-center">
         {f.skills.slice(0, 6).map((s) => (

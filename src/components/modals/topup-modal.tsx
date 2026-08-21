@@ -77,7 +77,7 @@ const QUICK_AMOUNTS = [50, 100, 250, 500, 1000];
 const MIN_AMOUNT = 10;
 const MAX_AMOUNT = 10000;
 
-// Mock wallet balances — match WalletModal mock values
+// Mock wallet balances , match WalletModal mock values
 const AVAILABLE_BALANCE = 4250;
 const PENDING_BALANCE = 1800;
 
@@ -130,7 +130,7 @@ export function TopupModal() {
   // We intentionally reset on open rather than close so any failed submit
   // attempt preserves its inputs for review. The setState-in-effect pattern
   // is required here because the form's lifetime is tied to the dialog open
-  // state, which is owned by the global store — there is no parent prop
+  // state, which is owned by the global store , there is no parent prop
   // we can `key` on without breaking the dialog's transition animations.
   useEffect(() => {
     if (!topupOpen) return;
@@ -177,7 +177,7 @@ export function TopupModal() {
   const handleQuickAmount = (n: number) => setAmount(n);
 
   const handleCustomAmount = (raw: string) => {
-    // Allow digits only — clamp to MAX_AMOUNT
+    // Allow digits only , clamp to MAX_AMOUNT
     const digits = raw.replace(/[^\d]/g, "");
     if (digits === "") {
       setAmount("");
@@ -209,7 +209,7 @@ export function TopupModal() {
     }
   };
 
-  // Mask card number — group into 4-digit blocks
+  // Mask card number , group into 4-digit blocks
   const formatCardNumber = (raw: string) =>
     raw
       .replace(/[^\d]/g, "")
@@ -217,14 +217,14 @@ export function TopupModal() {
       .replace(/(\d{4})(?=\d)/g, "$1 ")
       .trim();
 
-  // Mask expiry — MM/YY
+  // Mask expiry , MM/YY
   const formatExpiry = (raw: string) => {
     const digits = raw.replace(/[^\d]/g, "").slice(0, 4);
     if (digits.length <= 2) return digits;
     return `${digits.slice(0, 2)}/${digits.slice(2)}`;
   };
 
-  // Mask CVC — 3-4 digits
+  // Mask CVC , 3-4 digits
   const formatCvc = (raw: string) => raw.replace(/[^\d]/g, "").slice(0, 4);
 
   const handleSubmit = () => {
@@ -244,7 +244,7 @@ export function TopupModal() {
         body: `${formatAmount(discountedAmount)} added to your wallet.`,
         link: "dashboard",
       });
-      toast.success("Payment successful! 💰", {
+      toast.success("Payment successful!", {
         description: `${formatAmount(discountedAmount)} added to your wallet`,
       });
       setSubmitting(false);
@@ -414,7 +414,7 @@ export function TopupModal() {
               </RadioGroup>
             </div>
 
-            {/* Card details — only when card method selected */}
+            {/* Card details , only when card method selected */}
             <AnimatePresence initial={false} mode="wait">
               {method === "card" && (
                 <motion.div
@@ -598,12 +598,12 @@ export function TopupModal() {
               {promoStatus === "valid" && promoApplied && (
                 <p className="text-[10px] text-[#32504d] dark:text-[#9bb3ae] flex items-center gap-1">
                   <Check className="size-3" />
-                  {promoApplied.code} applied — {promoApplied.discount}% off
+                  {promoApplied.code} applied , {promoApplied.discount}% off
                 </p>
               )}
               {promoStatus === "invalid" && (
                 <p className="text-[10px] text-rose-600">
-                  Invalid code — try KHIDMA10, WELCOME, or TUNISIA.
+                  Invalid code , try KHIDMA10, WELCOME, or TUNISIA.
                 </p>
               )}
             </div>

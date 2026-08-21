@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 
 /* ----------------------------------------------------------------------------
- * Khidma Trust Seal — premium animated badge signalling verified Tunisian
+ * Khidma Trust Seal , premium animated badge signalling verified Tunisian
  * talent. Two variants:
  *   - "compact": small circular badge (cards)
  *   - "full":    horizontal seal with checkmarks (hero / profile)
@@ -32,7 +32,7 @@ export interface TrustSealProps {
   animated?: boolean;
 }
 
-/* SVG Khidma "K" mark — crisp at any size, single-color currentColor stroke. */
+/* SVG Khidma "K" mark , crisp at any size, single-color currentColor stroke. */
 function KhidmaMark({ className }: { className?: string }) {
   return (
     <svg
@@ -45,7 +45,7 @@ function KhidmaMark({ className }: { className?: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      {/* Stylized K with a hook on top — Khidma's signature mark */}
+      {/* Stylized K with a hook on top , Khidma's signature mark */}
       <path d="M10 26V6" />
       <path d="M10 16l9-10" />
       <path d="M10 16l9 10" />
@@ -75,7 +75,7 @@ export function TrustSeal({
           className
         )}
         role="img"
-        aria-label="Khidma Trust Seal — verified Tunisian talent"
+        aria-label="Khidma Trust Seal, verified Tunisian talent"
       >
         {/* Circular badge */}
         <span className="relative inline-flex size-7 items-center justify-center">
@@ -94,7 +94,7 @@ export function TrustSeal({
                 "radial-gradient(closest-side, transparent 62%, black 64%, black 100%)",
             }}
           />
-          {/* Inner seal — uses the real Khidma logo image */}
+          {/* Inner seal , uses the real Khidma logo image */}
           <motion.span
             aria-hidden
             className={cn(
@@ -157,7 +157,7 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32504d]/40 dark:focus-visible:ring-white/40",
         className
       )}
-      aria-label="Khidma Trust Seal — click to scroll to top"
+      aria-label="Khidma Trust Seal, click to scroll to top"
     >
       {/* Rotating conic ring + K mark */}
       <span className="relative inline-flex size-10 shrink-0 items-center justify-center">
@@ -223,10 +223,8 @@ function FullSeal({ className, animated }: { className?: string; animated: boole
         </ul>
       </div>
 
-      {/* Right edge accent — shield */}
-      <span className="hidden sm:flex size-8 items-center justify-center rounded-lg bg-[#32504d]/15 dark:bg-[#32504d]/25 ml-1">
-        <ShieldCheck className="size-4 text-[#32504d] dark:text-[#94a8a4]" />
-      </span>
+      {/* Right edge accent, shield */}
+      <ShieldCheck className="hidden sm:block size-4 text-[#32504d] dark:text-[#94a8a4] ml-1 shrink-0" />
     </motion.button>
   );
 }

@@ -48,7 +48,7 @@ export function WithdrawalOptions() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Withdrawals"
-          title="Withdraw Your Earnings — Your Way"
+          title="Withdraw Your Earnings , Your Way"
           description="Pick the payout method that fits your workflow. Mobile wallets for instant cash, bank transfers for larger amounts, and international options when you're working with clients abroad."
         />
 

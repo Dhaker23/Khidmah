@@ -3,7 +3,7 @@
 /**
  * PodcastSection
  * ---------------
- * Landing page section — "The Khidma Podcast".
+ * Landing page section , "The Khidma Podcast".
  *
  * Subtitle: "Conversations with Tunisian freelancers who are building the
  * future."
@@ -27,7 +27,7 @@
  * rows + featured card; animated waveform beside featured play button
  * (staggered bar animation, paused when prefers-reduced-motion).
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
  */
 
 import { motion, useReducedMotion } from "framer-motion";
@@ -286,7 +286,7 @@ function FeaturedEpisode() {
                 Amira went from local gigs in Sfax to contracting with a
                 YC-backed startup in San Francisco. In this episode, she breaks
                 down the systems, the failures, and the mindset that made it
-                possible — and what Tunisian freelancers can steal from her
+                possible , and what Tunisian freelancers can steal from her
                 playbook today.
               </p>
 

@@ -7,7 +7,7 @@ import {
   LayoutDashboard,
   User,
   Briefcase,
-  Sparkles,
+  Tag,
   FileText,
   FileSignature,
   Wallet,
@@ -152,7 +152,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: "overview", label: "Overview", icon: LayoutDashboard },
   { key: "profile", label: "My Profile", icon: User },
   { key: "portfolio", label: "Portfolio", icon: Briefcase, badge: 3 },
-  { key: "services", label: "Services", icon: Sparkles, badge: 2 },
+  { key: "services", label: "Services", icon: Tag, badge: 2 },
   { key: "proposals", label: "Proposals & Applications", icon: FileText, badge: 4 },
   { key: "contracts", label: "Contracts", icon: FileSignature, badge: 3 },
   { key: "wallet", label: "Wallet & Earnings", icon: Wallet },
@@ -179,7 +179,7 @@ const ACTIVITY_COLORS: Record<ActivityType, string> = {
 const QUICK_ACTION_ICONS: Record<string, LucideIcon> = {
   User,
   Plus,
-  Sparkles,
+  Tag,
   Search,
 };
 
@@ -780,7 +780,7 @@ function OverviewTab({
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {quickActions.map((q, i) => {
-            const Icon = QUICK_ACTION_ICONS[q.icon] ?? Sparkles;
+            const Icon = QUICK_ACTION_ICONS[q.icon] ?? Tag;
             return (
               <motion.button
                 key={q.key}
@@ -794,7 +794,7 @@ function OverviewTab({
                   } else {
                     onTabChange(q.target as TabKey);
                   }
-                  toast.info(`${q.label} — coming up`);
+                  toast.info(`${q.label} , coming up`);
                 }}
                 className="text-left rounded-xl border border-border/60 bg-card hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 transition-colors"
               >
@@ -818,7 +818,7 @@ function OverviewTab({
         <Card className="p-5 border-border/60">
           <SectionTitle
             title="Profile Completion"
-            subtitle={`${profileCompletion.total}% — keep going to rank higher in search`}
+            subtitle={`${profileCompletion.total}% , keep going to rank higher in search`}
             action={
               <Button
                 size="sm"
@@ -902,7 +902,7 @@ function OverviewTab({
         </Card>
       </div>
 
-      {/* Your Achievements — compact row of unlocked/locked badges */}
+      {/* Your Achievements , compact row of unlocked/locked badges */}
       <Card className="p-5 border-border/60">
         <SectionTitle
           title="Your Achievements"
@@ -925,7 +925,7 @@ function OverviewTab({
         />
         <p className="text-[11px] text-muted-foreground">
           Hover any badge to see its unlock criteria. Locked badges are
-          grayscale — keep completing projects, collecting reviews, and
+          grayscale , keep completing projects, collecting reviews, and
           responding fast to unlock more.
         </p>
       </Card>
@@ -975,7 +975,7 @@ function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
               variant="secondary"
               className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] border-[#32504d]/20 dark:border-[#32504d]/30"
             >
-              {l} — Native / Fluent
+              {l} , Native / Fluent
             </Badge>
           ))}
         </div>
@@ -984,7 +984,7 @@ function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
     {
       key: "skills",
       title: "Skills",
-      icon: Sparkles,
+      icon: Tag,
       custom: (
         <div className="flex flex-wrap gap-1.5">
           {me.skills.map((s) => (
@@ -1084,7 +1084,7 @@ function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
             variant="outline"
             size="sm"
             className="h-8 text-xs"
-            onClick={() => toast.info("Edit mode — coming up")}
+            onClick={() => toast.info("Edit mode , coming up")}
           >
             <Pencil className="size-3" /> Edit
           </Button>
@@ -1113,7 +1113,7 @@ function ProfileTab({ me }: { me: (typeof freelancers)[number] }) {
                   variant="ghost"
                   size="sm"
                   className="h-8 text-xs"
-                  onClick={() => toast.info(`Editing ${s.title} — coming up`)}
+                  onClick={() => toast.info(`Editing ${s.title} , coming up`)}
                 >
                   <Pencil className="size-3" /> Edit
                 </Button>
@@ -1177,7 +1177,7 @@ function PortfolioTab({ me }: { me: (typeof freelancers)[number] }) {
         action={
           <Button
             className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
-            onClick={() => toast.success("Opening portfolio editor — demo")}
+            onClick={() => toast.success("Opening portfolio editor , demo")}
           >
             <Plus className="size-4" /> Add Portfolio Item
           </Button>
@@ -1248,7 +1248,7 @@ function PortfolioTab({ me }: { me: (typeof freelancers)[number] }) {
                 </div>
                 {p.results && (
                   <div className="rounded-md bg-emerald-500/10 px-2 py-1.5 text-[11px] text-emerald-700">
-                    📈 {p.results}
+                    {p.results}
                   </div>
                 )}
                 <div className="flex items-center justify-between pt-2 border-t border-border/60">
@@ -1263,7 +1263,7 @@ function PortfolioTab({ me }: { me: (typeof freelancers)[number] }) {
                       variant="ghost"
                       size="icon"
                       className="size-7"
-                      onClick={() => toast.info("Edit — demo")}
+                      onClick={() => toast.info("Edit , demo")}
                     >
                       <Pencil className="size-3.5" />
                     </Button>
@@ -1304,7 +1304,7 @@ function ServicesTab({ me }: { me: (typeof freelancers)[number] }) {
         action={
           <Button
             className="bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
-            onClick={() => toast.success("Service editor — demo")}
+            onClick={() => toast.success("Service editor , demo")}
           >
             <Plus className="size-4" /> Create Service
           </Button>
@@ -1369,7 +1369,7 @@ function ServicesTab({ me }: { me: (typeof freelancers)[number] }) {
                         variant="ghost"
                         size="icon"
                         className="size-7"
-                        onClick={() => toast.info("Edit service — demo")}
+                        onClick={() => toast.info("Edit service , demo")}
                       >
                         <Pencil className="size-3.5" />
                       </Button>
@@ -1377,7 +1377,7 @@ function ServicesTab({ me }: { me: (typeof freelancers)[number] }) {
                         variant="ghost"
                         size="icon"
                         className="size-7"
-                        onClick={() => toast.info("Service paused — demo")}
+                        onClick={() => toast.info("Service paused , demo")}
                       >
                         <Pause className="size-3.5" />
                       </Button>
@@ -1599,7 +1599,7 @@ function ContractsTab() {
                           <FileSignature className="size-3" />
                           {c.milestonesDone}/{c.milestonesTotal} milestones
                         </span>
-                        {c.nextDue !== "—" && (
+                        {c.nextDue !== "," && (
                           <span className="flex items-center gap-1 text-amber-700">
                             <Calendar className="size-3" />
                             Next: {c.nextDue}
@@ -2170,7 +2170,7 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
                 Add an extra layer of security
               </p>
             </div>
-            <Switch onCheckedChange={() => toast.info("2FA setup — demo")} />
+            <Switch onCheckedChange={() => toast.info("2FA setup , demo")} />
           </li>
           <Separator />
           <li className="flex items-center justify-between gap-3">
@@ -2183,7 +2183,7 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => toast.info("Showing active sessions — demo")}
+              onClick={() => toast.info("Showing active sessions , demo")}
             >
               View
             </Button>
@@ -2311,7 +2311,7 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
           variant="outline"
           size="sm"
           className="w-full mt-3"
-          onClick={() => toast.info("Add new payment method — demo")}
+          onClick={() => toast.info("Add new payment method , demo")}
         >
           <Plus className="size-3.5" /> Add new method
         </Button>
@@ -2336,7 +2336,7 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => toast.info("Account deactivation flow — demo")}
+            onClick={() => toast.info("Account deactivation flow , demo")}
           >
             Deactivate temporarily
           </Button>
@@ -2345,7 +2345,7 @@ function SettingsTab({ me }: { me: (typeof freelancers)[number] }) {
             size="sm"
             className="text-rose-700 border-rose-200 hover:bg-rose-500/10"
             onClick={() =>
-              toast.error("Account closure requires confirmation — blocked in demo")
+              toast.error("Account closure requires confirmation , blocked in demo")
             }
           >
             Close account permanently

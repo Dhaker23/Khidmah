@@ -139,9 +139,7 @@ export function TrustBadge({
         className
       )}
     >
-      <div className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/25 flex items-center justify-center shrink-0">
-        <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
-      </div>
+      <Icon className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
       <div className="min-w-0">
         <div className="text-xs text-muted-foreground truncate">{label}</div>
         <div className="text-sm font-semibold text-foreground truncate">{value}</div>

@@ -3,9 +3,9 @@
 /**
  * BlogSection
  * -----------
- * "Insights & Resources" — Khidma's blog / educational resources section.
+ * "Insights & Resources" , Khidma's blog / educational resources section.
  *
- * Per spec section 96 — blog/educational resources can host advertising.
+ * Per spec section 96 , blog/educational resources can host advertising.
  * Layout:
  *   1. SectionHeading (eyebrow + title + description)
  *   2. Featured article (2/3 width) + 4 smaller cards (2×2 grid, 1/3 width)
@@ -22,7 +22,6 @@ import {
   ArrowRight,
   Clock,
   Send,
-  Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -77,7 +76,7 @@ const ARTICLES: Article[] = [
     id: "a1",
     title: "How to write a winning proposal that gets hired",
     excerpt:
-      "A 7-step framework used by top-rated Khidma freelancers. Stop sending generic templates — these are the patterns that actually convert clients.",
+      "A 7-step framework used by top-rated Khidma freelancers. Stop sending generic templates, these are the patterns that actually convert clients.",
     category: "Freelancing",
     author: { name: "Amira Ben Salah", avatarSeed: "AmiraB" },
     date: "Mar 12, 2025",
@@ -100,7 +99,7 @@ const ARTICLES: Article[] = [
     id: "a3",
     title: "Next.js 16 best practices for production apps",
     excerpt:
-      "App Router patterns, server components, streaming, and the new caching model — what to adopt and what to avoid.",
+      "App Router patterns, server components, streaming, and the new caching model, what to adopt and what to avoid.",
     category: "Development",
     author: { name: "Yassine Trabelsi", avatarSeed: "YassineT" },
     date: "Mar 4, 2025",
@@ -133,7 +132,7 @@ const ARTICLES: Article[] = [
     id: "a6",
     title: "Building a portfolio that converts visitors into clients",
     excerpt:
-      "The 5-section portfolio structure used by Khidma's Top Rated freelancers — case study, impact metrics, process, testimonials, and CTA.",
+      "The 5-section portfolio structure used by Khidma's Top Rated freelancers, case study, impact metrics, process, testimonials, and CTA.",
     category: "Design",
     author: { name: "Lina Khelifi", avatarSeed: "LinaK" },
     date: "Feb 20, 2025",
@@ -144,7 +143,7 @@ const ARTICLES: Article[] = [
     id: "a7",
     title: "Payment methods for Tunisian freelancers in 2025",
     excerpt:
-      "A comparison of Khidma Wallet, bank transfers, e-Dinar, and international options like Payoneer and Wise — fees, speed, and limits.",
+      "A comparison of Khidma Wallet, bank transfers, e-Dinar, and international options like Payoneer and Wise, fees, speed, and limits.",
     category: "Payment & Finance",
     author: { name: "Omar Zribi", avatarSeed: "OmarZ" },
     date: "Feb 16, 2025",
@@ -155,7 +154,7 @@ const ARTICLES: Article[] = [
     id: "a8",
     title: "Top 10 in-demand skills for 2025",
     excerpt:
-      "From AI-augmented design to Flutter and edge-deployed backends — the skills Khidma clients are searching for this quarter.",
+      "From AI-augmented design to Flutter and edge-deployed backends, the skills Khidma clients are searching for this quarter.",
     category: "Marketing",
     author: { name: "Khidma Team", avatarSeed: "KhidmaTeam2" },
     date: "Feb 12, 2025",
@@ -243,7 +242,6 @@ function FeaturedCard({ article }: { article: Article }) {
               ·
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Sparkles className="size-3.5 text-amber-300" />
               Featured
             </span>
           </div>
@@ -484,15 +482,13 @@ export function BlogSection() {
             <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="size-7 rounded-md bg-[#32504d] text-white flex items-center justify-center">
-                    <TrendingUp className="size-4" />
-                  </span>
+                  <TrendingUp className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
                   <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight">
                     Khidma Insights, weekly
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground max-w-md">
-                  One actionable email every Sunday — no fluff. Join 2,400+ freelancers
+                  One actionable email every Sunday, no fluff. Join 2,400+ freelancers
                   across Tunisia.
                 </p>
               </div>

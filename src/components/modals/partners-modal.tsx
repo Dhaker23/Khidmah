@@ -3,7 +3,7 @@
 /**
  * PartnersModal
  * -------------
- * "Khidma Partner Program" — for payment providers, banks, accelerators, and
+ * "Khidma Partner Program" , for payment providers, banks, accelerators, and
  * educational institutions that want to integrate with / co-brand Khidma.
  *
  * Opened via `openPartners()` from the footer's Marketplace column.
@@ -25,8 +25,8 @@
  *
  * Self-renders based on `modal.partnersOpen` from `useApp()`.
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580
- * Animations: framer-motion (tier hover, partner-type entrance) — respects
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580
+ * Animations: framer-motion (tier hover, partner-type entrance) , respects
  * prefers-reduced-motion.
  */
 
@@ -167,7 +167,7 @@ const BENEFITS: Benefit[] = [
   {
     icon: Megaphone,
     title: "Co-marketing budget",
-    description: "Tap into a shared co-marketing pool — events, content, and joint campaigns.",
+    description: "Tap into a shared co-marketing pool , events, content, and joint campaigns.",
   },
   {
     icon: LayoutDashboard,
@@ -182,7 +182,7 @@ const BENEFITS: Benefit[] = [
   {
     icon: Headphones,
     title: "Priority support",
-    description: "Direct line to our partner success team — 24h response SLA on all partner tickets.",
+    description: "Direct line to our partner success team , 24h response SLA on all partner tickets.",
   },
   {
     icon: CalendarClock,
@@ -261,7 +261,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: "How long is the onboarding?",
     answer:
-      "Associate partners can self-serve and integrate in under a day using our docs. Premier onboarding takes ~2 weeks (KYB, contract, sandbox → production). Strategic partnerships are scoped jointly with your dedicated account manager — typically 4–6 weeks end-to-end.",
+      "Associate partners can self-serve and integrate in under a day using our docs. Premier onboarding takes ~2 weeks (KYB, contract, sandbox → production). Strategic partnerships are scoped jointly with your dedicated account manager , typically 4–6 weeks end-to-end.",
   },
   {
     question: "What technical requirements?",
@@ -271,7 +271,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: "Can we white-label?",
     answer:
-      "Yes — Strategic partners get full white-label licensing: your branding on the Khidma platform, custom domain (e.g., freelance.yourbank.tn), co-branded cards, and a dedicated relationship manager. Premier partners get co-branded assets (logos, email templates) but not full white-label.",
+      "Yes , Strategic partners get full white-label licensing: your branding on the Khidma platform, custom domain (e.g., freelance.yourbank.tn), co-branded cards, and a dedicated relationship manager. Premier partners get co-branded assets (logos, email templates) but not full white-label.",
   },
 ];
 
@@ -411,7 +411,7 @@ function TierCard({ tier }: { tier: Tier }) {
         }
         variant={tier.highlight ? "default" : "outline"}
         onClick={() =>
-          toast.success(`${tier.name} — application started`, {
+          toast.success(`${tier.name} , application started`, {
             description: "Scroll down to complete the partner application form.",
           })
         }
@@ -732,11 +732,11 @@ export function PartnersModal() {
                   ))}
                 </div>
                 <p className="text-[11px] text-muted-foreground mt-2.5">
-                  A representative sample of partner categories — illustrative.
+                  A representative sample of partner categories , illustrative.
                 </p>
               </section>
 
-              {/* CTA — Become a partner form */}
+              {/* CTA , Become a partner form */}
               <section
                 aria-labelledby="partners-cta-heading"
                 className="rounded-xl border border-[#32504d]/30 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/8 to-[#6e8580]/5 dark:from-[#32504d]/15 dark:to-[#6e8580]/8 p-5 sm:p-6"
@@ -753,7 +753,7 @@ export function PartnersModal() {
                       Become a partner
                     </h3>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      Tell us about your organization — we&apos;ll get back within
+                      Tell us about your organization , we&apos;ll get back within
                       48 hours.
                     </p>
                   </div>

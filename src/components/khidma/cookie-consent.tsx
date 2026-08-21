@@ -12,7 +12,7 @@ const STORAGE_KEY = "khidma:cookie-consent";
 type ConsentValue = "all" | "essential";
 
 /**
- * Bottom cookie consent banner — appears on first visit.
+ * Bottom cookie consent banner , appears on first visit.
  * Self-mounts globally; hides once the user accepts or rejects.
  */
 export function CookieConsent() {
@@ -20,7 +20,7 @@ export function CookieConsent() {
   const prefersReduced = useReducedMotion();
   const [visible, setVisible] = useState(false);
 
-  // Read consent on mount — wait a beat so it doesn't pop during SSR hydration.
+  // Read consent on mount , wait a beat so it doesn't pop during SSR hydration.
   useEffect(() => {
     let stored: string | null = null;
     try {

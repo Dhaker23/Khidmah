@@ -45,13 +45,13 @@ const faqs: QA[] = [
     icon: Wallet,
     question: "Is Khidma free to join?",
     answer:
-      "Yes. Account registration, profile creation, job applications, and service publishing are completely free. Khidma only charges a flat 1% marketplace fee on completed contract payments — no subscriptions, no proposal credits, no listing fees.",
+      "Yes. Account registration, profile creation, job applications, and service publishing are completely free. Khidma only charges a flat 1% marketplace fee on completed contract payments, no subscriptions, no proposal credits, no listing fees.",
   },
   {
     icon: CreditCard,
     question: "How are payments protected?",
     answer:
-      "All contracts use milestone-based escrow. Clients fund milestones upfront and the funds are held safely by Khidma. Funds are only released to the freelancer once the client approves the delivered work — protecting both sides from non-payment and non-delivery.",
+      "All contracts use milestone-based escrow. Clients fund milestones upfront and the funds are held safely by Khidma. Funds are only released to the freelancer once the client approves the delivered work, protecting both sides from non-payment and non-delivery.",
   },
   {
     icon: Percent,
@@ -85,7 +85,7 @@ const faqs: QA[] = [
   },
 ];
 
-/** "Was this helpful?" mini-feedback row — Yes/No buttons with thumbs icons. */
+/** "Was this helpful?" mini-feedback row , Yes/No buttons with thumbs icons. */
 function FeedbackRow() {
   const [vote, setVote] = useState<"yes" | "no" | null>(null);
 
@@ -162,7 +162,7 @@ export function FAQ() {
                     Still have questions?
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Start the freelancer onboarding — our team walks you
+                    Start the freelancer onboarding, our team walks you
                     through every step.
                   </p>
                   <div className="mt-3 flex flex-col sm:flex-row gap-2">
@@ -206,9 +206,7 @@ export function FAQ() {
                     >
                       <AccordionTrigger className="hover:no-underline [&>svg]:duration-300 [&>svg]:ease-out">
                         <span className="flex items-center gap-3 text-left">
-                          <span className="flex size-7 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] shrink-0">
-                            <Icon className="size-3.5" />
-                          </span>
+                          <Icon className="size-3.5 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
                           <span className="font-display text-base sm:text-lg font-semibold tracking-tight text-foreground">
                             {qa.question}
                           </span>
@@ -228,13 +226,11 @@ export function FAQ() {
           </Reveal>
         </div>
 
-        {/* Contact support CTA card — at the bottom of the FAQ section */}
+        {/* Contact support CTA card , at the bottom of the FAQ section */}
         <Reveal delay={0.1} className="mt-10">
           <Card className="mx-auto max-w-3xl p-6 sm:p-8 border-[#32504d]/20 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/[0.05] via-[#748684]/[0.03] to-transparent">
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
-              <div className="flex size-12 items-center justify-center rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] shrink-0">
-                <LifeBuoy className="size-6" />
-              </div>
+              <LifeBuoy className="size-6 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
               <div className="flex-1">
                 <h3 className="font-display text-lg sm:text-xl font-semibold tracking-tight text-foreground">
                   Still have questions?

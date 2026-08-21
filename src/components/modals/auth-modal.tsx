@@ -26,7 +26,6 @@ import {
   ShieldCheck,
   Users,
   Wallet,
-  Sparkles,
 } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
@@ -42,7 +41,7 @@ const trustBullets = [
   {
     icon: Wallet,
     title: "Protected Payments",
-    desc: "Escrow-based — funds released only when you approve",
+    desc: "Escrow-based , funds released only when you approve",
   },
   {
     icon: Users,
@@ -315,7 +314,7 @@ export function AuthModal() {
                     Create your account
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    Join Khidma as a freelancer or client — it takes 2 minutes.
+                    Join Khidma as a freelancer or client , it takes 2 minutes.
                   </p>
                 </div>
 
@@ -494,8 +493,7 @@ export function AuthModal() {
       </Tabs>
 
       <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-        <Sparkles className="size-3 text-[#32504d] dark:text-[#9bb3ae]" />
-        Demo mode — any email & password will work
+        Demo mode, any email & password will work
       </div>
     </div>
   );

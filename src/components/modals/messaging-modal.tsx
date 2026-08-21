@@ -86,7 +86,7 @@ const truncate = (s: string, n = 32) =>
 
 // Mock list of "discoverable" users (for the new-chat dropdown). The server only
 // pre-seeds the bot, so we render a curated list of Khidma freelancers that the
-// user can start a conversation with — all of them route to the demo bot for
+// user can start a conversation with , all of them route to the demo bot for
 // the purpose of this demo.
 const DISCOVERABLE_USERS: ServerUser[] = [
   {
@@ -265,7 +265,7 @@ export function MessagingModal() {
     };
   }, [messagingOpen, currentUser, currentUserId]);
 
-  // Re-fetch messages when selection changes (side-effect only — no setState).
+  // Re-fetch messages when selection changes (side-effect only , no setState).
   useEffect(() => {
     if (!socketRef.current || !selectedId) return;
     socketRef.current.emit("messages:fetch", { conversationId: selectedId });
@@ -436,7 +436,7 @@ export function MessagingModal() {
           </DialogDescription>
 
           <div className="flex h-full">
-            {/* LEFT — conversation list */}
+            {/* LEFT , conversation list */}
             <aside
               className={cn(
                 "w-full md:w-[280px] shrink-0 border-r border-border/60 flex flex-col bg-card/60",
@@ -598,7 +598,7 @@ export function MessagingModal() {
               </ScrollArea>
             </aside>
 
-            {/* RIGHT — conversation view */}
+            {/* RIGHT , conversation view */}
             <section className="flex-1 min-w-0 flex flex-col bg-background">
               {other ? (
                 <>

@@ -43,7 +43,7 @@ const stats: Stat[] = [
   },
 ];
 
-/** Count-up hook — animates from 0 → target once `active` is true. */
+/** Count-up hook , animates from 0 → target once `active` is true. */
 function useCountUp(target: number, active: boolean, duration = 1500) {
   const [val, setVal] = useState(0);
   const prefersReduced = useReducedMotion();

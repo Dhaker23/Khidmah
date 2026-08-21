@@ -13,7 +13,7 @@ import {
   Camera,
   Box,
   Building2,
-  Sparkles,
+  Cpu,
   type LucideIcon,
 } from "lucide-react";
 
@@ -265,7 +265,7 @@ export const categories: Category[] = [
     id: "ai",
     name: "AI",
     nameAr: "ذكاء اصطناعي",
-    icon: Sparkles,
+    icon: Cpu,
     color: "#32504d",
     count: 87,
     skills: ["Machine Learning", "LLM Integration", "Computer Vision", "AI Automation"],

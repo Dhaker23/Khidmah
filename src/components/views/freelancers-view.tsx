@@ -148,7 +148,7 @@ function applyFilters(list: Freelancer[], f: FilterState): Freelancer[] {
       const hay = `${fl.name} ${fl.title} ${fl.skills.join(" ")} ${fl.bio} ${fl.location.city} ${fl.location.country}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
-    // categories — match if any of the freelancer's skills appear in any selected category's skill list
+    // categories , match if any of the freelancer's skills appear in any selected category's skill list
     if (f.categoryIds.length > 0) {
       const allowedSkills = new Set(
         f.categoryIds.flatMap((id) => categories.find((c) => c.id === id)?.skills ?? [])
@@ -793,7 +793,7 @@ export function FreelancersView() {
           {visible.length > 0 && visible.length >= sorted.length && (
             <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
               <Globe className="size-3.5" />
-              You&apos;ve reached the end —{" "}
+              You&apos;ve reached the end ,{" "}
               <span className="font-medium text-foreground">
                 {sorted.length}
               </span>{" "}

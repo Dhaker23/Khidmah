@@ -33,7 +33,6 @@ import {
   Award,
   Medal,
   Crown,
-  Sparkles,
   Share2,
   TrendingUp,
   Wallet,
@@ -111,7 +110,7 @@ const SHARE_SOCIALS = [
 ];
 
 const REFERRAL_LINK = "https://khidma.tn/r/AMIRA2025";
-const REFERRAL_TEXT = "Join Khidma — Tunisia's most trusted freelance marketplace. We both earn 50 TND when you complete your first project.";
+const REFERRAL_TEXT = "Join Khidma , Tunisia's most trusted freelance marketplace. We both earn 50 TND when you complete your first project.";
 
 interface ReferralRow {
   name: string;
@@ -126,7 +125,7 @@ const REFERRALS: ReferralRow[] = [
   { name: "Leila Ben Othman", initials: "LB", status: "Completed", date: "04 Jan 2025", earnings: "+50 TND" },
   { name: "Mehdi Karoui", initials: "MK", status: "Completed", date: "22 Dec 2024", earnings: "+50 TND" },
   { name: "Rania Souissi", initials: "RS", status: "Joined", date: "10 Feb 2025", earnings: "Pending" },
-  { name: "Omar Jelassi", initials: "OJ", status: "Pending", date: "18 Feb 2025", earnings: "—" },
+  { name: "Omar Jelassi", initials: "OJ", status: "Pending", date: "18 Feb 2025", earnings: "," },
 ];
 
 const TIERS = [
@@ -178,7 +177,7 @@ export function ReferralModal() {
       await navigator.clipboard.writeText(REFERRAL_LINK);
       setCopied(true);
       toast.success("Referral link copied!", {
-        description: "Share it anywhere — you earn 50 TND when a friend completes their first project.",
+        description: "Share it anywhere , you earn 50 TND when a friend completes their first project.",
       });
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -195,7 +194,7 @@ export function ReferralModal() {
         toast.success("Referral link copied!");
         setTimeout(() => setCopied(false), 1800);
       } catch {
-        toast.error("Couldn't copy — please copy the link manually.");
+        toast.error("Couldn't copy , please copy the link manually.");
       }
       document.body.removeChild(ta);
     }
@@ -486,7 +485,6 @@ export function ReferralModal() {
           {/* Footer */}
           <div className="px-5 sm:px-6 py-4 border-t border-border/60 bg-gradient-to-b from-[#32504d]/5 to-transparent flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
             <p className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
-              <Sparkles className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
               Start inviting your network today
             </p>
             <div className="flex items-center gap-2">

@@ -4,7 +4,7 @@
  * LiveNotifications
  * ----------------
  * Periodically fires sonner toast notifications about real-time Khidma
- * platform activity — "Amira just completed a project worth TND 4,200",
+ * platform activity , "Amira just completed a project worth TND 4,200",
  * "Yassine received a new 5-star review", and so on. Creates a "live,
  * bustling marketplace" feel for first-time visitors.
  *
@@ -16,14 +16,14 @@
  * - Each toast: custom pulsing green dot icon, 5-second duration, glass
  *   card with teal accent.
  * - Fires ONLY when:
- *     • view === "home" (not dashboard/admin/jobs/etc. — "working" contexts)
+ *     • view === "home" (not dashboard/admin/jobs/etc. , "working" contexts)
  *     • No modal is open (don't fire during auth/onboarding/profile/etc.)
  *     • !prefers-reduced-motion
  *     • document.visibilityState === "visible"
  *     • auto-fire is enabled (toggle pill)
  *     • User is NOT currently hovering any toast (respects reading)
  * - Floating "Live activity" pill in the bottom-left corner with a pulsing
- *   green dot — click fires one immediately + toggles auto-fire on/off.
+ *   green dot , click fires one immediately + toggles auto-fire on/off.
  * - Reduced-motion users see the pill but no auto-toasts.
  */
 
@@ -36,24 +36,24 @@ import { cn } from "@/lib/utils";
 
 /** Mock live platform activity messages (Tunisian-context freelancers). */
 const LIVE_NOTIFICATIONS: string[] = [
-  "🎉 Amira just completed a project worth TND 4,200",
-  "⚡ Yassine received a new 5-star review",
-  "💼 New job posted: 'Build a Next.js dashboard'",
-  "💰 TND 990 withdrawn via BIAT Bank",
-  "✅ Omar's portfolio was just verified",
-  "🚀 Syrine's service was ordered 3 times today",
-  "⭐ Rania received a 5.0 rating from a client",
-  "💎 Mehdi reached 100 completed projects",
-  "🔥 12 new freelancers joined Khidma today",
-  "🏆 Amira won 'Freelancer of the Week'",
-  "📋 New milestone funded: TND 1,500",
-  "💬 Yassine just responded to a client in 8 minutes",
-  "🎨 Omar's 3D render was viewed 47 times",
-  "💸 TND 12,450 paid out to freelancers today",
-  "🌟 5 new Top Rated freelancers this week",
-  "🔒 New escrow contract funded: TND 2,800",
-  "⚡ 3 urgent jobs posted in the last hour",
-  "📈 Karim's hourly rate just went up to TND 95",
+  "Amira just completed a project worth TND 4,200",
+  "Yassine received a new 5-star review",
+  "New job posted: 'Build a Next.js dashboard'",
+  "TND 990 withdrawn via BIAT Bank",
+  "Omar's portfolio was just verified",
+  "Syrine's service was ordered 3 times today",
+  "Rania received a 5.0 rating from a client",
+  "Mehdi reached 100 completed projects",
+  "12 new freelancers joined Khidma today",
+  "Amira won 'Freelancer of the Week'",
+  "New milestone funded: TND 1,500",
+  "Yassine just responded to a client in 8 minutes",
+  "Omar's 3D render was viewed 47 times",
+  "TND 12,450 paid out to freelancers today",
+  "5 new Top Rated freelancers this week",
+  "New escrow contract funded: TND 2,800",
+  "3 urgent jobs posted in the last hour",
+  "Karim's hourly rate just went up to TND 95",
 ];
 
 const TOASTER_ID = "khidma-live";
@@ -76,7 +76,7 @@ function LiveDotIcon() {
   );
 }
 
-/** Pulsing "LIVE" pill — click to fire a toast immediately + toggle auto-fire. */
+/** Pulsing "LIVE" pill , click to fire a toast immediately + toggle auto-fire. */
 function LiveActivityPill({
   enabled,
   onToggle,
@@ -95,7 +95,7 @@ function LiveActivityPill({
       className="fixed bottom-6 left-6 z-40"
     >
       <div className="flex items-center gap-2">
-        {/* Primary "Live activity" pill — click fires a toast immediately */}
+        {/* Primary "Live activity" pill , click fires a toast immediately */}
         <button
           type="button"
           onClick={onFire}
@@ -136,7 +136,7 @@ function LiveActivityPill({
               ? "border-emerald-400/40 bg-emerald-400/15 text-emerald-300 hover:bg-emerald-400/25"
               : "border-white/15 bg-[#192d2f]/85 text-white/60 hover:text-white/90"
           )}
-          title={enabled ? "Auto-fire on — click to pause" : "Auto-fire paused — click to resume"}
+          title={enabled ? "Auto-fire on, click to pause" : "Auto-fire paused, click to resume"}
         >
           {enabled ? (
             <Pause className="size-3.5" aria-hidden />
@@ -149,7 +149,7 @@ function LiveActivityPill({
   );
 }
 
-/** Custom toast body — glass card with teal accent + message + LIVE badge. */
+/** Custom toast body , glass card with teal accent + message + LIVE badge. */
 function LiveToastBody({ message }: { message: string }) {
   return (
     <div className="flex w-full items-start gap-3">
@@ -172,7 +172,7 @@ function LiveToastBody({ message }: { message: string }) {
 export function LiveNotifications() {
   const prefersReduced = useReducedMotion();
 
-  // View from the Zustand store — used for pill visibility (home/how-it-works only).
+  // View from the Zustand store , used for pill visibility (home/how-it-works only).
   // Modal state is read directly inside the firing callback via `useApp.getState()`
   // so we don't need to subscribe to it here.
   const view = useApp((s) => s.view);
@@ -267,7 +267,7 @@ export function LiveNotifications() {
     };
   }, []);
 
-  /** Auto-fire loop — only when ALL conditions met. */
+  /** Auto-fire loop , only when ALL conditions met. */
   useEffect(() => {
     // Reduced-motion users get no auto-toasts at all (but pill + manual fire still work).
     if (prefersReduced) return;
@@ -324,7 +324,7 @@ export function LiveNotifications() {
       }, delay);
     };
 
-    // Initial delay — don't fire immediately on mount (give the user a moment to land)
+    // Initial delay , don't fire immediately on mount (give the user a moment to land)
     const initialDelay = 4_000 + Math.random() * 2_000;
     timeoutId = window.setTimeout(scheduleNext, initialDelay);
 
@@ -337,13 +337,13 @@ export function LiveNotifications() {
   // Note: pill is always rendered (so reduced-motion users can manually fire).
   // Auto-fire gating is handled inside the effect above.
   // `modal` and `view` are subscribed above so the component re-renders when they
-  // change — but the actual gate reads happen inside the timeout (via getState),
+  // change , but the actual gate reads happen inside the timeout (via getState),
   // which avoids stale-closure issues.
 
   const handleToggle = () => setEnabled((v) => !v);
   const handleFire = () => {
     // Manual fire respects only visibility + (optionally) reduced-motion.
-    // Reduced-motion users CAN manually trigger — but show a tiny "muted" toast
+    // Reduced-motion users CAN manually trigger , but show a tiny "muted" toast
     // because sonner animations are still mild. We allow it.
     if (document.visibilityState === "visible") {
       fireOne();
@@ -352,7 +352,7 @@ export function LiveNotifications() {
 
   return (
     <>
-      {/* Dedicated Toaster — routes ONLY toasts with toasterId="khidma-live" */}
+      {/* Dedicated Toaster , routes ONLY toasts with toasterId="khidma-live" */}
       <Toaster
         id={TOASTER_ID}
         position="bottom-left"

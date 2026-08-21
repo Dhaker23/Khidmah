@@ -3,7 +3,7 @@
 /**
  * AcademySection
  * --------------
- * Landing page section — "Khidma Academy".
+ * Landing page section , "Khidma Academy".
  *
  * Subtitle: "Learn the skills that pay. Free courses by top Tunisian freelancers."
  *
@@ -17,7 +17,7 @@
  *      title, instructor avatar + name, duration, lessons, level, rating +
  *      students, "Enroll free" button (→ toast).
  *   4. Learning paths (3 cards): "Become a Full-Stack Developer" /
- *      "Master Digital Design" / "Start Your Freelance Business" — each with
+ *      "Master Digital Design" / "Start Your Freelance Business" , each with
  *      course count + total hours + "View path" button (→ toast).
  *   5. Academy stats strip: 24 free courses · 8,420+ active learners · 142
  *      hours of content · 4.9★ average rating.
@@ -27,7 +27,7 @@
  * Animations: Reveal staggered entrance; framer-motion hover lift on course
  * cards + path cards. Respects prefers-reduced-motion.
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
  */
 
 import { motion, useReducedMotion } from "framer-motion";
@@ -39,7 +39,6 @@ import {
   BarChart2,
   Star,
   GraduationCap,
-  Sparkles,
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
@@ -126,7 +125,7 @@ const COURSES: Course[] = [
     students: 1534,
     coverSeed: "khidma-figma",
     description:
-      "Master Figma from the ground up — design systems, components, prototyping, and handoff to developers.",
+      "Master Figma from the ground up, design systems, components, prototyping, and handoff to developers.",
   },
   {
     id: "c3",
@@ -141,7 +140,7 @@ const COURSES: Course[] = [
     students: 567,
     coverSeed: "khidma-motion",
     description:
-      "From keyframes to complex character animation — build a reel that lands international clients.",
+      "From keyframes to complex character animation, build a reel that lands international clients.",
   },
   {
     id: "c4",
@@ -171,7 +170,7 @@ const COURSES: Course[] = [
     students: 678,
     coverSeed: "khidma-seo",
     description:
-      "Technical SEO, content strategy, and the 2025 algorithm updates — rank and stay ranked.",
+      "Technical SEO, content strategy, and the 2025 algorithm updates, rank and stay ranked.",
   },
   {
     id: "c6",
@@ -205,13 +204,13 @@ const LEARNING_PATHS: LearningPath[] = [
     hours: 40,
     icon: GraduationCap,
     blurb:
-      "From HTML to Next.js 16 — everything you need to ship production web apps.",
+      "From HTML to Next.js 16, everything you need to ship production web apps.",
   },
   {
     title: "Master Digital Design",
     courseCount: 4,
     hours: 28,
-    icon: Sparkles,
+    icon: Star,
     blurb:
       "UI/UX, Figma systems, motion graphics, and brand identity from the ground up.",
   },
@@ -383,7 +382,6 @@ function FeaturedCourse() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#192d2f]/85 via-[#192d2f]/25 to-transparent lg:bg-gradient-to-r" />
             <div className="absolute top-4 left-4 flex items-center gap-2">
               <Badge className="bg-amber-400/20 text-amber-200 border-amber-300/30 uppercase tracking-wider text-[10px]">
-                <Sparkles className="size-3" />
                 Featured course
               </Badge>
               <CategoryBadge category={FEATURED_COURSE.category} />
@@ -544,9 +542,7 @@ function PathCard({ path, index }: { path: LearningPath; index: number }) {
       <LiftCard className="h-full">
         <Card className="group h-full p-5 border-border/60 hover:border-[#32504d]/50 hover:shadow-lg hover:shadow-[#32504d]/10 transition-all duration-300 flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
-              <Icon className="size-5" />
-            </span>
+            <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
             <Badge
               variant="outline"
               className="border-border/70 text-[10px] uppercase tracking-wider text-muted-foreground ml-auto"
@@ -673,9 +669,7 @@ export function AcademySection() {
           />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <div className="flex items-start gap-4">
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white">
-                <GraduationCap className="size-5" />
-              </span>
+              <GraduationCap className="size-5 shrink-0 text-white mt-0.5" />
               <div className="space-y-1">
                 <h3 className="font-display text-lg sm:text-xl font-bold">
                   Become an instructor

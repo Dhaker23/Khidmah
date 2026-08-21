@@ -22,7 +22,7 @@ export function Categories() {
               Find the right talent for any project
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
-              Browse {categories.length} categories — from development and
+              Browse {categories.length} categories , from development and
               design to voice over, translation, and AI.
             </p>
           </Reveal>

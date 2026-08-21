@@ -25,7 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Sparkles,
   Package,
   HelpCircle,
   Rocket,
@@ -78,7 +77,7 @@ interface ServiceFormState {
 const TOTAL_STEPS = 4;
 
 const stepMeta = [
-  { name: "Service Basics", desc: "Title, category & description", icon: Sparkles },
+  { name: "Service Basics", desc: "Title, category & description", icon: Tag },
   { name: "Packages", desc: "Pricing & deliverables", icon: Package },
   { name: "FAQ", desc: "Answer common questions", icon: HelpCircle },
   { name: "Review & Publish", desc: "Final check", icon: Rocket },
@@ -204,7 +203,7 @@ export function CreateServiceModal() {
         return basicValid;
       }
       case 2:
-        // Recommend at least 1 FAQ, but allow 0 — we only require no empty
+        // Recommend at least 1 FAQ, but allow 0 , we only require no empty
         // rows (each FAQ must have both question + answer or be removed).
         return true;
       case 3:
@@ -318,9 +317,7 @@ export function CreateServiceModal() {
               Creating services is for verified freelancers only.
             </DialogDescription>
             <div className="bg-khidma-gradient text-white px-6 py-8 text-center">
-              <div className="mx-auto size-14 rounded-full bg-white/10 flex items-center justify-center mb-3">
-                <Sparkles className="size-6 text-white" />
-              </div>
+              <ShieldCheck className="mx-auto size-6 text-white mb-3" />
               <h2 className="text-lg font-semibold">Freelancers only</h2>
               <p className="text-xs text-white/70 mt-1">
                 {currentUser
@@ -346,7 +343,7 @@ export function CreateServiceModal() {
                   openOnboarding();
                 }}
               >
-                <Sparkles className="size-4" /> Become a freelancer
+                Become a freelancer
               </Button>
               <p className="text-center text-[10px] text-muted-foreground">
                 Onboarding takes ~5 minutes. Once your profile is approved, you
@@ -387,7 +384,7 @@ export function CreateServiceModal() {
                     Create a Service
                   </h2>
                   <p className="text-[11px] text-white/70 truncate">
-                    Step {step + 1} of {TOTAL_STEPS} — {stepMeta[step].name}
+                    Step {step + 1} of {TOTAL_STEPS} , {stepMeta[step].name}
                   </p>
                 </div>
               </div>
@@ -397,7 +394,7 @@ export function CreateServiceModal() {
                     Starting price
                   </p>
                   <p className="text-sm font-bold tabular-nums">
-                    {startingPrice ? formatTND(startingPrice) : "—"}
+                    {startingPrice ? formatTND(startingPrice) : ","}
                   </p>
                 </div>
                 <span className="size-9 rounded-lg bg-white/10 flex-shrink-0 flex items-center justify-center">
@@ -463,11 +460,11 @@ export function CreateServiceModal() {
                   exit={{ opacity: 0, x: direction * -16 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  {/* STEP 0 — Service Basics */}
+                  {/* STEP 0 , Service Basics */}
                   {step === 0 && (
                     <div className="space-y-5">
                       <StepHeader
-                        icon={Sparkles}
+                        icon={Tag}
                         title="Service Basics"
                         desc="What will you deliver? Be specific and benefit-driven."
                       />
@@ -489,7 +486,7 @@ export function CreateServiceModal() {
                           />
                         </div>
                         <p className="text-[10px] text-muted-foreground">
-                          {form.title.length}/80 — min 6 characters, keep it short &amp; benefit-focused.
+                          {form.title.length}/80 , min 6 characters, keep it short &amp; benefit-focused.
                         </p>
                       </div>
                       <div className="space-y-1.5">
@@ -539,7 +536,7 @@ export function CreateServiceModal() {
                         />
                         <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                           <Code className="size-3" /> Markdown supported ·{" "}
-                          {form.description.length}/3000 — min 30 characters
+                          {form.description.length}/3000 , min 30 characters
                         </p>
                       </div>
                       <div className="space-y-1.5">
@@ -628,7 +625,7 @@ export function CreateServiceModal() {
                     </div>
                   )}
 
-                  {/* STEP 1 — Packages */}
+                  {/* STEP 1 , Packages */}
                   {step === 1 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -657,7 +654,7 @@ export function CreateServiceModal() {
                       <div className="rounded-lg border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-3 flex items-start gap-2.5">
                         <DollarSign className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                         <p className="text-[11px] text-muted-foreground leading-relaxed">
-          Khidma takes a <strong>1% platform fee</strong> on completed orders —
+          Khidma takes a <strong>1% platform fee</strong> on completed orders ,
           the lowest in the industry. Your starting price (shown in the header)
           updates live as you edit the Basic package.
                         </p>
@@ -665,7 +662,7 @@ export function CreateServiceModal() {
                     </div>
                   )}
 
-                  {/* STEP 2 — FAQ */}
+                  {/* STEP 2 , FAQ */}
                   {step === 2 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -739,7 +736,7 @@ export function CreateServiceModal() {
                     </div>
                   )}
 
-                  {/* STEP 3 — Review & Publish */}
+                  {/* STEP 3 , Review & Publish */}
                   {step === 3 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -754,7 +751,7 @@ export function CreateServiceModal() {
                               Service
                             </p>
                             <h3 className="text-sm font-semibold truncate">
-                              I will {form.title || "—"}
+                              I will {form.title || ","}
                             </h3>
                           </div>
                           <div className="text-right shrink-0">
@@ -762,20 +759,20 @@ export function CreateServiceModal() {
                               Starting at
                             </p>
                             <p className="text-sm font-bold tabular-nums">
-                              {startingPrice ? formatTND(startingPrice) : "—"}
+                              {startingPrice ? formatTND(startingPrice) : ","}
                             </p>
                           </div>
                         </div>
                         <dl className="divide-y divide-border/60 text-xs">
                           <SummaryRow
                             label="Category"
-                            value={selectedCategory?.name ?? "—"}
+                            value={selectedCategory?.name ?? ","}
                           />
                           <SummaryRow
                             label="Description"
                             value={
                               <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-3">
-                                {form.description || "—"}
+                                {form.description || ","}
                               </p>
                             }
                           />
@@ -795,7 +792,7 @@ export function CreateServiceModal() {
                                   ))}
                                 </div>
                               ) : (
-                                "—"
+                                ","
                               )
                             }
                           />
@@ -815,7 +812,7 @@ export function CreateServiceModal() {
                                         </span>
                                         <span className="text-muted-foreground">
                                           {" "}
-                                          · {p.deliveryDays || "—"} days ·{" "}
+                                          · {p.deliveryDays || ","} days ·{" "}
                                           {p.revisions || "0"} revisions ·{" "}
                                           {p.features.filter((f) =>
                                             f.trim()
@@ -844,7 +841,7 @@ export function CreateServiceModal() {
                         <p className="text-[11px] text-muted-foreground leading-relaxed">
                           By publishing, you confirm this service complies with
                           Khidma&apos;s guidelines. Each order is protected by
-                          escrow — payments release only after you deliver.
+                          escrow , payments release only after you deliver.
                         </p>
                       </div>
                     </div>

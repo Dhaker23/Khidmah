@@ -9,7 +9,6 @@ import {
   UserCircle,
   Camera,
   Briefcase,
-  Sparkles,
   History,
   FolderKanban,
   Send,
@@ -164,7 +163,7 @@ function HorizontalStepGrid({ steps }: { steps: Step[] }) {
 const freelancerPhases: Phase[] = [
   {
     id: "onboarding",
-    name: "Phase 1 — Onboarding",
+    name: "Phase 1 , Onboarding",
     description: "Open your account and prove who you are.",
     icon: UserPlus,
     accent: "#32504d",
@@ -184,7 +183,7 @@ const freelancerPhases: Phase[] = [
       {
         title: "Create your profile",
         description:
-          "Add basic personal info — first/last name, country, city, and a short intro.",
+          "Add basic personal info , first/last name, country, city, and a short intro.",
         icon: UserCircle,
       },
       {
@@ -197,7 +196,7 @@ const freelancerPhases: Phase[] = [
   },
   {
     id: "profile",
-    name: "Phase 2 — Build Your Profile",
+    name: "Phase 2 , Build Your Profile",
     description: "Tell us what you do and prove you can do it.",
     icon: Briefcase,
     accent: "#475959",
@@ -212,7 +211,7 @@ const freelancerPhases: Phase[] = [
         title: "Add skills",
         description:
           "Pick from category-organized skill chips. Skills power your matching.",
-        icon: Sparkles,
+        icon: Layers,
       },
       {
         title: "Add experience",
@@ -236,7 +235,7 @@ const freelancerPhases: Phase[] = [
   },
   {
     id: "verification",
-    name: "Phase 3 — Verification & Approval",
+    name: "Phase 3 , Verification & Approval",
     description: "Our team reviews your application and grants badges.",
     icon: ShieldCheck,
     accent: "#2b3d3d",
@@ -263,8 +262,8 @@ const freelancerPhases: Phase[] = [
   },
   {
     id: "work",
-    name: "Phase 4 — Work, Earn, Grow",
-    description: "Find clients, deliver, and get paid — protected every step.",
+    name: "Phase 4 , Work, Earn, Grow",
+    description: "Find clients, deliver, and get paid , protected every step.",
     icon: Wallet,
     accent: "#6e8580",
     steps: [
@@ -329,7 +328,7 @@ const freelancerPhases: Phase[] = [
 const clientPhases: Phase[] = [
   {
     id: "post-find",
-    name: "Phase 1 — Post & Find",
+    name: "Phase 1 , Post & Find",
     description: "Describe your project and start receiving interest.",
     icon: FileText,
     accent: "#32504d",
@@ -356,7 +355,7 @@ const clientPhases: Phase[] = [
   },
   {
     id: "contract-fund",
-    name: "Phase 2 — Contract & Fund",
+    name: "Phase 2 , Contract & Fund",
     description: "Lock scope, agree on milestones, and fund safely.",
     icon: FileSignature,
     accent: "#475959",
@@ -383,7 +382,7 @@ const clientPhases: Phase[] = [
   },
   {
     id: "review-pay",
-    name: "Phase 3 — Review & Pay",
+    name: "Phase 3 , Review & Pay",
     description: "Approve work, release payment, and build reputation.",
     icon: CheckCircle2,
     accent: "#6e8580",
@@ -424,7 +423,7 @@ const trustCards = [
     icon: Wallet,
     title: "1% Platform Fee",
     description:
-      "Khima charges a flat 1% fee on every transaction — no subscriptions, no credits, no hidden cuts. Freelancers keep 99% of their earnings.",
+      "Khima charges a flat 1% fee on every transaction , no subscriptions, no credits, no hidden cuts. Freelancers keep 99% of their earnings.",
     points: ["No subscriptions", "No credits", "No bid limits", "Transparent pricing", "99% to the freelancer"],
   },
   {
@@ -475,7 +474,7 @@ export function HowItWorksView() {
         <p className="mt-4 text-base text-muted-foreground max-w-2xl">
           Khidma is built around trust. Every freelancer is verified, every
           contract is escrow-protected, and every payment is transparent.
-          Here&apos;s the full picture — for freelancers, for clients, and
+          Here&apos;s the full picture , for freelancers, for clients, and
           for the platform itself.
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -513,7 +512,7 @@ export function HowItWorksView() {
         </h2>
         <p className="text-sm sm:text-base text-muted-foreground mb-10 max-w-2xl">
           Four phases: onboarding, profile building, verification, and work.
-          Each step is intentional — designed to build real trust and earn
+          Each step is intentional , designed to build real trust and earn
           you real money.
         </p>
 
@@ -551,7 +550,7 @@ export function HowItWorksView() {
         </h2>
         <p className="text-sm sm:text-base text-muted-foreground mb-10 max-w-2xl">
           Three phases: post & find, contract & fund, review & pay. Escrow
-          protects every milestone — you only release payment when work is
+          protects every milestone , you only release payment when work is
           approved.
         </p>
 
@@ -748,7 +747,7 @@ export function HowItWorksView() {
           {/* metric breakdown */}
           <Card className="p-6">
             <h3 className="font-display text-lg font-semibold text-foreground mb-5">
-              Freelancer metrics — average on Khidma
+              Freelancer metrics , average on Khidma
             </h3>
             <div className="space-y-4">
               {reviewMetrics.map((m, i) => (

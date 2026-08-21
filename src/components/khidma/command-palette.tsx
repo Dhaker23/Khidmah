@@ -8,7 +8,6 @@ import {
   ChevronUp,
   ChevronDown,
   ChevronRight,
-  Sparkles,
   Briefcase,
   ShoppingBag,
   MessageSquare,
@@ -37,7 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * CommandPalette — Khidma global ⌘K command palette.
+ * CommandPalette , Khidma global ⌘K command palette.
  *
  * - Self-renders based on `modal.commandPaletteOpen` from the global store.
  * - Opens with ⌘K (Mac) / Ctrl+K (Win/Linux); closes with Escape or backdrop click.
@@ -221,7 +220,7 @@ function CommandPaletteImpl() {
       {
         id: "qa-onboard",
         groupId: "qa",
-        icon: Sparkles,
+        icon: Users,
         title: "Become a freelancer",
         subtitle: "Start your onboarding journey",
         trailing: "Onboarding",
@@ -510,7 +509,7 @@ function CommandPaletteImpl() {
           aria-modal="true"
           aria-label="Khidma command palette"
         >
-          {/* Backdrop — click to close */}
+          {/* Backdrop , click to close */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={closeCommandPalette}
@@ -632,7 +631,7 @@ function CommandPaletteImpl() {
 }
 
 /**
- * ResultRow — single row in the command palette.
+ * ResultRow , single row in the command palette.
  * Left slot: thumbnail / avatar / icon (in that priority order).
  * Middle slot: title (primary) + subtitle (secondary, truncated).
  * Right slot: trailing chip + chevron (only when active).
@@ -685,9 +684,7 @@ const ResultRow = React.memo(function ResultRow({
             </AvatarFallback>
           </Avatar>
         ) : Icon ? (
-          <div className="size-8 rounded-md bg-[#32504d]/10 text-[#32504d] dark:bg-[#748684]/15 dark:text-[#748684] flex items-center justify-center">
-            <Icon className="size-4" />
-          </div>
+          <Icon className="size-4 text-muted-foreground" />
         ) : (
           <div className="size-8 rounded-md bg-muted" />
         )}

@@ -319,7 +319,7 @@ export function FreelancerProfileModal() {
           showCloseButton
         >
           <DialogTitle className="sr-only">
-            {f.name} — {f.title}
+            {f.name} , {f.title}
           </DialogTitle>
           <DialogDescription className="sr-only">
             Freelancer profile: {f.name}, {f.title} based in {f.location.city}, {f.location.country}.
@@ -535,7 +535,7 @@ export function FreelancerProfileModal() {
                                 Senior {f.title}
                               </div>
                               <div className="text-muted-foreground">
-                                Independent · 2020 — Present
+                                Independent · 2020 , Present
                               </div>
                               <p className="mt-1 text-muted-foreground">
                                 Delivered {f.completedProjects}+ projects across
@@ -829,7 +829,7 @@ export function FreelancerProfileModal() {
                         Achievements
                       </h3>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Badges earned through real work on Khidma — projects,
+                        Badges earned through real work on Khidma , projects,
                         reviews, response speed, verification, and community
                         contribution.
                       </p>
@@ -843,7 +843,7 @@ export function FreelancerProfileModal() {
                       <span className="font-medium text-foreground">
                         How badges work:
                       </span>{" "}
-                      Each badge is computed from verified activity — completed
+                      Each badge is computed from verified activity , completed
                       projects, client reviews, response time, portfolio size,
                       and verification status. Locked badges show progress
                       towards the next unlock.

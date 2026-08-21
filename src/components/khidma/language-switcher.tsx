@@ -23,22 +23,21 @@ interface LanguageOption {
   name: string;
   /** English label (used by screen readers + title attribute). */
   english: string;
-  flag: string;
 }
 
 const LANGUAGES: LanguageOption[] = [
-  { code: "en", name: "English", english: "English", flag: "🇬🇧" },
-  { code: "fr", name: "Français", english: "French", flag: "🇫🇷" },
-  { code: "ar", name: "العربية", english: "Arabic", flag: "🇹🇳" },
+  { code: "en", name: "English", english: "English" },
+  { code: "fr", name: "Français", english: "French" },
+  { code: "ar", name: "العربية", english: "Arabic" },
 ];
 
 /**
- * LanguageSwitcher — Khidma language dropdown (EN / FR / AR) with RTL support.
+ * LanguageSwitcher , Khidma language dropdown (EN / FR / AR) with RTL support.
  *
  * - Trigger button shows the current language code uppercased (e.g. "EN").
  * - On select: updates the global store (`setLang`), sets `<html lang>` and
  *   `<html dir>` (RTL for Arabic), and fires a sonner toast confirmation.
- * - Uses shadcn `DropdownMenu`, Lucide `Globe` icon, and native flag emoji.
+ * - Uses shadcn `DropdownMenu`, Lucide `Globe` icon, and native language names.
  */
 export function LanguageSwitcher({ className }: { className?: string }) {
   const lang = useApp((s) => s.lang);
@@ -88,9 +87,6 @@ export function LanguageSwitcher({ className }: { className?: string }) {
               className="flex items-center gap-2.5 cursor-pointer py-2"
               data-active={isActive}
             >
-              <span className="text-base leading-none" aria-hidden>
-                {option.flag}
-              </span>
               <span
                 className={cn(
                   "flex-1",

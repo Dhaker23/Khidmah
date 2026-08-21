@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Compass, Rocket, Search, ShieldCheck, Sparkles } from "lucide-react";
+import { Compass, Rocket, Search, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
@@ -27,7 +27,7 @@ export function FinalCTA() {
         aria-hidden
       />
 
-      {/* Animated gradient mesh — 3 drifting blurred blobs (20s loop) */}
+      {/* Animated gradient mesh , 3 drifting blurred blobs (20s loop) */}
       {!prefersReduced && (
         <>
           <motion.div
@@ -78,7 +78,6 @@ export function FinalCTA() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
         <Reveal y={28} className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
-            <Sparkles className="size-3.5 text-[#94a8a4]" />
             Free to join · Real verification · 1% fee only
           </span>
 
@@ -88,7 +87,7 @@ export function FinalCTA() {
 
           <p className="mt-5 text-base sm:text-lg text-white/75 max-w-xl mx-auto leading-relaxed">
             Build a verified profile, win real contracts, and get paid through
-            escrow-protected milestones. Work. Earn. Grow — with a marketplace
+            escrow-protected milestones. Work. Earn. Grow, with a marketplace
             that puts trust first.
           </p>
 
@@ -100,7 +99,7 @@ export function FinalCTA() {
               whileTap={prefersReduced ? undefined : { scale: 0.99 }}
               transition={{ type: "spring", stiffness: 400, damping: 22 }}
             >
-              {/* Animated radial glow behind button — pulses 0.4 → 0.7 → 0.4 (2.5s) */}
+              {/* Animated radial glow behind button , pulses 0.4 → 0.7 → 0.4 (2.5s) */}
               <motion.div
                 aria-hidden
                 className="absolute -inset-4 rounded-full blur-2xl pointer-events-none"
@@ -142,7 +141,7 @@ export function FinalCTA() {
               Hire Talent
             </Button>
 
-            {/* Take the tour — secondary CTA triggering the onboarding tour */}
+            {/* Take the tour , secondary CTA triggering the onboarding tour */}
             <Button
               size="lg"
               variant="ghost"

@@ -174,7 +174,7 @@ const ACTIVITY_EVENTS: ActivityEvent[] = [
   {
     id: "a13",
     type: "job",
-    text: "Urgent job posted: “Arabic UI translation — 48h”",
+    text: "Urgent job posted: “Arabic UI translation, 48h”",
     timeAgo: "22m ago",
   },
   {
@@ -202,7 +202,7 @@ function ActivityChip({ event }: { event: ActivityEvent }) {
       <span className="text-[10px] text-white/40 tabular-nums">
         · {event.timeAgo}
       </span>
-      {/* Khidma dot divider — rendered after each event */}
+      {/* Khidma dot divider , rendered after each event */}
       <span
         aria-hidden
         className="ml-3 inline-block size-1 rounded-full bg-[#6e8580]"
@@ -231,7 +231,7 @@ export function LiveActivityTicker({ className }: LiveActivityTickerProps) {
       aria-label="Live platform activity"
     >
       <div className="flex items-stretch">
-        {/* LIVE indicator — fixed on the left */}
+        {/* LIVE indicator , fixed on the left */}
         <div className="relative z-10 flex items-center gap-2 rounded-l-full bg-[#192d2f]/80 px-3.5 py-1.5 backdrop-blur-md">
           <span className="relative flex size-2">
             <span
@@ -260,7 +260,7 @@ export function LiveActivityTicker({ className }: LiveActivityTickerProps) {
           />
 
           {prefersReduced ? (
-            // Static (no animation) — flex with horizontal scroll as fallback
+            // Static (no animation) , flex with horizontal scroll as fallback
             <div className="flex items-center gap-3 overflow-x-auto py-1.5 pl-3 pr-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {ACTIVITY_EVENTS.map((e) => (
                 <ActivityChip key={e.id} event={e} />

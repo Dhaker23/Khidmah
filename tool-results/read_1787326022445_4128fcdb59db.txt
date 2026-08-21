@@ -1,0 +1,916 @@
+     1→"use client";
+     2→
+     3→/**
+     4→ * FeaturedThisWeek
+     5→ * ----------------
+     6→ * A premium rotating banner that cycles through 5 featured items every 5s:
+     7→ *   1. Featured Freelancer  — "Amira Ben Salah — Full-Stack Developer of the Week"
+     8→ *   2. Featured Service     — "I will build a professional Next.js landing page"
+     9→ *   3. Featured Job         — "Urgent: Build a Next.js SaaS landing page"
+    10→ *   4. Featured Article     — "How to write a winning proposal on Khidma"
+    11→ *   5. Featured Event       — "Portfolio Masterclass with Yassine Gharbi"
+    12→ *
+    13→ * Layout:
+    14→ *  - Full-width dark-teal gradient banner with dot-grid pattern.
+    15→ *  - Left column: "FEATURED THIS WEEK" eyebrow + rotating title + description + CTA.
+    16→ *  - Right column: rotating visual preview (avatar/cover/event card).
+    17→ *  - Bottom row: 5 clickable dot indicators + a thin auto-advance progress bar.
+    18→ *
+    19→ * Behavior:
+    20→ *  - Auto-advances every 5s (full cycle resets progress bar each item).
+    21→ *  - Pauses on hover.
+    22→ *  - Clicking a dot jumps to that item and resets the timer.
+    23→ *  - Respects `prefers-reduced-motion` — no auto-advance, no progress bar,
+    24→ *    shows the first item only, dots remain clickable.
+    25→ *
+    26→ * All animations are framer-motion (slide + fade cross-fade via AnimatePresence).
+    27→ */
+    28→
+    29→import {
+    30→  useCallback,
+    31→  useEffect,
+    32→  useMemo,
+    33→  useRef,
+    34→  useState,
+    35→  type ReactNode,
+    36→} from "react";
+    37→import {
+    38→  AnimatePresence,
+    39→  motion,
+    40→  useReducedMotion,
+    41→  type Transition,
+    42→} from "framer-motion";
+    43→import {
+    44→  ArrowRight,
+    45→  Star,
+    46→  Clock,
+    47→  Calendar,
+    48→  BookOpen,
+    49→  Megaphone,
+    50→  Briefcase,
+    51→  Sparkles,
+    52→  ChevronLeft,
+    53→  ChevronRight,
+    54→  type LucideIcon,
+    55→} from "lucide-react";
+    56→import { Button } from "@/components/ui/button";
+    57→import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+    58→import { Badge } from "@/components/ui/badge";
+    59→import { useApp } from "@/lib/store";
+    60→import {
+    61→  freelancers,
+    62→  jobs,
+    63→  getAllServices,
+    64→  formatTND,
+    65→} from "@/lib/khidma-data";
+    66→import { cn } from "@/lib/utils";
+    67→
+    68→// =====================================================================
+    69→// Types
+    70→// =====================================================================
+    71→
+    72→type FeaturedKind =
+    73→  | "freelancer"
+    74→  | "service"
+    75→  | "job"
+    76→  | "article"
+    77→  | "event";
+    78→
+    79→interface FeaturedItem {
+    80→  id: string;
+    81→  kind: FeaturedKind;
+    82→  eyebrow: string;
+    83→  title: ReactNode;
+    84→  description: string;
+    85→  cta: string;
+    86→  /** Click handler — falls back to a no-op + toast if the target is unavailable. */
+    87→  onClick: () => void;
+    88→  /** The visual preview shown on the right (avatar, cover, event card). */
+    89→  visual: ReactNode;
+    90→}
+    91→
+    92→// =====================================================================
+    93→// Duration of each item before auto-advance (ms)
+    94→// =====================================================================
+    95→
+    96→const ITEM_DURATION_MS = 5000;
+    97→
+    98→// =====================================================================
+    99→// Per-kind meta (icon + accent color)
+   100→// =====================================================================
+   101→
+   102→const KIND_META: Record<
+   103→  FeaturedKind,
+   104→  { icon: LucideIcon; color: string; bg: string; ring: string }
+   105→> = {
+   106→  freelancer: {
+   107→    icon: Sparkles,
+   108→    color: "text-emerald-300",
+   109→    bg: "bg-emerald-400/15",
+   110→    ring: "ring-emerald-400/30",
+   111→  },
+   112→  service: {
+   113→    icon: Briefcase,
+   114→    color: "text-teal-300",
+   115→    bg: "bg-teal-400/15",
+   116→    ring: "ring-teal-400/30",
+   117→  },
+   118→  job: {
+   119→    icon: Megaphone,
+   120→    color: "text-[#9ad0c8]",
+   121→    bg: "bg-[#32504d]/50",
+   122→    ring: "ring-[#6e8580]/40",
+   123→  },
+   124→  article: {
+   125→    icon: BookOpen,
+   126→    color: "text-amber-200",
+   127→    bg: "bg-amber-400/15",
+   128→    ring: "ring-amber-400/30",
+   129→  },
+   130→  event: {
+   131→    icon: Calendar,
+   132→    color: "text-rose-200",
+   133→    bg: "bg-rose-400/15",
+   134→    ring: "ring-rose-400/30",
+   135→  },
+   136→};
+   137→
+   138→// =====================================================================
+   139→// Toast fallback — used when no target is available (article/event)
+   140→// =====================================================================
+   141→
+   142→function useFeaturedClick() {
+   143→  const { openFreelancer, openService, openJob, openOnboarding } = useApp();
+   144→  return {
+   145→    openFreelancer,
+   146→    openService,
+   147→    openJob,
+   148→    openOnboarding,
+   149→  };
+   150→}
+   151→
+   152→// =====================================================================
+   153→// Visual sub-components
+   154→// =====================================================================
+   155→
+   156→function FreelancerVisual({ freelancerId }: { freelancerId: string }) {
+   157→  const f = freelancers.find((x) => x.id === freelancerId)!;
+   158→  return (
+   159→    <div className="relative w-full">
+   160→      <motion.div
+   161→        layout
+   162→        className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-white/15 bg-white/5 p-5 backdrop-blur-xl shadow-2xl"
+   163→      >
+   164→        {/* Glow */}
+   165→        <div
+   166→          aria-hidden
+   167→          className="absolute -top-12 -right-12 size-40 rounded-full blur-3xl"
+   168→          style={{
+   169→            background:
+   170→              "radial-gradient(circle, rgba(116,134,132,0.35) 0%, transparent 70%)",
+   171→          }}
+   172→        />
+   173→        <div className="relative flex items-center gap-4">
+   174→          <div className="relative">
+   175→            <Avatar className="size-16 border-2 border-emerald-400/40 shadow-lg">
+   176→              <AvatarImage src={f.avatar} alt={f.name} />
+   177→              <AvatarFallback className="bg-[#32504d] text-white text-lg font-bold">
+   178→                {f.name.charAt(0)}
+   179→              </AvatarFallback>
+   180→            </Avatar>
+   181→            <span className="absolute -bottom-1 -right-1 inline-flex size-5 items-center justify-center rounded-full bg-emerald-400/90 text-[10px] font-bold text-[#192d2f] ring-2 ring-[#192d2f]">
+   182→              ★
+   183→            </span>
+   184→          </div>
+   185→          <div className="min-w-0 flex-1">
+   186→            <div className="flex items-center gap-2">
+   187→              <h3 className="truncate font-display text-base font-semibold text-white">
+   188→                {f.name}
+   189→              </h3>
+   190→              <Badge className="border-emerald-400/40 bg-emerald-400/15 text-[10px] text-emerald-200 hover:bg-emerald-400/20">
+   191→                Top Rated
+   192→              </Badge>
+   193→            </div>
+   194→            <p className="truncate text-xs text-white/70">{f.title}</p>
+   195→            <div className="mt-1 flex items-center gap-3 text-xs text-white/70">
+   196→              <span className="inline-flex items-center gap-1">
+   197→                <Star className="size-3 fill-amber-400 text-amber-400" />
+   198→                <span className="font-semibold text-white">{f.rating.toFixed(1)}</span>
+   199→                <span className="text-white/50">({f.reviewsCount})</span>
+   200→              </span>
+   201→              <span className="text-white/40">·</span>
+   202→              <span>{f.completedProjects} projects</span>
+   203→            </div>
+   204→          </div>
+   205→        </div>
+   206→        <div className="relative mt-4 flex flex-wrap gap-1.5">
+   207→          {f.skills.slice(0, 4).map((s) => (
+   208→            <span
+   209→              key={s}
+   210→              className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-white/80"
+   211→            >
+   212→              {s}
+   213→            </span>
+   214→          ))}
+   215→        </div>
+   216→        <div className="relative mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#192d2f]/40 px-3 py-2">
+   217→          <span className="text-[10px] uppercase tracking-wider text-white/60">
+   218→            Starting from
+   219→          </span>
+   220→          <span className="font-display text-sm font-bold text-white">
+   221→            {formatTND(f.hourlyRate)}
+   222→            <span className="text-[10px] font-normal text-white/60">/hr</span>
+   223→          </span>
+   224→        </div>
+   225→      </motion.div>
+   226→    </div>
+   227→  );
+   228→}
+   229→
+   230→function ServiceVisual({ serviceId }: { serviceId: string }) {
+   231→  const service = getAllServices().find((s) => s.id === serviceId)!;
+   232→  const f = freelancers.find((x) => x.id === service.freelancerId)!;
+   233→  return (
+   234→    <motion.div
+   235→      layout
+   236→      className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl"
+   237→    >
+   238→      {/* Cover */}
+   239→      <div className="relative h-32 w-full overflow-hidden bg-[#32504d]">
+   240→        <div
+   241→          className="absolute inset-0 opacity-90"
+   242→          style={{
+   243→            background:
+   244→              "linear-gradient(135deg, rgba(50,80,77,0.95) 0%, rgba(116,134,132,0.7) 100%)",
+   245→          }}
+   246→        />
+   247→        <div
+   248→          aria-hidden
+   249→          className="absolute inset-0 bg-dot-grid opacity-60"
+   250→        />
+   251→        <div className="absolute inset-0 flex items-center justify-center">
+   252→          <Briefcase className="size-10 text-white/30" />
+   253→        </div>
+   254→        <div className="absolute left-3 top-3">
+   255→          <Badge className="border-white/20 bg-[#192d2f]/70 text-[10px] text-white backdrop-blur-sm">
+   256→            {service.category}
+   257→          </Badge>
+   258→        </div>
+   259→      </div>
+   260→      <div className="p-4">
+   261→        <h3 className="line-clamp-2 font-display text-sm font-semibold text-white leading-snug">
+   262→          {service.title}
+   263→        </h3>
+   264→        <div className="mt-2 flex items-center gap-2">
+   265→          <Avatar className="size-5 border border-white/20">
+   266→            <AvatarImage src={f.avatar} alt={f.name} />
+   267→            <AvatarFallback className="bg-[#32504d] text-[9px] text-white">
+   268→              {f.name.charAt(0)}
+   269→            </AvatarFallback>
+   270→          </Avatar>
+   271→          <span className="text-[10px] text-white/70">{f.name}</span>
+   272→          <span className="inline-flex items-center gap-0.5 text-[10px] text-white/70">
+   273→            <Star className="size-2.5 fill-amber-400 text-amber-400" />
+   274→            <span className="font-semibold text-white">
+   275→              {service.rating.toFixed(1)}
+   276→            </span>
+   277→          </span>
+   278→        </div>
+   279→        <div className="mt-3 flex flex-wrap gap-1">
+   280→          {service.skills.slice(0, 3).map((s) => (
+   281→            <span
+   282→              key={s}
+   283→              className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] text-white/75"
+   284→            >
+   285→              {s}
+   286→            </span>
+   287→          ))}
+   288→        </div>
+   289→        <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+   290→          <div className="flex items-center gap-1 text-[10px] text-white/60">
+   291→            <Clock className="size-3" />
+   292→            {service.deliveryDays}d delivery
+   293→          </div>
+   294→          <div className="text-right">
+   295→            <div className="text-[9px] uppercase tracking-wider text-white/50">
+   296→              from
+   297→            </div>
+   298→            <div className="font-display text-sm font-bold text-white">
+   299→              {formatTND(service.startingPrice)}
+   300→            </div>
+   301→          </div>
+   302→        </div>
+   303→      </div>
+   304→    </motion.div>
+   305→  );
+   306→}
+   307→
+   308→function JobVisual({ jobId }: { jobId: string }) {
+   309→  const job = jobs.find((x) => x.id === jobId)!;
+   310→  return (
+   311→    <motion.div
+   312→      layout
+   313→      className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-rose-400/30 bg-white/5 p-5 backdrop-blur-xl shadow-2xl"
+   314→    >
+   315→      <div
+   316→        aria-hidden
+   317→        className="absolute -bottom-12 -left-12 size-40 rounded-full blur-3xl"
+   318→        style={{
+   319→          background:
+   320→            "radial-gradient(circle, rgba(244,114,114,0.25) 0%, transparent 70%)",
+   321→        }}
+   322→      />
+   323→      <div className="relative flex items-center justify-between">
+   324→        <Badge className="border-rose-400/40 bg-rose-400/15 text-[10px] text-rose-200">
+   325→          <Megaphone className="size-2.5" />
+   326→          Urgent
+   327→        </Badge>
+   328→        <span className="text-[10px] text-white/60">{job.postedAt}</span>
+   329→      </div>
+   330→      <h3 className="relative mt-3 line-clamp-3 font-display text-sm font-semibold text-white leading-snug">
+   331→        {job.title}
+   332→      </h3>
+   333→      <div className="relative mt-3 flex flex-wrap items-center gap-2 text-[10px] text-white/70">
+   334→        <Badge variant="outline" className="border-white/15 text-[9px] text-white/70">
+   335→          {job.category}
+   336→        </Badge>
+   337→        <Badge variant="outline" className="border-white/15 text-[9px] text-white/70">
+   338→          {job.experienceLevel}
+   339→        </Badge>
+   340→        <Badge variant="outline" className="border-white/15 text-[9px] text-white/70">
+   341→          {job.location}
+   342→        </Badge>
+   343→      </div>
+   344→      <div className="relative mt-3 flex flex-wrap gap-1">
+   345→        {job.skills.slice(0, 4).map((s) => (
+   346→          <span
+   347→            key={s}
+   348→            className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] text-white/75"
+   349→          >
+   350→            {s}
+   351→          </span>
+   352→        ))}
+   353→      </div>
+   354→      <div className="relative mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#192d2f]/40 px-3 py-2.5">
+   355→        <div>
+   356→          <div className="text-[9px] uppercase tracking-wider text-white/50">
+   357→            Budget
+   358→          </div>
+   359→          <div className="font-display text-sm font-bold text-white">
+   360→            {formatTND(job.budget.min)} – {formatTND(job.budget.max)}
+   361→          </div>
+   362→        </div>
+   363→        <div className="text-right">
+   364→          <div className="text-[9px] uppercase tracking-wider text-white/50">
+   365→            Proposals
+   366→          </div>
+   367→          <div className="font-display text-sm font-bold text-white">
+   368→            {job.proposals}
+   369→          </div>
+   370→        </div>
+   371→      </div>
+   372→    </motion.div>
+   373→  );
+   374→}
+   375→
+   376→function ArticleVisual() {
+   377→  return (
+   378→    <motion.div
+   379→      layout
+   380→      className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-[#32504d]/80 to-[#192d2f]/90 p-5 backdrop-blur-xl shadow-2xl"
+   381→    >
+   382→      <div
+   383→        aria-hidden
+   384→        className="absolute -top-12 -right-12 size-40 rounded-full blur-3xl"
+   385→        style={{
+   386→          background:
+   387→            "radial-gradient(circle, rgba(251,191,36,0.25) 0%, transparent 70%)",
+   388→        }}
+   389→      />
+   390→      <div className="relative flex items-center gap-2">
+   391→        <Badge className="border-amber-400/40 bg-amber-400/15 text-[10px] text-amber-200">
+   392→          <BookOpen className="size-2.5" />
+   393→          Khidma Blog
+   394→        </Badge>
+   395→        <span className="text-[10px] text-white/60">8 min read</span>
+   396→      </div>
+   397→      <div className="relative mt-4 flex items-center gap-3">
+   398→        <div className="flex size-12 items-center justify-center rounded-xl bg-amber-400/15 ring-1 ring-amber-400/30">
+   399→          <BookOpen className="size-5 text-amber-200" />
+   400→        </div>
+   401→        <div>
+   402→          <div className="text-[10px] uppercase tracking-wider text-white/50">
+   403→            Featured Article
+   404→          </div>
+   405→          <div className="text-xs font-semibold text-white">Winning Proposals</div>
+   406→        </div>
+   407→      </div>
+   408→      <h3 className="relative mt-4 line-clamp-3 font-display text-base font-semibold text-white leading-snug">
+   409→        How to write a winning proposal on Khidma
+   410→      </h3>
+   411→      <p className="relative mt-2 line-clamp-2 text-xs text-white/70 leading-relaxed">
+   412→        Stop sending copy-paste proposals. Learn the 5-step framework Top Rated
+   413→        freelancers use to win 3× more projects on Khidma.
+   414→      </p>
+   415→      <div className="relative mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+   416→        <div className="flex items-center gap-1 text-[10px] text-white/60">
+   417→          <Clock className="size-3" />
+   418→          Updated 2 days ago
+   419→        </div>
+   420→        <div className="text-[10px] text-amber-200 font-semibold">
+   421→          Read article →
+   422→        </div>
+   423→      </div>
+   424→    </motion.div>
+   425→  );
+   426→}
+   427→
+   428→function EventVisual() {
+   429→  return (
+   430→    <motion.div
+   431→      layout
+   432→      className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-rose-400/30 bg-gradient-to-br from-[#32504d]/80 to-[#192d2f]/90 p-5 backdrop-blur-xl shadow-2xl"
+   433→    >
+   434→      <div
+   435→        aria-hidden
+   436→        className="absolute -bottom-12 -right-12 size-40 rounded-full blur-3xl"
+   437→        style={{
+   438→          background:
+   439→            "radial-gradient(circle, rgba(244,114,114,0.3) 0%, transparent 70%)",
+   440→        }}
+   441→      />
+   442→      <div className="relative flex items-center justify-between">
+   443→        <Badge className="border-rose-400/40 bg-rose-400/15 text-[10px] text-rose-200">
+   444→          <Calendar className="size-2.5" />
+   445→          Khidma Event
+   446→        </Badge>
+   447→        <span className="text-[10px] text-white/60">In-person · Tunis</span>
+   448→      </div>
+   449→      {/* Date block */}
+   450→      <div className="relative mt-4 flex items-center gap-3">
+   451→        <div className="flex size-14 flex-col items-center justify-center rounded-xl border border-rose-400/30 bg-rose-400/10">
+   452→          <span className="text-[9px] uppercase tracking-wider text-rose-200">
+   453→            Sat
+   454→          </span>
+   455→          <span className="font-display text-xl font-bold text-white">29</span>
+   456→          <span className="text-[8px] uppercase tracking-wider text-rose-200">
+   457→            Mar
+   458→          </span>
+   459→        </div>
+   460→        <div>
+   461→          <div className="text-[10px] uppercase tracking-wider text-white/50">
+   462→            Masterclass
+   463→          </div>
+   464→          <div className="text-xs font-semibold text-white">
+   465→            Portfolio Masterclass
+   466→          </div>
+   467→          <div className="text-[10px] text-white/70">
+   468→            with Yassine Gharbi
+   469→          </div>
+   470→        </div>
+   471→      </div>
+   472→      <h3 className="relative mt-4 line-clamp-2 font-display text-base font-semibold text-white leading-snug">
+   473→        Portfolio Masterclass with Yassine Gharbi
+   474→      </h3>
+   475→      <div className="relative mt-3 flex items-center justify-between rounded-xl border border-white/10 bg-[#192d2f]/40 px-3 py-2.5">
+   476→        <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+   477→          <Calendar className="size-3" />
+   478→          Sat Mar 29 · 18:00
+   479→        </div>
+   480→        <div className="flex items-center gap-1 text-[10px] text-rose-200 font-semibold">
+   481→          <Clock className="size-3" />
+   482→          2 hours
+   483→        </div>
+   484→      </div>
+   485→      <div className="relative mt-2 flex items-center gap-1.5 text-[10px] text-white/70">
+   486→        <span className="size-1.5 rounded-full bg-rose-400" />
+   487→        Le Belvédère · Tunis, Tunisia
+   488→      </div>
+   489→    </motion.div>
+   490→  );
+   491→}
+   492→
+   493→// =====================================================================
+   494→// Featured items — assembled once per render via useMemo
+   495→// =====================================================================
+   496→
+   497→function useFeaturedItems(): FeaturedItem[] {
+   498→  const { openFreelancer, openService, openJob } = useFeaturedClick();
+   499→  return useMemo(
+   500→    () => [
+   501→      {
+   502→        id: "fw-freelancer",
+   503→        kind: "freelancer" as const,
+   504→        eyebrow: "Freelancer of the Week",
+   505→        title: (
+   506→          <>
+   507→            Amira Ben Salah —{" "}
+   508→            <span className="text-khidma-gradient">
+   509→              Full-Stack Developer of the Week
+   510→            </span>
+   511→          </>
+   512→        ),
+   513→        description:
+   514→          "Senior full-stack engineer with 7+ years building production Next.js apps. 142 completed projects. 4.9★ rating. Available now.",
+   515→        cta: "View profile",
+   516→        onClick: () => openFreelancer("f1"),
+   517→        visual: <FreelancerVisual freelancerId="f1" />,
+   518→      },
+   519→      {
+   520→        id: "fw-service",
+   521→        kind: "service" as const,
+   522→        eyebrow: "Featured Service",
+   523→        title: (
+   524→          <>
+   525→            I will build a professional Next.js landing page —{" "}
+   526→            <span className="text-khidma-gradient">from TND 350</span>
+   527→          </>
+   528→        ),
+   529→        description:
+   530→          "Premium responsive landing page with animations, SEO optimization, and lead capture. Trusted by 80+ clients. 5-day delivery.",
+   531→        cta: "View service",
+   532→        onClick: () => openService("s1"),
+   533→        visual: <ServiceVisual serviceId="s1" />,
+   534→      },
+   535→      {
+   536→        id: "fw-job",
+   537→        kind: "job" as const,
+   538→        eyebrow: "Featured Job",
+   539→        title: (
+   540→          <>
+   541→            Urgent: Build a Next.js SaaS landing page —{" "}
+   542→            <span className="text-khidma-gradient">TND 800 – 1,500</span>
+   543→          </>
+   544→        ),
+   545→        description:
+   546→          "Tunisian fintech startup needs an experienced Next.js developer for a high-converting landing page. GSAP animations + SEO + lead capture.",
+   547→        cta: "View job",
+   548→        onClick: () => openJob("j1"),
+   549→        visual: <JobVisual jobId="j1" />,
+   550→      },
+   551→      {
+   552→        id: "fw-article",
+   553→        kind: "article" as const,
+   554→        eyebrow: "Featured Article",
+   555→        title: (
+   556→          <>
+   557→            How to write a{" "}
+   558→            <span className="text-khidma-gradient">winning proposal</span> on
+   559→            Khidma
+   560→          </>
+   561→        ),
+   562→        description:
+   563→          "Stop sending copy-paste proposals. Learn the 5-step framework Top Rated freelancers use to win 3× more projects on Khidma.",
+   564→        cta: "Read article",
+   565→        onClick: () => {
+   566→          /* Articles are mocked — show a friendly toast via store openOnboarding */
+   567→        },
+   568→        visual: <ArticleVisual />,
+   569→      },
+   570→      {
+   571→        id: "fw-event",
+   572→        kind: "event" as const,
+   573→        eyebrow: "Featured Event",
+   574→        title: (
+   575→          <>
+   576→            Portfolio Masterclass with{" "}
+   577→            <span className="text-khidma-gradient">Yassine Gharbi</span>
+   578→          </>
+   579→        ),
+   580→        description:
+   581→          "Live in-person masterclass in Tunis — Saturday, March 29. Learn how to build a portfolio that lands clients. Limited seats.",
+   582→        cta: "Register",
+   583→        onClick: () => {
+   584→          /* Events are mocked */
+   585→        },
+   586→        visual: <EventVisual />,
+   587→      },
+   588→    ],
+   589→    [openFreelancer, openService, openJob]
+   590→  );
+   591→}
+   592→
+   593→// =====================================================================
+   594→// Transition presets
+   595→// =====================================================================
+   596→
+   597→const SLIDE_TRANSITION: Transition = {
+   598→  duration: 0.55,
+   599→  ease: [0.22, 1, 0.36, 1] as const,
+   600→};
+   601→
+   602→// =====================================================================
+   603→// Main component
+   604→// =====================================================================
+   605→
+   606→export function FeaturedThisWeek() {
+   607→  const prefersReduced = useReducedMotion();
+   608→  const items = useFeaturedItems();
+   609→  const [index, setIndex] = useState(0);
+   610→  const [paused, setPaused] = useState(false);
+   611→  const [direction, setDirection] = useState<1 | -1>(1);
+   612→  // Progress value (0..1) for the auto-advance bar
+   613→  const [progress, setProgress] = useState(0);
+   614→  // Ref to the rAF start time so we can compute progress without re-rendering
+   615→  const rafRef = useRef<number | null>(null);
+   616→  const startRef = useRef<number>(0);
+   617→
+   618→  const total = items.length;
+   619→
+   620→  const goTo = useCallback(
+   621→    (next: number, dir: 1 | -1 = 1) => {
+   622→      const normalized = ((next % total) + total) % total;
+   623→      setDirection(dir);
+   624→      setIndex(normalized);
+   625→      setProgress(0);
+   626→    },
+   627→    [total]
+   628→  );
+   629→
+   630→  const goNext = useCallback(
+   631→    () => goTo(index + 1, 1),
+   632→    [goTo, index]
+   633→  );
+   634→  const goPrev = useCallback(
+   635→    () => goTo(index - 1, -1),
+   636→    [goTo, index]
+   637→  );
+   638→
+   639→  // -------------------------------------------------------------------
+   640→  // Auto-advance loop — drives the progress bar via rAF.
+   641→  // Skipped entirely under prefers-reduced-motion (item stays at 0).
+   642→  // -------------------------------------------------------------------
+   643→  useEffect(() => {
+   644→    if (prefersReduced) return;
+   645→    if (paused) return;
+   646→
+   647→    startRef.current = performance.now();
+   648→
+   649→    const tick = (now: number) => {
+   650→      const elapsed = now - startRef.current;
+   651→      const p = Math.min(elapsed / ITEM_DURATION_MS, 1);
+   652→      setProgress(p);
+   653→      if (p >= 1) {
+   654→        goNext();
+   655→        return; // goNext resets progress; the effect will restart on next render
+   656→      }
+   657→      rafRef.current = requestAnimationFrame(tick);
+   658→    };
+   659→
+   660→    rafRef.current = requestAnimationFrame(tick);
+   661→    return () => {
+   662→      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+   663→    };
+   664→  }, [index, paused, prefersReduced, goNext]);
+   665→
+   666→  // Clean up on unmount
+   667→  useEffect(
+   668→    () => () => {
+   669→      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+   670→    },
+   671→    []
+   672→  );
+   673→
+   674→  const current = items[index];
+   675→  const KindIcon = KIND_META[current.kind].icon;
+   676→
+   677→  // Variants — slide + fade. Under reduced-motion we just cross-fade.
+   678→  const leftVariants = prefersReduced
+   679→    ? {
+   680→        initial: { opacity: 0 },
+   681→        animate: { opacity: 1 },
+   682→        exit: { opacity: 0 },
+   683→      }
+   684→    : {
+   685→        initial: (dir: number) => ({
+   686→          opacity: 0,
+   687→          x: dir > 0 ? 24 : -24,
+   688→        }),
+   689→        animate: { opacity: 1, x: 0 },
+   690→        exit: (dir: number) => ({
+   691→          opacity: 0,
+   692→          x: dir > 0 ? -24 : 24,
+   693→        }),
+   694→      };
+   695→
+   696→  const rightVariants = prefersReduced
+   697→    ? {
+   698→        initial: { opacity: 0 },
+   699→        animate: { opacity: 1 },
+   700→        exit: { opacity: 0 },
+   701→      }
+   702→    : {
+   703→        initial: (dir: number) => ({
+   704→          opacity: 0,
+   705→          x: dir > 0 ? 40 : -40,
+   706→          scale: 0.96,
+   707→        }),
+   708→        animate: { opacity: 1, x: 0, scale: 1 },
+   709→        exit: (dir: number) => ({
+   710→          opacity: 0,
+   711→          x: dir > 0 ? -40 : 40,
+   712→          scale: 0.96,
+   713→        }),
+   714→      };
+   715→
+   716→  return (
+   717→    <section
+   718→      aria-roledescription="carousel"
+   719→      aria-label="Featured this week"
+   720→      onMouseEnter={() => setPaused(true)}
+   721→      onMouseLeave={() => setPaused(false)}
+   722→      onFocus={() => setPaused(true)}
+   723→      onBlur={() => setPaused(false)}
+   724→      className="relative overflow-hidden bg-khidma-gradient"
+   725→    >
+   726→      {/* Dot grid overlay */}
+   727→      <div
+   728→        aria-hidden
+   729→        className="absolute inset-0 bg-dot-grid opacity-50 pointer-events-none"
+   730→      />
+   731→      {/* Soft radial glow */}
+   732→      <div
+   733→        aria-hidden
+   734→        className="absolute inset-0 pointer-events-none"
+   735→        style={{
+   736→          background:
+   737→            "radial-gradient(circle at 20% 20%, rgba(116,134,132,0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(50,80,77,0.25) 0%, transparent 55%)",
+   738→        }}
+   739→      />
+   740→
+   741→      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+   742→        {/* Top row: eyebrow + kind badge */}
+   743→        <div className="mb-6 flex items-center justify-between">
+   744→          <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/70">
+   745→            <span className="size-1.5 rounded-full bg-emerald-400" />
+   746→            Featured this week
+   747→          </span>
+   748→          <div className="hidden sm:flex items-center gap-1.5">
+   749→            <span
+   750→              className={cn(
+   751→                "inline-flex size-6 items-center justify-center rounded-full",
+   752→                KIND_META[current.kind].bg,
+   753→                "ring-1",
+   754→                KIND_META[current.kind].ring
+   755→              )}
+   756→            >
+   757→              <KindIcon
+   758→                className={cn("size-3", KIND_META[current.kind].color)}
+   759→              />
+   760→            </span>
+   761→            <span className="text-[11px] font-medium text-white/70">
+   762→              {current.eyebrow}
+   763→            </span>
+   764→          </div>
+   765→        </div>
+   766→
+   767→        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+   768→          {/* Left: rotating title + description + CTA */}
+   769→          <div className="lg:col-span-7 relative min-h-[220px] sm:min-h-[260px]">
+   770→            <AnimatePresence custom={direction} mode="wait">
+   771→              <motion.div
+   772→                key={current.id}
+   773→                custom={direction}
+   774→                initial="initial"
+   775→                animate="animate"
+   776→                exit="exit"
+   777→                variants={leftVariants}
+   778→                transition={SLIDE_TRANSITION}
+   779→                className="relative"
+   780→              >
+   781→                {/* Mobile-only kind badge */}
+   782→                <div className="sm:hidden mb-3">
+   783→                  <span
+   784→                    className={cn(
+   785→                      "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium",
+   786→                      KIND_META[current.kind].bg,
+   787→                      KIND_META[current.kind].color
+   788→                    )}
+   789→                  >
+   790→                    <KindIcon className="size-3" />
+   791→                    {current.eyebrow}
+   792→                  </span>
+   793→                </div>
+   794→
+   795→                <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-[1.15]">
+   796→                  {current.title}
+   797→                </h2>
+   798→                <p className="mt-3 max-w-xl text-sm sm:text-base text-white/75 leading-relaxed">
+   799→                  {current.description}
+   800→                </p>
+   801→
+   802→                <div className="mt-6 flex flex-wrap items-center gap-3">
+   803→                  <Button
+   804→                    onClick={current.onClick}
+   805→                    className="group h-11 px-5 bg-white text-[#192d2f] hover:bg-white hover:shadow-[0_8px_30px_-4px_rgba(255,255,255,0.5)]"
+   806→                  >
+   807→                    {current.cta}
+   808→                    <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-1" />
+   809→                  </Button>
+   810→                  <Button
+   811→                    variant="ghost"
+   812→                    onClick={goPrev}
+   813→                    aria-label="Previous featured item"
+   814→                    className="h-11 w-11 p-0 text-white/70 hover:text-white hover:bg-white/10"
+   815→                  >
+   816→                    <ChevronLeft className="size-4" />
+   817→                  </Button>
+   818→                  <Button
+   819→                    variant="ghost"
+   820→                    onClick={goNext}
+   821→                    aria-label="Next featured item"
+   822→                    className="h-11 w-11 p-0 text-white/70 hover:text-white hover:bg-white/10"
+   823→                  >
+   824→                    <ChevronRight className="size-4" />
+   825→                  </Button>
+   826→                  <span className="text-[11px] tabular-nums text-white/50">
+   827→                    {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+   828→                  </span>
+   829→                </div>
+   830→              </motion.div>
+   831→            </AnimatePresence>
+   832→          </div>
+   833→
+   834→          {/* Right: rotating visual */}
+   835→          <div className="lg:col-span-5 relative min-h-[280px] sm:min-h-[320px] flex items-center justify-center">
+   836→            <AnimatePresence custom={direction} mode="wait">
+   837→              <motion.div
+   838→                key={current.id}
+   839→                custom={direction}
+   840→                initial="initial"
+   841→                animate="animate"
+   842→                exit="exit"
+   843→                variants={rightVariants}
+   844→                transition={SLIDE_TRANSITION}
+   845→                className="relative w-full"
+   846→              >
+   847→                {current.visual}
+   848→              </motion.div>
+   849→            </AnimatePresence>
+   850→          </div>
+   851→        </div>
+   852→
+   853→        {/* Bottom: dot indicators */}
+   854→        <div className="mt-8 sm:mt-10 flex flex-col gap-3">
+   855→          <div className="flex items-center justify-center gap-2.5">
+   856→            {items.map((item, i) => {
+   857→              const Icon = KIND_META[item.kind].icon;
+   858→              const active = i === index;
+   859→              return (
+   860→                <button
+   861→                  key={item.id}
+   862→                  type="button"
+   863→                  onClick={() => goTo(i, i > index ? 1 : -1)}
+   864→                  aria-label={`Go to ${item.eyebrow}: ${typeof item.title === "string" ? item.title : item.eyebrow}`}
+   865→                  aria-current={active ? "true" : undefined}
+   866→                  className={cn(
+   867→                    "group relative inline-flex h-8 items-center justify-center gap-1.5 rounded-full px-3 transition-all duration-300",
+   868→                    active
+   869→                      ? "bg-white/15 backdrop-blur-sm ring-1 ring-white/20"
+   870→                      : "hover:bg-white/5"
+   871→                  )}
+   872→                >
+   873→                  <Icon
+   874→                    className={cn(
+   875→                      "size-3 transition-colors",
+   876→                      active
+   877→                        ? KIND_META[item.kind].color
+   878→                        : "text-white/40 group-hover:text-white/70"
+   879→                    )}
+   880→                  />
+   881→                  <span
+   882→                    className={cn(
+   883→                      "h-1.5 rounded-full transition-all duration-300",
+   884→                      active ? "w-6 bg-white" : "w-1.5 bg-white/30"
+   885→                    )}
+   886→                  />
+   887→                </button>
+   888→              );
+   889→            })}
+   890→          </div>
+   891→
+   892→          {/* Auto-advance progress bar */}
+   893→          <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-white/10">
+   894→            <motion.div
+   895→              className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#748684] via-[#94a8a4] to-white"
+   896→              animate={
+   897→                prefersReduced
+   898→                  ? { width: "0%" }
+   899→                  : { width: `${progress * 100}%` }
+   900→              }
+   901→              transition={prefersReduced ? { duration: 0 } : { duration: 0 }}
+   902→              style={{ width: prefersReduced ? "0%" : `${progress * 100}%` }}
+   903→              aria-hidden
+   904→            />
+   905→          </div>
+   906→        </div>
+   907→      </div>
+   908→
+   909→      {/* Bottom fade */}
+   910→      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+   911→    </section>
+   912→  );
+   913→}
+   914→
+   915→export default FeaturedThisWeek;
+   916→

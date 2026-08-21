@@ -1,14 +1,14 @@
 "use client";
 
 /**
- * Section Rhythm — decorative dividers between landing sections.
+ * Section Rhythm , decorative dividers between landing sections.
  * ------------------------------------------------------------
  * Adds visual rhythm + flow between the 26 landing sections on the Khidma
  * home page. Three variants, each 60-80px tall, full-width, Khidma teal palette:
  *
- *   - WaveDivider       — SVG wave shape (smooth light↔dark transition)
- *   - DotGridDivider    — 3 rows of small Khidma dots, fading at edges
- *   - GradientDivider   — thin 2px gradient line + Khidma logo mark center
+ *   - WaveDivider       , SVG wave shape (smooth light↔dark transition)
+ *   - DotGridDivider    , 3 rows of small Khidma dots, fading at edges
+ *   - GradientDivider   , thin 2px gradient line + Khidma logo mark center
  *
  * All dividers:
  *   - Respect `prefers-reduced-motion` (skip entrance animation)

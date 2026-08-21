@@ -400,7 +400,7 @@ export function ServiceDetailModal() {
 
                   <p className="text-[11px] text-muted-foreground text-center">
                     <CheckCircle2 className="size-3 inline mr-1 text-[#32504d] dark:text-[#9bb3ae]" />
-                    Protected by Khidma escrow — funds released only when you approve
+                    Protected by Khidma escrow , funds released only when you approve
                   </p>
 
                   <div className="pt-3 border-t border-border/60 text-xs space-y-1.5">

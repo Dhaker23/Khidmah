@@ -72,7 +72,7 @@ const transactions = [
   {
     id: "t1",
     date: "Aug 17, 2025",
-    desc: "Service payment — Next.js landing page",
+    desc: "Service payment , Next.js landing page",
     project: "Order #1029",
     type: "credit" as const,
     amount: 750,
@@ -81,7 +81,7 @@ const transactions = [
   {
     id: "t2",
     date: "Aug 15, 2025",
-    desc: "Withdrawal — BIAT Bank",
+    desc: "Withdrawal , BIAT Bank",
     project: "W-2451",
     type: "debit" as const,
     amount: 2000,
@@ -90,7 +90,7 @@ const transactions = [
   {
     id: "t3",
     date: "Aug 12, 2025",
-    desc: "Service payment — SaaS dashboard",
+    desc: "Service payment , SaaS dashboard",
     project: "Order #1021",
     type: "credit" as const,
     amount: 2500,
@@ -99,7 +99,7 @@ const transactions = [
   {
     id: "t4",
     date: "Aug 8, 2025",
-    desc: "Service payment — Brand identity design",
+    desc: "Service payment , Brand identity design",
     project: "Order #1015",
     type: "credit" as const,
     amount: 600,
@@ -108,7 +108,7 @@ const transactions = [
   {
     id: "t5",
     date: "Aug 3, 2025",
-    desc: "Withdrawal — D17 Mobile",
+    desc: "Withdrawal , D17 Mobile",
     project: "W-2448",
     type: "debit" as const,
     amount: 1500,
@@ -117,7 +117,7 @@ const transactions = [
   {
     id: "t6",
     date: "Jul 28, 2025",
-    desc: "Refund — Cancelled order #982",
+    desc: "Refund , Cancelled order #982",
     project: "Refund",
     type: "debit" as const,
     amount: 350,
@@ -439,7 +439,7 @@ export function WalletModal() {
                       variant="outline"
                       className="w-full"
                       onClick={() =>
-                        toast.info("Add new withdrawal method — coming soon")
+                        toast.info("Add new withdrawal method , coming soon")
                       }
                     >
                       <Plus className="size-3.5" /> Add new method

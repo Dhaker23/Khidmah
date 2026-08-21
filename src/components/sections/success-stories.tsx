@@ -23,7 +23,6 @@ import {
   Calendar,
   MapPin,
   Quote,
-  Sparkles,
   Star,
   TrendingUp,
   Users,
@@ -89,9 +88,9 @@ const STORIES: SuccessStory[] = [
     duration: "18 months",
     featured: true,
     excerpt:
-      "I was a CS student in Tunis doing tiny gigs on the side. Within 18 months on Khidma, I went from TND 800/month to TND 5,000/month — and I now work with clients in 7 countries.",
+      "I was a CS student in Tunis doing tiny gigs on the side. Within 18 months on Khidma, I went from TND 800/month to TND 5,000/month, and I now work with clients in 7 countries.",
     quote:
-      "Khidma didn't just give me clients — it gave me a track record. Every verified project, every review, every milestone built a reputation that now sells my work before I even send a proposal.",
+      "Khidma didn't just give me clients, it gave me a track record. Every verified project, every review, every milestone built a reputation that now sells my work before I even send a proposal.",
     before: [
       { label: "Monthly income", value: formatTND(800), icon: Wallet },
       { label: "Active clients", value: "2", icon: Users },
@@ -115,7 +114,7 @@ const STORIES: SuccessStory[] = [
     avatar: f("f2").avatar,
     duration: "12 months",
     excerpt:
-      "Started solo in Sfax. Today runs a 6-person design studio serving SaaS clients across MENA and Europe — all originated from Khidma contracts.",
+      "Started solo in Sfax. Today runs a 6-person design studio serving SaaS clients across MENA and Europe , all originated from Khidma contracts.",
     quote: "",
     before: [],
     after: [],
@@ -132,7 +131,7 @@ const STORIES: SuccessStory[] = [
     avatar: f("f4").avatar,
     duration: "9 months",
     excerpt:
-      "From local radio spots to voicing ads for brands in France, UAE, and Canada — all booked through Khidma with escrow-protected international payments.",
+      "From local radio spots to voicing ads for brands in France, UAE, and Canada, all booked through Khidma with escrow-protected international payments.",
     quote: "",
     before: [],
     after: [],
@@ -171,7 +170,7 @@ const METRICS = [
     label: "Average income increase",
   },
   {
-    icon: Sparkles,
+    icon: Users,
     value: "87%",
     label: "Of top freelancers joined in 2023",
   },
@@ -208,7 +207,6 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
             />
             <div className="flex items-center gap-2 mb-5">
               <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 border-[#32504d]/25 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/15 dark:bg-[#32504d]/25">
-                <Sparkles className="size-3 mr-1" />
                 Featured story
               </Badge>
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -459,9 +457,7 @@ function MetricTile({
       }}
       className="group relative text-center sm:text-left"
     >
-      <div className="flex size-11 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto sm:mx-0 transition-transform duration-200 group-hover:-translate-y-0.5">
-        <Icon className="size-5" />
-      </div>
+      <Icon className="size-5 text-[#32504d] dark:text-[#9bb3ae] mb-3 mx-auto sm:mx-0 transition-transform duration-200 group-hover:-translate-y-0.5" />
       <div className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
         {value}
       </div>
@@ -497,7 +493,7 @@ export function SuccessStories() {
               </span>
             </>
           }
-          description="These aren't marketing claims — they're verified Khidma freelancers who transformed their careers. Each story is backed by real contracts, real payments, and real reviews."
+          description="These aren't marketing claims, they're verified Khidma freelancers who transformed their careers. Each story is backed by real contracts, real payments, and real reviews."
         />
 
         {/* Featured story */}

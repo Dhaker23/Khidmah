@@ -40,7 +40,6 @@ import {
   ThumbsUp,
   ThumbsDown,
   ShieldCheck,
-  Sparkles,
   UserCheck,
 } from "lucide-react";
 import { useApp } from "@/lib/store";
@@ -48,7 +47,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 /* ----------------------------------------------------------------------------
- * FAQ data — 18 Q&A pairs across the 7 help categories.
+ * FAQ data , 18 Q&A pairs across the 7 help categories.
  * -------------------------------------------------------------------------- */
 type HelpCategory =
   | "getting-started"
@@ -67,7 +66,7 @@ interface FAQItem {
 }
 
 const CATEGORIES: { id: HelpCategory; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { id: "getting-started", label: "Getting Started", icon: Sparkles },
+  { id: "getting-started", label: "Getting Started", icon: HelpCircle },
   { id: "for-freelancers", label: "For Freelancers", icon: LifeBuoy },
   { id: "for-clients", label: "For Clients", icon: UserCheck },
   { id: "payments", label: "Payments & Withdrawals", icon: CreditCard },
@@ -119,7 +118,7 @@ const FAQS: FAQItem[] = [
     category: "for-freelancers",
     question: "How can I make my profile stand out?",
     answer:
-      "Add a professional headshot, complete every section (bio, skills, portfolio, certifications), request reviews from past clients, and stay active — Khidma rewards responsiveness in search ranking.",
+      "Add a professional headshot, complete every section (bio, skills, portfolio, certifications), request reviews from past clients, and stay active , Khidma rewards responsiveness in search ranking.",
   },
   // For clients
   {
@@ -170,7 +169,7 @@ const FAQS: FAQItem[] = [
     category: "payments",
     question: "Does Khidma charge a service fee?",
     answer:
-      "Khidma takes a 10% service fee on completed freelance earnings (5% for Pro members). Clients pay no platform fee — only the agreed amount plus applicable taxes.",
+      "Khidma takes a 10% service fee on completed freelance earnings (5% for Pro members). Clients pay no platform fee , only the agreed amount plus applicable taxes.",
   },
   // Verification
   {
@@ -191,7 +190,7 @@ const FAQS: FAQItem[] = [
   {
     id: "ac1",
     category: "account",
-    question: "I forgot my password — how do I reset it?",
+    question: "I forgot my password , how do I reset it?",
     answer:
       "Click 'Forgot password' on the login screen, enter your email, and we'll send a secure reset link valid for 30 minutes. You can also reset via SMS if your phone is verified.",
   },
@@ -239,7 +238,7 @@ const QUICK_HELP = [
     desc: "Flag suspicious behavior or content.",
     icon: Flag,
     cta: "Get help",
-    onClick: () => toast.info("Opening report form…", { description: "Tell us what happened — we'll get back within 24h." }),
+    onClick: () => toast.info("Opening report form…", { description: "Tell us what happened , we'll get back within 24h." }),
   },
 ];
 
@@ -269,7 +268,7 @@ export function HelpModal() {
         q === "" ||
         f.question.toLowerCase().includes(q) ||
         f.answer.toLowerCase().includes(q);
-      // When searching globally, ignore the active category — search everything.
+      // When searching globally, ignore the active category , search everything.
       if (q !== "") return matchesQuery;
       return matchesCat;
     });
@@ -285,7 +284,7 @@ export function HelpModal() {
       });
     } else {
       toast.info("We'll work on it", {
-        description: "Tell us more via Contact Support — we read every message.",
+        description: "Tell us more via Contact Support , we read every message.",
       });
     }
   };
@@ -406,7 +405,7 @@ export function HelpModal() {
                   >
                     <span className="inline-flex items-center gap-2">
                       {(() => {
-                        const Active = CATEGORIES.find((c) => c.id === activeCat)?.icon ?? Sparkles;
+                        const Active = CATEGORIES.find((c) => c.id === activeCat)?.icon ?? HelpCircle;
                         return <Active className="size-4" />;
                       })()}
                       {activeCatLabel}

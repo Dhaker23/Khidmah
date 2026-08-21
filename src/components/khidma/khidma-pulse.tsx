@@ -19,7 +19,7 @@
  *  - All number fluctuations use MotionValue + useSpring so there are NO
  *    React re-renders on every fluctuation. The <motion.span> reads the
  *    spring directly via style. Only when we want to *display* the rounded
- *    integer do we need a tiny setState — we keep that on a 200ms throttle
+ *    integer do we need a tiny setState , we keep that on a 200ms throttle
  *    via a separate rAF loop so the DOM updates at most ~5× per second.
  *
  * Accessibility:
@@ -73,7 +73,7 @@ const METRICS: PulseMetric[] = [
     label: "Active now",
     initial: 247,
     intervalMs: 3000,
-    // ±5 — clamp to a believable floor/ceiling
+    // ±5 , clamp to a believable floor/ceiling
     nextValue: (c) => {
       const delta = Math.floor(Math.random() * 11) - 5; // -5..+5
       return Math.max(180, Math.min(320, c + delta));
@@ -114,7 +114,7 @@ const METRICS: PulseMetric[] = [
 
 function useFluctuatingMetric(metric: PulseMetric, enabled: boolean) {
   const prefersReduced = useReducedMotion();
-  // The source MotionValue — spring-smoothed.
+  // The source MotionValue , spring-smoothed.
   const mv: MotionValue<number> = useMotionValue(metric.initial);
   const spring = useSpring(mv, {
     stiffness: 120,
@@ -174,7 +174,7 @@ function MetricCell({ metric, enabled }: MetricCellProps) {
   const prefersReduced = useReducedMotion();
   const Icon = metric.icon;
 
-  // We render the formatted display value — this is what's visible to the
+  // We render the formatted display value , this is what's visible to the
   // user. The spring smoothing happens behind the scenes (no flicker).
   return (
     <div
@@ -191,7 +191,7 @@ function MetricCell({ metric, enabled }: MetricCellProps) {
           <span
             className={cn(
               "relative flex size-1.5",
-              // Pulsing dot — disabled under prefers-reduced-motion
+              // Pulsing dot , disabled under prefers-reduced-motion
               !prefersReduced && "before:absolute before:inset-0 before:rounded-full before:bg-emerald-400 before:animate-ping"
             )}
             aria-hidden

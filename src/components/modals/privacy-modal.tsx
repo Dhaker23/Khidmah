@@ -28,7 +28,6 @@ import {
   Lock,
   BarChart3,
   Megaphone,
-  Sparkles,
   Share2,
   Download,
   Trash2,
@@ -68,7 +67,7 @@ const COOKIE_CATEGORIES: {
   {
     id: "essential",
     title: "Essential",
-    desc: "Required for core functionality — authentication, security, session handling. These cannot be disabled.",
+    desc: "Required for core functionality , authentication, security, session handling. These cannot be disabled.",
     icon: Lock,
     locked: true,
   },
@@ -88,7 +87,7 @@ const COOKIE_CATEGORIES: {
     id: "functional",
     title: "Functional",
     desc: "Enhanced features like saved preferences, language and recently-viewed items.",
-    icon: Sparkles,
+    icon: Save,
   },
   {
     id: "social",
@@ -157,7 +156,7 @@ export function PrivacyModal() {
         >
           <DialogTitle className="sr-only">Privacy Settings</DialogTitle>
           <DialogDescription className="sr-only">
-            Manage how Khidma uses your data — control cookies, download your data, or request account deletion.
+            Manage how Khidma uses your data , control cookies, download your data, or request account deletion.
           </DialogDescription>
 
           {/* Header */}

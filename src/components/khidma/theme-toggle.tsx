@@ -9,7 +9,7 @@ import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 /**
- * ThemeToggle — Khidma dark mode toggle button.
+ * ThemeToggle , Khidma dark mode toggle button.
  *
  * Source of truth: `next-themes` (mounted in `src/app/layout.tsx`).
  * - `useTheme()` returns `{ theme, setTheme }` from next-themes.
@@ -29,7 +29,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   const setStoreTheme = useApp((s) => s.setTheme);
   const [mounted, setMounted] = React.useState(false);
 
-  // Mount flag — prevents SSR/CSR theme mismatch.
+  // Mount flag , prevents SSR/CSR theme mismatch.
   React.useEffect(() => setMounted(true), []);
 
   // Sync next-themes → Zustand store (single source of truth = next-themes).
@@ -54,7 +54,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className={cn("relative size-9 overflow-hidden", className)}
     >
-      {/* Mounted placeholder — keeps the button sized before client hydration */}
+      {/* Mounted placeholder , keeps the button sized before client hydration */}
       {!mounted && <span className="size-[18px] rounded-full bg-muted-foreground/20" />}
 
       <AnimatePresence mode="wait" initial={false}>

@@ -3,7 +3,7 @@
 /**
  * NewsletterModal
  * ---------------
- * Premium newsletter signup modal — "Join the Khidma Insider".
+ * Premium newsletter signup modal , "Join the Khidma Insider".
  *
  * Self-renders based on `modal.newsletterOpen` from the global store.
  *
@@ -19,13 +19,13 @@
  *
  * On submit:
  *   1. Validate email format.
- *   2. toast.success("Welcome to Khidma Insider! 🎉").
+ *   2. toast.success("Welcome to Khidma Insider!").
  *   3. pushNotification({ type:"system", title:"Newsletter subscribed",
  *      body:"You're now a Khidma Insider. Watch your inbox for weekly
  *      insights." }).
  *   4. closeNewsletter().
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580
  * Animations: framer-motion + stagger; respects prefers-reduced-motion.
  * Accessible: aria-labels, escape to close (built-in), focus management
  * (Radix Dialog handles focus trap), keyboard-navigable form controls.
@@ -44,7 +44,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Check, Lock, Sparkles, Mail, X, Loader2 } from "lucide-react";
+import { Check, Lock, Mail, X, Loader2 } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -115,8 +115,8 @@ export function NewsletterModal() {
     // Simulate a brief network round-trip for the button feedback.
     window.setTimeout(() => {
       setSubmitting(false);
-      toast.success("Welcome to Khidma Insider! 🎉", {
-        description: `Insights will land in ${trimmed} — frequency: ${frequency}.`,
+      toast.success("Welcome to Khidma Insider!", {
+        description: `Insights will land in ${trimmed}, frequency: ${frequency}.`,
       });
       pushNotification({
         type: "system",
@@ -132,7 +132,7 @@ export function NewsletterModal() {
     }, 650);
   };
 
-  // Stable list of benefit items — useMemo not strictly needed but keeps
+  // Stable list of benefit items , useMemo not strictly needed but keeps
   // the reference stable across renders.
   const benefits = useMemo(() => BENEFITS, []);
 
@@ -182,7 +182,6 @@ export function NewsletterModal() {
 
           {/* Social proof chip */}
           <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/15 px-2.5 py-1 w-fit">
-            <Sparkles className="size-3 text-amber-200" />
             <span className="text-[11px] font-medium text-white/90">
               Join 8,420+ freelancers already getting insights.
             </span>
@@ -246,7 +245,6 @@ export function NewsletterModal() {
               ) : (
                 <>
                   Subscribe
-                  <Sparkles className="size-4 ml-1" />
                 </>
               )}
             </Button>

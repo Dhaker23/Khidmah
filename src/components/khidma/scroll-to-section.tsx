@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
- * ScrollToSection — premium floating dot navigation.
+ * ScrollToSection , premium floating dot navigation.
  *
  * - Fixed vertical stack of dots on the right side (desktop only, `hidden lg:flex`).
  * - One dot per major landing section.
@@ -51,7 +51,7 @@ export function ScrollToSection() {
       return;
     }
 
-    // A thin slice in the middle of the viewport — whichever section's
+    // A thin slice in the middle of the viewport , whichever section's
     // center crosses this slice is considered "active".
     const options: IntersectionObserverInit = {
       root: null,
@@ -133,7 +133,7 @@ export function ScrollToSection() {
             aria-current={isActive ? "location" : undefined}
             className="group relative flex items-center justify-end gap-2 py-1 focus-visible:outline-none"
           >
-            {/* Tooltip — appears to the LEFT of the dot */}
+            {/* Tooltip , appears to the LEFT of the dot */}
             <AnimatePresence>
               {isHovered && (
                 <motion.span
@@ -148,9 +148,9 @@ export function ScrollToSection() {
               )}
             </AnimatePresence>
 
-            {/* Dot — 16px container holding an 8px muted dot OR a 16px teal active fill */}
+            {/* Dot , 16px container holding an 8px muted dot OR a 16px teal active fill */}
             <span className="relative flex size-4 items-center justify-center">
-              {/* Muted base dot — 8px normally, 16px on hover, 0 when active */}
+              {/* Muted base dot , 8px normally, 16px on hover, 0 when active */}
               <motion.span
                 aria-hidden
                 className={cn(
@@ -169,7 +169,7 @@ export function ScrollToSection() {
                     : { type: "spring", stiffness: 380, damping: 28 }
                 }
               />
-              {/* Active fill — slides between dots via layoutId */}
+              {/* Active fill , slides between dots via layoutId */}
               {isActive && (
                 <motion.span
                   aria-hidden

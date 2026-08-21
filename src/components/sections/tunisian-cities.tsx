@@ -56,7 +56,7 @@ interface CityPin {
 
 const CITIES: CityPin[] = CITIES_WITH_POS;
 
-// Use the platform-wide total (1,248) for percentage math — this matches
+// Use the platform-wide total (1,248) for percentage math , this matches
 // the trustStats.verifiedFreelancers value used elsewhere on the page.
 const TOTAL_FREELANCERS = trustStats.verifiedFreelancers;
 const MAX_COUNT = CITIES[0].count; // Tunis (412)
@@ -110,7 +110,7 @@ function MapPinButton({
       onFocus={() => onHover(city.rank)}
       onBlur={() => onHover((h) => (h === city.rank ? null : h))}
       onClick={() => onClick(city)}
-      aria-label={`${city.name} — ${city.count} freelancers. Top categories: ${city.cats.join(", ")}. Browse freelancers in ${city.name}.`}
+      aria-label={`${city.name} , ${city.count} freelancers. Top categories: ${city.cats.join(", ")}. Browse freelancers in ${city.name}.`}
       className="absolute -translate-x-1/2 -translate-y-1/2 z-10 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#748684] focus-visible:ring-offset-2 focus-visible:ring-offset-[#192d2f] rounded-full"
       style={{
         left: `${city.x}%`,
@@ -119,7 +119,7 @@ function MapPinButton({
         height: size,
       }}
     >
-      {/* Pulsing ring — disabled under prefers-reduced-motion */}
+      {/* Pulsing ring , disabled under prefers-reduced-motion */}
       {!prefersReduced && (
         <motion.span
           className="absolute inset-0 rounded-full bg-[#748684]"
@@ -135,7 +135,7 @@ function MapPinButton({
         />
       )}
 
-      {/* Core dot — color flips on hover/focus */}
+      {/* Core dot , color flips on hover/focus */}
       <span
         className={cn(
           "relative block rounded-full transition-all duration-200",
@@ -156,7 +156,7 @@ function MapPinButton({
         {city.name}
       </span>
 
-      {/* Hover tooltip — city + count + top 2 categories */}
+      {/* Hover tooltip , city + count + top 2 categories */}
       {isHovered && (
         <span
           role="tooltip"
@@ -219,7 +219,7 @@ export function TunisianCities() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
           {/* ─────────────────────────────────────────────────────── */}
-          {/* Stylized "map" — desktop only (lg+)                    */}
+          {/* Stylized "map" , desktop only (lg+)                    */}
           {/* ─────────────────────────────────────────────────────── */}
           <Reveal className="lg:col-span-3" delay={0.05}>
             <Card className="relative overflow-hidden border-border/60 bg-gradient-to-br from-[#192d2f] via-[#2b3d3d] to-[#192d2f] h-[480px] sm:h-[560px] lg:h-[620px]">
@@ -250,7 +250,7 @@ export function TunisianCities() {
                 className="absolute top-4 left-5 text-[10px] uppercase tracking-[0.3em] font-semibold text-white/40"
                 aria-hidden
               >
-                Tunisia 🇹🇳
+                Tunisia
               </span>
               <span
                 className="absolute top-4 right-5 text-[10px] uppercase tracking-[0.3em] font-semibold text-white/40"
@@ -302,7 +302,7 @@ export function TunisianCities() {
           </Reveal>
 
           {/* ─────────────────────────────────────────────────────── */}
-          {/* Mobile pin grid — replaces the stylized map below lg     */}
+          {/* Mobile pin grid , replaces the stylized map below lg     */}
           {/* ─────────────────────────────────────────────────────── */}
           <div className="lg:hidden grid grid-cols-2 sm:grid-cols-3 gap-2">
             {CITIES.map((c, i) => (
@@ -333,7 +333,7 @@ export function TunisianCities() {
           </div>
 
           {/* ─────────────────────────────────────────────────────── */}
-          {/* City list — desktop right column (40%), full-width on mobile */}
+          {/* City list , desktop right column (40%), full-width on mobile */}
           {/* ─────────────────────────────────────────────────────── */}
           <Reveal className="lg:col-span-2" delay={0.1}>
             <Card className="p-0 border-border/60 overflow-hidden">
@@ -393,7 +393,7 @@ export function TunisianCities() {
                                   <span className="text-xs text-muted-foreground tabular-nums whitespace-nowrap">
                                     {formatNumber(c.count)} · {pct.toFixed(1)}%
                                   </span>
-                                  {/* "Browse {city}" — appears on hover/focus */}
+                                  {/* "Browse {city}" , appears on hover/focus */}
                                   <span className="hidden sm:inline-flex items-center gap-0.5 text-xs font-medium text-[#32504d] dark:text-[#9bb3ae] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 transition-all duration-200">
                                     Browse
                                     <ArrowUpRight className="size-3" />
@@ -413,7 +413,7 @@ export function TunisianCities() {
                                 ))}
                               </div>
 
-                              {/* count bar — width proportional to count */}
+                              {/* count bar , width proportional to count */}
                               <div className="mt-2.5 h-1 rounded-full bg-muted overflow-hidden">
                                 <motion.div
                                   className="h-full rounded-full"
@@ -492,12 +492,12 @@ export function TunisianCities() {
           </div>
         </Reveal>
 
-        {/* Inline MapPin badge — gives the section a Khidma-branded footer cue */}
+        {/* Inline MapPin badge , gives the section a Khidma-branded footer cue */}
         <Reveal delay={0.2}>
           <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
             <MapPin className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
             <span>
-              Khidma is built in Tunisia 🇹🇳 — for Tunisian freelancers and the
+              Khidma is built in Tunisia, for Tunisian freelancers and the
               clients who hire them.
             </span>
           </div>

@@ -12,7 +12,7 @@ interface RevealProps {
   once?: boolean;
 }
 
-/** Scroll-triggered reveal — fades children up when they enter viewport. */
+/** Scroll-triggered reveal , fades children up when they enter viewport. */
 export function Reveal({
   children,
   delay = 0,
@@ -34,7 +34,7 @@ export function Reveal({
   );
 }
 
-/** Brand divider — Khidma logo mark + thin gradient line. */
+/** Brand divider , Khidma logo mark + thin gradient line. */
 export function BrandDivider({
   className,
   label,

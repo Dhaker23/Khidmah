@@ -5,8 +5,8 @@
  * --------------
  * Landing page section promoting the (mock) Khidma mobile app.
  *
- * Layout (desktop): 2-column — phone mockup (left) + content (right).
- * Layout (mobile): stacked — phone on top, content below.
+ * Layout (desktop): 2-column , phone mockup (left) + content (right).
+ * Layout (mobile): stacked , phone on top, content below.
  *
  * Phone mockup is a styled div (rounded-[2rem], dark border, shadow) with an
  * internal stylized app UI:
@@ -27,7 +27,7 @@
  * Animations: framer-motion (subtle tilt on phone hover, notification slide-in,
  * feature stagger). Reveal used for entrance. Respects prefers-reduced-motion.
  *
- * Palette: Khidma teal only — no indigo/blue.
+ * Palette: Khidma teal only , no indigo/blue.
  */
 
 import { useMemo } from "react";
@@ -89,7 +89,7 @@ function PhoneNotification() {
   );
 }
 
-/** The phone mockup — a styled div with aspect-[9/19] ratio. */
+/** The phone mockup , a styled div with aspect-[9/19] ratio. */
 function PhoneMockup() {
   const prefersReduced = useReducedMotion();
 
@@ -170,7 +170,7 @@ function PhoneMockup() {
             <div className="mb-2.5">
               <p className="text-[9px] text-white/55">Welcome back,</p>
               <p className="font-display text-sm font-bold text-white">
-                Hire talent on the go 👋
+                Hire talent on the go
               </p>
             </div>
 
@@ -273,7 +273,7 @@ function PhoneMockup() {
 }
 
 /* ----------------------------------------------------------------------------
- * QR code mock — deterministic 21×21 grid
+ * QR code mock , deterministic 21×21 grid
  * -------------------------------------------------------------------------- */
 
 /**
@@ -519,7 +519,7 @@ export function MobileAppPromo() {
                 </span>
               </>
             }
-            description="Manage your freelance business from your phone. Get instant notifications, chat with clients, track earnings, and withdraw — all from the Khidma mobile app."
+            description="Manage your freelance business from your phone. Get instant notifications, chat with clients, track earnings, and withdraw, all from the Khidma mobile app."
           />
 
           {/* Feature list (6) */}

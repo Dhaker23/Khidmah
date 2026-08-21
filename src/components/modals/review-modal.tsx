@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
   MessageSquare,
-  Sparkles,
+  Award,
   Clock,
   Briefcase,
   Star as StarIcon,
@@ -41,7 +41,7 @@ interface MetricDef {
 
 const METRICS: MetricDef[] = [
   { key: "communication", label: "Communication", icon: MessageSquare },
-  { key: "quality", label: "Quality of Work", icon: Sparkles },
+  { key: "quality", label: "Quality of Work", icon: Award },
   { key: "delivery", label: "On-time Delivery", icon: Clock },
   { key: "professionalism", label: "Professionalism", icon: Briefcase },
 ];
@@ -148,7 +148,7 @@ export function ReviewModal() {
   // We intentionally reset on open rather than close so any failed submit
   // attempt preserves its inputs for review. The setState-in-effect pattern
   // is required here because the form's lifetime is tied to the dialog open
-  // state, which is owned by the global store — there is no parent prop
+  // state, which is owned by the global store , there is no parent prop
   // we can `key` on without breaking the dialog's transition animations.
   useEffect(() => {
     if (!reviewOpen) return;
@@ -193,7 +193,7 @@ export function ReviewModal() {
         body: `Your review for ${reviewPayload.revieweeName} has been published.`,
         link: "dashboard",
       });
-      toast.success("Review submitted! ⭐", {
+      toast.success("Review submitted!", {
         description: `${overall}/5 · ${RATING_LABELS[overall]}`,
       });
       setSubmitting(false);
@@ -252,7 +252,7 @@ export function ReviewModal() {
           </DialogHeader>
 
           <div className="max-h-[62vh] overflow-y-auto px-5 sm:px-6 py-4 space-y-5">
-            {/* Overall rating — large, centered */}
+            {/* Overall rating , large, centered */}
             <div className="flex flex-col items-center text-center pt-1 pb-1">
               <StarRow
                 value={overall}
@@ -291,7 +291,7 @@ export function ReviewModal() {
               </div>
             </div>
 
-            {/* Metric ratings — 4 rows */}
+            {/* Metric ratings , 4 rows */}
             <div className="space-y-2">
               <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
                 Rate specific aspects <span className="text-[#32504d] dark:text-[#9bb3ae]">*</span>
@@ -377,7 +377,7 @@ export function ReviewModal() {
                 id="public-review"
                 value={publicReview}
                 onChange={(e) => setPublicReview(e.target.value)}
-                placeholder="Share details about your experience working with this freelancer — what went well, what they excelled at, and how they delivered…"
+                placeholder="Share details about your experience working with this freelancer , what went well, what they excelled at, and how they delivered…"
                 rows={4}
                 maxLength={MAX_PUBLIC_CHARS}
                 className="resize-none text-xs focus-visible:ring-[#32504d]/30"
@@ -437,7 +437,7 @@ export function ReviewModal() {
                 className="mt-0.5 data-[state=checked]:bg-[#32504d] data-[state=checked]:border-[#32504d] data-[state=checked]:text-white"
               />
               <span className="text-[11px] text-muted-foreground leading-snug">
-                Post this review anonymously — your name will not be shown on
+                Post this review anonymously , your name will not be shown on
                 the public review.
               </span>
             </Label>
@@ -456,7 +456,7 @@ export function ReviewModal() {
               >
                 {canSubmit ? (
                   <>
-                    <Sparkles className="size-2.5" /> Ready to submit
+                    Ready to submit
                   </>
                 ) : (
                   <>

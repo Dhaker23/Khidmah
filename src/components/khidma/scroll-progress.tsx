@@ -14,7 +14,7 @@
  * - A scroll listener throttled via `requestAnimationFrame` writes the raw
  *   percentage into the MotionValue. The only React state is the boolean
  *   "visible" flag, which flips once when crossing the visibility threshold
- *   (scrollY > 100) — never on every scroll.
+ *   (scrollY > 100) , never on every scroll.
  * - Background: gradient `#32504d → #475959 → #748684` (Khidma teal palette).
  * - A subtle blurred glow sits at the leading (right) edge of the bar.
  * - Only visible when `scrollY > 100` (fades in via `AnimatePresence`).
@@ -32,14 +32,14 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
-const VISIBILITY_THRESHOLD = 100; // px — bar fades in once user scrolls past this
+const VISIBILITY_THRESHOLD = 100; // px , bar fades in once user scrolls past this
 const BAR_HEIGHT = 3; // px
 
 export function ScrollProgress() {
   const prefersReduced = useReducedMotion();
 
   // Raw scroll-progress MotionValue (0..100). The scroll listener writes
-  // directly to this — no React state involved per scroll event.
+  // directly to this , no React state involved per scroll event.
   const progress = useMotionValue(0);
 
   // Spring-smoothed value for the actual bar width. Under reduced-motion we
@@ -53,10 +53,10 @@ export function ScrollProgress() {
 
   // Derive the CSS width string from the (springy) MotionValue. Updates to
   // this output MotionValue mutate the DOM directly via `style.width` on the
-  // motion.div below — no React re-render involved.
+  // motion.div below , no React re-render involved.
   const widthPct = useTransform(spring, (v) => `${Math.min(Math.max(v, 0), 100).toFixed(3)}%`);
 
-  // Visibility flag — flips only when the threshold is crossed, so it causes
+  // Visibility flag , flips only when the threshold is crossed, so it causes
   // at most one React re-render per crossing (not per scroll event).
   const [visible, setVisible] = useState(false);
 
@@ -83,7 +83,7 @@ export function ScrollProgress() {
       }
     };
 
-    // rAF-throttled scroll handler — coalesces multiple scroll events per
+    // rAF-throttled scroll handler , coalesces multiple scroll events per
     // frame into a single MotionValue write.
     const onScroll = () => {
       if (rafId !== null) return;

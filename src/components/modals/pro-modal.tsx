@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  Sparkles,
   Check,
   Star,
   ShieldCheck,
@@ -39,8 +38,8 @@ const PRO_PERKS = [
   { icon: Zap, label: "Unlimited job applications" },
   { icon: TrendingUp, label: "Up to 5 active services" },
   { icon: Star, label: "Featured profile badge + priority verification" },
-  { icon: Sparkles, label: "Advanced analytics & custom offers" },
-  { icon: ShieldCheck, label: "Priority support — still 1% platform fee" },
+  { icon: Check, label: "Advanced analytics & custom offers" },
+  { icon: ShieldCheck, label: "Priority support, still 1% platform fee" },
 ];
 
 export function ProModal() {
@@ -57,12 +56,12 @@ export function ProModal() {
       closePro();
       openAuth("register");
       toast.info("Sign up to start your Pro trial.", {
-        description: "You'll get 14 days of Khidma Pro — free.",
+        description: "You'll get 14 days of Khidma Pro , free.",
       });
       return;
     }
     toast.success("Pro trial activated!", {
-      description: "14 days of Khidma Pro — enjoy unlimited applications.",
+      description: "14 days of Khidma Pro , enjoy unlimited applications.",
     });
     closePro();
   };
@@ -79,7 +78,6 @@ export function ProModal() {
           <DialogHeader className="relative px-5 pt-6 pb-4 bg-khidma-gradient text-white overflow-hidden">
             <div className="absolute -top-8 -right-8 size-32 rounded-full bg-white/5 blur-2xl pointer-events-none" />
             <DialogTitle className="flex items-center gap-2 text-lg font-display font-bold">
-              <Sparkles className="size-4 text-amber-300" />
               Khidma Pro
             </DialogTitle>
             <DialogDescription className="text-white/80 text-xs">
@@ -129,7 +127,7 @@ export function ProModal() {
                 <span className="font-medium text-foreground">
                   30-day money-back guarantee.
                 </span>{" "}
-                Cancel anytime — no questions asked. The 1% platform fee still
+                Cancel anytime , no questions asked. The 1% platform fee still
                 applies on completed contracts.
               </p>
             </div>

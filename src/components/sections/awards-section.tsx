@@ -3,30 +3,30 @@
 /**
  * AwardsSection
  * -------------
- * Landing page section — "Khidma Awards 2025".
+ * Landing page section , "Khidma Awards 2025".
  *
  * Subtitle: "Celebrating the best of Tunisian freelance talent."
  *
  * Layout (top → bottom):
  *   1. SectionHeading (eyebrow "KHIDMA AWARDS 2025" + title + description).
- *   2. Featured Winner card (full-width, Amira Ben Salah — Freelancer of
+ *   2. Featured Winner card (full-width, Amira Ben Salah , Freelancer of
  *      the Year 2025). Large avatar + badge + name + category + quote +
  *      stats (projects / rating / earnings) + View profile button (→
  *      openFreelancer('f1')).
  *   3. 6 award categories (3×2 grid): each card with icon + category name
  *      + winner name + short description. Accent color per category.
- *   4. Nomination card — "Nominate a freelancer for 2026" + Submit
+ *   4. Nomination card , "Nominate a freelancer for 2026" + Submit
  *      nomination button (→ toast "Nominations open October 2025").
- *   5. Past winners row — 3 past winners (2024, 2023, 2022) with year +
+ *   5. Past winners row , 3 past winners (2024, 2023, 2022) with year +
  *      name + category.
- *   6. Ceremony info card — "Awards Ceremony 2025 — December 12, Tunis" +
+ *   6. Ceremony info card , "Awards Ceremony 2025 , December 12, Tunis" +
  *      "Get tickets" button (→ toast).
  *
  * Animations: Reveal staggered entrance; framer-motion hover lift on
  * category cards. Respects prefers-reduced-motion.
  *
  * Palette: Khidma teal base + per-category accent colors (gold / silver /
- * bronze / purple / rose / emerald) — NO indigo/blue.
+ * bronze / purple / rose / emerald) , NO indigo/blue.
  */
 
 import { motion, useReducedMotion } from "framer-motion";
@@ -232,7 +232,7 @@ function FeaturedWinner() {
             <div className="relative">
               <Image
                 src="https://api.dicebear.com/7.x/avataaars/svg?seed=Amira%20Ben%20Salah&backgroundColor=2b3d3d,32504d,475959,6e8580&radius=50"
-                alt="Amira Ben Salah — Khidma Freelancer of the Year 2025"
+                alt="Amira Ben Salah , Khidma Freelancer of the Year 2025"
                 width={128}
                 height={128}
                 className="size-28 sm:size-32 rounded-2xl ring-4 ring-white/15 bg-white/5"
@@ -264,11 +264,11 @@ function FeaturedWinner() {
               <Quote className="size-4 text-amber-300/70" />
               <blockquote className="mt-2 text-sm sm:text-base text-white/90 leading-relaxed font-medium">
                 &ldquo;Khidma gave me the structure to turn my skills into a
-                real business — verified clients, milestone escrow, and a
+                real business , verified clients, milestone escrow, and a
                 community that pushes me to be better every quarter.&rdquo;
               </blockquote>
               <figcaption className="mt-2 text-[11px] text-white/55">
-                — Amira, accepting the 2025 award
+                , Amira, accepting the 2025 award
               </figcaption>
             </figure>
 

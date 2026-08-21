@@ -49,7 +49,6 @@ interface ShowcaseTestimonial {
   authorAvatar: string;
   authorTitle: string;
   authorCompany: string;
-  locationFlag: string;
   locationLabel: string;
   projectTitle: string;
   projectBudget: number;
@@ -68,7 +67,6 @@ const SHOWCASE: ShowcaseTestimonial[] = [
     authorAvatar: reviews[0]?.fromAvatar ?? "",
     authorTitle: "Head of Product",
     authorCompany: "Cassurea Technologies",
-    locationFlag: "🇨🇦",
     locationLabel: "Vancouver, Canada",
     projectTitle: "SaaS Landing Page Redesign",
     projectBudget: 4_200,
@@ -84,7 +82,6 @@ const SHOWCASE: ShowcaseTestimonial[] = [
     authorAvatar: reviews[1]?.fromAvatar ?? "",
     authorTitle: "CTO & Co-founder",
     authorCompany: "FinFlow Tunis",
-    locationFlag: "🇹🇳",
     locationLabel: "Tunis, Tunisia",
     projectTitle: "Multi-tenant Admin Dashboard",
     projectBudget: 6_800,
@@ -100,7 +97,6 @@ const SHOWCASE: ShowcaseTestimonial[] = [
     authorAvatar: reviews[2]?.fromAvatar ?? "",
     authorTitle: "Product Design Lead",
     authorCompany: "Najah Pay",
-    locationFlag: "🇦🇪",
     locationLabel: "Dubai, UAE",
     projectTitle: "Fintech Mobile App Design",
     projectBudget: 5_400,
@@ -116,7 +112,6 @@ const SHOWCASE: ShowcaseTestimonial[] = [
     authorAvatar: reviews[3]?.fromAvatar ?? "",
     authorTitle: "Marketing Director",
     authorCompany: "Atlas Studios",
-    locationFlag: "🇩🇪",
     locationLabel: "Berlin, Germany",
     projectTitle: "Brand Animation Reel",
     projectBudget: 3_200,
@@ -133,7 +128,6 @@ const SHOWCASE: ShowcaseTestimonial[] = [
       "https://api.dicebear.com/7.x/avataaars/svg?seed=Amina%20Trabelsi&backgroundColor=32504d&radius=50",
     authorTitle: "Founder & CEO",
     authorCompany: "Maison Zitouna",
-    locationFlag: "🇫🇷",
     locationLabel: "Lyon, France",
     projectTitle: "3D Product Visualization Suite",
     projectBudget: 7_500,
@@ -229,17 +223,11 @@ function TestimonialCard({ item }: { item: ShowcaseTestimonial }) {
         <div className="text-center sm:text-left">
           <div className="flex items-center justify-center gap-1.5 sm:justify-start">
             <span className="font-semibold text-foreground">{item.authorName}</span>
-            <span
-              className="text-base leading-none"
-              role="img"
-              aria-label={item.locationLabel}
-              title={item.locationLabel}
-            >
-              {item.locationFlag}
-            </span>
           </div>
           <div className="text-sm text-muted-foreground">
             {item.authorTitle} · <span className="text-[#32504d] dark:text-[#9bb3ae] font-medium">{item.authorCompany}</span>
+            <span className="mx-1.5 opacity-40">·</span>
+            <span>{item.locationLabel}</span>
           </div>
         </div>
       </div>
@@ -389,7 +377,7 @@ export function TestimonialCarousel() {
       onKeyDown={onKeyDown}
       tabIndex={0}
     >
-      {/* Background — subtle gradient + decorative dot grid */}
+      {/* Background , subtle gradient + decorative dot grid */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-gradient-to-b from-[#32504d]/5 via-background to-[#32504d]/5"
@@ -513,7 +501,7 @@ export function TestimonialCarousel() {
               </div>
             </div>
 
-            {/* Progress bar (below the card) — only animated when not reduced-motion */}
+            {/* Progress bar (below the card) , only animated when not reduced-motion */}
             {!prefersReduced && (
               <div className="mx-auto mt-5 h-1 w-full max-w-md overflow-hidden rounded-full bg-border/60">
                 <div
@@ -524,7 +512,7 @@ export function TestimonialCarousel() {
               </div>
             )}
 
-            {/* Caption: "Testimonial X of Y" — sr-only for screen readers, visible small caption */}
+            {/* Caption: "Testimonial X of Y" , sr-only for screen readers, visible small caption */}
             <div className="mt-3 text-center text-xs text-muted-foreground tabular-nums">
               {String(index + 1).padStart(2, "0")} <span className="opacity-50">/</span>{" "}
               {String(total).padStart(2, "0")}

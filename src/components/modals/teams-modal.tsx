@@ -3,7 +3,7 @@
 /**
  * TeamsModal
  * ----------
- * "Khidma for Teams" — for agencies, studios, and growing teams hiring
+ * "Khidma for Teams" , for agencies, studios, and growing teams hiring
  * multiple freelancers. Opened via `openTeams()` from the footer or
  * the Pricing section's "Compare with Pro" upsell.
  *
@@ -186,14 +186,14 @@ const USE_CASES: UseCase[] = [
     label: "Software Studios",
     icon: Code2,
     description:
-      "Staff product squads with the right mix of full-stack, design, and QA freelancers — without the procurement pain.",
+      "Staff product squads with the right mix of full-stack, design, and QA freelancers , without the procurement pain.",
     bullets: [
       "Pre-approved freelancer pool with role-based access",
       "Automated milestone-based payouts to multiple contributors",
       "Team analytics on velocity, completion rates, and spend per project",
     ],
     quote: {
-      text: "Onboarding a senior contractor used to take us 2 weeks. With Khidma Teams it's 30 minutes — NDA, contract, wallet, all in one place.",
+      text: "Onboarding a senior contractor used to take us 2 weeks. With Khidma Teams it's 30 minutes , NDA, contract, wallet, all in one place.",
       author: "Mehdi Saidana",
       role: "CTO, Cassurea Technologies (Sfax)",
     },
@@ -221,7 +221,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: "How does billing work?",
     answer:
-      "Team tier is billed per seat (TND 79/mo, min 3 seats). You can add or remove seats anytime — prorated automatically. Enterprise is an annual contract with custom invoicing and NET-30 terms.",
+      "Team tier is billed per seat (TND 79/mo, min 3 seats). You can add or remove seats anytime , prorated automatically. Enterprise is an annual contract with custom invoicing and NET-30 terms.",
   },
   {
     question: "Can I switch from Pro to Teams?",
@@ -421,7 +421,7 @@ export function TeamsModal() {
                   Khidma for Teams
                 </DialogTitle>
                 <DialogDescription className="text-white/75 text-sm mt-1.5">
-                  Hire, manage, and pay your freelance team — all in one place.
+                  Hire, manage, and pay your freelance team , all in one place.
                 </DialogDescription>
               </div>
             </div>

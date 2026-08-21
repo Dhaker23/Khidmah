@@ -1,0 +1,252 @@
+/home/z/my-project/src/components/modals/messaging-modal.tsx:89:// user can start a conversation with — all of them route to the demo bot for
+/home/z/my-project/src/components/modals/messaging-modal.tsx:268:  // Re-fetch messages when selection changes (side-effect only — no setState).
+/home/z/my-project/src/components/modals/messaging-modal.tsx:439:            {/* LEFT — conversation list */}
+/home/z/my-project/src/components/modals/messaging-modal.tsx:601:            {/* RIGHT — conversation view */}
+/home/z/my-project/src/components/modals/referral-modal.tsx:113:const REFERRAL_TEXT = "Join Khidma — Tunisia's most trusted freelance marketplace. We both earn 50 TND when you complete your first project.";
+/home/z/my-project/src/components/modals/referral-modal.tsx:128:  { name: "Omar Jelassi", initials: "OJ", status: "Pending", date: "18 Feb 2025", earnings: "—" },
+/home/z/my-project/src/components/modals/referral-modal.tsx:180:        description: "Share it anywhere — you earn 50 TND when a friend completes their first project.",
+/home/z/my-project/src/components/modals/referral-modal.tsx:197:        toast.error("Couldn't copy — please copy the link manually.");
+/home/z/my-project/src/components/modals/share-modal.tsx:81:  /** Tailwind hover background + text colors — Khidma teal palette only where possible. */
+/home/z/my-project/src/components/modals/share-modal.tsx:169:        ? `${sharePayload.entityTitle} — on Khidma`
+/home/z/my-project/src/components/modals/share-modal.tsx:170:        : `Job: ${sharePayload.entityTitle} — on Khidma`;
+/home/z/my-project/src/components/modals/share-modal.tsx:178:        description: "Share it with anyone — they can view the public profile.",
+/home/z/my-project/src/components/modals/share-modal.tsx:195:        toast.error("Couldn't copy — please copy the link manually.");
+/home/z/my-project/src/components/modals/newsletter-modal.tsx:6: * Premium newsletter signup modal — "Join the Khidma Insider".
+/home/z/my-project/src/components/modals/newsletter-modal.tsx:28: * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580
+/home/z/my-project/src/components/modals/newsletter-modal.tsx:135:  // Stable list of benefit items — useMemo not strictly needed but keeps
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:292:            Freelancer onboarding — Step {step + 1} of {TOTAL_STEPS}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:324:          {/* Body — scrollable */}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1085:                              Drag & drop or click — visual preview only
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1125:                        <li>Faces must be clearly visible — no sunglasses</li>
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1216:                                    toast.error("Wrong code — try 123456");
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1285:                          Make sure everything looks good — you can edit any step
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1342:                            {personal.firstName || "—"} {personal.lastName}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1348:                            @{personal.username || "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1354:                            {personal.city || "—"}, {personal.country}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1360:                            {personal.phone || "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1366:                            {languages.join(", ") || "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1377:                            {prof.title || "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1384:                              "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1441:                                    {e.position || "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1443:                                  @ {e.company || "—"}
+/home/z/my-project/src/components/modals/onboarding-wizard.tsx:1522:                toast.info("Progress saved — resume anytime from your dashboard.");
+/home/z/my-project/src/components/modals/partners-modal.tsx:6: * "Khidma Partner Program" — for payment providers, banks, accelerators, and
+/home/z/my-project/src/components/modals/partners-modal.tsx:28: * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580
+/home/z/my-project/src/components/modals/partners-modal.tsx:29: * Animations: framer-motion (tier hover, partner-type entrance) — respects
+/home/z/my-project/src/components/modals/partners-modal.tsx:170:    description: "Tap into a shared co-marketing pool — events, content, and joint campaigns.",
+/home/z/my-project/src/components/modals/partners-modal.tsx:185:    description: "Direct line to our partner success team — 24h response SLA on all partner tickets.",
+/home/z/my-project/src/components/modals/partners-modal.tsx:264:      "Associate partners can self-serve and integrate in under a day using our docs. Premier onboarding takes ~2 weeks (KYB, contract, sandbox → production). Strategic partnerships are scoped jointly with your dedicated account manager — typically 4–6 weeks end-to-end.",
+/home/z/my-project/src/components/modals/partners-modal.tsx:274:      "Yes — Strategic partners get full white-label licensing: your branding on the Khidma platform, custom domain (e.g., freelance.yourbank.tn), co-branded cards, and a dedicated relationship manager. Premier partners get co-branded assets (logos, email templates) but not full white-label.",
+/home/z/my-project/src/components/modals/partners-modal.tsx:414:          toast.success(`${tier.name} — application started`, {
+/home/z/my-project/src/components/modals/partners-modal.tsx:735:                  A representative sample of partner categories — illustrative.
+/home/z/my-project/src/components/modals/partners-modal.tsx:739:              {/* CTA — Become a partner form */}
+/home/z/my-project/src/components/modals/partners-modal.tsx:756:                      Tell us about your organization — we&apos;ll get back within
+/home/z/my-project/src/components/modals/report-modal.tsx:123:  // state, which is owned by the global store — there is no parent prop
+/home/z/my-project/src/components/modals/report-modal.tsx:159:      toast.success("Report submitted — our team will review within 48 hours.", {
+/home/z/my-project/src/components/modals/report-modal.tsx:249:              {/* Custom reason textarea — only when "Other" selected */}
+/home/z/my-project/src/components/modals/report-modal.tsx:336:              Confidential — only Khidma moderation sees this.
+/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:322:            {f.name} — {f.title}
+/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:538:                                Independent · 2020 — Present
+/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:832:                        Badges earned through real work on Khidma — projects,
+/home/z/my-project/src/components/modals/freelancer-profile-modal.tsx:846:                      Each badge is computed from verified activity — completed
+/home/z/my-project/src/components/modals/wallet-modal.tsx:75:    desc: "Service payment — Next.js landing page",
+/home/z/my-project/src/components/modals/wallet-modal.tsx:84:    desc: "Withdrawal — BIAT Bank",
+/home/z/my-project/src/components/modals/wallet-modal.tsx:93:    desc: "Service payment — SaaS dashboard",
+/home/z/my-project/src/components/modals/wallet-modal.tsx:102:    desc: "Service payment — Brand identity design",
+/home/z/my-project/src/components/modals/wallet-modal.tsx:111:    desc: "Withdrawal — D17 Mobile",
+/home/z/my-project/src/components/modals/wallet-modal.tsx:120:    desc: "Refund — Cancelled order #982",
+/home/z/my-project/src/components/modals/wallet-modal.tsx:442:                        toast.info("Add new withdrawal method — coming soon")
+/home/z/my-project/src/components/modals/pro-modal.tsx:59:        description: "You'll get 14 days of Khidma Pro — free.",
+/home/z/my-project/src/components/modals/pro-modal.tsx:64:      description: "14 days of Khidma Pro — enjoy unlimited applications.",
+/home/z/my-project/src/components/modals/pro-modal.tsx:130:                Cancel anytime — no questions asked. The 1% platform fee still
+/home/z/my-project/src/components/modals/review-modal.tsx:151:  // state, which is owned by the global store — there is no parent prop
+/home/z/my-project/src/components/modals/review-modal.tsx:255:            {/* Overall rating — large, centered */}
+/home/z/my-project/src/components/modals/review-modal.tsx:294:            {/* Metric ratings — 4 rows */}
+/home/z/my-project/src/components/modals/review-modal.tsx:380:                placeholder="Share details about your experience working with this freelancer — what went well, what they excelled at, and how they delivered…"
+/home/z/my-project/src/components/modals/review-modal.tsx:440:                Post this review anonymously — your name will not be shown on
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:6: * "Khidma API" — interactive API reference. Available on Business and
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:258:        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:266:        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:279:        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:293:        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:532:          toast.error("Failed to copy — please copy manually.");
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:808:            Khidma sends a POST request with the event payload to your URL — verify the
+/home/z/my-project/src/components/modals/api-docs-modal.tsx:942:          {/* Body — sidebar + content */}
+/home/z/my-project/src/components/modals/teams-modal.tsx:6: * "Khidma for Teams" — for agencies, studios, and growing teams hiring
+/home/z/my-project/src/components/modals/teams-modal.tsx:189:      "Staff product squads with the right mix of full-stack, design, and QA freelancers — without the procurement pain.",
+/home/z/my-project/src/components/modals/teams-modal.tsx:196:      text: "Onboarding a senior contractor used to take us 2 weeks. With Khidma Teams it's 30 minutes — NDA, contract, wallet, all in one place.",
+/home/z/my-project/src/components/modals/teams-modal.tsx:224:      "Team tier is billed per seat (TND 79/mo, min 3 seats). You can add or remove seats anytime — prorated automatically. Enterprise is an annual contract with custom invoicing and NET-30 terms.",
+/home/z/my-project/src/components/modals/teams-modal.tsx:424:                  Hire, manage, and pay your freelance team — all in one place.
+/home/z/my-project/src/components/modals/topup-modal.tsx:80:// Mock wallet balances — match WalletModal mock values
+/home/z/my-project/src/components/modals/topup-modal.tsx:133:  // state, which is owned by the global store — there is no parent prop
+/home/z/my-project/src/components/modals/topup-modal.tsx:180:    // Allow digits only — clamp to MAX_AMOUNT
+/home/z/my-project/src/components/modals/topup-modal.tsx:212:  // Mask card number — group into 4-digit blocks
+/home/z/my-project/src/components/modals/topup-modal.tsx:220:  // Mask expiry — MM/YY
+/home/z/my-project/src/components/modals/topup-modal.tsx:227:  // Mask CVC — 3-4 digits
+/home/z/my-project/src/components/modals/topup-modal.tsx:417:            {/* Card details — only when card method selected */}
+/home/z/my-project/src/components/modals/topup-modal.tsx:601:                  {promoApplied.code} applied — {promoApplied.discount}% off
+/home/z/my-project/src/components/modals/topup-modal.tsx:606:                  Invalid code — try KHIDMA10, WELCOME, or TUNISIA.
+/home/z/my-project/src/components/modals/help-modal.tsx:50: * FAQ data — 18 Q&A pairs across the 7 help categories.
+/home/z/my-project/src/components/modals/help-modal.tsx:121:      "Add a professional headshot, complete every section (bio, skills, portfolio, certifications), request reviews from past clients, and stay active — Khidma rewards responsiveness in search ranking.",
+/home/z/my-project/src/components/modals/help-modal.tsx:172:      "Khidma takes a 10% service fee on completed freelance earnings (5% for Pro members). Clients pay no platform fee — only the agreed amount plus applicable taxes.",
+/home/z/my-project/src/components/modals/help-modal.tsx:193:    question: "I forgot my password — how do I reset it?",
+/home/z/my-project/src/components/modals/help-modal.tsx:241:    onClick: () => toast.info("Opening report form…", { description: "Tell us what happened — we'll get back within 24h." }),
+/home/z/my-project/src/components/modals/help-modal.tsx:271:      // When searching globally, ignore the active category — search everything.
+/home/z/my-project/src/components/modals/help-modal.tsx:287:        description: "Tell us more via Contact Support — we read every message.",
+/home/z/my-project/src/components/modals/privacy-modal.tsx:70:    desc: "Required for core functionality — authentication, security, session handling. These cannot be disabled.",
+/home/z/my-project/src/components/modals/privacy-modal.tsx:159:            Manage how Khidma uses your data — control cookies, download your data, or request account deletion.
+/home/z/my-project/src/components/modals/create-service-modal.tsx:206:        // Recommend at least 1 FAQ, but allow 0 — we only require no empty
+/home/z/my-project/src/components/modals/create-service-modal.tsx:387:                    Step {step + 1} of {TOTAL_STEPS} — {stepMeta[step].name}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:397:                    {startingPrice ? formatTND(startingPrice) : "—"}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:463:                  {/* STEP 0 — Service Basics */}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:489:                          {form.title.length}/80 — min 6 characters, keep it short &amp; benefit-focused.
+/home/z/my-project/src/components/modals/create-service-modal.tsx:539:                          {form.description.length}/3000 — min 30 characters
+/home/z/my-project/src/components/modals/create-service-modal.tsx:628:                  {/* STEP 1 — Packages */}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:657:          Khidma takes a <strong>1% platform fee</strong> on completed orders —
+/home/z/my-project/src/components/modals/create-service-modal.tsx:665:                  {/* STEP 2 — FAQ */}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:739:                  {/* STEP 3 — Review & Publish */}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:754:                              I will {form.title || "—"}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:762:                              {startingPrice ? formatTND(startingPrice) : "—"}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:769:                            value={selectedCategory?.name ?? "—"}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:775:                                {form.description || "—"}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:795:                                "—"
+/home/z/my-project/src/components/modals/create-service-modal.tsx:815:                                          · {p.deliveryDays || "—"} days ·{" "}
+/home/z/my-project/src/components/modals/create-service-modal.tsx:844:                          escrow — payments release only after you deliver.
+/home/z/my-project/src/components/modals/post-job-modal.tsx:93:  { value: "Entry", label: "Entry", desc: "$ — best for simple, well-defined tasks" },
+/home/z/my-project/src/components/modals/post-job-modal.tsx:94:  { value: "Intermediate", label: "Intermediate", desc: "$$ — some expertise required" },
+/home/z/my-project/src/components/modals/post-job-modal.tsx:95:  { value: "Expert", label: "Expert", desc: "$$$ — senior-level, complex work" },
+/home/z/my-project/src/components/modals/post-job-modal.tsx:335:                    Step {step + 1} of {TOTAL_STEPS} — {stepMeta[step].name}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:401:                  {/* STEP 0 — Job Basics */}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:421:                          {form.title.length}/80 — min 4 characters
+/home/z/my-project/src/components/modals/post-job-modal.tsx:468:                          {form.description.length}/2000 — min 20 characters
+/home/z/my-project/src/components/modals/post-job-modal.tsx:536:                  {/* STEP 1 — Budget & Type */}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:680:                  {/* STEP 2 — Requirements */}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:761:                          placeholder="Optional — e.g. must speak French, available for daily standups, NDA required…"
+/home/z/my-project/src/components/modals/post-job-modal.tsx:790:                  {/* STEP 3 — Review & Publish */}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:815:                            value={selectedCategory?.name ?? "—"}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:821:                                {form.description || "—"}
+/home/z/my-project/src/components/modals/post-job-modal.tsx:841:                                "—"
+/home/z/my-project/src/components/modals/post-job-modal.tsx:855:                                : "—"
+/home/z/my-project/src/components/modals/post-job-modal.tsx:862:                                ?.label ?? "—"
+/home/z/my-project/src/components/modals/post-job-modal.tsx:893:                          Payments are protected by escrow — funds are released
+/home/z/my-project/src/components/modals/auth-modal.tsx:44:    desc: "Escrow-based — funds released only when you approve",
+/home/z/my-project/src/components/modals/auth-modal.tsx:317:                    Join Khidma as a freelancer or client — it takes 2 minutes.
+/home/z/my-project/src/components/modals/service-detail-modal.tsx:403:                    Protected by Khidma escrow — funds released only when you approve
+/home/z/my-project/src/components/views/freelancers-view.tsx:151:    // categories — match if any of the freelancer's skills appear in any selected category's skill list
+/home/z/my-project/src/components/views/freelancers-view.tsx:796:              You&apos;ve reached the end —{" "}
+/home/z/my-project/src/components/views/how-it-works-view.tsx:166:    name: "Phase 1 — Onboarding",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:186:          "Add basic personal info — first/last name, country, city, and a short intro.",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:199:    name: "Phase 2 — Build Your Profile",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:238:    name: "Phase 3 — Verification & Approval",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:265:    name: "Phase 4 — Work, Earn, Grow",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:266:    description: "Find clients, deliver, and get paid — protected every step.",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:331:    name: "Phase 1 — Post & Find",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:358:    name: "Phase 2 — Contract & Fund",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:385:    name: "Phase 3 — Review & Pay",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:426:      "Khima charges a flat 1% fee on every transaction — no subscriptions, no credits, no hidden cuts. Freelancers keep 99% of their earnings.",
+/home/z/my-project/src/components/views/how-it-works-view.tsx:477:          Here&apos;s the full picture — for freelancers, for clients, and
+/home/z/my-project/src/components/views/how-it-works-view.tsx:515:          Each step is intentional — designed to build real trust and earn
+/home/z/my-project/src/components/views/how-it-works-view.tsx:553:          protects every milestone — you only release payment when work is
+/home/z/my-project/src/components/views/how-it-works-view.tsx:750:              Freelancer metrics — average on Khidma
+/home/z/my-project/src/components/views/admin-view.tsx:443:// LEFT COLUMN — Freelancer information
+/home/z/my-project/src/components/views/admin-view.tsx:470:          {value || "—"}
+/home/z/my-project/src/components/views/admin-view.tsx:491:      period: `${app.yearsOfExperience - 3} yrs ago — Present`,
+/home/z/my-project/src/components/views/admin-view.tsx:497:      period: `${app.yearsOfExperience - 6} yrs ago — ${app.yearsOfExperience - 3} yrs ago`,
+/home/z/my-project/src/components/views/admin-view.tsx:738:// CENTER COLUMN — Portfolio Review
+/home/z/my-project/src/components/views/admin-view.tsx:1110:// RIGHT COLUMN — Verification + Risk + Checklist + Decision
+/home/z/my-project/src/components/views/admin-view.tsx:1587:                {decision ? decisionMeta[decision].label.toUpperCase() : "—"}
+/home/z/my-project/src/components/views/admin-view.tsx:1639:// BOTTOM SECTION — Notes + History + Audit Log
+/home/z/my-project/src/components/views/admin-view.tsx:2233:    toastMsg(`Loaded ${next.id} — ${next.freelancer.name}.`);
+/home/z/my-project/src/components/views/admin-view.tsx:2319:            {/* LEFT — Freelancer info */}
+/home/z/my-project/src/components/views/admin-view.tsx:2339:            {/* CENTER — Portfolio review */}
+/home/z/my-project/src/components/views/admin-view.tsx:2360:            {/* RIGHT — Verification + Risk + Checklist + Decision */}
+/home/z/my-project/src/components/views/admin-view.tsx:2387:          {/* BOTTOM — Notes + History + Audit */}
+/home/z/my-project/src/components/views/dashboard-view.tsx:797:                  toast.info(`${q.label} — coming up`);
+/home/z/my-project/src/components/views/dashboard-view.tsx:821:            subtitle={`${profileCompletion.total}% — keep going to rank higher in search`}
+/home/z/my-project/src/components/views/dashboard-view.tsx:905:      {/* Your Achievements — compact row of unlocked/locked badges */}
+/home/z/my-project/src/components/views/dashboard-view.tsx:928:          grayscale — keep completing projects, collecting reviews, and
+/home/z/my-project/src/components/views/dashboard-view.tsx:978:              {l} — Native / Fluent
+/home/z/my-project/src/components/views/dashboard-view.tsx:1087:            onClick={() => toast.info("Edit mode — coming up")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1116:                  onClick={() => toast.info(`Editing ${s.title} — coming up`)}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1180:            onClick={() => toast.success("Opening portfolio editor — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1266:                      onClick={() => toast.info("Edit — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1307:            onClick={() => toast.success("Service editor — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1372:                        onClick={() => toast.info("Edit service — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1380:                        onClick={() => toast.info("Service paused — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:1602:                        {c.nextDue !== "—" && (
+/home/z/my-project/src/components/views/dashboard-view.tsx:2173:            <Switch onCheckedChange={() => toast.info("2FA setup — demo")} />
+/home/z/my-project/src/components/views/dashboard-view.tsx:2186:              onClick={() => toast.info("Showing active sessions — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:2314:          onClick={() => toast.info("Add new payment method — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:2339:            onClick={() => toast.info("Account deactivation flow — demo")}
+/home/z/my-project/src/components/views/dashboard-view.tsx:2348:              toast.error("Account closure requires confirmation — blocked in demo")
+/home/z/my-project/src/components/views/services-view.tsx:197:              Pre-packaged offerings from verified freelancers — fixed scope,
+/home/z/my-project/src/components/views/stats-view.tsx:4: * StatsView — Khidma Platform Stats interactive view
+/home/z/my-project/src/components/views/stats-view.tsx:12: *   1. Header — title + subtitle + back-to-home + "Last updated: just now" + refresh
+/home/z/my-project/src/components/views/stats-view.tsx:13: *   2. Time range tabs — 7d / 30d / 90d / 1y (visual filter on mock data)
+/home/z/my-project/src/components/views/stats-view.tsx:14: *   3. 4 KPI cards — count-up + trend + mini sparkline
+/home/z/my-project/src/components/views/stats-view.tsx:16: *      - Growth chart (AreaChart, full width row 1) — signups + completions
+/home/z/my-project/src/components/views/stats-view.tsx:20: *   5. Activity feed — last 10 platform events with color-coded icons
+/home/z/my-project/src/components/views/stats-view.tsx:21: *   6. Geographic distribution — top 5 countries with flags + percentages
+/home/z/my-project/src/components/views/stats-view.tsx:22: *   7. Performance metrics — 4 stat cards
+/home/z/my-project/src/components/views/stats-view.tsx:25: * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+/home/z/my-project/src/components/views/stats-view.tsx:397:  { id: "e1", type: "verified", text: "New freelancer verified — Aymen K. (Developer)", time: "just now" },
+/home/z/my-project/src/components/views/stats-view.tsx:398:  { id: "e2", type: "completed", text: "Project completed — 'SaaS landing page'", time: "2 min ago" },
+/home/z/my-project/src/components/views/stats-view.tsx:399:  { id: "e3", type: "payment", text: "Payment released — TND 1,240 to wallet", time: "6 min ago" },
+/home/z/my-project/src/components/views/stats-view.tsx:401:  { id: "e5", type: "joined", text: "New client registered — Digital Agency TN", time: "18 min ago" },
+/home/z/my-project/src/components/views/stats-view.tsx:402:  { id: "e6", type: "milestone", text: "Milestone approved — 'Design system kit'", time: "27 min ago" },
+/home/z/my-project/src/components/views/stats-view.tsx:403:  { id: "e7", type: "verified", text: "Identity verified — Rania B. (Designer)", time: "34 min ago" },
+/home/z/my-project/src/components/views/stats-view.tsx:404:  { id: "e8", type: "payment", text: "Withdrawal processed — TND 3,200", time: "41 min ago" },
+/home/z/my-project/src/components/views/stats-view.tsx:405:  { id: "e9", type: "completed", text: "Project completed — 'Mobile onboarding flow'", time: "52 min ago" },
+/home/z/my-project/src/components/sections/community-section.tsx:6: * Landing page section — "The Khidma Community".
+/home/z/my-project/src/components/sections/community-section.tsx:26: * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
+/home/z/my-project/src/components/sections/community-section.tsx:190:      note: "Upcoming: Freelance Finance 101 — Sat Mar 15",
+/home/z/my-project/src/components/sections/community-section.tsx:218:          description: "Apply as a mentee or mentor — next cohort in April.",
+/home/z/my-project/src/components/sections/community-section.tsx:301:                Free for Khidma members — virtual & in-person.
+/home/z/my-project/src/components/sections/stats-banner.tsx:46:/** Count-up hook — animates from 0 → target once `active` is true. */
+/home/z/my-project/src/components/sections/blog-section.tsx:6: * "Insights & Resources" — Khidma's blog / educational resources section.
+/home/z/my-project/src/components/sections/blog-section.tsx:8: * Per spec section 96 — blog/educational resources can host advertising.
+/home/z/my-project/src/components/sections/why-khidma.tsx:43:      "Reviews are tied to completed, paid contracts — never fakeable.",
+/home/z/my-project/src/components/sections/why-khidma.tsx:70:                itself — so both sides can focus on doing great work instead of
+/home/z/my-project/src/components/sections/hero.tsx:86: * MagneticCard — wrapper that makes its content subtly follow the cursor
+/home/z/my-project/src/components/sections/hero.tsx:298:              {/* Radial glow behind headline — soft pulse, reduced-motion safe */}
+/home/z/my-project/src/components/sections/hero.tsx:405:            {/* Live activity ticker — real-time platform events */}
+/home/z/my-project/src/components/sections/featured-freelancers.tsx:26:              Hand-picked freelancers who passed our verification process —
+/home/z/my-project/src/components/sections/success-stories.tsx:117:      "Started solo in Sfax. Today runs a 6-person design studio serving SaaS clients across MENA and Europe — all originated from Khidma contracts.",
+/home/z/my-project/src/components/sections/podcast-section.tsx:6: * Landing page section — "The Khidma Podcast".
+/home/z/my-project/src/components/sections/podcast-section.tsx:30: * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
+/home/z/my-project/src/components/sections/podcast-section.tsx:289:                possible — and what Tunisian freelancers can steal from her
+/home/z/my-project/src/components/sections/final-cta.tsx:30:      {/* Animated gradient mesh — 3 drifting blurred blobs (20s loop) */}
+/home/z/my-project/src/components/sections/final-cta.tsx:102:              {/* Animated radial glow behind button — pulses 0.4 → 0.7 → 0.4 (2.5s) */}
+/home/z/my-project/src/components/sections/final-cta.tsx:144:            {/* Take the tour — secondary CTA triggering the onboarding tour */}
+/home/z/my-project/src/components/sections/stats-dashboard.tsx:4: * Stats Dashboard — "Khidma by the numbers"
+/home/z/my-project/src/components/sections/stats-dashboard.tsx:9: *   1. SectionHeading — eyebrow "PLATFORM ANALYTICS" + title + description
+/home/z/my-project/src/components/sections/stats-dashboard.tsx:11: *   3. Area chart (2/3 width) — Growth over 6 months (signups + completions)
+/home/z/my-project/src/components/sections/stats-dashboard.tsx:12: *   4. Donut chart (1/3 width) — Freelancers by category
+/home/z/my-project/src/components/sections/stats-dashboard.tsx:13: *   5. Bottom row — 3 mini-stats (Countries, Cities, Avg response time)
+/home/z/my-project/src/components/sections/stats-dashboard.tsx:16: * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+/home/z/my-project/src/components/sections/awards-section.tsx:6: * Landing page section — "Khidma Awards 2025".
+/home/z/my-project/src/components/sections/awards-section.tsx:12: *   2. Featured Winner card (full-width, Amira Ben Salah — Freelancer of
+/home/z/my-project/src/components/sections/awards-section.tsx:18: *   4. Nomination card — "Nominate a freelancer for 2026" + Submit
+/home/z/my-project/src/components/sections/awards-section.tsx:20: *   5. Past winners row — 3 past winners (2024, 2023, 2022) with year +
+/home/z/my-project/src/components/sections/awards-section.tsx:22: *   6. Ceremony info card — "Awards Ceremony 2025 — December 12, Tunis" +
+/home/z/my-project/src/components/sections/awards-section.tsx:29: * bronze / purple / rose / emerald) — NO indigo/blue.
+/home/z/my-project/src/components/sections/awards-section.tsx:235:                alt="Amira Ben Salah — Khidma Freelancer of the Year 2025"
+/home/z/my-project/src/components/sections/awards-section.tsx:267:                real business — verified clients, milestone escrow, and a
+/home/z/my-project/src/components/sections/awards-section.tsx:271:                — Amira, accepting the 2025 award
+/home/z/my-project/src/components/sections/categories.tsx:25:              Browse {categories.length} categories — from development and
+/home/z/my-project/src/components/sections/withdrawal-options.tsx:51:          title="Withdraw Your Earnings — Your Way"
+/home/z/my-project/src/components/sections/featured-this-week.tsx:7: *   1. Featured Freelancer  — "Amira Ben Salah — Full-Stack Developer of the Week"
+/home/z/my-project/src/components/sections/featured-this-week.tsx:8: *   2. Featured Service     — "I will build a professional Next.js landing page"
+/home/z/my-project/src/components/sections/featured-this-week.tsx:9: *   3. Featured Job         — "Urgent: Build a Next.js SaaS landing page"
+/home/z/my-project/src/components/sections/featured-this-week.tsx:10: *   4. Featured Article     — "How to write a winning proposal on Khidma"
+/home/z/my-project/src/components/sections/featured-this-week.tsx:11: *   5. Featured Event       — "Portfolio Masterclass with Yassine Gharbi"
+/home/z/my-project/src/components/sections/featured-this-week.tsx:23: *  - Respects `prefers-reduced-motion` — no auto-advance, no progress bar,
+/home/z/my-project/src/components/sections/featured-this-week.tsx:85:  /** Click handler — falls back to a no-op + toast if the target is unavailable. */
+/home/z/my-project/src/components/sections/featured-this-week.tsx:138:// Toast fallback — used when no target is available (article/event)
+/home/z/my-project/src/components/sections/featured-this-week.tsx:491:// Featured items — assembled once per render via useMemo
+/home/z/my-project/src/components/sections/featured-this-week.tsx:563:          /* Articles are mocked — show a friendly toast via store openOnboarding */
+/home/z/my-project/src/components/sections/featured-this-week.tsx:637:  // Auto-advance loop — drives the progress bar via rAF.
+/home/z/my-project/src/components/sections/featured-this-week.tsx:674:  // Variants — slide + fade. Under reduced-motion we just cross-fade.
+/home/z/my-project/src/components/sections/testimonial-carousel.tsx:380:      {/* Background — subtle gradient + decorative dot grid */}
+
+[Showing results with pagination = limit: 250]

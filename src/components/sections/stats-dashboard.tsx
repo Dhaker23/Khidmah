@@ -1,19 +1,19 @@
 "use client";
 
 /**
- * Stats Dashboard — "Khidma by the numbers"
+ * Stats Dashboard , "Khidma by the numbers"
  * -----------------------------------------
  * Richer version of StatsBanner with live KPI cards + recharts visualizations.
  *
  * Sections:
- *   1. SectionHeading — eyebrow "PLATFORM ANALYTICS" + title + description
+ *   1. SectionHeading , eyebrow "PLATFORM ANALYTICS" + title + description
  *   2. 4 KPI cards with count-up + trend indicators
- *   3. Area chart (2/3 width) — Growth over 6 months (signups + completions)
- *   4. Donut chart (1/3 width) — Freelancers by category
- *   5. Bottom row — 3 mini-stats (Countries, Cities, Avg response time)
+ *   3. Area chart (2/3 width) , Growth over 6 months (signups + completions)
+ *   4. Donut chart (1/3 width) , Freelancers by category
+ *   5. Bottom row , 3 mini-stats (Countries, Cities, Avg response time)
  *
  * Uses recharts (AreaChart + PieChart). Respects `prefers-reduced-motion`.
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
  */
 
 import { useEffect, useRef, useState } from "react";

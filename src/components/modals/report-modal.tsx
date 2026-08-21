@@ -120,7 +120,7 @@ export function ReportModal() {
   // We intentionally reset on open rather than close so any failed submit
   // attempt preserves its inputs for review. The setState-in-effect pattern
   // is required here because the form's lifetime is tied to the dialog open
-  // state, which is owned by the global store — there is no parent prop
+  // state, which is owned by the global store , there is no parent prop
   // we can `key` on without breaking the dialog's transition animations.
   useEffect(() => {
     if (!reportOpen) return;
@@ -156,7 +156,7 @@ export function ReportModal() {
         link: "dashboard",
       });
 
-      toast.success("Report submitted — our team will review within 48 hours.", {
+      toast.success("Report submitted , our team will review within 48 hours.", {
         description: `Reason: ${reasonLabel}`,
       });
 
@@ -246,7 +246,7 @@ export function ReportModal() {
                 })}
               </RadioGroup>
 
-              {/* Custom reason textarea — only when "Other" selected */}
+              {/* Custom reason textarea , only when "Other" selected */}
               <AnimatePresence initial={false}>
                 {isOther && (
                   <motion.div
@@ -333,7 +333,7 @@ export function ReportModal() {
           <DialogFooter className="px-5 py-3 border-t border-border/60 bg-muted/20 flex-row items-center gap-2">
             <p className="text-[11px] text-muted-foreground leading-snug mr-auto hidden sm:block">
               <ShieldAlert className="size-3 inline mr-1 -mt-0.5 text-[#32504d] dark:text-[#9bb3ae]" />
-              Confidential — only Khidma moderation sees this.
+              Confidential , only Khidma moderation sees this.
             </p>
             <DialogClose asChild>
               <Button

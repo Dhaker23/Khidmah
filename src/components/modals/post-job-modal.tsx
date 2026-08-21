@@ -43,7 +43,6 @@ import {
   Building2,
   ShieldCheck,
   Clock,
-  Sparkles,
   Trash2,
   Tag,
   Save,
@@ -91,9 +90,9 @@ const DURATIONS = [
 ];
 
 const EXPERIENCE_LEVELS: { value: ExperienceLevel; label: string; desc: string }[] = [
-  { value: "Entry", label: "Entry", desc: "$ — best for simple, well-defined tasks" },
-  { value: "Intermediate", label: "Intermediate", desc: "$$ — some expertise required" },
-  { value: "Expert", label: "Expert", desc: "$$$ — senior-level, complex work" },
+  { value: "Entry", label: "Entry", desc: "$ , best for simple, well-defined tasks" },
+  { value: "Intermediate", label: "Intermediate", desc: "$$ , some expertise required" },
+  { value: "Expert", label: "Expert", desc: "$$$ , senior-level, complex work" },
 ];
 
 const initialForm: JobFormState = {
@@ -333,7 +332,7 @@ export function PostJobModal() {
                     Post a Job
                   </h2>
                   <p className="text-[11px] text-white/70 truncate">
-                    Step {step + 1} of {TOTAL_STEPS} — {stepMeta[step].name}
+                    Step {step + 1} of {TOTAL_STEPS} , {stepMeta[step].name}
                   </p>
                 </div>
               </div>
@@ -399,7 +398,7 @@ export function PostJobModal() {
                   exit={{ opacity: 0, x: direction * -16 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  {/* STEP 0 — Job Basics */}
+                  {/* STEP 0 , Job Basics */}
                   {step === 0 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -419,7 +418,7 @@ export function PostJobModal() {
                           maxLength={80}
                         />
                         <p className="text-[10px] text-muted-foreground">
-                          {form.title.length}/80 — min 4 characters
+                          {form.title.length}/80 , min 4 characters
                         </p>
                       </div>
                       <div className="space-y-1.5">
@@ -466,7 +465,7 @@ export function PostJobModal() {
                           maxLength={2000}
                         />
                         <p className="text-[10px] text-muted-foreground">
-                          {form.description.length}/2000 — min 20 characters
+                          {form.description.length}/2000 , min 20 characters
                         </p>
                       </div>
                       <div className="space-y-1.5">
@@ -534,7 +533,7 @@ export function PostJobModal() {
                     </div>
                   )}
 
-                  {/* STEP 1 — Budget & Type */}
+                  {/* STEP 1 , Budget & Type */}
                   {step === 1 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -678,7 +677,7 @@ export function PostJobModal() {
                     </div>
                   )}
 
-                  {/* STEP 2 — Requirements */}
+                  {/* STEP 2 , Requirements */}
                   {step === 2 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -699,7 +698,7 @@ export function PostJobModal() {
                             [
                               { v: "Tunisia", l: "Tunisia", d: "Local talent only", i: Building2 },
                               { v: "Worldwide", l: "Worldwide", d: "Open globally", i: Globe },
-                              { v: "Remote", l: "Remote", d: "Remote-first", i: Sparkles },
+                              { v: "Remote", l: "Remote", d: "Remote-first", i: Globe },
                             ] as const
                           ).map((o) => (
                             <Label
@@ -759,7 +758,7 @@ export function PostJobModal() {
                           onChange={(e) =>
                             update("specialRequirements", e.target.value)
                           }
-                          placeholder="Optional — e.g. must speak French, available for daily standups, NDA required…"
+                          placeholder="Optional , e.g. must speak French, available for daily standups, NDA required…"
                           rows={3}
                           maxLength={500}
                         />
@@ -788,7 +787,7 @@ export function PostJobModal() {
                     </div>
                   )}
 
-                  {/* STEP 3 — Review & Publish */}
+                  {/* STEP 3 , Review & Publish */}
                   {step === 3 && (
                     <div className="space-y-5">
                       <StepHeader
@@ -813,13 +812,13 @@ export function PostJobModal() {
                         <dl className="divide-y divide-border/60 text-xs">
                           <SummaryRow
                             label="Category"
-                            value={selectedCategory?.name ?? "—"}
+                            value={selectedCategory?.name ?? ","}
                           />
                           <SummaryRow
                             label="Description"
                             value={
                               <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-3">
-                                {form.description || "—"}
+                                {form.description || ","}
                               </p>
                             }
                           />
@@ -839,7 +838,7 @@ export function PostJobModal() {
                                   ))}
                                 </div>
                               ) : (
-                                "—"
+                                ","
                               )
                             }
                           />
@@ -853,14 +852,14 @@ export function PostJobModal() {
                                         formatTND(Number(form.budgetMax))
                                       : "+"
                                   }${form.type === "HOURLY" ? " /hr" : ""}`
-                                : "—"
+                                : ","
                             }
                           />
                           <SummaryRow
                             label="Duration"
                             value={
                               DURATIONS.find((d) => d.value === form.duration)
-                                ?.label ?? "—"
+                                ?.label ?? ","
                             }
                           />
                           <SummaryRow
@@ -891,7 +890,7 @@ export function PostJobModal() {
                         <ShieldCheck className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                         <p className="text-[11px] text-muted-foreground leading-relaxed">
                           By publishing, you agree to Khidma&apos;s terms.
-                          Payments are protected by escrow — funds are released
+                          Payments are protected by escrow , funds are released
                           only when you approve the work.
                         </p>
                       </div>

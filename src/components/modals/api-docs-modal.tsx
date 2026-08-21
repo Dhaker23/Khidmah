@@ -3,7 +3,7 @@
 /**
  * ApiDocsModal
  * ------------
- * "Khidma API" — interactive API reference. Available on Business and
+ * "Khidma API" , interactive API reference. Available on Business and
  * Enterprise plans. Opened via `openApiDocs()` from the footer or the
  * Pricing section's Business tier CTA.
  *
@@ -255,7 +255,7 @@ $accessToken = $data["access_token"];`,
     {
       title: "List freelancers (filtered)",
       description:
-        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results , use ?page=N for the next page.",
       language: "curl",
       code: `curl https://api.khidma.tn/v1/freelancers?category=development&min_rating=4.5&verified=true&limit=10 \\
   -H "Authorization: Bearer $TOKEN"`,
@@ -263,7 +263,7 @@ $accessToken = $data["access_token"];`,
     {
       title: "List freelancers (filtered)",
       description:
-        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results , use ?page=N for the next page.",
       language: "javascript",
       code: `const res = await fetch(
   "https://api.khidma.tn/v1/freelancers?category=development&min_rating=4.5&verified=true&limit=10",
@@ -276,7 +276,7 @@ console.log(\`Got \${data.length} freelancers\`);`,
     {
       title: "List freelancers (filtered)",
       description:
-        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results , use ?page=N for the next page.",
       language: "python",
       code: `import requests
 
@@ -290,7 +290,7 @@ data = res.json()["data"]`,
     {
       title: "List freelancers (filtered)",
       description:
-        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results — use ?page=N for the next page.",
+        "Filter by category, min rating, hourly rate range, and verified status. Returns paginated results , use ?page=N for the next page.",
       language: "php",
       code: `<?php
 $url = "https://api.khidma.tn/v1/freelancers?" . http_build_query([
@@ -529,7 +529,7 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
           setTimeout(() => setCopied(false), 1500);
         })
         .catch(() => {
-          toast.error("Failed to copy — please copy manually.");
+          toast.error("Failed to copy , please copy manually.");
         });
     } else {
       toast.error("Clipboard unavailable in this browser.");
@@ -805,7 +805,7 @@ function RightContent({ category }: { category: Category }) {
           <p className="text-xs text-muted-foreground leading-relaxed">
             Register your webhook endpoint via{" "}
             <code className="font-mono text-[#32504d] dark:text-[#9bb3ae]">POST /webhooks</code>.
-            Khidma sends a POST request with the event payload to your URL — verify the
+            Khidma sends a POST request with the event payload to your URL , verify the
             signature in the <code className="font-mono">X-Khidma-Signature</code> header.
           </p>
           {WEBHOOK_EVENTS.map((wh) => (
@@ -939,7 +939,7 @@ export function ApiDocsModal() {
             </div>
           </DialogHeader>
 
-          {/* Body — sidebar + content */}
+          {/* Body , sidebar + content */}
           <div className="flex-1 flex min-h-0">
             {/* Desktop sidebar */}
             <aside className="hidden md:flex md:w-[220px] md:shrink-0 flex-col border-r border-border/60 bg-muted/30 p-3">

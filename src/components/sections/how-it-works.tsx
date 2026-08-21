@@ -87,9 +87,7 @@ export function HowItWorks() {
                   <Card className="relative h-full p-6 border-border/60 hover:border-[#32504d]/40 khidma-card">
                     {/* Number badge */}
                     <div className="flex items-center justify-between mb-4">
-                      <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae]">
-                        <Icon className="size-6" />
-                      </div>
+                      <Icon className="size-6 text-[#32504d] dark:text-[#9bb3ae]" />
                       <span className="font-display text-5xl font-bold text-[#32504d] dark:text-[#9bb3ae]/10 leading-none">
                         {String(i + 1).padStart(2, "0")}
                       </span>
@@ -148,9 +146,7 @@ export function HowItWorks() {
                 <Reveal key={step.label} delay={0.05 * i}>
                   <Card className="group h-full p-5 border-border/60 hover:border-[#475959]/40 khidma-card">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="flex size-9 items-center justify-center rounded-lg bg-[#475959]/10 dark:bg-[#475959]/20 text-[#475959] dark:text-[#94a8a4]">
-                        <Icon className="size-4" />
-                      </div>
+                      <Icon className="size-4 text-[#475959] dark:text-[#94a8a4]" />
                       <span className="font-display text-sm font-semibold text-foreground">
                         {i + 1}. {step.label}
                       </span>
@@ -179,7 +175,7 @@ export function HowItWorks() {
             <p className="text-sm text-foreground">
               <span className="font-semibold">Escrow-protected contracts.</span>{" "}
               <span className="text-muted-foreground">
-                Funds are held safely until milestones are approved — protecting
+                Funds are held safely until milestones are approved, protecting
                 both clients and freelancers.
               </span>
             </p>

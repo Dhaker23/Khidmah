@@ -23,7 +23,7 @@ export function FeaturedFreelancers() {
               Featured Verified Freelancers
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
-              Hand-picked freelancers who passed our verification process —
+              Hand-picked freelancers who passed our verification process ,
               identity, portfolio, and reputation reviewed.
             </p>
           </Reveal>

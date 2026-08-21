@@ -17,7 +17,6 @@ import {
   ShoppingBag,
   HelpCircle,
   PlusCircle,
-  Sparkles,
   Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -114,7 +113,7 @@ export function Header() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="flex items-center gap-2 transition-opacity hover:opacity-90 shrink-0 z-10"
-            aria-label="Khidma home — scroll to top"
+            aria-label="Khidma home, scroll to top"
           >
             <KhidmaLogo
               variant="full"
@@ -122,7 +121,7 @@ export function Header() {
             />
           </button>
 
-          {/* Desktop Nav — absolutely centered */}
+          {/* Desktop Nav , absolutely centered */}
           <nav data-tour="nav" className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {navItemsResolved.map((item) => {
               const Icon = item.icon;
@@ -323,9 +322,8 @@ export function Header() {
                   size="sm"
                   data-tour="join"
                   onClick={() => openAuth("register")}
-                  className="hidden sm:inline-flex bg-[#2b3d3d] hover:bg-[#192d2f] text-white gap-1.5 group"
+                  className="hidden sm:inline-flex bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
                 >
-                  <Sparkles className="size-3.5 group-hover:rotate-12 transition-transform" />
                   {t("nav.join")}
                 </Button>
               </>
@@ -375,7 +373,7 @@ export function Header() {
                       </button>
                     );
                   })}
-                  {/* Saved items — always available */}
+                  {/* Saved items , always available */}
                   <button
                     onClick={() => {
                       openFavorites();

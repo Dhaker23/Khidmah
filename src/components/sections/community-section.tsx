@@ -3,7 +3,7 @@
 /**
  * CommunitySection
  * ----------------
- * Landing page section — "The Khidma Community".
+ * Landing page section , "The Khidma Community".
  *
  * Subtitle: "Where Tunisian freelancers connect, learn, and grow together."
  *
@@ -23,7 +23,7 @@
  * Animations: Reveal staggered entrance; framer-motion hover lift on cards.
  * Respects prefers-reduced-motion.
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580.
  */
 
 import { motion, useReducedMotion } from "framer-motion";
@@ -187,7 +187,7 @@ export function CommunitySection() {
       title: "Events & Meetups",
       description:
         "Monthly meetups in Tunis, Sfax, Sousse. Virtual workshops every Thursday.",
-      note: "Upcoming: Freelance Finance 101 — Sat Mar 15",
+      note: "Upcoming: Freelance Finance 101 , Sat Mar 15",
       cta: "View all events",
       onCta: () =>
         toast.info("Opening events calendar…", {
@@ -215,7 +215,7 @@ export function CommunitySection() {
       cta: "Join mentorship",
       onCta: () =>
         toast.info("Mentorship applications open quarterly.", {
-          description: "Apply as a mentee or mentor — next cohort in April.",
+          description: "Apply as a mentee or mentor , next cohort in April.",
         }),
     },
   ];
@@ -298,7 +298,7 @@ export function CommunitySection() {
                 Upcoming events
               </h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Free for Khidma members — virtual & in-person.
+                Free for Khidma members , virtual & in-person.
               </p>
             </div>
             <button

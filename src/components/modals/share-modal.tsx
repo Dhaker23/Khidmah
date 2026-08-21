@@ -78,7 +78,7 @@ interface SocialButton {
   key: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
-  /** Tailwind hover background + text colors — Khidma teal palette only where possible. */
+  /** Tailwind hover background + text colors , Khidma teal palette only where possible. */
   hoverClass: string;
   shareUrl: (url: string, text: string) => string;
 }
@@ -166,8 +166,8 @@ export function ShareModal() {
     return sharePayload.entityType === "freelancer"
       ? `Check out ${sharePayload.entityTitle} on Khidma`
       : sharePayload.entityType === "service"
-        ? `${sharePayload.entityTitle} — on Khidma`
-        : `Job: ${sharePayload.entityTitle} — on Khidma`;
+        ? `${sharePayload.entityTitle} , on Khidma`
+        : `Job: ${sharePayload.entityTitle} , on Khidma`;
   }, [sharePayload]);
 
   const handleCopy = async () => {
@@ -175,7 +175,7 @@ export function ShareModal() {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       toast.success("Link copied!", {
-        description: "Share it with anyone — they can view the public profile.",
+        description: "Share it with anyone , they can view the public profile.",
       });
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -192,7 +192,7 @@ export function ShareModal() {
         toast.success("Link copied!");
         setTimeout(() => setCopied(false), 1800);
       } catch {
-        toast.error("Couldn't copy — please copy the link manually.");
+        toast.error("Couldn't copy , please copy the link manually.");
       }
       document.body.removeChild(ta);
     }

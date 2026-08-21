@@ -17,7 +17,6 @@ import {
   Users,
   Wallet,
   TrendingUp,
-  Sparkles,
   ArrowRight,
   Quote,
 } from "lucide-react";
@@ -84,7 +83,7 @@ const HEADLINE_PHRASES = [
 ];
 
 /**
- * MagneticCard — wrapper that makes its content subtly follow the cursor
+ * MagneticCard , wrapper that makes its content subtly follow the cursor
  * when hovered (max 8px translate), with a springy reset on mouse leave.
  *
  * Uses `useMotionValue` + `useSpring` so there are NO React re-renders on
@@ -291,13 +290,12 @@ export function Hero() {
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   className="size-1.5 rounded-full bg-emerald-400"
                 />
-                <Sparkles className="size-3.5 text-[#94a8a4]" />
                 {t("hero.eyebrow")}
               </span>
             </motion.div>
 
             <motion.div variants={itemVariants} className="relative mt-5">
-              {/* Radial glow behind headline — soft pulse, reduced-motion safe */}
+              {/* Radial glow behind headline , soft pulse, reduced-motion safe */}
               <motion.div
                 aria-hidden
                 className={
@@ -395,9 +393,7 @@ export function Hero() {
                   whileHover={{ scale: 1.02 }}
                   className="flex items-center gap-2 text-sm text-white/80"
                 >
-                  <span className="flex size-7 items-center justify-center rounded-full bg-white/10">
-                    <chip.icon className="size-3.5 text-[#94a8a4]" />
-                  </span>
+                  <chip.icon className="size-4 text-[#94a8a4]" />
                   {chip.label}
                   {idx < trustChips.length - 1 && (
                     <span className="ml-2 text-white/30">·</span>
@@ -406,7 +402,7 @@ export function Hero() {
               ))}
             </motion.ul>
 
-            {/* Live activity ticker — real-time platform events */}
+            {/* Live activity ticker , real-time platform events */}
             <motion.div variants={itemVariants} className="mt-6 max-w-xl">
               <LiveActivityTicker />
             </motion.div>
@@ -502,9 +498,7 @@ export function Hero() {
                 transition={{ duration: 0.5, delay: 0.85 }}
                 className="absolute -bottom-6 -left-6 hidden sm:flex items-center gap-3 rounded-xl border border-white/15 bg-[#32504d]/90 backdrop-blur-md px-4 py-3 shadow-xl"
               >
-                <div className="flex size-9 items-center justify-center rounded-lg bg-white/10">
-                  <TrendingUp className="size-4 text-white" />
-                </div>
+                <TrendingUp className="size-4 text-white shrink-0" />
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-white/70">
                     Trust Score

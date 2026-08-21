@@ -554,7 +554,7 @@ export const quickActions = [
   {
     key: "create-service",
     label: "Create Service",
-    icon: "Sparkles",
+    icon: "Tag",
     description: "List a new offering for clients",
     target: "services" as const,
   },

@@ -4,11 +4,11 @@
  * FeaturedThisWeek
  * ----------------
  * A premium rotating banner that cycles through 5 featured items every 5s:
- *   1. Featured Freelancer  — "Amira Ben Salah — Full-Stack Developer of the Week"
- *   2. Featured Service     — "I will build a professional Next.js landing page"
- *   3. Featured Job         — "Urgent: Build a Next.js SaaS landing page"
- *   4. Featured Article     — "How to write a winning proposal on Khidma"
- *   5. Featured Event       — "Portfolio Masterclass with Yassine Gharbi"
+ *   1. Featured Freelancer  , "Amira Ben Salah , Full-Stack Developer of the Week"
+ *   2. Featured Service     , "I will build a professional Next.js landing page"
+ *   3. Featured Job         , "Urgent: Build a Next.js SaaS landing page"
+ *   4. Featured Article     , "How to write a winning proposal on Khidma"
+ *   5. Featured Event       , "Portfolio Masterclass with Yassine Gharbi"
  *
  * Layout:
  *  - Full-width dark-teal gradient banner with dot-grid pattern.
@@ -20,7 +20,7 @@
  *  - Auto-advances every 5s (full cycle resets progress bar each item).
  *  - Pauses on hover.
  *  - Clicking a dot jumps to that item and resets the timer.
- *  - Respects `prefers-reduced-motion` — no auto-advance, no progress bar,
+ *  - Respects `prefers-reduced-motion` , no auto-advance, no progress bar,
  *    shows the first item only, dots remain clickable.
  *
  * All animations are framer-motion (slide + fade cross-fade via AnimatePresence).
@@ -48,7 +48,6 @@ import {
   BookOpen,
   Megaphone,
   Briefcase,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
   type LucideIcon,
@@ -83,7 +82,7 @@ interface FeaturedItem {
   title: ReactNode;
   description: string;
   cta: string;
-  /** Click handler — falls back to a no-op + toast if the target is unavailable. */
+  /** Click handler , falls back to a no-op + toast if the target is unavailable. */
   onClick: () => void;
   /** The visual preview shown on the right (avatar, cover, event card). */
   visual: ReactNode;
@@ -104,7 +103,7 @@ const KIND_META: Record<
   { icon: LucideIcon; color: string; bg: string; ring: string }
 > = {
   freelancer: {
-    icon: Sparkles,
+    icon: Star,
     color: "text-emerald-300",
     bg: "bg-emerald-400/15",
     ring: "ring-emerald-400/30",
@@ -136,7 +135,7 @@ const KIND_META: Record<
 };
 
 // =====================================================================
-// Toast fallback — used when no target is available (article/event)
+// Toast fallback , used when no target is available (article/event)
 // =====================================================================
 
 function useFeaturedClick() {
@@ -395,9 +394,7 @@ function ArticleVisual() {
         <span className="text-[10px] text-white/60">8 min read</span>
       </div>
       <div className="relative mt-4 flex items-center gap-3">
-        <div className="flex size-12 items-center justify-center rounded-xl bg-amber-400/15 ring-1 ring-amber-400/30">
-          <BookOpen className="size-5 text-amber-200" />
-        </div>
+        <BookOpen className="size-5 text-amber-200 shrink-0" />
         <div>
           <div className="text-[10px] uppercase tracking-wider text-white/50">
             Featured Article
@@ -491,7 +488,7 @@ function EventVisual() {
 }
 
 // =====================================================================
-// Featured items — assembled once per render via useMemo
+// Featured items , assembled once per render via useMemo
 // =====================================================================
 
 function useFeaturedItems(): FeaturedItem[] {
@@ -504,7 +501,7 @@ function useFeaturedItems(): FeaturedItem[] {
         eyebrow: "Freelancer of the Week",
         title: (
           <>
-            Amira Ben Salah —{" "}
+            Amira Ben Salah,{" "}
             <span className="text-khidma-gradient">
               Full-Stack Developer of the Week
             </span>
@@ -522,7 +519,7 @@ function useFeaturedItems(): FeaturedItem[] {
         eyebrow: "Featured Service",
         title: (
           <>
-            I will build a professional Next.js landing page —{" "}
+            I will build a professional Next.js landing page,{" "}
             <span className="text-khidma-gradient">from TND 350</span>
           </>
         ),
@@ -538,7 +535,7 @@ function useFeaturedItems(): FeaturedItem[] {
         eyebrow: "Featured Job",
         title: (
           <>
-            Urgent: Build a Next.js SaaS landing page —{" "}
+            Urgent: Build a Next.js SaaS landing page,{" "}
             <span className="text-khidma-gradient">TND 800 – 1,500</span>
           </>
         ),
@@ -563,7 +560,7 @@ function useFeaturedItems(): FeaturedItem[] {
           "Stop sending copy-paste proposals. Learn the 5-step framework Top Rated freelancers use to win 3× more projects on Khidma.",
         cta: "Read article",
         onClick: () => {
-          /* Articles are mocked — show a friendly toast via store openOnboarding */
+          /* Articles are mocked , show a friendly toast via store openOnboarding */
         },
         visual: <ArticleVisual />,
       },
@@ -578,7 +575,7 @@ function useFeaturedItems(): FeaturedItem[] {
           </>
         ),
         description:
-          "Live in-person masterclass in Tunis — Saturday, March 29. Learn how to build a portfolio that lands clients. Limited seats.",
+          "Live in-person masterclass in Tunis, Saturday, March 29. Learn how to build a portfolio that lands clients. Limited seats.",
         cta: "Register",
         onClick: () => {
           /* Events are mocked */
@@ -637,7 +634,7 @@ export function FeaturedThisWeek() {
   );
 
   // -------------------------------------------------------------------
-  // Auto-advance loop — drives the progress bar via rAF.
+  // Auto-advance loop , drives the progress bar via rAF.
   // Skipped entirely under prefers-reduced-motion (item stays at 0).
   // -------------------------------------------------------------------
   useEffect(() => {
@@ -674,7 +671,7 @@ export function FeaturedThisWeek() {
   const current = items[index];
   const KindIcon = KIND_META[current.kind].icon;
 
-  // Variants — slide + fade. Under reduced-motion we just cross-fade.
+  // Variants , slide + fade. Under reduced-motion we just cross-fade.
   const leftVariants = prefersReduced
     ? {
         initial: { opacity: 0 },
@@ -746,18 +743,9 @@ export function FeaturedThisWeek() {
             Featured this week
           </span>
           <div className="hidden sm:flex items-center gap-1.5">
-            <span
-              className={cn(
-                "inline-flex size-6 items-center justify-center rounded-full",
-                KIND_META[current.kind].bg,
-                "ring-1",
-                KIND_META[current.kind].ring
-              )}
-            >
-              <KindIcon
-                className={cn("size-3", KIND_META[current.kind].color)}
-              />
-            </span>
+            <KindIcon
+              className={cn("size-3", KIND_META[current.kind].color)}
+            />
             <span className="text-[11px] font-medium text-white/70">
               {current.eyebrow}
             </span>

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { GitCompare, X, Sparkles } from "lucide-react";
+import { GitCompare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useApp } from "@/lib/store";
@@ -81,7 +81,6 @@ export function CompareTray() {
                 </span>
                 {atMax && (
                   <span className="inline-flex items-center gap-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-500">
-                    <Sparkles className="size-2.5" />
                     Max reached
                   </span>
                 )}
@@ -131,7 +130,7 @@ export function CompareTray() {
                 ))}
               </div>
 
-              {/* Names — hidden on mobile to save space */}
+              {/* Names , hidden on mobile to save space */}
               <div className="hidden md:flex flex-col min-w-0 max-w-[260px]">
                 <div className="text-xs font-medium text-foreground truncate">
                   {freelancers.map((f) => f.name).join(" · ")}

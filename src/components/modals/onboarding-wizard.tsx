@@ -28,7 +28,7 @@ import {
 import {
   User,
   Briefcase,
-  Sparkles,
+  Tag,
   Award,
   Image as ImageIcon,
   Camera,
@@ -60,7 +60,7 @@ const TOTAL_STEPS = 8;
 const stepMeta = [
   { name: "Personal Info", desc: "Tell us who you are", icon: User },
   { name: "Professional Info", desc: "Define your offer", icon: Briefcase },
-  { name: "Skills", desc: "Pick your strengths", icon: Sparkles },
+  { name: "Skills", desc: "Pick your strengths", icon: Tag },
   { name: "Experience", desc: "Show your track record", icon: Award },
   { name: "Portfolio", desc: "Showcase your work", icon: ImageIcon },
   { name: "Profile Photo", desc: "Put a face to your name", icon: Camera },
@@ -289,7 +289,7 @@ export function OnboardingWizard() {
           showCloseButton
         >
           <DialogTitle className="sr-only">
-            Freelancer onboarding — Step {step + 1} of {TOTAL_STEPS}
+            Freelancer onboarding , Step {step + 1} of {TOTAL_STEPS}
           </DialogTitle>
           <DialogDescription className="sr-only">
             {stepMeta[step].name}: {stepMeta[step].desc}
@@ -321,7 +321,7 @@ export function OnboardingWizard() {
             </div>
           </div>
 
-          {/* Body — scrollable */}
+          {/* Body , scrollable */}
           <div className="flex-1 overflow-y-auto px-5 sm:px-7 py-5 khidma-scroll">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -1082,7 +1082,7 @@ export function OnboardingWizard() {
                               {photoPreview ? "Photo added" : "Click to upload"}
                             </p>
                             <p className="text-[11px] text-muted-foreground">
-                              Drag & drop or click — visual preview only
+                              Drag & drop or click , visual preview only
                             </p>
                           </div>
                         </div>
@@ -1122,7 +1122,7 @@ export function OnboardingWizard() {
                     <div className="rounded-xl bg-muted/40 border border-border/60 p-3 text-xs text-muted-foreground">
                       <p className="font-medium text-foreground mb-1">Photo tips</p>
                       <ul className="list-disc pl-4 space-y-0.5">
-                        <li>Faces must be clearly visible — no sunglasses</li>
+                        <li>Faces must be clearly visible , no sunglasses</li>
                         <li>Use a neutral background and natural lighting</li>
                         <li>Square aspect ratio works best (1:1)</li>
                       </ul>
@@ -1213,7 +1213,7 @@ export function OnboardingWizard() {
                                     setVerif((v) => ({ ...v, phone: true }));
                                     setOtp("");
                                   } else {
-                                    toast.error("Wrong code — try 123456");
+                                    toast.error("Wrong code , try 123456");
                                   }
                                 }}
                               >
@@ -1282,7 +1282,7 @@ export function OnboardingWizard() {
                       <div>
                         <h3 className="text-sm font-semibold">Review your application</h3>
                         <p className="text-[11px] text-muted-foreground">
-                          Make sure everything looks good — you can edit any step
+                          Make sure everything looks good , you can edit any step
                           before submitting.
                         </p>
                       </div>
@@ -1339,31 +1339,31 @@ export function OnboardingWizard() {
                         <ul className="text-xs text-muted-foreground space-y-1">
                           <li>
                             <span className="text-foreground font-medium">Name:</span>{" "}
-                            {personal.firstName || "—"} {personal.lastName}
+                            {personal.firstName || ","} {personal.lastName}
                           </li>
                           <li>
                             <span className="text-foreground font-medium">
                               Username:
                             </span>{" "}
-                            @{personal.username || "—"}
+                            @{personal.username || ","}
                           </li>
                           <li>
                             <span className="text-foreground font-medium">
                               Location:
                             </span>{" "}
-                            {personal.city || "—"}, {personal.country}
+                            {personal.city || ","}, {personal.country}
                           </li>
                           <li>
                             <span className="text-foreground font-medium">
                               Phone:
                             </span>{" "}
-                            {personal.phone || "—"}
+                            {personal.phone || ","}
                           </li>
                           <li>
                             <span className="text-foreground font-medium">
                               Languages:
                             </span>{" "}
-                            {languages.join(", ") || "—"}
+                            {languages.join(", ") || ","}
                           </li>
                         </ul>
                       </SectionCard>
@@ -1374,14 +1374,14 @@ export function OnboardingWizard() {
                             <span className="text-foreground font-medium">
                               Title:
                             </span>{" "}
-                            {prof.title || "—"}
+                            {prof.title || ","}
                           </li>
                           <li>
                             <span className="text-foreground font-medium">
                               Category:
                             </span>{" "}
                             {categories.find((c) => c.id === prof.categoryId)?.name ||
-                              "—"}
+                              ","}
                           </li>
                           <li>
                             <span className="text-foreground font-medium">
@@ -1438,9 +1438,9 @@ export function OnboardingWizard() {
                               .map((e, i) => (
                                 <li key={e.id} className="text-muted-foreground">
                                   <span className="text-foreground font-medium">
-                                    {e.position || "—"}
+                                    {e.position || ","}
                                   </span>{" "}
-                                  @ {e.company || "—"}
+                                  @ {e.company || ","}
                                   <span className="text-[10px] ml-1">#{i + 1}</span>
                                 </li>
                               ))}
@@ -1498,7 +1498,7 @@ export function OnboardingWizard() {
                     </div>
 
                     <div className="rounded-xl border border-border bg-muted/30 p-3 flex gap-2.5">
-                      <Sparkles className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
                       <p className="text-xs text-muted-foreground">
                         By submitting, you confirm the information above is accurate.
                         Our admin team reviews applications within 48 hours. Verified
@@ -1519,7 +1519,7 @@ export function OnboardingWizard() {
               className="text-muted-foreground w-full sm:w-auto sm:mr-auto"
               onClick={() => {
                 closeOnboarding();
-                toast.info("Progress saved — resume anytime from your dashboard.");
+                toast.info("Progress saved , resume anytime from your dashboard.");
               }}
             >
               Save & continue later

@@ -194,7 +194,7 @@ export function ServicesView() {
               Browse Services
             </h1>
             <p className="mt-2 text-sm sm:text-base text-muted-foreground">
-              Pre-packaged offerings from verified freelancers — fixed scope,
+              Pre-packaged offerings from verified freelancers , fixed scope,
               fixed price, fast delivery.
             </p>
           </div>

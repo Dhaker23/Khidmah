@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Onboarding Tour — first-visit guided walkthrough
+ * Onboarding Tour , first-visit guided walkthrough
  * -----------------------------------------------
  * Highlights key UI elements on the landing page the first time a guest
  * visits Khidma. Uses a spotlight overlay (huge box-shadow) to dim the rest
@@ -21,7 +21,7 @@
  * Respects `prefers-reduced-motion` (instant transitions).
  * Mobile responsive: tooltip becomes a bottom sheet on small screens.
  *
- * Palette: Khidma teal only — #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
+ * Palette: Khidma teal only , #475959 #2b3d3d #748684 #192d2f #32504d #6e8580 #ffffff
  */
 
 import {
@@ -33,7 +33,6 @@ import {
 } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  Sparkles,
   Search,
   Compass,
   Rocket,
@@ -59,10 +58,10 @@ interface TourStepDef {
 
 const TOUR_STEPS: TourStepDef[] = [
   {
-    title: "Welcome to Khidma 👋",
+    title: "Welcome to Khidma",
     description:
       "The trusted marketplace for verified Tunisian talent. Let's take a quick tour.",
-    icon: Sparkles,
+    icon: Rocket,
     placement: "center",
   },
   {
@@ -85,7 +84,7 @@ const TOUR_STEPS: TourStepDef[] = [
     selector: '[data-tour="join"]',
     title: "Get started free",
     description:
-      "Join Khidma as a freelancer or client — it's free and takes 2 minutes.",
+      "Join Khidma as a freelancer or client. It's free and takes 2 minutes.",
     icon: Rocket,
     placement: "below",
   },
@@ -98,7 +97,7 @@ const TOUR_STEPS: TourStepDef[] = [
     placement: "above",
   },
   {
-    title: "You're all set! 🎉",
+    title: "You're all set!",
     description:
       "Explore the marketplace, save your favorites, and start your Khidma journey today.",
     icon: PartyPopper,
@@ -119,7 +118,7 @@ function resolveTarget(selector?: string): HTMLElement | null {
     try {
       const el = document.querySelector<HTMLElement>(p);
       if (!el) continue;
-      // Element exists — check it's actually visible (not display:none).
+      // Element exists , check it's actually visible (not display:none).
       // `offsetParent` is null for fixed elements, so also check rect size.
       const rect = el.getBoundingClientRect();
       const isVisible =
@@ -130,11 +129,11 @@ function resolveTarget(selector?: string): HTMLElement | null {
         found = el;
         break;
       }
-      // Not visible — remember as a fallback (last non-visible hit) if we
+      // Not visible , remember as a fallback (last non-visible hit) if we
       // haven't found a visible one yet.
       if (!found) found = el;
     } catch {
-      /* invalid selector — keep going */
+      /* invalid selector , keep going */
     }
   }
   // If the specific target wasn't visible (e.g., on mobile where the desktop
@@ -187,7 +186,7 @@ export function OnboardingTour() {
   const [mounted, setMounted] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  // Mount guard — client only
+  // Mount guard , client only
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
@@ -204,7 +203,7 @@ export function OnboardingTour() {
     if (completed || currentUser) return;
 
     // Don't auto-start the tour until the cookie consent banner has been
-    // resolved — otherwise both overlays compete for the user's attention
+    // resolved , otherwise both overlays compete for the user's attention
     // (VLM QA feedback round 7).
     let cookieResolved = false;
     try {
@@ -274,7 +273,7 @@ export function OnboardingTour() {
         block: "center",
       });
     } catch {
-      /* ignore — older browsers */
+      /* ignore , older browsers */
     }
     const onResizeScroll = () => update(target);
     const raf = requestAnimationFrame(() => update(target));
@@ -317,7 +316,7 @@ export function OnboardingTour() {
   const spotH = targetRect.height + PADDING * 2;
   const hasSpotlight = !isCenter && targetRect.width > 0;
 
-  // Tooltip placement — below target (header) or above (hero). Mobile = bottom sheet.
+  // Tooltip placement , below target (header) or above (hero). Mobile = bottom sheet.
   const placeBelow = stepDef?.placement !== "above";
   const tooltipStyle: React.CSSProperties =
     isCenter || isMobile
@@ -359,7 +358,7 @@ export function OnboardingTour() {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Khidma tour — step ${tourStep + 1} of ${TOTAL_STEPS}: ${stepDef?.title}`}
+      aria-label={`Khidma tour, step ${tourStep + 1} of ${TOTAL_STEPS}: ${stepDef?.title}`}
       className="fixed inset-0 z-[60]"
     >
       {/* Spotlight backdrop */}
@@ -372,7 +371,7 @@ export function OnboardingTour() {
         className="absolute inset-0 bg-black/70"
       />
 
-      {/* Spotlight cutout — a div with a huge box-shadow that punches a hole */}
+      {/* Spotlight cutout , a div with a huge box-shadow that punches a hole */}
       {hasSpotlight && (
         <motion.div
           aria-hidden
@@ -738,12 +737,7 @@ export function TakeTourButton({
       className={cn("gap-1.5", className)}
       onClick={() => startTour()}
     >
-      {children ?? (
-        <>
-          <Sparkles className="size-3.5" />
-          Take the tour
-        </>
-      )}
+      {children ?? "Take the tour"}
     </Button>
   );
 }

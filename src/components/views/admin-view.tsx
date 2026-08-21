@@ -42,7 +42,6 @@ import {
   Shield,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
   StickyNote,
   User,
   UserCheck,
@@ -441,7 +440,7 @@ function ApplicationQueue({
 }
 
 // ============================================================================
-// LEFT COLUMN — Freelancer information
+// LEFT COLUMN , Freelancer information
 // ============================================================================
 
 function InfoRow({
@@ -468,7 +467,7 @@ function InfoRow({
             mono && "font-mono",
           )}
         >
-          {value || "—"}
+          {value || ","}
         </div>
       </div>
     </div>
@@ -489,13 +488,13 @@ function ExperienceList({ app }: { app: AdminApplication }) {
     {
       role: app.freelancer.title,
       company: "Independent / Freelance",
-      period: `${app.yearsOfExperience - 3} yrs ago — Present`,
+      period: `${app.yearsOfExperience - 3} yrs ago , Present`,
       skills: app.freelancer.skills.slice(0, 3),
     },
     {
       role: `${app.primaryCategory} Specialist`,
       company: "Tunis-based agency",
-      period: `${app.yearsOfExperience - 6} yrs ago — ${app.yearsOfExperience - 3} yrs ago`,
+      period: `${app.yearsOfExperience - 6} yrs ago , ${app.yearsOfExperience - 3} yrs ago`,
       skills: app.freelancer.skills.slice(2, 5),
     },
   ];
@@ -693,7 +692,7 @@ function FreelancerInfoColumn({
       <Card className="p-0 overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Sparkles className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+            <ListChecks className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
             Skills
             <Badge className="ml-auto bg-muted text-muted-foreground border-transparent">
               {f.skills.length}
@@ -736,7 +735,7 @@ function FreelancerInfoColumn({
 }
 
 // ============================================================================
-// CENTER COLUMN — Portfolio Review
+// CENTER COLUMN , Portfolio Review
 // ============================================================================
 
 function PortfolioItemCard({
@@ -1108,7 +1107,7 @@ function PortfolioReviewColumn({
 }
 
 // ============================================================================
-// RIGHT COLUMN — Verification + Risk + Checklist + Decision
+// RIGHT COLUMN , Verification + Risk + Checklist + Decision
 // ============================================================================
 
 function VerificationPanel({ app }: { app: AdminApplication }) {
@@ -1585,7 +1584,7 @@ function DecisionPanel({
             <DialogDescription>
               You are about to{" "}
               <span className="font-semibold">
-                {decision ? decisionMeta[decision].label.toUpperCase() : "—"}
+                {decision ? decisionMeta[decision].label.toUpperCase() : ","}
               </span>{" "}
               application{" "}
               <span className="font-mono text-[#32504d] dark:text-[#9bb3ae]">{app.id}</span> for{" "}
@@ -1637,7 +1636,7 @@ function DecisionPanel({
 }
 
 // ============================================================================
-// BOTTOM SECTION — Notes + History + Audit Log
+// BOTTOM SECTION , Notes + History + Audit Log
 // ============================================================================
 
 function AdminNotesTab({
@@ -2231,7 +2230,7 @@ export default function AdminView() {
     const idx = applications.findIndex((a) => a.id === activeId);
     const next = applications[(idx + 1) % applications.length];
     setActiveId(next.id);
-    toastMsg(`Loaded ${next.id} — ${next.freelancer.name}.`);
+    toastMsg(`Loaded ${next.id} , ${next.freelancer.name}.`);
   }, [applications, activeId, toastMsg]);
 
   // --- Keyboard shortcuts ---
@@ -2317,7 +2316,7 @@ export default function AdminView() {
 
           {/* Main 3-column layout */}
           <div className="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)_380px] gap-4">
-            {/* LEFT — Freelancer info */}
+            {/* LEFT , Freelancer info */}
             <div className="lg:sticky lg:top-[140px] lg:self-start lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-1 lg:-mr-1">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -2337,7 +2336,7 @@ export default function AdminView() {
               </AnimatePresence>
             </div>
 
-            {/* CENTER — Portfolio review */}
+            {/* CENTER , Portfolio review */}
             <div className="min-w-0">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -2358,7 +2357,7 @@ export default function AdminView() {
               </AnimatePresence>
             </div>
 
-            {/* RIGHT — Verification + Risk + Checklist + Decision */}
+            {/* RIGHT , Verification + Risk + Checklist + Decision */}
             <div className="lg:sticky lg:top-[140px] lg:self-start space-y-4 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-1 lg:-mr-1">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -2385,7 +2384,7 @@ export default function AdminView() {
             </div>
           </div>
 
-          {/* BOTTOM — Notes + History + Audit */}
+          {/* BOTTOM , Notes + History + Audit */}
           <div className="mt-6">
             <AnimatePresence mode="wait">
               <motion.div
