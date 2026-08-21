@@ -109,9 +109,12 @@ export function Header() {
         <div className="relative flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <button
-            onClick={() => setView("home")}
+            onClick={() => {
+              setView("home");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="flex items-center gap-2 transition-opacity hover:opacity-90 shrink-0 z-10"
-            aria-label="Khidma home"
+            aria-label="Khidma home — scroll to top"
           >
             <KhidmaLogo
               variant="full"
