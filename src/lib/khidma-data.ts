@@ -883,11 +883,11 @@ export const trustStats = {
 
 // === PAYMENT METHODS ===
 export const withdrawalMethods = [
-  { id: "biat", name: "BIAT Bank Transfer", type: "Bank", fee: "1%", time: "1-2 business days", logo: "🏦" },
-  { id: "tijari", name: "TIJARI Bank Transfer", type: "Bank", fee: "1%", time: "1-2 business days", logo: "🏦" },
-  { id: "zitouna", name: "Zitouna Bank", type: "Bank", fee: "1%", time: "1-2 business days", logo: "🏦" },
-  { id: "post", name: "Tunisian Post", type: "Local", fee: "0.5%", time: "2-3 business days", logo: "📮" },
-  { id: "d17", name: "D17 Mobile", type: "Local", fee: "0.5%", time: "Instant", logo: "📱" },
-  { id: "intl", name: "International Bank Transfer", type: "International", fee: "2%", time: "3-5 business days", logo: "🌍" },
-  { id: "wu", name: "Western Union", type: "International", fee: "2.5%", time: "1-3 business days", logo: "💸" },
+  { id: "biat", name: "BIAT Bank Transfer", type: "Bank", fee: "1%", time: "1-2 business days", logo: "🏦", image: "/withdrawal/biat.png" },
+  { id: "tijari", name: "TIJARI Bank Transfer", type: "Bank", fee: "1%", time: "1-2 business days", logo: "🏦", image: "/withdrawal/tijari.png" },
+  { id: "zitouna", name: "Zitouna Bank", type: "Bank", fee: "1%", time: "1-2 business days", logo: "🏦", image: "/withdrawal/zitouna.png" },
+  { id: "post", name: "Rapid Poste", type: "Local", fee: "0.5%", time: "2-3 business days", logo: "📮", image: "/withdrawal/rapid-poste.png" },
+  { id: "d17", name: "D17 Mobile", type: "Local", fee: "0.5%", time: "Instant", logo: "📱", image: "/withdrawal/d17.png" },
+  { id: "intl", name: "International Bank Transfer", type: "International", fee: "2%", time: "3-5 business days", logo: "🌍", image: "/withdrawal/international-bank.png" },
+  { id: "wu", name: "Western Union", type: "International", fee: "2.5%", time: "1-3 business days", logo: "💸", image: "/withdrawal/western-union.png" },
 ];

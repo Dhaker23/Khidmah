@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Banknote, MapPin, Globe2, Clock, Wallet } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -112,8 +113,14 @@ export function WithdrawalOptions() {
               <Reveal key={m.id} delay={0.05 * i}>
                 <Card className="p-5 border-border/60 hover:border-[#32504d]/40 dark:hover:border-[#32504d]/40 khidma-card">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex size-12 items-center justify-center rounded-xl bg-[#32504d]/5 dark:bg-[#32504d]/15 text-2xl">
-                      <span aria-hidden>{m.logo}</span>
+                    <div className="relative size-14 flex items-center justify-center rounded-xl bg-white/95 dark:bg-white/95 p-1.5 shadow-sm">
+                      <Image
+                        src={m.image}
+                        alt={m.name}
+                        width={48}
+                        height={48}
+                        className="max-w-full max-h-full object-contain"
+                      />
                     </div>
                     <Badge
                       variant="outline"
