@@ -31,8 +31,6 @@ import {
   MobileAppPromo,
   CommunitySection,
   AwardsSection,
-  AcademySection,
-  PodcastSection,
   FAQ,
   FinalCTA,
 } from "@/components/sections";
@@ -243,8 +241,6 @@ export default function Home() {
               <CommunitySection />
               <AwardsSection />
               <GradientDivider />
-              <AcademySection />
-              <PodcastSection />
               <FAQ />
               <FinalCTA />
             </>
