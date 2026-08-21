@@ -12,11 +12,13 @@ interface RevealProps {
   once?: boolean;
 }
 
-/** Scroll-triggered reveal , fades children up when they enter viewport. */
+/** Scroll-triggered reveal, optimized for performance.
+ *  Uses opacity + transform (GPU-accelerated), shorter duration (0.35s),
+ *  and larger viewport margin so elements trigger sooner (less pop-in). */
 export function Reveal({
   children,
   delay = 0,
-  y = 24,
+  y = 16,
   className,
   once = true,
 }: RevealProps) {
@@ -25,16 +27,17 @@ export function Reveal({
     <motion.div
       initial={prefersReduced ? undefined : { opacity: 0, y }}
       whileInView={prefersReduced ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const }}
+      viewport={{ once, margin: "-40px" }}
+      transition={{ duration: 0.35, delay, ease: "easeOut" }}
       className={className}
+      style={{ willChange: "opacity, transform" }}
     >
       {children}
     </motion.div>
   );
 }
 
-/** Brand divider , Khidma logo mark + thin gradient line. */
+/** Brand divider, Khidma logo mark + thin gradient line. */
 export function BrandDivider({
   className,
   label,
@@ -76,7 +79,8 @@ export function Section({
   );
 }
 
-/** Eyebrow + H2 + supporting paragraph header pattern. */
+/** Eyebrow + H2 + supporting paragraph header pattern.
+ *  Optimized: single Reveal wrapper instead of 3 nested ones. */
 export function SectionHeading({
   eyebrow,
   title,
@@ -90,6 +94,7 @@ export function SectionHeading({
   align?: "left" | "center";
   className?: string;
 }) {
+  const prefersReduced = useReducedMotion();
   return (
     <div
       className={cn(
@@ -98,21 +103,23 @@ export function SectionHeading({
         className
       )}
     >
-      {eyebrow && (
-        <Reveal>
+      <motion.div
+        initial={prefersReduced ? undefined : { opacity: 0, y: 16 }}
+        whileInView={prefersReduced ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        style={{ willChange: "opacity, transform" }}
+      >
+        {eyebrow && (
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
             <span className="size-1 rounded-full bg-[#32504d]" />
             {eyebrow}
           </span>
-        </Reveal>
-      )}
-      <Reveal delay={0.05}>
+        )}
         <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
           {title}
         </h2>
-      </Reveal>
-      {description && (
-        <Reveal delay={0.1}>
+        {description && (
           <p
             className={cn(
               "mt-3 text-base text-muted-foreground",
@@ -121,8 +128,8 @@ export function SectionHeading({
           >
             {description}
           </p>
-        </Reveal>
-      )}
+        )}
+      </motion.div>
     </div>
   );
 }

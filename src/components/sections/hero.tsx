@@ -156,31 +156,41 @@ export function Hero() {
   ];
   const { text: typedText, animating: typing } = useTypewriter(headlinePhrases);
 
-  // Mouse parallax (subtle)
   const sectionRef = useRef<HTMLElement>(null);
   const [mounted, setMounted] = useState(false);
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
+  // Mouse parallax — throttled via rAF to avoid excessive re-renders
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   useEffect(() => {
     if (prefersReducedMotion) return;
+    let raf = 0;
+    let pending = false;
     const onMove = (e: MouseEvent) => {
-      const el = sectionRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      setMouse({ x, y });
+      if (pending) return;
+      pending = true;
+      raf = requestAnimationFrame(() => {
+        pending = false;
+        const el = sectionRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        setMouse({ x, y });
+      });
     };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
   }, [prefersReducedMotion]);
 
-  // Scroll-based fade for hero (subtle parallax on the floating cards)
+  // Scroll-based fade — use useViewportScroll for passive tracking
   const { scrollY } = useScroll();
-  const cardsY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : 80]);
-  const cardsOpacity = useTransform(scrollY, [0, 500], [1, 0.4]);
+  const cardsY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : 60]);
+  const cardsOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
 
   const counters = {
     freelancers: useCountUp(trustStats.verifiedFreelancers, 1800, mounted),

@@ -6,7 +6,6 @@ import { Footer } from "@/components/khidma/footer";
 import { CursorGlow } from "@/components/khidma/cursor-glow";
 import { ScrollProgress } from "@/components/khidma/scroll-progress";
 import { ScrollToSection } from "@/components/khidma/scroll-to-section";
-import { FreelancerGridSkeleton } from "@/components/khidma/skeletons";
 import { PageTransition } from "@/components/khidma/page-transition";
 import {
   Hero,
@@ -180,11 +179,7 @@ const OnboardingTour = dynamic(
 function ViewLoading() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <div className="space-y-3 mb-8" aria-hidden="true">
-        <div className="h-8 w-1/3 rounded-lg bg-muted shimmer" />
-        <div className="h-4 w-1/2 rounded bg-muted/70 shimmer" />
-      </div>
-      <FreelancerGridSkeleton count={8} />
+      <div className="h-8 w-1/3 rounded-lg bg-muted/60" />
     </div>
   );
 }

@@ -1,93 +1,51 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 /* ----------------------------------------------------------------------------
- * Khidma page transition wrapper.
+ * Optimized page transition wrapper.
  *
- * Two responsibilities:
- *  1. Wrap children with a smooth opacity + slight-y fade between views.
- *  2. Render a brief teal "curtain" wipe that sweeps left-to-right (300ms)
- *     whenever the active view changes , adding a tactile premium feel.
+ * Performance optimizations:
+ *  1. Uses mode="popLayout" instead of "wait" — the new view mounts immediately
+ *     while the old one exits, eliminating the dead-time gap.
+ *  2. Removed the curtain wipe overlay entirely — it added 340ms of blocking
+ *     z-60 overlay on every view change, causing perceived lag.
+ *  3. Reduced transition duration from 0.25s to 0.15s — snappier feel.
+ *  4. Removed y-offset (no layout shift during transition).
+ *  5. Uses CSS will-change: opacity for GPU acceleration.
  *
  * Accessibility:
- *  - When `prefers-reduced-motion` is set, the curtain is skipped entirely
- *    and the fade is instant (opacity-only, 0ms).
- *
- * Usage:
- *   <PageTransition viewKey={view}>
- *     {contentFor(view)}
- *   </PageTransition>
+ *  - When prefers-reduced-motion is set, transitions are instant (0ms).
  * -------------------------------------------------------------------------- */
 
 interface PageTransitionProps {
-  /** Unique key per view , changing this triggers the curtain + fade. */
   viewKey: string | number;
   children: ReactNode;
-  /** Optional className applied to the wrapping motion.div. */
   className?: string;
 }
 
 export function PageTransition({ viewKey, children, className }: PageTransitionProps) {
   const prefersReduced = useReducedMotion();
-  const firstRender = useRef(true);
-  const [curtainVisible, setCurtainVisible] = useState(false);
 
-  // Trigger a fresh curtain wipe whenever the view changes , but skip
-  // the very first mount so the page doesn't wipe on initial load.
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    if (prefersReduced) return;
-    // Defer to next frame so React can settle the view change before the
-    // curtain overlay mounts (avoids a sync layout reflow on the same tick).
-    const raf = requestAnimationFrame(() => setCurtainVisible(true));
-    const t = setTimeout(() => setCurtainVisible(false), 340);
-    return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(t);
-    };
-  }, [viewKey, prefersReduced]);
+  if (prefersReduced) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
-    <>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={viewKey}
-          initial={prefersReduced ? { opacity: 0 } : { opacity: 0, y: 6 }}
-          animate={prefersReduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
-          transition={{
-            duration: prefersReduced ? 0 : 0.25,
-            ease: "easeOut",
-          }}
-          className={className}
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Curtain overlay , sits above main content but below modals (z-50) */}
-      <AnimatePresence>
-        {curtainVisible && (
-          <motion.div
-            aria-hidden="true"
-            className="fixed inset-0 z-[60] pointer-events-none bg-khidma-gradient"
-            initial={{ x: "-100%" }}
-            animate={{ x: ["-100%", "0%", "100%"] }}
-            transition={{
-              duration: 0.3,
-              ease: [0.22, 1, 0.36, 1] as const,
-              times: [0, 0.5, 1],
-            }}
-            exit={{ opacity: 0 }}
-          />
-        )}
-      </AnimatePresence>
-    </>
+    <AnimatePresence mode="popLayout">
+      <motion.div
+        key={viewKey}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+        className={className}
+        style={{ willChange: "opacity" }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
