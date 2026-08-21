@@ -18,12 +18,12 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.findTalent": {
     en: "Find Talent",
     fr: "Trouver un Talent",
-    ar: "ابحث عن موهبة",
+    ar: "لقى موهبة",
   },
   "nav.findWork": {
     en: "Find Work",
     fr: "Trouver du Travail",
-    ar: "ابحث عن عمل",
+    ar: "لقى خدمة",
   },
   "nav.services": {
     en: "Services",
@@ -33,17 +33,17 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.howItWorks": {
     en: "How It Works",
     fr: "Comment ça marche",
-    ar: "كيف يعمل",
+    ar: "كيفاش تخدم",
   },
   "nav.login": {
     en: "Log in",
     fr: "Connexion",
-    ar: "تسجيل الدخول",
+    ar: "دخول",
   },
   "nav.join": {
     en: "Join Khidma",
     fr: "Rejoindre Khidma",
-    ar: "انضم إلى خدمة",
+    ar: "انضمّ لخدمة",
   },
   "nav.dashboard": {
     en: "Dashboard",
@@ -68,78 +68,78 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.create": {
     en: "Create",
     fr: "Créer",
-    ar: "إنشاء",
+    ar: "أعمل",
   },
   "nav.postJob": {
     en: "Post a Job",
     fr: "Publier un emploi",
-    ar: "انشر وظيفة",
+    ar: "انشر خدمة",
   },
   "nav.createService": {
     en: "Create a Service",
     fr: "Créer un service",
-    ar: "أنشئ خدمة",
+    ar: "أعمل خدمة",
   },
 
   // === Hero ===
   "hero.eyebrow": {
     en: "Built for Tunisian talent & clients worldwide",
     fr: "Conçu pour les talents tunisiens & clients du monde entier",
-    ar: "مصمم للمواهب التونسية والعملاء حول العالم",
+    ar: "مصمم للمواهب التونسية والعملاء في العالم كله",
   },
   "hero.titleLine1": {
     en: "Find trusted talent.",
     fr: "Trouvez un talent de confiance.",
-    ar: "اعثر على موهبة موثوقة.",
+    ar: "لقى موهبة تثق فيها.",
   },
   "hero.subtitle": {
     en: "A professional marketplace connecting verified Tunisian freelancers with clients locally and globally.",
     fr: "Une marketplace professionnelle connectant les freelancers tunisiens vérifiés avec les clients localement et globalement.",
-    ar: "سوق احترافي يربط المستقلين التونسيين الموثقين بالعملاء محلياً وعالمياً.",
+    ar: "منصة احترافية تربط الفريلانسير التوانسة المثبتين بالعملاء في تونس والعالم.",
   },
   "hero.trust.realPeople": {
     en: "Real people. Real skills. Real trust.",
     fr: "De vraies personnes. De vraies compétences. Une vraie confiance.",
-    ar: "أشخاص حقيقيون. مهارات حقيقية. ثقة حقيقية.",
+    ar: "ناس حقيقيين. مهارات حقيقية. ثقة حقيقية.",
   },
 
   // === Hero typewriter phrases ===
   "hero.phrase1": {
     en: "Build your career.",
     fr: "Construisez votre carrière.",
-    ar: "ابنِ مسيرتك المهنية.",
+    ar: "ابني مسارك المهني.",
   },
   "hero.phrase2": {
     en: "Hire verified talent.",
     fr: "Engagez un talent vérifié.",
-    ar: "وظف موهبة موثقة.",
+    ar: "وظف موهبة متثبت فيها.",
   },
   "hero.phrase3": {
     en: "Grow your business.",
     fr: "Faites croître votre entreprise.",
-    ar: "نمِّ أعمالك.",
+    ar: "كبّر بزنسك.",
   },
   "hero.phrase4": {
     en: "Earn your worth.",
     fr: "Gagnez ce que vous valez.",
-    ar: "اكسب ما تستحقه.",
+    ar: "اربح اللي تستاهلو.",
   },
 
   // === CTAs ===
   "cta.findFreelancer": {
     en: "Find a Freelancer",
     fr: "Trouver un Freelancer",
-    ar: "ابحث عن مستقل",
+    ar: "لقى فريلانسير",
   },
   "cta.startFreelancing": {
     en: "Start Freelancing",
     fr: "Commencer",
-    ar: "ابدأ العمل الحر",
+    ar: "ابدا كي فريلانسير",
   },
   "cta.becomeFreelancer": {
     en: "Become a Verified Freelancer",
     fr: "Devenir un freelancer vérifié",
-    ar: "كن مستقلاً موثقاً",
+    ar: "ولّي فريلانسير متثبت فيه",
   },
   "cta.hireTalent": {
     en: "Hire Talent",
@@ -149,17 +149,17 @@ const translations: Record<string, Record<Lang, string>> = {
   "cta.viewProfile": {
     en: "View Profile",
     fr: "Voir le profil",
-    ar: "عرض الملف",
+    ar: "شوف البروفايل",
   },
   "cta.viewService": {
     en: "View Service",
     fr: "Voir le service",
-    ar: "عرض الخدمة",
+    ar: "شوف الخدمة",
   },
   "cta.viewJob": {
     en: "View Job",
     fr: "Voir l'emploi",
-    ar: "عرض الوظيفة",
+    ar: "شوف الخدمة",
   },
   "cta.subscribe": {
     en: "Subscribe",
@@ -169,54 +169,54 @@ const translations: Record<string, Record<Lang, string>> = {
   "cta.getStarted": {
     en: "Get started",
     fr: "Commencer",
-    ar: "ابدأ الآن",
+    ar: "ابدا توّ",
   },
   "cta.getStartedFree": {
     en: "Get started free",
     fr: "Commencer gratuitement",
-    ar: "ابدأ مجاناً",
+    ar: "ابدا ببلاش",
   },
   "cta.learnMore": {
     en: "Learn more",
     fr: "En savoir plus",
-    ar: "اعرف المزيد",
+    ar: "اعرف اكثر",
   },
   "cta.compareNow": {
     en: "Compare now",
     fr: "Comparer maintenant",
-    ar: "قارن الآن",
+    ar: "قارن توّ",
   },
 
   // === Common actions ===
   "common.close": {
     en: "Close",
     fr: "Fermer",
-    ar: "إغلاق",
+    ar: "سكر",
   },
   "common.cancel": {
     en: "Cancel",
     fr: "Annuler",
-    ar: "إلغاء",
+    ar: "كانسيل",
   },
   "common.save": {
     en: "Save",
     fr: "Enregistrer",
-    ar: "حفظ",
+    ar: "سجّل",
   },
   "common.search": {
     en: "Search",
     fr: "Rechercher",
-    ar: "بحث",
+    ar: "قلّب",
   },
   "common.loading": {
     en: "Loading…",
     fr: "Chargement…",
-    ar: "جار التحميل…",
+    ar: "نسخّي توّ…",
   },
   "common.viewAll": {
     en: "View all",
     fr: "Voir tout",
-    ar: "عرض الكل",
+    ar: "شوف الكل",
   },
   "common.clearAll": {
     en: "Clear all",
@@ -226,7 +226,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "common.from": {
     en: "from",
     fr: "à partir de",
-    ar: "ابتداءً من",
+    ar: "من",
   },
   "common.perHour": {
     en: "/hr",
@@ -355,7 +355,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "footer.tagline": {
     en: "Bringing ideas to life through modern digital experiences",
     fr: "Donner vie aux idées à travers des expériences numériques modernes",
-    ar: "نحو الأفكار إلى حياة عبر تجارب رقمية حديثة",
+    ar: "نحقّقو الأفكار عبر تجارب رقمية حديثة",
   },
   "footer.contact": {
     en: "Contact",
@@ -370,7 +370,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "footer.forFreelancers": {
     en: "For Freelancers",
     fr: "Pour les freelancers",
-    ar: "للمستقلين",
+    ar: "للفريلانسير",
   },
   "footer.marketplace": {
     en: "Marketplace",
@@ -380,12 +380,12 @@ const translations: Record<string, Record<Lang, string>> = {
   "footer.trustSafety": {
     en: "Trust & Safety",
     fr: "Confiance & Sécurité",
-    ar: "الثقة والسلامة",
+    ar: "الثقة والأمان",
   },
   "footer.madeInTunisia": {
     en: "Made in Tunisia",
     fr: "Fait en Tunisie",
-    ar: "صُنع في تونس",
+    ar: "مصنوع في تونس",
   },
   "footer.privacy": {
     en: "Privacy",
@@ -444,12 +444,12 @@ const translations: Record<string, Record<Lang, string>> = {
   "trust.verifiedFreelancers": {
     en: "verified freelancers",
     fr: "freelancers vérifiés",
-    ar: "مستقلون موثقون",
+    ar: "فريلانسير متثبت فيهم",
   },
   "trust.projectsCompleted": {
     en: "projects completed",
     fr: "projets complétés",
-    ar: "مشاريع منجزة",
+    ar: "خدمات مكمّلة",
   },
   "trust.paidOut": {
     en: "paid out",
@@ -459,37 +459,37 @@ const translations: Record<string, Record<Lang, string>> = {
   "trust.countriesServed": {
     en: "Countries Served",
     fr: "Pays servis",
-    ar: "دول مخدومة",
+    ar: "بلدان مخدومة",
   },
   "trust.citiesCovered": {
     en: "Cities Covered",
     fr: "Villes couvertes",
-    ar: "مدن مغطاة",
+    ar: "مدن مغطّاية",
   },
   "trust.avgRating": {
     en: "Average Rating",
     fr: "Note moyenne",
-    ar: "متوسط التقييم",
+    ar: "معدّل التقييم",
   },
   "trust.identityVerified": {
     en: "Identity Verified",
     fr: "Identité vérifiée",
-    ar: "الهوية موثقة",
+    ar: "الهوية متثبت فيها",
   },
   "trust.portfolioReviewed": {
     en: "Portfolio Reviewed",
     fr: "Portfolio examiné",
-    ar: "معرض الأعمال مُراجع",
+    ar: "البورتفوليو تتم مراجعته",
   },
   "trust.realPeople": {
     en: "Real People. Real Reviews.",
     fr: "De vraies personnes. De vrais avis.",
-    ar: "أشخاص حقيقيون. تقييمات حقيقية.",
+    ar: "ناس حقيقيين. آراء حقيقية.",
   },
   "trust.transparentFee": {
     en: "Transparent 1% Platform Fee",
     fr: "Frais de plateforme transparents de 1%",
-    ar: "رسوم منصة شفافة 1٪",
+    ar: "عمولة المنصة 1٪ بس",
   },
 };
 

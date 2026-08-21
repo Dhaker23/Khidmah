@@ -306,19 +306,15 @@ export function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <div className={cn("hidden md:block ml-1", )}>
+                <div className="hidden md:flex items-center gap-0.5">
                   <ThemeToggle />
-                </div>
-                <div className={cn("hidden md:block", )}>
                   <LanguageSwitcher />
                 </div>
               </>
             ) : (
               <>
-                <div className={cn("hidden md:block", )}>
+                <div className="hidden md:flex items-center gap-0.5">
                   <ThemeToggle />
-                </div>
-                <div className={cn("hidden md:block", )}>
                   <LanguageSwitcher />
                 </div>
                 <Button
