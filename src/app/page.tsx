@@ -22,7 +22,6 @@ import {
   TunisianCities,
   PaymentExplainer,
   WithdrawalOptions,
-  Pricing,
   Testimonials,
   TestimonialCarousel,
   SuccessStories,
@@ -234,7 +233,6 @@ export default function Home() {
               <PaymentExplainer />
               <GradientDivider />
               <WithdrawalOptions />
-              <Pricing />
               <Testimonials />
               <DotGridDivider />
               <TestimonialCarousel />
