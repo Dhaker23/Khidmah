@@ -143,24 +143,27 @@ function PhoneMockup() {
           <PhoneNotification />
 
           {/* App content */}
-          <div className="absolute inset-0 pt-12 pb-14 px-3 flex flex-col">
+          <div className="absolute inset-0 pt-10 pb-14 px-3 flex flex-col">
             {/* Header: logo + greeting */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1.5">
                 <Image
                   src="/khidma-logo-v2.png"
                   alt="Khidma logo"
-                  width={22}
-                  height={22}
-                  className="rounded-md"
+                  width={24}
+                  height={24}
+                  className="rounded-md object-contain"
                 />
                 <span className="font-display text-xs font-bold text-white">
                   Khidma
                 </span>
               </div>
-              <span className="size-6 rounded-full bg-white/10 flex items-center justify-center">
-                <span className="size-1.5 rounded-full bg-emerald-400" />
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="size-6 rounded-full bg-white/10 flex items-center justify-center">
+                  <Bell className="size-3 text-white/60" />
+                </span>
+              </div>
             </div>
 
             {/* Greeting */}
@@ -171,16 +174,18 @@ function PhoneMockup() {
               </p>
             </div>
 
+            {/* Search bar mock */}
+            <div className="mb-2.5 flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5">
+              <Search className="size-2.5 text-white/40" />
+              <span className="text-[8px] text-white/40 truncate">Search freelancers…</span>
+            </div>
+
             {/* Fake freelancer card */}
-            <div className="rounded-xl border border-white/10 bg-white/5 p-2.5 mb-2.5">
+            <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-2.5 mb-2.5">
               <div className="flex items-center gap-2">
-                <Image
-                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=AmiraB&backgroundColor=32504d&radius=50"
-                  alt="Amira Ben Salah"
-                  width={28}
-                  height={28}
-                  className="rounded-full border border-white/20"
-                />
+                <div className="relative size-8 rounded-full bg-[#32504d] flex items-center justify-center shrink-0 border border-white/20">
+                  <span className="text-[10px] font-bold text-white">A</span>
+                </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-[10px] font-semibold text-white truncate">
                     Amira Ben Salah
@@ -189,7 +194,7 @@ function PhoneMockup() {
                     UI/UX Designer · Tunis
                   </p>
                 </div>
-                <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-amber-400/15">
+                <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-amber-400/15 shrink-0">
                   <Star className="size-2.5 fill-amber-400 text-amber-400" />
                   <span className="text-[9px] font-semibold text-amber-300">
                     5.0
