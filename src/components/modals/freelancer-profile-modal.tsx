@@ -314,7 +314,7 @@ export function FreelancerProfileModal() {
       <DialogPortal>
         <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
         <DialogContent
-          className="p-0 gap-0 max-w-5xl w-[calc(100%-1rem)] sm:w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
+          className="p-0 gap-0 max-w-5xl w-[calc(100vw-1rem)] sm:w-[calc(100vw-2rem)] sm:max-w-5xl max-h-[92vh] flex flex-col overflow-hidden rounded-xl"
           aria-describedby={undefined}
           showCloseButton
         >
@@ -351,8 +351,9 @@ export function FreelancerProfileModal() {
           </div>
 
           {/* Header info */}
-          <div className="px-5 sm:px-7 pt-14 pb-4 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 border-b border-border/60">
-            <div className="min-w-0">
+          <div className="px-4 sm:px-7 pt-14 pb-4 flex flex-col gap-3 border-b border-border/60">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h2 className="text-xl font-display font-bold text-foreground">
                   {f.name}
@@ -448,10 +449,11 @@ export function FreelancerProfileModal() {
                 <TooltipContent>Report this listing</TooltipContent>
               </Tooltip>
             </div>
+            </div>
           </div>
 
           {/* Stats row */}
-          <div className="px-5 sm:px-7 py-3 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-border/60 text-xs">
+          <div className="px-4 sm:px-7 py-3 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 border-b border-border/60 text-xs">
             <div className="inline-flex items-center gap-1.5">
               <Star className="size-4 fill-amber-400 text-amber-400" />
               <span className="font-semibold text-foreground">{f.rating.toFixed(1)}</span>
@@ -482,7 +484,7 @@ export function FreelancerProfileModal() {
           </div>
 
           {/* Tabs */}
-          <div className="px-5 sm:px-7 pt-3 border-b border-border/60">
+          <div className="px-4 sm:px-7 pt-3 border-b border-border/60 overflow-hidden">
             <Tabs value={tab} onValueChange={setTab}>
               <TabsList className="bg-transparent p-0 h-auto gap-1 w-full justify-start overflow-x-auto scrollbar-thin">
                 {[
@@ -502,10 +504,10 @@ export function FreelancerProfileModal() {
                 ))}
               </TabsList>
 
-              <TabsContent value="overview" className="mt-0">
-                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+              <TabsContent value="overview" className="mt-0 overflow-hidden">
+                <ScrollArea className="h-[50vh] sm:h-[48vh]">
                   <div className="p-4 sm:p-5 space-y-5">
-                    <div className="grid sm:grid-cols-[2fr_1fr] gap-5">
+                    <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5">
                       <div className="space-y-4">
                         <div>
                           <h3 className="text-sm font-semibold mb-1.5">About</h3>
@@ -648,8 +650,8 @@ export function FreelancerProfileModal() {
                 </ScrollArea>
               </TabsContent>
 
-              <TabsContent value="portfolio" className="mt-0">
-                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+              <TabsContent value="portfolio" className="mt-0 overflow-hidden">
+                <ScrollArea className="h-[50vh] sm:h-[48vh]">
                   <div className="p-4 sm:p-5 grid sm:grid-cols-2 gap-4">
                     {f.portfolio.map((p, i) => (
                       <motion.div
@@ -665,8 +667,8 @@ export function FreelancerProfileModal() {
                 </ScrollArea>
               </TabsContent>
 
-              <TabsContent value="services" className="mt-0">
-                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+              <TabsContent value="services" className="mt-0 overflow-hidden">
+                <ScrollArea className="h-[50vh] sm:h-[48vh]">
                   <div className="p-4 sm:p-5 space-y-3">
                     {f.services.map((s, i) => (
                       <motion.div
@@ -732,8 +734,8 @@ export function FreelancerProfileModal() {
                 </ScrollArea>
               </TabsContent>
 
-              <TabsContent value="reviews" className="mt-0">
-                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+              <TabsContent value="reviews" className="mt-0 overflow-hidden">
+                <ScrollArea className="h-[50vh] sm:h-[48vh]">
                   <div className="p-4 sm:p-5 space-y-4">
                     {/* Aggregate metrics */}
                     <div className="rounded-xl border border-border/70 p-4 grid grid-cols-2 sm:grid-cols-5 gap-3">
@@ -820,8 +822,8 @@ export function FreelancerProfileModal() {
                 </ScrollArea>
               </TabsContent>
 
-              <TabsContent value="achievements" className="mt-0">
-                <ScrollArea className="h-[55vh] sm:h-[50vh]">
+              <TabsContent value="achievements" className="mt-0 overflow-hidden">
+                <ScrollArea className="h-[50vh] sm:h-[48vh]">
                   <div className="p-4 sm:p-5 space-y-4">
                     <div>
                       <h3 className="text-sm font-semibold inline-flex items-center gap-1.5">

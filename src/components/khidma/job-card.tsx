@@ -81,7 +81,7 @@ export function JobCard({ job, index = 0 }: { job: Job; index?: number }) {
           </div>
         </div>
 
-        <h3 className="font-semibold text-base leading-snug group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors mb-2">
+        <h3 className="font-semibold text-base leading-snug group-hover:text-[#32504d] dark:group-hover:text-[#9bb3ae] transition-colors mb-2 line-clamp-2">
           {job.title}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{job.description}</p>

@@ -139,7 +139,7 @@ export function NewsletterModal() {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeNewsletter()}>
       <DialogContent
-        className="max-w-md w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] p-0 gap-0 overflow-hidden"
+        className="max-w-md w-[calc(100vw-1rem)] sm:w-[calc(100vw-2rem)] p-0 gap-0 overflow-hidden"
         aria-describedby={undefined}
         showCloseButton={false}
       >
