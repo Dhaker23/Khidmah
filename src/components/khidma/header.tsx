@@ -308,14 +308,14 @@ export function Header() {
 
                 <div className="hidden md:flex items-center gap-0.5">
                   <ThemeToggle />
-                  <LanguageSwitcher />
+                  {/* <LanguageSwitcher /> */}
                 </div>
               </>
             ) : (
               <>
                 <div className="hidden md:flex items-center gap-0.5">
                   <ThemeToggle />
-                  <LanguageSwitcher />
+                  {/* <LanguageSwitcher /> */}
                 </div>
                 <Button
                   variant="ghost"
@@ -460,7 +460,7 @@ export function Header() {
                     <div className="flex items-center justify-between pt-4 mt-2 border-t border-border/60">
                       <div className="flex items-center gap-2">
                         <ThemeToggle />
-                        <LanguageSwitcher />
+                        {/* <LanguageSwitcher /> */}
                       </div>
                     </div>
                   </div>
