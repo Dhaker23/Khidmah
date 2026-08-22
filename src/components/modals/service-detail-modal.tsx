@@ -99,7 +99,7 @@ export function ServiceDetailModal() {
       <DialogPortal>
         <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
         <DialogContent
-          className="p-0 gap-0 max-w-4xl w-[calc(100vw-1rem)] sm:w-[calc(100vw-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
+          className="p-0 gap-0 max-w-4xl w-[calc(100vw-1rem)] sm:w-[calc(100vw-2rem)] sm:max-w-4xl max-h-[92vh] flex flex-col overflow-hidden rounded-xl"
           aria-describedby={undefined}
           showCloseButton
         >
@@ -119,7 +119,7 @@ export function ServiceDetailModal() {
           </button>
 
           <ScrollArea className="flex-1">
-            <div className="grid lg:grid-cols-[1.4fr_1fr]">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr]">
               {/* LEFT: cover + description + packages */}
               <div className="space-y-5">
                 <div className="relative aspect-[16/9] bg-muted overflow-hidden">
@@ -143,7 +143,7 @@ export function ServiceDetailModal() {
                   </div>
                 </div>
 
-                <div className="px-5 sm:px-7 space-y-5 pb-5">
+                <div className="px-4 sm:px-7 space-y-5 pb-5">
                   {/* Freelancer mini-card */}
                   {freelancer && (
                     <button
@@ -346,8 +346,8 @@ export function ServiceDetailModal() {
               </div>
 
               {/* RIGHT: sticky order card */}
-              <div className="lg:border-l border-border/60 bg-card">
-                <div className="sticky top-0 p-5 space-y-4">
+              <div className="lg:border-l border-border/60 bg-card overflow-hidden">
+                <div className="p-4 sm:p-5 space-y-4">
                   <div>
                     <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
                       Selected package
