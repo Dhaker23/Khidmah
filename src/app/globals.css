@@ -184,6 +184,13 @@
   html {
     scroll-behavior: smooth;
   }
+  /* Arabic uses Western digits (1, 2, 3) not Eastern (١, ٢, ٣) */
+  html[lang="ar"] {
+    font-variant-numeric: lining-nums;
+    -moz-font-feature-settings: "lnum";
+    -webkit-font-feature-settings: "lnum";
+    font-feature-settings: "lnum";
+  }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;

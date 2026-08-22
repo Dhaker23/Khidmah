@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { useApp } from "@/lib/store";
 import { jobs } from "@/lib/khidma-data";
 
 export function OpenJobs() {
+  const { t } = useT();
   const { setView } = useApp();
   const previewJobs = jobs.slice(0, 4);
 
@@ -20,7 +22,7 @@ export function OpenJobs() {
               Open Opportunities
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Latest Job Opportunities
+              {t("section.openJobs")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
               Real projects posted by verified clients. Apply with your profile

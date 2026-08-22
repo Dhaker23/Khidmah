@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { useApp } from "@/lib/store";
 import { freelancers } from "@/lib/khidma-data";
 
 export function FeaturedFreelancers() {
+  const { t } = useT();
   const { setView } = useApp();
   const featured = freelancers.filter((f) => f.featured);
 
@@ -20,7 +22,7 @@ export function FeaturedFreelancers() {
               Featured Talent
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Featured Verified Freelancers
+              {t("section.featuredFreelancers")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
               Hand-picked freelancers who passed our verification process ,

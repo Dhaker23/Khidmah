@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
@@ -102,6 +103,7 @@ function StatItem({ stat, index }: { stat: Stat; index: number }) {
 }
 
 export function StatsBanner() {
+  const { t } = useT();
   return (
     <section id="stats" className="relative bg-khidma-gradient overflow-hidden">
       <div

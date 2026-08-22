@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { useApp } from "@/lib/store";
 import { getAllServices } from "@/lib/khidma-data";
 
 export function FeaturedServices() {
+  const { t } = useT();
   const { setView } = useApp();
   const services = getAllServices().slice(0, 6);
 
@@ -20,7 +22,7 @@ export function FeaturedServices() {
               Ready-to-Buy Services
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Popular Services
+              {t("section.featuredServices")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
               Pre-packaged offerings from verified freelancers. Transparent

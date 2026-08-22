@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { motion, useReducedMotion } from "framer-motion";
 import { Compass, Rocket, Search, ShieldCheck } from "lucide-react";
@@ -7,6 +8,7 @@ import { Reveal } from "@/components/khidma/reveal";
 import { useApp } from "@/lib/store";
 
 export function FinalCTA() {
+  const { t } = useT();
   const { openOnboarding, setView, startTour } = useApp();
   const prefersReduced = useReducedMotion();
 
@@ -82,7 +84,7 @@ export function FinalCTA() {
           </span>
 
           <h2 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05]">
-            Join Khidma Today.
+            {t("section.finalCta")}
           </h2>
 
           <p className="mt-5 text-base sm:text-lg text-white/75 max-w-xl mx-auto leading-relaxed">
@@ -127,7 +129,7 @@ export function FinalCTA() {
                 className="relative h-12 px-6 bg-white text-[#192d2f] hover:bg-white/90 hover:text-[#192d2f] group"
               >
                 <Rocket className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                Become a Verified Freelancer
+                {t("cta.becomeFreelancer")}
               </Button>
             </motion.div>
 
@@ -138,7 +140,7 @@ export function FinalCTA() {
               className="h-12 px-6 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white group"
             >
               <Search className="size-4 transition-transform duration-200 group-hover:scale-110" />
-              Hire Talent
+              {t("cta.hireTalent")}
             </Button>
 
             {/* Take the tour , secondary CTA triggering the onboarding tour */}

@@ -27,7 +27,7 @@ interface LanguageOption {
 const LANGUAGES: LanguageOption[] = [
   { code: "en", name: "English", english: "English", flag: "🇬🇧" },
   { code: "fr", name: "Français", english: "French", flag: "🇫🇷" },
-  { code: "ar", name: "تونسي", english: "Tunisian Arabic", flag: "🇹🇳" },
+  { code: "ar", name: "العربية", english: "Arabic", flag: "🇹🇳" },
 ];
 
 export function LanguageSwitcher({ className }: { className?: string }) {

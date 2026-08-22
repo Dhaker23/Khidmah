@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import {
   ShieldCheck,
@@ -46,12 +47,13 @@ const items = [
 ];
 
 export function TrustStrip() {
+  const { t } = useT();
   return (
     <section className="relative border-y border-border/60 bg-muted/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <Reveal>
           <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Trusted by Tunisian talent &amp; international clients
+            {t("section.trustStrip")}
           </p>
         </Reveal>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">

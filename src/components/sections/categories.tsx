@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { useApp } from "@/lib/store";
 import { categories, formatNumber } from "@/lib/khidma-data";
 
 export function Categories() {
+  const { t } = useT();
   const { setView } = useApp();
 
   return (
@@ -16,7 +18,7 @@ export function Categories() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14">
           <Reveal className="max-w-2xl">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-              Explore by Category
+              {t("section.categories")}
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
               Find the right talent for any project

@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { useState } from "react";
 import {
@@ -136,6 +137,7 @@ function FeedbackRow() {
 }
 
 export function FAQ() {
+  const { t } = useT();
   const { openOnboarding, setView, openHelp } = useApp();
   return (
     <section id="faq" className="py-16 sm:py-24 bg-muted/30">
@@ -147,7 +149,7 @@ export function FAQ() {
               FAQ
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Questions, answered.
+              {t("section.faq")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground leading-relaxed">
               Everything you need to know about verification, payments,

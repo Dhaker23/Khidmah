@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import {
   ShieldCheck,
@@ -51,6 +52,7 @@ const features = [
 ];
 
 export function WhyKhidma() {
+  const { t } = useT();
   return (
     <section className="py-16 sm:py-24 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -59,7 +61,7 @@ export function WhyKhidma() {
           <Reveal className="lg:col-span-5">
             <div className="lg:sticky lg:top-24">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-                Why Khidma
+                {t("section.whyKhidma")}
               </span>
               <h2 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-tight">
                 Why clients and freelancers choose Khidma

@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -48,12 +49,13 @@ const clientSteps = [
 ];
 
 export function HowItWorks() {
+  const { t } = useT();
   const prefersReduced = useReducedMotion();
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="How Khidma Works"
+          eyebrow={t("section.howItWorks")}
           title="A clear path from sign-up to payout"
           description="Whether you are freelancing or hiring, Khidma's process is transparent, verified, and built around trust."
         />

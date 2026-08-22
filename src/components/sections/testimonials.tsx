@@ -1,4 +1,5 @@
 "use client";
+import { useT } from "@/lib/use-t";
 
 import { Star, Quote } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { reviews } from "@/lib/khidma-data";
 
 export function Testimonials() {
+  const { t } = useT();
   // Take up to 4 reviews, prefer higher-rated
   const picks = [...reviews]
     .sort((a, b) => b.rating - a.rating)
@@ -24,7 +26,7 @@ export function Testimonials() {
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              What clients and freelancers say
+              {t("section.testimonials")}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
