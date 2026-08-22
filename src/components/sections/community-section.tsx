@@ -42,6 +42,7 @@ import { Reveal, Section, SectionHeading } from "@/components/khidma/reveal";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useApp } from "@/lib/store";
+import { useT } from "@/lib/use-t";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -76,11 +77,11 @@ interface Contributor {
   posts: number;
 }
 
-const COMMUNITY_STATS: { value: string; label: string }[] = [
-  { value: "8,420+", label: "members" },
-  { value: "2,847", label: "discussions" },
-  { value: "24", label: "cities" },
-  { value: "12", label: "meetups/year" },
+const COMMUNITY_STATS: { value: string; key: string }[] = [
+  { value: "8,420+", key: "members" },
+  { value: "2,847", key: "discussions" },
+  { value: "24", key: "cities" },
+  { value: "12", key: "meetups" },
 ];
 
 const UPCOMING_EVENTS: UpcomingEvent[] = [
@@ -180,15 +181,15 @@ function LiftCard({
 
 export function CommunitySection() {
   const pushNotification = useApp((s) => s.pushNotification);
+  const { t } = useT();
 
   const features: CommunityFeature[] = [
     {
       icon: Calendar,
-      title: "Events & Meetups",
-      description:
-        "Monthly meetups in Tunis, Sfax, Sousse. Virtual workshops every Thursday.",
-      note: "Upcoming: Freelance Finance 101 , Sat Mar 15",
-      cta: "View all events",
+      title: t("section.community.events.title"),
+      description: t("section.community.events.description"),
+      note: t("section.community.events.note"),
+      cta: t("section.community.events.cta"),
       onCta: () =>
         toast.info("Opening events calendar…", {
           description: "Loading upcoming Khidma meetups and workshops.",
@@ -196,11 +197,10 @@ export function CommunitySection() {
     },
     {
       icon: MessageCircle,
-      title: "Community Forum",
-      description:
-        "Ask questions, share wins, get feedback from 8,420+ freelancers.",
-      note: "2,847 active discussions · 142 new today",
-      cta: "Browse forum",
+      title: t("section.community.forum.title"),
+      description: t("section.community.forum.description"),
+      note: t("section.community.forum.note"),
+      cta: t("section.community.forum.cta"),
       onCta: () =>
         toast.info("Opening community forum…", {
           description: "Join the conversation with 8,420+ Tunisian freelancers.",
@@ -208,11 +208,10 @@ export function CommunitySection() {
     },
     {
       icon: Users,
-      title: "Mentorship Program",
-      description:
-        "Get matched with an experienced freelancer, or become a mentor.",
-      note: "156 active mentorship pairs · 89% satisfaction",
-      cta: "Join mentorship",
+      title: t("section.community.mentorship.title"),
+      description: t("section.community.mentorship.description"),
+      note: t("section.community.mentorship.note"),
+      cta: t("section.community.mentorship.cta"),
       onCta: () =>
         toast.info("Mentorship applications open quarterly.", {
           description: "Apply as a mentee or mentor , next cohort in April.",
@@ -238,7 +237,7 @@ export function CommunitySection() {
       className="bg-gradient-to-b from-background via-[#f5f8f7] to-background dark:via-[#0e1a1b]/40"
     >
       <SectionHeading
-        eyebrow="KHIDMA COMMUNITY"
+        eyebrow={t("section.eyebrow.khidmaCommunity")}
         title={
           <>
             The{" "}
@@ -247,7 +246,7 @@ export function CommunitySection() {
             </span>
           </>
         }
-        description="Where Tunisian freelancers connect, learn, and grow together."
+        description={t("section.community.description")}
       />
 
       {/* === Feature grid === */}
@@ -295,10 +294,10 @@ export function CommunitySection() {
           <div className="flex items-end justify-between mb-6">
             <div>
               <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground">
-                Upcoming events
+                {t("section.community.upcomingEvents")}
               </h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Free for Khidma members , virtual & in-person.
+                {t("section.community.upcomingEventsSubtitle")}
               </p>
             </div>
             <button
@@ -310,7 +309,7 @@ export function CommunitySection() {
               }
               className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-[#32504d] dark:text-[#9bb3ae] hover:text-[#2b3d3d] dark:text-[#94a8a4] transition-colors"
             >
-              View all
+              {t("common.viewAll")}
               <ArrowRight className="size-3.5" />
             </button>
           </div>
@@ -348,7 +347,7 @@ export function CommunitySection() {
                       <span aria-hidden>·</span>
                       <span className="inline-flex items-center gap-1">
                         <Users className="size-3.5 text-[#748684]" />
-                        {event.registered} registered
+                        {event.registered} {t("section.community.registered")}
                       </span>
                     </div>
 
@@ -358,7 +357,7 @@ export function CommunitySection() {
                       onClick={() => handleRegister(event)}
                       className="mt-4 w-full inline-flex items-center justify-center rounded-md bg-[#32504d] hover:bg-[#2b3d3d] text-white text-sm font-semibold h-10 transition-colors"
                     >
-                      Register
+                      {t("section.community.register")}
                     </button>
                   </Card>
                 </LiftCard>
@@ -378,14 +377,14 @@ export function CommunitySection() {
           <div className="relative grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
             {COMMUNITY_STATS.map((s) => (
               <div
-                key={s.label}
+                key={s.key}
                 className="px-4 py-6 sm:py-7 text-center sm:text-left sm:px-6"
               >
                 <div className="font-display text-2xl sm:text-3xl font-bold text-white">
                   {s.value}
                 </div>
                 <div className="mt-0.5 text-xs uppercase tracking-wider text-white/65">
-                  {s.label}
+                  {t(`section.community.stats.${s.key}`)}
                 </div>
               </div>
             ))}
@@ -399,10 +398,10 @@ export function CommunitySection() {
           <div className="flex items-end justify-between mb-6">
             <div>
               <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground">
-                Top contributors
+                {t("section.community.topContributors")}
               </h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Community members leading the conversation this month.
+                {t("section.community.topContributorsSubtitle")}
               </p>
             </div>
           </div>
@@ -436,13 +435,13 @@ export function CommunitySection() {
                       className="mt-2.5 border-[#32504d]/30 dark:border-[#32504d]/30 bg-[#32504d]/8 text-[#32504d] dark:text-[#9bb3ae] gap-1"
                     >
                       <UserCheck className="size-3" />
-                      Top Contributor
+                      {t("section.community.topContributorBadge")}
                     </Badge>
                     <p className="mt-2.5 text-[11px] text-muted-foreground">
                       <span className="font-semibold text-foreground">
                         {c.posts}
                       </span>{" "}
-                      posts this quarter
+                      {t("section.community.postsQuarter")}
                     </p>
                   </Card>
                 </LiftCard>

@@ -13,41 +13,40 @@ import { TrustBadge } from "@/components/khidma/verification";
 import { Reveal, BrandDivider } from "@/components/khidma/reveal";
 import { trustStats, formatNumber, formatTND } from "@/lib/khidma-data";
 
-const items = [
-  {
-    icon: ShieldCheck,
-    label: "Verified Freelancers",
-    value: `${formatNumber(trustStats.verifiedFreelancers)}+`,
-  },
-  {
-    icon: Briefcase,
-    label: "Projects Completed",
-    value: `${formatNumber(trustStats.completedProjects)}+`,
-  },
-  {
-    icon: Wallet,
-    label: "Total Paid Out",
-    value: formatTND(trustStats.totalPaidOut),
-  },
-  {
-    icon: Star,
-    label: "Average Rating",
-    value: `${trustStats.avgRating.toFixed(1)} / 5.0`,
-  },
-  {
-    icon: Globe2,
-    label: "Countries Served",
-    value: `${trustStats.countries}`,
-  },
-  {
-    icon: Users,
-    label: "Cities Covered",
-    value: `${trustStats.cities}`,
-  },
-];
-
 export function TrustStrip() {
   const { t } = useT();
+  const items = [
+    {
+      icon: ShieldCheck,
+      label: t("section.trustStrip.verifiedFreelancers"),
+      value: `${formatNumber(trustStats.verifiedFreelancers)}+`,
+    },
+    {
+      icon: Briefcase,
+      label: t("section.trustStrip.projectsCompleted"),
+      value: `${formatNumber(trustStats.completedProjects)}+`,
+    },
+    {
+      icon: Wallet,
+      label: t("section.trustStrip.totalPaidOut"),
+      value: formatTND(trustStats.totalPaidOut),
+    },
+    {
+      icon: Star,
+      label: t("section.trustStrip.averageRating"),
+      value: `${trustStats.avgRating.toFixed(1)} / 5.0`,
+    },
+    {
+      icon: Globe2,
+      label: t("section.trustStrip.countriesServed"),
+      value: `${trustStats.countries}`,
+    },
+    {
+      icon: Users,
+      label: t("section.trustStrip.citiesCovered"),
+      value: `${trustStats.cities}`,
+    },
+  ];
   return (
     <section className="relative border-y border-border/60 bg-muted/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10">

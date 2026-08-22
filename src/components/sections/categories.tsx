@@ -21,11 +21,10 @@ export function Categories() {
               {t("section.categories")}
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Find the right talent for any project
+              {t("section.categories.title")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
-              Browse {categories.length} categories , from development and
-              design to voice over, translation, and AI.
+              {t("section.categories.subtitle", { count: categories.length })}
             </p>
           </Reveal>
         </div>
@@ -75,7 +74,7 @@ export function Categories() {
                     </div>
 
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {formatNumber(cat.count)} freelancers
+                      {formatNumber(cat.count)} {t("section.categories.freelancersCount")}
                     </p>
 
                     <div className="mt-4 flex flex-wrap gap-1.5">

@@ -41,6 +41,7 @@ import {
 } from "@/components/khidma/reveal";
 import { VerificationBadge } from "@/components/khidma/verification";
 import { freelancers, formatTND } from "@/lib/khidma-data";
+import { useT } from "@/lib/use-t";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
@@ -187,7 +188,7 @@ const METRICS = [
 
 function FeaturedStory({ story }: { story: SuccessStory }) {
   const prefersReduced = useReducedMotion();
-
+  const { t } = useT();
   return (
     <motion.article
       initial={prefersReduced ? undefined : { opacity: 0, y: 24 }}
@@ -207,11 +208,11 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
             />
             <div className="flex items-center gap-2 mb-5">
               <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 border-[#32504d]/25 dark:border-[#32504d]/30 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/15 dark:bg-[#32504d]/25">
-                Featured story
+                {t("section.successStories.featuredStory")}
               </Badge>
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <Calendar className="size-3.5" />
-                {story.duration} on Khidma
+                {story.duration} {t("section.successStories.onKhidma")}
               </span>
             </div>
 
@@ -255,7 +256,7 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
                 }
                 className="bg-[#32504d] hover:bg-[#475959] text-white group/btn"
               >
-                Read full story
+                {t("section.successStories.readFullStory")}
                 <ArrowRight className="ml-2 size-4 transition-transform group-hover/btn:translate-x-0.5" />
               </Button>
               <div className="flex flex-wrap gap-1.5">
@@ -286,14 +287,14 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
               <div className="flex items-center gap-2 mb-6">
                 <TrendingUp className="size-5 text-[#9bb3ae]" />
                 <h4 className="font-display text-base font-semibold uppercase tracking-wider text-white/90">
-                  Before / After Khidma
+                  {t("section.successStories.beforeAfter")}
                 </h4>
               </div>
 
               {/* Before column */}
               <div className="space-y-3 mb-5">
                 <div className="text-xs uppercase tracking-[0.2em] text-white/50 font-medium">
-                  Before
+                  {t("section.successStories.before")}
                 </div>
                 {story.before.map((s) => {
                   const Icon = s.icon;
@@ -317,7 +318,7 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
               {/* After column */}
               <div className="space-y-3">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#9bb3ae] font-medium">
-                  After
+                  {t("section.successStories.after")}
                 </div>
                 {story.after.map((s) => {
                   const Icon = s.icon;
@@ -362,6 +363,7 @@ function FeaturedStory({ story }: { story: SuccessStory }) {
 
 function StoryCard({ story, index }: { story: SuccessStory; index: number }) {
   const prefersReduced = useReducedMotion();
+  const { t } = useT();
   return (
     <motion.article
       initial={prefersReduced ? undefined : { opacity: 0, y: 18 }}
@@ -402,7 +404,7 @@ function StoryCard({ story, index }: { story: SuccessStory; index: number }) {
         <div className="mt-5 rounded-lg bg-gradient-to-br from-[#32504d]/10 to-[#6e8580]/8 dark:from-[#32504d]/20 dark:to-[#6e8580]/12 border border-[#32504d]/20 dark:border-[#32504d]/30 px-4 py-3">
           <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-[#748684] dark:text-[#9bb3ae] font-semibold mb-0.5">
             <ArrowUpRight className="size-3" />
-            Key outcome
+            {t("section.successStories.keyOutcome")}
           </div>
           <div className="font-display text-base font-bold text-[#192d2f] dark:text-[#9bb3ae]">
             {story.highlight}
@@ -473,6 +475,7 @@ function MetricTile({
  * -------------------------------------------------------------------------- */
 
 export function SuccessStories() {
+  const { t } = useT();
   const featured = STORIES.find((s) => s.featured)!;
   const cards = STORIES.filter((s) => !s.featured);
 
@@ -484,7 +487,7 @@ export function SuccessStories() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="KHIDMA SUCCESS STORIES"
+          eyebrow={t("section.eyebrow.khidmaSuccessStories")}
           title={
             <>
               Real freelancers. Real journeys.{" "}
@@ -493,7 +496,7 @@ export function SuccessStories() {
               </span>
             </>
           }
-          description="These aren't marketing claims, they're verified Khidma freelancers who transformed their careers. Each story is backed by real contracts, real payments, and real reviews."
+          description={t("section.successStories.description")}
         />
 
         {/* Featured story */}
@@ -516,7 +519,7 @@ export function SuccessStories() {
             <div className="flex items-center gap-2 mb-6">
               <CheckCircle2 className="size-5 text-[#32504d] dark:text-[#9bb3ae]" />
               <h3 className="font-display text-base sm:text-lg font-bold tracking-tight text-foreground">
-                Khidma success, by the numbers
+                {t("section.successStories.metricsTitle")}
               </h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">

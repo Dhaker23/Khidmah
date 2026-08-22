@@ -19,14 +19,13 @@ export function FeaturedServices() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14">
           <Reveal className="max-w-2xl">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-              Ready-to-Buy Services
+              {t("section.eyebrow.readyToBuyServices")}
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
               {t("section.featuredServices")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
-              Pre-packaged offerings from verified freelancers. Transparent
-              pricing, clear delivery times, and revisions included.
+              {t("section.featuredServices.subtitle")}
             </p>
           </Reveal>
           <Reveal delay={0.1} className="shrink-0">
@@ -35,7 +34,7 @@ export function FeaturedServices() {
               onClick={() => setView("services")}
               className="self-start sm:self-auto shrink-0 group"
             >
-              View all services
+              {t("section.featuredServices.viewAll")}
               <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Button>
           </Reveal>
@@ -55,7 +54,7 @@ export function FeaturedServices() {
             onClick={() => setView("services")}
             className="group"
           >
-            View all services
+            {t("section.featuredServices.viewAll")}
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Button>
         </div>

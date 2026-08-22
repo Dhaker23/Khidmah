@@ -19,14 +19,13 @@ export function OpenJobs() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14">
           <Reveal className="max-w-2xl">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-              Open Opportunities
+              {t("section.eyebrow.openOpportunities")}
             </span>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
               {t("section.openJobs")}
             </h2>
             <p className="mt-3 text-base text-muted-foreground">
-              Real projects posted by verified clients. Apply with your profile
-              and get hired through escrow-protected contracts.
+              {t("section.openJobs.subtitle")}
             </p>
           </Reveal>
           <Reveal delay={0.1} className="shrink-0">
@@ -35,7 +34,7 @@ export function OpenJobs() {
               onClick={() => setView("jobs")}
               className="self-start sm:self-auto shrink-0 group"
             >
-              Browse all jobs
+              {t("section.openJobs.viewAll")}
               <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Button>
           </Reveal>
@@ -55,7 +54,7 @@ export function OpenJobs() {
             onClick={() => setView("jobs")}
             className="group"
           >
-            Browse all jobs
+            {t("section.openJobs.viewAll")}
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Button>
         </div>

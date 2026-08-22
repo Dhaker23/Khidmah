@@ -21,7 +21,7 @@ export function Testimonials() {
         <div className="max-w-2xl mb-10 sm:mb-14">
           <Reveal>
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#748684]">
-              Success Stories
+              {t("section.eyebrow.successStories")}
             </span>
           </Reveal>
           <Reveal delay={0.05}>
@@ -31,8 +31,7 @@ export function Testimonials() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-3 text-base text-muted-foreground">
-              Real reviews from real contracts. Every testimonial below comes
-              from a verified, paid project on Khidma.
+              {t("section.testimonials.subtitle")}
             </p>
           </Reveal>
         </div>

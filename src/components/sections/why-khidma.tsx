@@ -8,51 +8,51 @@ import {
   Wallet,
   Star,
   Repeat,
+  type LucideIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Reveal } from "@/components/khidma/reveal";
 
-const features = [
-  {
-    icon: ShieldCheck,
-    title: "Trust-first verification",
-    description:
-      "Email, phone, national ID, and portfolio reviews for every freelancer.",
-  },
-  {
-    icon: Percent,
-    title: "Transparent 1% fee",
-    description:
-      "A flat 1% marketplace fee. No tiers, no surcharges, no surprises.",
-  },
-  {
-    icon: Lock,
-    title: "Secure contracts & escrow",
-    description:
-      "Milestone-based escrow protects funds until work is approved.",
-  },
-  {
-    icon: Wallet,
-    title: "Local & international withdrawals",
-    description:
-      "BIAT, TIJARI, Tunisian Post, D17, Western Union, and bank transfers.",
-  },
-  {
-    icon: Star,
-    title: "Real reviews from real projects",
-    description:
-      "Reviews are tied to completed, paid contracts , never fakeable.",
-  },
-  {
-    icon: Repeat,
-    title: "Two-sided reputation",
-    description:
-      "Both clients and freelancers build public track records over time.",
-  },
-];
+interface Feature {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
 
 export function WhyKhidma() {
   const { t } = useT();
+  const features: Feature[] = [
+    {
+      icon: ShieldCheck,
+      title: t("section.whyKhidma.f1.title"),
+      description: t("section.whyKhidma.f1.description"),
+    },
+    {
+      icon: Percent,
+      title: t("section.whyKhidma.f2.title"),
+      description: t("section.whyKhidma.f2.description"),
+    },
+    {
+      icon: Lock,
+      title: t("section.whyKhidma.f3.title"),
+      description: t("section.whyKhidma.f3.description"),
+    },
+    {
+      icon: Wallet,
+      title: t("section.whyKhidma.f4.title"),
+      description: t("section.whyKhidma.f4.description"),
+    },
+    {
+      icon: Star,
+      title: t("section.whyKhidma.f5.title"),
+      description: t("section.whyKhidma.f5.description"),
+    },
+    {
+      icon: Repeat,
+      title: t("section.whyKhidma.f6.title"),
+      description: t("section.whyKhidma.f6.description"),
+    },
+  ];
   return (
     <section className="py-16 sm:py-24 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -64,27 +64,24 @@ export function WhyKhidma() {
                 {t("section.whyKhidma")}
               </span>
               <h2 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-tight">
-                Why clients and freelancers choose Khidma
+                {t("section.whyKhidma.title")}
               </h2>
               <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-                Most marketplaces optimise for volume. Khidma optimises for trust.
-                We verify identity, protect payments, and let real work speak for
-                itself , so both sides can focus on doing great work instead of
-                chasing ghosts.
+                {t("section.whyKhidma.subtitle")}
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 px-3 py-1 text-xs font-medium text-[#32504d] dark:text-[#9bb3ae]">
                   <ShieldCheck className="size-3.5" />
-                  Identity Verified
+                  {t("section.whyKhidma.badge.identityVerified")}
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#475959]/10 dark:bg-[#475959]/20 px-3 py-1 text-xs font-medium text-[#475959] dark:text-[#94a8a4]">
                   <Lock className="size-3.5" />
-                  Escrow Protected
+                  {t("section.whyKhidma.badge.escrowProtected")}
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#6e8580]/10 px-3 py-1 text-xs font-medium text-[#6e8580]">
                   <Percent className="size-3.5" />
-                  1% Flat Fee
+                  {t("section.whyKhidma.badge.flatFee")}
                 </span>
               </div>
             </div>

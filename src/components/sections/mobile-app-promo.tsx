@@ -50,6 +50,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Reveal, Section, SectionHeading } from "@/components/khidma/reveal";
+import { useT } from "@/lib/use-t";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -332,6 +333,7 @@ function useQrMatrix(): boolean[][] {
 }
 
 function QrMock() {
+  const { t } = useT();
   const matrix = useQrMatrix();
   return (
     <div className="flex items-center gap-3" aria-label="Scan QR to download">
@@ -368,10 +370,10 @@ function QrMock() {
       <div>
         <p className="text-[11px] font-semibold text-foreground flex items-center gap-1.5">
           <ArrowDownToLine className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
-          Scan to download
+          {t("section.mobileApp.scanToDownload")}
         </p>
         <p className="text-[10px] text-muted-foreground mt-0.5 max-w-[10rem]">
-          Point your camera here to install the Khidma app.
+          {t("section.mobileApp.scanHelp")}
         </p>
       </div>
     </div>
@@ -437,34 +439,16 @@ interface Feature {
   text: string;
 }
 
-const FEATURES: Feature[] = [
-  {
-    icon: Zap,
-    text: "Instant push notifications for proposals & messages",
-  },
-  {
-    icon: MessageCircle,
-    text: "Real-time chat with clients",
-  },
-  {
-    icon: Wallet,
-    text: "Wallet + earnings dashboard",
-  },
-  {
-    icon: Fingerprint,
-    text: "Biometric login (Face ID / fingerprint)",
-  },
-  {
-    icon: WifiOff,
-    text: "Offline mode for browsing freelancers",
-  },
-  {
-    icon: ArrowDownToLine,
-    text: "Quick withdrawal requests",
-  },
-];
+const FEATURES_RAW = [
+  { icon: Zap, key: "notifications" },
+  { icon: MessageCircle, key: "chat" },
+  { icon: Wallet, key: "wallet" },
+  { icon: Fingerprint, key: "biometric" },
+  { icon: WifiOff, key: "offline" },
+  { icon: ArrowDownToLine, key: "withdrawal" },
+] as const;
 
-function FeatureItem({ feature, index }: { feature: Feature; index: number }) {
+function FeatureItem({ feature, index }: { feature: { icon: React.ComponentType<{ className?: string }>; text: string }; index: number }) {
   const prefersReduced = useReducedMotion();
   const Icon = feature.icon;
   return (
@@ -495,6 +479,11 @@ function FeatureItem({ feature, index }: { feature: Feature; index: number }) {
 
 export function MobileAppPromo() {
   const prefersReduced = useReducedMotion();
+  const { t } = useT();
+  const features = FEATURES_RAW.map((f) => ({
+    icon: f.icon,
+    text: t(`section.mobileApp.feature.${f.key}`),
+  }));
 
   return (
     <Section
@@ -510,7 +499,7 @@ export function MobileAppPromo() {
         {/* Right: content */}
         <div className="order-1 lg:order-2">
           <SectionHeading
-            eyebrow="KHIDMA MOBILE"
+            eyebrow={t("section.eyebrow.khidmaMobile")}
             title={
               <>
                 Take Khidma{" "}
@@ -519,13 +508,13 @@ export function MobileAppPromo() {
                 </span>
               </>
             }
-            description="Manage your freelance business from your phone. Get instant notifications, chat with clients, track earnings, and withdraw, all from the Khidma mobile app."
+            description={t("section.mobileApp.description")}
           />
 
           {/* Feature list (6) */}
           <Reveal>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-8">
-              {FEATURES.map((f, i) => (
+              {features.map((f, i) => (
                 <FeatureItem key={f.text} feature={f} index={i} />
               ))}
             </ul>

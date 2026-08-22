@@ -30,6 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Reveal, SectionHeading } from "@/components/khidma/reveal";
+import { useT } from "@/lib/use-t";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -211,6 +212,7 @@ function AuthorRow({ author, date }: { author: Article["author"]; date: string }
 
 function FeaturedCard({ article }: { article: Article }) {
   const prefersReduced = useReducedMotion();
+  const { t } = useT();
   return (
     <motion.article
       initial={prefersReduced ? undefined : { opacity: 0, y: 20 }}
@@ -236,13 +238,13 @@ function FeaturedCard({ article }: { article: Article }) {
           <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 text-white/85 text-xs">
             <span className="inline-flex items-center gap-1.5">
               <Clock className="size-3.5" />
-              {article.readTime} min read
+              {t("section.blog.minRead", { count: article.readTime })}
             </span>
             <span className="text-white/40" aria-hidden>
               ·
             </span>
             <span className="inline-flex items-center gap-1.5">
-              Featured
+              {t("section.blog.featured")}
             </span>
           </div>
         </div>
@@ -268,7 +270,7 @@ function FeaturedCard({ article }: { article: Article }) {
               className="text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 -mr-2"
               onClick={() => toast.info("Article reader coming soon", { description: article.title })}
             >
-              Read article
+              {t("section.blog.readArticle")}
               <ArrowRight className="ml-1.5 size-4 transition-transform group-hover:translate-x-0.5" />
             </Button>
           </div>
@@ -284,6 +286,7 @@ function FeaturedCard({ article }: { article: Article }) {
 
 function SmallCard({ article, index }: { article: Article; index: number }) {
   const prefersReduced = useReducedMotion();
+  const { t } = useT();
   return (
     <motion.article
       initial={prefersReduced ? undefined : { opacity: 0, y: 16 }}
@@ -323,7 +326,7 @@ function SmallCard({ article, index }: { article: Article; index: number }) {
           </div>
           <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
             <Clock className="size-3" />
-            {article.readTime} min read
+            {t("section.blog.minRead", { count: article.readTime })}
           </div>
         </div>
       </Card>
@@ -395,6 +398,7 @@ function NewsletterForm() {
 
 export function BlogSection() {
   const prefersReduced = useReducedMotion();
+  const { t } = useT();
   const [active, setActive] = useState<Category>("All");
 
   const filtered = useMemo(() => {
@@ -413,14 +417,14 @@ export function BlogSection() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="KHIDMA BLOG"
+          eyebrow={t("section.eyebrow.khidmaBlog")}
           title={
             <>
               Insights &amp;{" "}
               <span className="text-[#32504d] dark:text-[#9bb3ae]">Resources</span>
             </>
           }
-          description="Guides, stories, and best practices from the Khidma community."
+          description={t("section.blog.description")}
         />
 
         {/* Featured + small grid */}
@@ -436,7 +440,7 @@ export function BlogSection() {
             ))}
             {rest.length === 0 && (
               <div className="col-span-2 text-center text-sm text-muted-foreground py-12 border border-dashed border-border/60 rounded-lg">
-                No articles in this category yet.
+                {t("section.blog.noArticles")}
               </div>
             )}
           </div>
@@ -484,12 +488,11 @@ export function BlogSection() {
                 <div className="flex items-center gap-2">
                   <TrendingUp className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
                   <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight">
-                    Khidma Insights, weekly
+                    {t("section.blog.newsletter.title")}
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground max-w-md">
-                  One actionable email every Sunday, no fluff. Join 2,400+ freelancers
-                  across Tunisia.
+                  {t("section.blog.newsletter.body")}
                 </p>
               </div>
               <NewsletterForm />

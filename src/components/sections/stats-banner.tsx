@@ -104,6 +104,32 @@ function StatItem({ stat, index }: { stat: Stat; index: number }) {
 
 export function StatsBanner() {
   const { t } = useT();
+  const stats: Stat[] = [
+    {
+      icon: ShieldCheck,
+      raw: trustStats.verifiedFreelancers,
+      format: (n) => `${formatNumber(Math.round(n))}`,
+      label: t("section.statsBanner.verified"),
+    },
+    {
+      icon: Briefcase,
+      raw: trustStats.completedProjects,
+      format: (n) => `${formatNumber(Math.round(n))}`,
+      label: t("section.statsBanner.completedProjects"),
+    },
+    {
+      icon: Wallet,
+      raw: trustStats.totalPaidOut,
+      format: (n) => `TND ${(Math.round(n) / 1000).toFixed(0)}K`,
+      label: t("section.statsBanner.totalPaidOut"),
+    },
+    {
+      icon: Globe2,
+      raw: trustStats.countries,
+      format: (n) => Math.round(n).toString(),
+      label: t("section.statsBanner.countriesServed"),
+    },
+  ];
   return (
     <section id="stats" className="relative bg-khidma-gradient overflow-hidden">
       <div
@@ -121,12 +147,12 @@ export function StatsBanner() {
         <div className="max-w-2xl mb-10 sm:mb-14">
           <Reveal>
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
-              By the numbers
+              {t("section.eyebrow.byNumbers")}
             </span>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              A marketplace built on real, measurable trust
+              {t("section.statsBanner.subtitle")}
             </h2>
           </Reveal>
         </div>

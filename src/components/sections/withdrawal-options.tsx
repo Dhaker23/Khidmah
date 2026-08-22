@@ -13,27 +13,6 @@ import { withdrawalMethods } from "@/lib/khidma-data";
 
 type GroupKey = "Local" | "Bank" | "International";
 
-const groups: { key: GroupKey; label: string; icon: typeof MapPin; description: string }[] = [
-  {
-    key: "Local",
-    label: "Local Methods",
-    icon: MapPin,
-    description: "Fast, mobile-first payouts inside Tunisia",
-  },
-  {
-    key: "Bank",
-    label: "Bank Transfers",
-    icon: Banknote,
-    description: "Direct transfers to Tunisian bank accounts",
-  },
-  {
-    key: "International",
-    label: "International",
-    icon: Globe2,
-    description: "Receive funds abroad with global providers",
-  },
-];
-
 const typeColors: Record<string, string> = {
   Local: "bg-[#32504d]/10 text-[#32504d] border-[#32504d]/20 dark:bg-[#32504d]/25 dark:text-[#9bb3ae] dark:border-[#32504d]/30",
   Bank: "bg-[#475959]/10 text-[#475959] border-[#475959]/20 dark:bg-[#475959]/25 dark:text-[#94a8a4] dark:border-[#475959]/30",
@@ -45,13 +24,34 @@ export function WithdrawalOptions() {
   const [active, setActive] = useState<GroupKey>("Local");
   const filtered = withdrawalMethods.filter((m) => m.type === active);
 
+  const groups: { key: GroupKey; label: string; icon: typeof MapPin; description: string }[] = [
+    {
+      key: "Local",
+      label: t("section.withdrawalOptions.localMethods"),
+      icon: MapPin,
+      description: t("section.withdrawalOptions.localMethodsDesc"),
+    },
+    {
+      key: "Bank",
+      label: t("section.withdrawalOptions.bankTransfers"),
+      icon: Banknote,
+      description: t("section.withdrawalOptions.bankTransfersDesc"),
+    },
+    {
+      key: "International",
+      label: t("section.withdrawalOptions.international"),
+      icon: Globe2,
+      description: t("section.withdrawalOptions.internationalDesc"),
+    },
+  ];
+
   return (
     <section className="py-16 sm:py-24 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Withdrawals"
+          eyebrow={t("section.eyebrow.withdrawals")}
           title={t("section.withdrawalOptions")}
-          description="Pick the payout method that fits your workflow. Mobile wallets for instant cash, bank transfers for larger amounts, and international options when you're working with clients abroad."
+          description={t("section.withdrawalOptions.subtitle")}
         />
 
         {/* Tabs */}
@@ -137,7 +137,7 @@ export function WithdrawalOptions() {
                   <div className="mt-3 pt-3 border-t border-border/60 grid grid-cols-2 gap-3">
                     <div>
                       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        Fee
+                        {t("section.withdrawalOptions.fee")}
                       </div>
                       <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
                         <Wallet className="size-3.5 text-[#32504d] dark:text-[#9bb3ae]" />
@@ -146,7 +146,7 @@ export function WithdrawalOptions() {
                     </div>
                     <div>
                       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        Time
+                        {t("section.withdrawalOptions.time")}
                       </div>
                       <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
                         <Clock className="size-3.5 text-[#475959] dark:text-[#94a8a4]" />
@@ -161,9 +161,7 @@ export function WithdrawalOptions() {
         </AnimatePresence>
 
         <p className="mt-6 text-xs text-muted-foreground">
-          Withdrawal fees may vary based on the method and currency conversion
-          rates. All transactions are processed via Khidma&apos;s secure wallet
-          system.
+          {t("section.withdrawalOptions.footnote")}
         </p>
       </div>
     </section>

@@ -48,6 +48,7 @@ import { Reveal, SectionHeading, Section } from "@/components/khidma/reveal";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useApp } from "@/lib/store";
+import { useT } from "@/lib/use-t";
 import {
   trustStats,
   formatNumber,
@@ -132,7 +133,6 @@ const KPIS: Kpi[] = [
     delta: "stable",
   },
 ];
-
 function TrendBadge({ trend, delta }: { trend: Trend; delta: string }) {
   const Icon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus;
   const color =
@@ -270,6 +270,7 @@ function CategoryTooltip({
   active?: boolean;
   payload?: Array<{ name: string; value: number; payload: CategorySlice }>;
 }) {
+  const { t } = useT();
   if (!active || !payload || payload.length === 0) return null;
   const p = payload[0];
   return (
@@ -283,7 +284,7 @@ function CategoryTooltip({
         <span className="font-semibold text-foreground">{p.name}</span>
       </div>
       <div className="mt-0.5 text-[11px] text-muted-foreground">
-        {p.value}% of freelancers
+        {p.value}% {t("section.statsDashboard.donut.tooltip")}
       </div>
     </div>
   );
@@ -296,26 +297,27 @@ function CategoryTooltip({
 function GrowthChart() {
   const prefersReduced = useReducedMotion();
   const isAnimationActive = !prefersReduced;
+  const { t } = useT();
 
   return (
     <Card className="h-full p-5 sm:p-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
         <div>
           <h3 className="font-display text-base sm:text-lg font-bold tracking-tight">
-            Growth over 6 months
+            {t("section.statsDashboard.growth.title")}
           </h3>
           <p className="text-xs text-muted-foreground">
-            Freelancer signups vs project completions · Mar–Aug
+            {t("section.statsDashboard.growth.subtitle")}
           </p>
         </div>
         <div className="flex items-center gap-4 text-[11px]">
           <div className="flex items-center gap-1.5">
             <span className="size-2.5 rounded-sm bg-[#32504d]" aria-hidden />
-            <span className="text-muted-foreground">Signups</span>
+            <span className="text-muted-foreground">{t("section.statsDashboard.legend.signups")}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="size-2.5 rounded-sm bg-[#748684]" aria-hidden />
-            <span className="text-muted-foreground">Completions</span>
+            <span className="text-muted-foreground">{t("section.statsDashboard.legend.completions")}</span>
           </div>
         </div>
       </div>
@@ -398,15 +400,16 @@ function CategoryDonut() {
   const prefersReduced = useReducedMotion();
   const isAnimationActive = !prefersReduced;
   const total = trustStats.verifiedFreelancers;
+  const { t } = useT();
 
   return (
     <Card className="h-full p-5 sm:p-6">
       <div className="mb-4">
         <h3 className="font-display text-base sm:text-lg font-bold tracking-tight">
-          Freelancers by category
+          {t("section.statsDashboard.donut.title")}
         </h3>
         <p className="text-xs text-muted-foreground">
-          Distribution across top categories
+          {t("section.statsDashboard.donut.subtitle")}
         </p>
       </div>
       <div className="relative h-48 sm:h-52 w-full">
@@ -439,7 +442,7 @@ function CategoryDonut() {
             {formatNumber(total)}
           </div>
           <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            verified
+            {t("section.statsDashboard.donut.center")}
           </div>
         </div>
       </div>
@@ -467,23 +470,11 @@ function CategoryDonut() {
 /* Mini stats bottom row                                               */
 /* ------------------------------------------------------------------ */
 
-const MINI_STATS = [
-  {
-    icon: Globe2,
-    label: "Countries served",
-    value: "41",
-  },
-  {
-    icon: MapPin,
-    label: "Cities covered",
-    value: "24",
-  },
-  {
-    icon: Clock,
-    label: "Avg response time",
-    value: "1.2h",
-  },
-];
+const MINI_STATS_RAW = [
+  { icon: Globe2, key: "countries", value: "41" },
+  { icon: MapPin, key: "cities", value: "24" },
+  { icon: Clock, key: "responseTime", value: "1.2h" },
+] as const;
 
 function MiniStat({
   icon: Icon,
@@ -525,17 +516,18 @@ function MiniStat({
 export function StatsDashboard() {
   const prefersReduced = useReducedMotion();
   const setView = useApp((s) => s.setView);
+  const { t } = useT();
   return (
     <Section className="bg-gradient-to-b from-background to-muted/30">
       <SectionHeading
-        eyebrow="PLATFORM ANALYTICS"
+        eyebrow={t("section.eyebrow.platformAnalytics")}
         title={
           <>
             Khidma by the{" "}
             <span className="text-[#32504d] dark:text-[#9bb3ae]">numbers</span>
           </>
         }
-        description="Real-time platform metrics, updated continuously."
+        description={t("section.statsDashboard.description")}
       />
 
       {/* KPI cards */}
@@ -558,11 +550,11 @@ export function StatsDashboard() {
       {/* Bottom mini stats */}
       <Reveal delay={0.05}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {MINI_STATS.map((s, i) => (
+          {MINI_STATS_RAW.map((s, i) => (
             <MiniStat
-              key={s.label}
+              key={s.key}
               icon={s.icon}
-              label={s.label}
+              label={t(`section.statsDashboard.mini.${s.key}`)}
               value={s.value}
               index={i}
             />
@@ -587,14 +579,14 @@ export function StatsDashboard() {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             aria-hidden
           />
-          <span>Live · last sync just now</span>
+          <span>{t("section.statsDashboard.live")}</span>
         </div>
         <button
           type="button"
           onClick={() => setView("stats")}
           className="group inline-flex items-center gap-1.5 rounded-full border border-[#32504d]/30 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 px-3 py-1.5 text-xs font-semibold text-[#32504d] dark:text-[#9bb3ae] transition-colors hover:bg-[#32504d]/10 dark:bg-[#32504d]/20 hover:border-[#32504d]/50"
         >
-          View full stats
+          {t("section.statsDashboard.viewFull")}
           <TrendingUp className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
         </button>
       </motion.div>

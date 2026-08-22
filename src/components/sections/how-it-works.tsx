@@ -17,47 +17,61 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Reveal, BrandDivider, SectionHeading } from "@/components/khidma/reveal";
 
-const freelancerSteps = [
-  {
-    icon: UserCheck,
-    title: "Register & Verify Identity",
-    description:
-      "Create your account, confirm your email and phone, then submit your national ID for verification.",
-    action: "Sign up + verify email, phone, and ID",
-  },
-  {
-    icon: FolderKanban,
-    title: "Build Profile & Portfolio",
-    description:
-      "Add your skills, experience, and portfolio items. Real projects with real results build trust.",
-    action: "Add portfolio, skills, and hourly rate",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Get Approved & Start Working",
-    description:
-      "Our team reviews your profile. Once approved, you can apply for jobs, publish services, and get hired.",
-    action: "Receive offers and start earning",
-  },
-];
-
-const clientSteps = [
-  { icon: FileText, label: "Post Job", description: "Describe your project, budget, and timeline" },
-  { icon: Users2, label: "Compare Profiles", description: "Review verified freelancers side-by-side" },
-  { icon: ShieldCheck, label: "Fund Contract", description: "Escrow-protected milestone funding" },
-  { icon: CheckCircle2, label: "Release on Approval", description: "Pay only when work is approved" },
-];
-
 export function HowItWorks() {
   const { t } = useT();
   const prefersReduced = useReducedMotion();
+
+  const freelancerSteps = [
+    {
+      icon: UserCheck,
+      title: t("section.howItWorks.freelancers.step1.title"),
+      description: t("section.howItWorks.freelancers.step1.description"),
+      action: t("section.howItWorks.freelancers.step1.action"),
+    },
+    {
+      icon: FolderKanban,
+      title: t("section.howItWorks.freelancers.step2.title"),
+      description: t("section.howItWorks.freelancers.step2.description"),
+      action: t("section.howItWorks.freelancers.step2.action"),
+    },
+    {
+      icon: BadgeCheck,
+      title: t("section.howItWorks.freelancers.step3.title"),
+      description: t("section.howItWorks.freelancers.step3.description"),
+      action: t("section.howItWorks.freelancers.step3.action"),
+    },
+  ];
+
+  const clientSteps = [
+    {
+      icon: FileText,
+      label: t("section.howItWorks.clients.step1.label"),
+      description: t("section.howItWorks.clients.step1.description"),
+    },
+    {
+      icon: Users2,
+      label: t("section.howItWorks.clients.step2.label"),
+      description: t("section.howItWorks.clients.step2.description"),
+    },
+    {
+      icon: ShieldCheck,
+      label: t("section.howItWorks.clients.step3.label"),
+      description: t("section.howItWorks.clients.step3.description"),
+    },
+    {
+      icon: CheckCircle2,
+      label: t("section.howItWorks.clients.step4.label"),
+      description: t("section.howItWorks.clients.step4.description"),
+    },
+  ];
+
   return (
     <section className="py-16 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow={t("section.howItWorks")}
-          title="A clear path from sign-up to payout"
-          description="Whether you are freelancing or hiring, Khidma's process is transparent, verified, and built around trust."
+          title={t("section.howItWorks.freelancers.title")}
+          description={t("section.howItWorks.freelancers.subtitle")}
         />
 
         {/* Freelancer flow */}
@@ -66,7 +80,7 @@ export function HowItWorks() {
             <div className="mb-6 flex items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 px-3 py-1 text-xs font-semibold text-[#32504d] dark:text-[#9bb3ae]">
                 <UserCheck className="size-3.5" />
-                For Freelancers
+                {t("section.howItWorks.freelancers.forFreelancers")}
               </span>
             </div>
           </Reveal>
@@ -103,7 +117,7 @@ export function HowItWorks() {
                     <div className="mt-4 pt-4 border-t border-border/60">
                       <div className="flex items-center gap-2 text-xs">
                         <span className="text-[10px] font-semibold uppercase tracking-wider text-[#748684]">
-                          Key action
+                          {t("section.howItWorks.freelancers.keyAction")}
                         </span>
                       </div>
                       <p className="mt-1 text-sm font-medium text-[#2b3d3d] dark:text-[#94a8a4]">
@@ -118,7 +132,7 @@ export function HowItWorks() {
         </div>
 
         {/* Brand divider between flows */}
-        <BrandDivider label="For Clients" className="my-12 sm:my-16" />
+        <BrandDivider label={t("section.howItWorks.freelancers.forClients")} className="my-12 sm:my-16" />
 
         {/* Client flow */}
         <div className="relative">
@@ -126,7 +140,7 @@ export function HowItWorks() {
             <div className="mb-6 flex items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-[#475959]/10 dark:bg-[#475959]/20 px-3 py-1 text-xs font-semibold text-[#475959] dark:text-[#94a8a4]">
                 <FileText className="size-3.5" />
-                For Clients
+                {t("section.howItWorks.freelancers.forClients")}
               </span>
             </div>
           </Reveal>
@@ -175,10 +189,9 @@ export function HowItWorks() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-2xl border border-[#32504d]/20 dark:border-[#32504d]/30 bg-[#32504d]/5 dark:bg-[#32504d]/15 p-5">
             <Wallet className="size-5 text-[#32504d] dark:text-[#9bb3ae] shrink-0" />
             <p className="text-sm text-foreground">
-              <span className="font-semibold">Escrow-protected contracts.</span>{" "}
+              <span className="font-semibold">{t("section.howItWorks.freelancers.escrow.headline")}</span>{" "}
               <span className="text-muted-foreground">
-                Funds are held safely until milestones are approved, protecting
-                both clients and freelancers.
+                {t("section.howItWorks.freelancers.escrow.body")}
               </span>
             </p>
           </div>

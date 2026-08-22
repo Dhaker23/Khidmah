@@ -1,0 +1,1559 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useMemo, useState } from "react";
+     4→import { motion, AnimatePresence } from "framer-motion";
+     5→import {
+     6→  Dialog,
+     7→  DialogContent,
+     8→  DialogPortal,
+     9→  DialogOverlay,
+    10→  DialogTitle,
+    11→  DialogDescription,
+    12→} from "@/components/ui/dialog";
+    13→import { Input } from "@/components/ui/input";
+    14→import { Textarea } from "@/components/ui/textarea";
+    15→import { Label } from "@/components/ui/label";
+    16→import { Button } from "@/components/ui/button";
+    17→import { Badge } from "@/components/ui/badge";
+    18→import { Checkbox } from "@/components/ui/checkbox";
+    19→import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+    20→import { Progress } from "@/components/ui/progress";
+    21→import {
+    22→  Select,
+    23→  SelectContent,
+    24→  SelectItem,
+    25→  SelectTrigger,
+    26→  SelectValue,
+    27→} from "@/components/ui/select";
+    28→import {
+    29→  User,
+    30→  Briefcase,
+    31→  Tag,
+    32→  Award,
+    33→  Image as ImageIcon,
+    34→  Camera,
+    35→  ShieldCheck,
+    36→  CheckCircle2,
+    37→  Plus,
+    38→  Trash2,
+    39→  Upload,
+    40→  X,
+    41→  Mail,
+    42→  Phone,
+    43→  IdCard,
+    44→  ArrowRight,
+    45→  ArrowLeft,
+    46→  Eye,
+    47→  Send,
+    48→  Globe,
+    49→  Code2,
+    50→  Star,
+    51→} from "lucide-react";
+    52→import { useApp } from "@/lib/store";
+    53→import { toast } from "sonner";
+    54→import { KhidmaLogo } from "@/components/khidma/logo";
+    55→import { categories } from "@/lib/khidma-data";
+    56→import { cn } from "@/lib/utils";
+    57→
+    58→const TOTAL_STEPS = 8;
+    59→
+    60→const stepMeta = [
+    61→  { name: "Personal Info", desc: "Tell us who you are", icon: User },
+    62→  { name: "Professional Info", desc: "Define your offer", icon: Briefcase },
+    63→  { name: "Skills", desc: "Pick your strengths", icon: Tag },
+    64→  { name: "Experience", desc: "Show your track record", icon: Award },
+    65→  { name: "Portfolio", desc: "Showcase your work", icon: ImageIcon },
+    66→  { name: "Profile Photo", desc: "Put a face to your name", icon: Camera },
+    67→  { name: "Verification", desc: "Confirm your identity", icon: ShieldCheck },
+    68→  { name: "Review & Submit", desc: "Final review", icon: CheckCircle2 },
+    69→];
+    70→
+    71→const titleSuggestions = [
+    72→  "Full-Stack Web Developer",
+    73→  "Frontend Developer",
+    74→  "UI/UX Designer",
+    75→  "Brand Identity Designer",
+    76→  "Motion Designer",
+    77→  "Voice Over Artist",
+    78→  "3D Artist",
+    79→  "SEO Specialist",
+    80→];
+    81→
+    82→interface ExpEntry {
+    83→  id: string;
+    84→  company: string;
+    85→  position: string;
+    86→  start: string;
+    87→  end: string;
+    88→  current: boolean;
+    89→  description: string;
+    90→  skills: string;
+    91→}
+    92→
+    93→interface PortfolioEntry {
+    94→  id: string;
+    95→  title: string;
+    96→  category: string;
+    97→  type: "image" | "video" | "audio" | "url" | "github";
+    98→  description: string;
+    99→  skills: string;
+   100→  role: string;
+   101→  liveUrl: string;
+   102→  repoUrl: string;
+   103→}
+   104→
+   105→const uid = () => Math.random().toString(36).slice(2, 9);
+   106→
+   107→function SectionCard({
+   108→  title,
+   109→  desc,
+   110→  children,
+   111→  className,
+   112→}: {
+   113→  title?: string;
+   114→  desc?: string;
+   115→  children: React.ReactNode;
+   116→  className?: string;
+   117→}) {
+   118→  return (
+   119→    <div className={cn("space-y-1.5", className)}>
+   120→      {title && (
+   121→        <div className="flex items-baseline justify-between">
+   122→          <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+   123→          {desc && <span className="text-[11px] text-muted-foreground">{desc}</span>}
+   124→        </div>
+   125→      )}
+   126→      {children}
+   127→    </div>
+   128→  );
+   129→}
+   130→
+   131→export function OnboardingWizard() {
+   132→  const {
+   133→    modal: { onboardingOpen, onboardingStep },
+   134→    closeOnboarding,
+   135→    setOnboardingStep,
+   136→    login,
+   137→  } = useApp();
+   138→
+   139→  // Local form state
+   140→  const [step, setStep] = useState(onboardingStep);
+   141→  const [lastOnboardingOpen, setLastOnboardingOpen] = useState(onboardingOpen);
+   142→  const [lastOnboardingStep, setLastOnboardingStep] = useState(onboardingStep);
+   143→  // When the modal (re)opens, sync internal step with store (React 19 render-time adjustment)
+   144→  if (onboardingOpen !== lastOnboardingOpen) {
+   145→    setLastOnboardingOpen(onboardingOpen);
+   146→    if (onboardingOpen) {
+   147→      setStep(onboardingStep);
+   148→      setLastOnboardingStep(onboardingStep);
+   149→    }
+   150→  }
+   151→  // If onboardingStep changes externally while open, follow it
+   152→  if (onboardingOpen && onboardingStep !== lastOnboardingStep) {
+   153→    setLastOnboardingStep(onboardingStep);
+   154→    setStep(onboardingStep);
+   155→  }
+   156→  const [direction, setDirection] = useState<1 | -1>(1);
+   157→  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+   158→  const [verif, setVerif] = useState({ email: false, phone: false, identity: false });
+   159→  const [otpSent, setOtpSent] = useState(false);
+   160→  const [otp, setOtp] = useState("");
+   161→  const [showPreview, setShowPreview] = useState(false);
+   162→
+   163→  const [personal, setPersonal] = useState({
+   164→    firstName: "",
+   165→    lastName: "",
+   166→    username: "",
+   167→    country: "Tunisia",
+   168→    city: "",
+   169→    phone: "",
+   170→    intro: "",
+   171→  });
+   172→  const [languages, setLanguages] = useState<string[]>(["Arabic", "French"]);
+   173→  const [langInput, setLangInput] = useState("");
+   174→
+   175→  const [prof, setProf] = useState({
+   176→    title: "",
+   177→    bio: "",
+   178→    years: "1",
+   179→    categoryId: "",
+   180→    hourlyRate: "30",
+   181→    startingPrice: "100",
+   182→    availability: "available" as "available" | "limited" | "booked",
+   183→    responseTime: "~1 hour",
+   184→  });
+   185→
+   186→  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+   187→  const [experiences, setExperiences] = useState<ExpEntry[]>([
+   188→    {
+   189→      id: uid(),
+   190→      company: "",
+   191→      position: "",
+   192→      start: "",
+   193→      end: "",
+   194→      current: false,
+   195→      description: "",
+   196→      skills: "",
+   197→    },
+   198→  ]);
+   199→  const [portfolio, setPortfolio] = useState<PortfolioEntry[]>([
+   200→    {
+   201→      id: uid(),
+   202→      title: "",
+   203→      category: "",
+   204→      type: "image",
+   205→      description: "",
+   206→      skills: "",
+   207→      role: "",
+   208→      liveUrl: "",
+   209→      repoUrl: "",
+   210→    },
+   211→  ]);
+   212→
+   213→  // Lock scroll
+   214→  useEffect(() => {
+   215→    if (onboardingOpen) {
+   216→      const orig = document.body.style.overflow;
+   217→      document.body.style.overflow = "hidden";
+   218→      return () => {
+   219→        document.body.style.overflow = orig;
+   220→      };
+   221→    }
+   222→  }, [onboardingOpen]);
+   223→
+   224→  const goTo = (n: number) => {
+   225→    if (n < 0 || n >= TOTAL_STEPS) return;
+   226→    setDirection(n > step ? 1 : -1);
+   227→    setStep(n);
+   228→    setOnboardingStep(n);
+   229→  };
+   230→
+   231→  const next = () => goTo(step + 1);
+   232→  const back = () => goTo(step - 1);
+   233→
+   234→  const progressPct = useMemo(
+   235→    () => ((step + 1) / TOTAL_STEPS) * 100,
+   236→    [step]
+   237→  );
+   238→
+   239→  if (!onboardingOpen) return null;
+   240→
+   241→  const addLanguage = () => {
+   242→    const v = langInput.trim();
+   243→    if (v && !languages.includes(v)) {
+   244→      setLanguages([...languages, v]);
+   245→      setLangInput("");
+   246→    }
+   247→  };
+   248→
+   249→  const toggleSkill = (skill: string) => {
+   250→    setSelectedSkills((s) =>
+   251→      s.includes(skill) ? s.filter((x) => x !== skill) : [...s, skill]
+   252→    );
+   253→  };
+   254→
+   255→  const updateExp = (id: string, patch: Partial<ExpEntry>) =>
+   256→    setExperiences((arr) =>
+   257→      arr.map((e) => (e.id === id ? { ...e, ...patch } : e))
+   258→    );
+   259→
+   260→  const updatePortfolio = (id: string, patch: Partial<PortfolioEntry>) =>
+   261→    setPortfolio((arr) =>
+   262→      arr.map((p) => (p.id === id ? { ...p, ...patch } : p))
+   263→    );
+   264→
+   265→  const verifComplete =
+   266→    (verif.email ? 1 : 0) + (verif.phone ? 1 : 0) + (verif.identity ? 1 : 0);
+   267→  const verifPct = (verifComplete / 3) * 100;
+   268→
+   269→  const handleSubmit = () => {
+   270→    const fullName =
+   271→      `${personal.firstName || "New"} ${personal.lastName || "Freelancer"}`.trim() ||
+   272→      "Khidma Freelancer";
+   273→    closeOnboarding();
+   274→    login(fullName, "freelancer");
+   275→    toast.success("Application submitted!", {
+   276→      description: "Admin will review within 48 hours.",
+   277→    });
+   278→  };
+   279→
+   280→  const CurrentIcon = stepMeta[step].icon;
+   281→
+   282→  return (
+   283→    <Dialog open={onboardingOpen} onOpenChange={(o) => !o && closeOnboarding()}>
+   284→      <DialogPortal>
+   285→        <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
+   286→        <DialogContent
+   287→          className="p-0 gap-0 max-w-4xl w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
+   288→          aria-describedby={undefined}
+   289→          showCloseButton
+   290→        >
+   291→          <DialogTitle className="sr-only">
+   292→            Freelancer onboarding , Step {step + 1} of {TOTAL_STEPS}
+   293→          </DialogTitle>
+   294→          <DialogDescription className="sr-only">
+   295→            {stepMeta[step].name}: {stepMeta[step].desc}
+   296→          </DialogDescription>
+   297→
+   298→          {/* Header */}
+   299→          <div className="relative px-5 sm:px-7 py-4 border-b border-border/60 bg-card/60">
+   300→            <div className="flex items-center gap-3">
+   301→              <KhidmaLogo size="sm" showArabic={false} />
+   302→              <span className="text-[11px] text-muted-foreground hidden sm:inline">
+   303→                Freelancer Application
+   304→              </span>
+   305→              <div className="ml-auto flex items-center gap-2 text-xs">
+   306→                <span className="text-muted-foreground">
+   307→                  Step {step + 1} / {TOTAL_STEPS}
+   308→                </span>
+   309→                <span className="inline-flex items-center gap-1 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] px-2 py-0.5 text-[11px] font-semibold">
+   310→                  <CurrentIcon className="size-3" />
+   311→                  {stepMeta[step].name}
+   312→                </span>
+   313→              </div>
+   314→            </div>
+   315→            <div className="mt-3 space-y-1.5">
+   316→              <Progress
+   317→                value={progressPct}
+   318→                className="h-1.5 bg-muted [&>div]:bg-[#32504d]"
+   319→              />
+   320→              <p className="text-xs text-muted-foreground">{stepMeta[step].desc}</p>
+   321→            </div>
+   322→          </div>
+   323→
+   324→          {/* Body , scrollable */}
+   325→          <div className="flex-1 overflow-y-auto px-5 sm:px-7 py-5 khidma-scroll">
+   326→            <AnimatePresence mode="wait" custom={direction}>
+   327→              <motion.div
+   328→                key={step}
+   329→                custom={direction}
+   330→                initial={{ opacity: 0, x: direction * 24 }}
+   331→                animate={{ opacity: 1, x: 0 }}
+   332→                exit={{ opacity: 0, x: direction * -24 }}
+   333→                transition={{ duration: 0.25 }}
+   334→                className="space-y-5"
+   335→              >
+   336→                {/* === STEP 1: Personal Info === */}
+   337→                {step === 0 && (
+   338→                  <>
+   339→                    <div className="grid sm:grid-cols-2 gap-4">
+   340→                      <div className="space-y-1.5">
+   341→                        <Label htmlFor="ob-first">First name</Label>
+   342→                        <Input
+   343→                          id="ob-first"
+   344→                          placeholder="Amira"
+   345→                          value={personal.firstName}
+   346→                          onChange={(e) =>
+   347→                            setPersonal({ ...personal, firstName: e.target.value })
+   348→                          }
+   349→                        />
+   350→                      </div>
+   351→                      <div className="space-y-1.5">
+   352→                        <Label htmlFor="ob-last">Last name</Label>
+   353→                        <Input
+   354→                          id="ob-last"
+   355→                          placeholder="Ben Salah"
+   356→                          value={personal.lastName}
+   357→                          onChange={(e) =>
+   358→                            setPersonal({ ...personal, lastName: e.target.value })
+   359→                          }
+   360→                        />
+   361→                      </div>
+   362→                    </div>
+   363→
+   364→                    <div className="space-y-1.5">
+   365→                      <Label htmlFor="ob-user">Username</Label>
+   366→                      <div className="relative">
+   367→                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+   368→                          @
+   369→                        </span>
+   370→                        <Input
+   371→                          id="ob-user"
+   372→                          placeholder="amira.codes"
+   373→                          className="pl-7"
+   374→                          value={personal.username}
+   375→                          onChange={(e) =>
+   376→                            setPersonal({ ...personal, username: e.target.value })
+   377→                          }
+   378→                        />
+   379→                      </div>
+   380→                    </div>
+   381→
+   382→                    <div className="grid sm:grid-cols-2 gap-4">
+   383→                      <div className="space-y-1.5">
+   384→                        <Label htmlFor="ob-country">Country</Label>
+   385→                        <Select
+   386→                          value={personal.country}
+   387→                          onValueChange={(v) =>
+   388→                            setPersonal({ ...personal, country: v })
+   389→                          }
+   390→                        >
+   391→                          <SelectTrigger id="ob-country">
+   392→                            <SelectValue />
+   393→                          </SelectTrigger>
+   394→                          <SelectContent>
+   395→                            {["Tunisia", "Morocco", "Algeria", "Egypt", "Other"].map(
+   396→                              (c) => (
+   397→                                <SelectItem key={c} value={c}>
+   398→                                  {c}
+   399→                                </SelectItem>
+   400→                              )
+   401→                            )}
+   402→                          </SelectContent>
+   403→                        </Select>
+   404→                      </div>
+   405→                      <div className="space-y-1.5">
+   406→                        <Label htmlFor="ob-city">City</Label>
+   407→                        <Input
+   408→                          id="ob-city"
+   409→                          placeholder="Tunis"
+   410→                          value={personal.city}
+   411→                          onChange={(e) =>
+   412→                            setPersonal({ ...personal, city: e.target.value })
+   413→                          }
+   414→                        />
+   415→                      </div>
+   416→                    </div>
+   417→
+   418→                    <div className="space-y-1.5">
+   419→                      <Label htmlFor="ob-phone">Phone</Label>
+   420→                      <Input
+   421→                        id="ob-phone"
+   422→                        placeholder="+216 99 999 999"
+   423→                        value={personal.phone}
+   424→                        onChange={(e) =>
+   425→                          setPersonal({ ...personal, phone: e.target.value })
+   426→                        }
+   427→                      />
+   428→                    </div>
+   429→
+   430→                    <div className="space-y-1.5">
+   431→                      <Label>Languages</Label>
+   432→                      <div className="flex flex-wrap gap-2 min-h-9 p-2 rounded-md border border-input bg-background">
+   433→                        {languages.map((l) => (
+   434→                          <Badge
+   435→                            key={l}
+   436→                            className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] hover:bg-[#32504d]/20 dark:bg-[#32504d]/30 gap-1"
+   437→                          >
+   438→                            {l}
+   439→                            <button
+   440→                              type="button"
+   441→                              onClick={() =>
+   442→                                setLanguages(languages.filter((x) => x !== l))
+   443→                              }
+   444→                              className="hover:text-rose-500"
+   445→                              aria-label={`Remove ${l}`}
+   446→                            >
+   447→                              <X className="size-3" />
+   448→                            </button>
+   449→                          </Badge>
+   450→                        ))}
+   451→                        <div className="flex items-center gap-1">
+   452→                          <Input
+   453→                            placeholder="Add language…"
+   454→                            value={langInput}
+   455→                            onChange={(e) => setLangInput(e.target.value)}
+   456→                            onKeyDown={(e) => {
+   457→                              if (e.key === "Enter") {
+   458→                                e.preventDefault();
+   459→                                addLanguage();
+   460→                              }
+   461→                            }}
+   462→                            className="h-7 w-32 border-0 p-0 focus-visible:ring-0 text-xs"
+   463→                          />
+   464→                          <Button
+   465→                            type="button"
+   466→                            size="sm"
+   467→                            variant="ghost"
+   468→                            onClick={addLanguage}
+   469→                            className="h-7 px-2 text-[#32504d] dark:text-[#9bb3ae]"
+   470→                          >
+   471→                            <Plus className="size-3" />
+   472→                          </Button>
+   473→                        </div>
+   474→                      </div>
+   475→                    </div>
+   476→
+   477→                    <div className="space-y-1.5">
+   478→                      <Label htmlFor="ob-intro">Short intro</Label>
+   479→                      <Textarea
+   480→                        id="ob-intro"
+   481→                        rows={3}
+   482→                        placeholder="One sentence to introduce yourself…"
+   483→                        value={personal.intro}
+   484→                        onChange={(e) =>
+   485→                          setPersonal({ ...personal, intro: e.target.value })
+   486→                        }
+   487→                      />
+   488→                    </div>
+   489→                  </>
+   490→                )}
+   491→
+   492→                {/* === STEP 2: Professional Info === */}
+   493→                {step === 1 && (
+   494→                  <>
+   495→                    <div className="space-y-1.5">
+   496→                      <Label htmlFor="ob-title">Professional title</Label>
+   497→                      <Input
+   498→                        id="ob-title"
+   499→                        placeholder="e.g. Full-Stack Web Developer"
+   500→                        value={prof.title}
+   501→                        onChange={(e) =>
+   502→                          setProf({ ...prof, title: e.target.value })
+   503→                        }
+   504→                      />
+   505→                      <div className="flex flex-wrap gap-1.5 pt-1">
+   506→                        {titleSuggestions.map((t) => (
+   507→                          <button
+   508→                            key={t}
+   509→                            type="button"
+   510→                            onClick={() => setProf({ ...prof, title: t })}
+   511→                            className="text-[11px] rounded-full border border-border bg-muted/40 px-2 py-0.5 hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
+   512→                          >
+   513→                            {t}
+   514→                          </button>
+   515→                        ))}
+   516→                      </div>
+   517→                    </div>
+   518→
+   519→                    <div className="space-y-1.5">
+   520→                      <Label htmlFor="ob-bio">Bio</Label>
+   521→                      <Textarea
+   522→                        id="ob-bio"
+   523→                        rows={4}
+   524→                        placeholder="Describe your expertise, approach, and what makes you stand out…"
+   525→                        value={prof.bio}
+   526→                        onChange={(e) => setProf({ ...prof, bio: e.target.value })}
+   527→                      />
+   528→                    </div>
+   529→
+   530→                    <div className="grid sm:grid-cols-2 gap-4">
+   531→                      <div className="space-y-1.5">
+   532→                        <Label htmlFor="ob-years">Years of experience</Label>
+   533→                        <Input
+   534→                          id="ob-years"
+   535→                          type="number"
+   536→                          min={0}
+   537→                          value={prof.years}
+   538→                          onChange={(e) =>
+   539→                            setProf({ ...prof, years: e.target.value })
+   540→                          }
+   541→                        />
+   542→                      </div>
+   543→                      <div className="space-y-1.5">
+   544→                        <Label>Primary category</Label>
+   545→                        <Select
+   546→                          value={prof.categoryId}
+   547→                          onValueChange={(v) =>
+   548→                            setProf({ ...prof, categoryId: v })
+   549→                          }
+   550→                        >
+   551→                          <SelectTrigger>
+   552→                            <SelectValue placeholder="Select category…" />
+   553→                          </SelectTrigger>
+   554→                          <SelectContent>
+   555→                            {categories.map((c) => (
+   556→                              <SelectItem key={c.id} value={c.id}>
+   557→                                {c.name}
+   558→                              </SelectItem>
+   559→                            ))}
+   560→                          </SelectContent>
+   561→                        </Select>
+   562→                      </div>
+   563→                    </div>
+   564→
+   565→                    <div className="grid sm:grid-cols-3 gap-4">
+   566→                      <div className="space-y-1.5">
+   567→                        <Label htmlFor="ob-rate">Hourly rate (TND)</Label>
+   568→                        <Input
+   569→                          id="ob-rate"
+   570→                          type="number"
+   571→                          min={0}
+   572→                          value={prof.hourlyRate}
+   573→                          onChange={(e) =>
+   574→                            setProf({ ...prof, hourlyRate: e.target.value })
+   575→                          }
+   576→                        />
+   577→                      </div>
+   578→                      <div className="space-y-1.5">
+   579→                        <Label htmlFor="ob-start">Starting price (TND)</Label>
+   580→                        <Input
+   581→                          id="ob-start"
+   582→                          type="number"
+   583→                          min={0}
+   584→                          value={prof.startingPrice}
+   585→                          onChange={(e) =>
+   586→                            setProf({ ...prof, startingPrice: e.target.value })
+   587→                          }
+   588→                        />
+   589→                      </div>
+   590→                      <div className="space-y-1.5">
+   591→                        <Label htmlFor="ob-resp">Response time</Label>
+   592→                        <Select
+   593→                          value={prof.responseTime}
+   594→                          onValueChange={(v) =>
+   595→                            setProf({ ...prof, responseTime: v })
+   596→                          }
+   597→                        >
+   598→                          <SelectTrigger id="ob-resp">
+   599→                            <SelectValue />
+   600→                          </SelectTrigger>
+   601→                          <SelectContent>
+   602→                            {["~1 hour", "~3 hours", "~12 hours", "~1 day"].map(
+   603→                              (r) => (
+   604→                                <SelectItem key={r} value={r}>
+   605→                                  {r}
+   606→                                </SelectItem>
+   607→                              )
+   608→                            )}
+   609→                          </SelectContent>
+   610→                        </Select>
+   611→                      </div>
+   612→                    </div>
+   613→
+   614→                    <div className="space-y-1.5">
+   615→                      <Label>Availability</Label>
+   616→                      <RadioGroup
+   617→                        value={prof.availability}
+   618→                        onValueChange={(v) =>
+   619→                          setProf({
+   620→                            ...prof,
+   621→                            availability: v as typeof prof.availability,
+   622→                          })
+   623→                        }
+   624→                        className="grid grid-cols-3 gap-3"
+   625→                      >
+   626→                        {[
+   627→                          {
+   628→                            v: "available" as const,
+   629→                            l: "Available",
+   630→                            d: "Open to new work",
+   631→                          },
+   632→                          {
+   633→                            v: "limited" as const,
+   634→                            l: "Limited",
+   635→                            d: "Selective intake",
+   636→                          },
+   637→                          {
+   638→                            v: "booked" as const,
+   639→                            l: "Booked",
+   640→                            d: "Fully booked",
+   641→                          },
+   642→                        ].map((o) => (
+   643→                          <label
+   644→                            key={o.v}
+   645→                            className={cn(
+   646→                              "cursor-pointer rounded-lg border p-2.5 text-xs",
+   647→                              prof.availability === o.v
+   648→                                ? "border-[#32504d] bg-[#32504d]/5 dark:bg-[#32504d]/15"
+   649→                                : "border-border"
+   650→                            )}
+   651→                          >
+   652→                            <div className="flex items-center gap-2">
+   653→                              <RadioGroupItem
+   654→                                value={o.v}
+   655→                                className="data-[state=checked]:border-[#32504d] data-[state=checked]:text-[#32504d] dark:text-[#9bb3ae]"
+   656→                              />
+   657→                              <span className="font-semibold">{o.l}</span>
+   658→                            </div>
+   659→                            <p className="text-[10px] text-muted-foreground mt-1">
+   660→                              {o.d}
+   661→                            </p>
+   662→                          </label>
+   663→                        ))}
+   664→                      </RadioGroup>
+   665→                    </div>
+   666→                  </>
+   667→                )}
+   668→
+   669→                {/* === STEP 3: Skills === */}
+   670→                {step === 2 && (
+   671→                  <>
+   672→                    <div className="flex items-center justify-between">
+   673→                      <div>
+   674→                        <h3 className="text-sm font-semibold">Pick your skills</h3>
+   675→                        <p className="text-[11px] text-muted-foreground">
+   676→                          Toggle the skills that reflect your expertise.
+   677→                        </p>
+   678→                      </div>
+   679→                      <Badge className="bg-[#32504d] text-white hover:bg-[#32504d]">
+   680→                        {selectedSkills.length} selected
+   681→                      </Badge>
+   682→                    </div>
+   683→
+   684→                    <div className="space-y-4 max-h-[55vh] overflow-y-auto pr-1 khidma-scroll">
+   685→                      {categories.map((cat) => {
+   686→                        const Icon = cat.icon;
+   687→                        const pickedInCat = cat.skills.filter((s) =>
+   688→                          selectedSkills.includes(s)
+   689→                        ).length;
+   690→                        return (
+   691→                          <div
+   692→                            key={cat.id}
+   693→                            className="rounded-xl border border-border/70 p-3"
+   694→                          >
+   695→                            <div className="flex items-center gap-2 mb-2.5">
+   696→                              <span
+   697→                                className="size-7 rounded-md flex items-center justify-center text-white"
+   698→                                style={{ backgroundColor: cat.color }}
+   699→                              >
+   700→                                <Icon className="size-3.5" />
+   701→                              </span>
+   702→                              <span className="text-sm font-semibold">
+   703→                                {cat.name}
+   704→                              </span>
+   705→                              {pickedInCat > 0 && (
+   706→                                <Badge
+   707→                                  variant="outline"
+   708→                                  className="ml-auto text-[10px]"
+   709→                                >
+   710→                                  {pickedInCat}
+   711→                                </Badge>
+   712→                              )}
+   713→                            </div>
+   714→                            <div className="flex flex-wrap gap-1.5">
+   715→                              {cat.skills.map((skill) => {
+   716→                                const active = selectedSkills.includes(skill);
+   717→                                return (
+   718→                                  <button
+   719→                                    key={skill}
+   720→                                    type="button"
+   721→                                    onClick={() => toggleSkill(skill)}
+   722→                                    className={cn(
+   723→                                      "text-xs rounded-full border px-2.5 py-1 transition-colors",
+   724→                                      active
+   725→                                        ? "bg-[#32504d] border-[#32504d] text-white"
+   726→                                        : "bg-muted/40 border-border hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
+   727→                                    )}
+   728→                                  >
+   729→                                    {active && (
+   730→                                      <CheckCircle2 className="size-2.5 inline mr-1" />
+   731→                                    )}
+   732→                                    {skill}
+   733→                                  </button>
+   734→                                );
+   735→                              })}
+   736→                            </div>
+   737→                          </div>
+   738→                        );
+   739→                      })}
+   740→                    </div>
+   741→                  </>
+   742→                )}
+   743→
+   744→                {/* === STEP 4: Experience === */}
+   745→                {step === 3 && (
+   746→                  <>
+   747→                    <div className="flex items-center justify-between">
+   748→                      <div>
+   749→                        <h3 className="text-sm font-semibold">Experience entries</h3>
+   750→                        <p className="text-[11px] text-muted-foreground">
+   751→                          Add positions you&apos;ve held that prove your expertise.
+   752→                        </p>
+   753→                      </div>
+   754→                      <Button
+   755→                        size="sm"
+   756→                        variant="outline"
+   757→                        onClick={() =>
+   758→                          setExperiences([
+   759→                            ...experiences,
+   760→                            {
+   761→                              id: uid(),
+   762→                              company: "",
+   763→                              position: "",
+   764→                              start: "",
+   765→                              end: "",
+   766→                              current: false,
+   767→                              description: "",
+   768→                              skills: "",
+   769→                            },
+   770→                          ])
+   771→                        }
+   772→                      >
+   773→                        <Plus className="size-3.5" /> Add entry
+   774→                      </Button>
+   775→                    </div>
+   776→
+   777→                    <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-1 khidma-scroll">
+   778→                      {experiences.map((e, idx) => (
+   779→                        <div
+   780→                          key={e.id}
+   781→                          className="rounded-xl border border-border/70 p-3 space-y-3 relative"
+   782→                        >
+   783→                          <div className="flex items-center justify-between">
+   784→                            <span className="text-[11px] font-semibold text-muted-foreground">
+   785→                              Entry {idx + 1}
+   786→                            </span>
+   787→                            {experiences.length > 1 && (
+   788→                              <Button
+   789→                                size="sm"
+   790→                                variant="ghost"
+   791→                                className="h-6 text-rose-500 hover:text-rose-600"
+   792→                                onClick={() =>
+   793→                                  setExperiences(experiences.filter((x) => x.id !== e.id))
+   794→                                }
+   795→                              >
+   796→                                <Trash2 className="size-3" /> Remove
+   797→                              </Button>
+   798→                            )}
+   799→                          </div>
+   800→                          <div className="grid sm:grid-cols-2 gap-3">
+   801→                            <div className="space-y-1">
+   802→                              <Label className="text-xs">Position</Label>
+   803→                              <Input
+   804→                                placeholder="Senior Frontend Developer"
+   805→                                value={e.position}
+   806→                                onChange={(ev) =>
+   807→                                  updateExp(e.id, { position: ev.target.value })
+   808→                                }
+   809→                              />
+   810→                            </div>
+   811→                            <div className="space-y-1">
+   812→                              <Label className="text-xs">Company</Label>
+   813→                              <Input
+   814→                                placeholder="Cassurea Technologies"
+   815→                                value={e.company}
+   816→                                onChange={(ev) =>
+   817→                                  updateExp(e.id, { company: ev.target.value })
+   818→                                }
+   819→                              />
+   820→                            </div>
+   821→                          </div>
+   822→                          <div className="grid sm:grid-cols-2 gap-3">
+   823→                            <div className="space-y-1">
+   824→                              <Label className="text-xs">Start date</Label>
+   825→                              <Input
+   826→                                type="month"
+   827→                                value={e.start}
+   828→                                onChange={(ev) =>
+   829→                                  updateExp(e.id, { start: ev.target.value })
+   830→                                }
+   831→                              />
+   832→                            </div>
+   833→                            <div className="space-y-1">
+   834→                              <Label className="text-xs">End date</Label>
+   835→                              <Input
+   836→                                type="month"
+   837→                                disabled={e.current}
+   838→                                value={e.end}
+   839→                                onChange={(ev) =>
+   840→                                  updateExp(e.id, { end: ev.target.value })
+   841→                                }
+   842→                              />
+   843→                            </div>
+   844→                          </div>
+   845→                          <label className="flex items-center gap-2 text-xs cursor-pointer">
+   846→                            <Checkbox
+   847→                              checked={e.current}
+   848→                              onCheckedChange={(c) =>
+   849→                                updateExp(e.id, { current: c === true })
+   850→                              }
+   851→                              className="data-[state=checked]:bg-[#2b3d3d] data-[state=checked]:border-[#2b3d3d]"
+   852→                            />
+   853→                            I currently work here
+   854→                          </label>
+   855→                          <div className="space-y-1">
+   856→                            <Label className="text-xs">Description</Label>
+   857→                            <Textarea
+   858→                              rows={2}
+   859→                              placeholder="What did you build or achieve…"
+   860→                              value={e.description}
+   861→                              onChange={(ev) =>
+   862→                                updateExp(e.id, { description: ev.target.value })
+   863→                              }
+   864→                            />
+   865→                          </div>
+   866→                          <div className="space-y-1">
+   867→                            <Label className="text-xs">Skills used</Label>
+   868→                            <Input
+   869→                              placeholder="Next.js, TypeScript, Stripe"
+   870→                              value={e.skills}
+   871→                              onChange={(ev) =>
+   872→                                updateExp(e.id, { skills: ev.target.value })
+   873→                              }
+   874→                            />
+   875→                          </div>
+   876→                        </div>
+   877→                      ))}
+   878→                    </div>
+   879→                  </>
+   880→                )}
+   881→
+   882→                {/* === STEP 5: Portfolio === */}
+   883→                {step === 4 && (
+   884→                  <>
+   885→                    <div className="flex items-center justify-between">
+   886→                      <div>
+   887→                        <h3 className="text-sm font-semibold">Portfolio items</h3>
+   888→                        <p className="text-[11px] text-muted-foreground">
+   889→                          Showcase real work. Verified portfolios rank higher in search.
+   890→                        </p>
+   891→                      </div>
+   892→                      <Button
+   893→                        size="sm"
+   894→                        variant="outline"
+   895→                        onClick={() =>
+   896→                          setPortfolio([
+   897→                            ...portfolio,
+   898→                            {
+   899→                              id: uid(),
+   900→                              title: "",
+   901→                              category: "",
+   902→                              type: "image",
+   903→                              description: "",
+   904→                              skills: "",
+   905→                              role: "",
+   906→                              liveUrl: "",
+   907→                              repoUrl: "",
+   908→                            },
+   909→                          ])
+   910→                        }
+   911→                      >
+   912→                        <Plus className="size-3.5" /> Add project
+   913→                      </Button>
+   914→                    </div>
+   915→
+   916→                    <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-1 khidma-scroll">
+   917→                      {portfolio.map((p, idx) => (
+   918→                        <div
+   919→                          key={p.id}
+   920→                          className="rounded-xl border border-border/70 p-3 space-y-3"
+   921→                        >
+   922→                          <div className="flex items-center justify-between">
+   923→                            <span className="text-[11px] font-semibold text-muted-foreground">
+   924→                              Project {idx + 1}
+   925→                            </span>
+   926→                            {portfolio.length > 1 && (
+   927→                              <Button
+   928→                                size="sm"
+   929→                                variant="ghost"
+   930→                                className="h-6 text-rose-500 hover:text-rose-600"
+   931→                                onClick={() =>
+   932→                                  setPortfolio(portfolio.filter((x) => x.id !== p.id))
+   933→                                }
+   934→                              >
+   935→                                <Trash2 className="size-3" /> Remove
+   936→                              </Button>
+   937→                            )}
+   938→                          </div>
+   939→                          <div className="space-y-1">
+   940→                            <Label className="text-xs">Title</Label>
+   941→                            <Input
+   942→                              placeholder="Luxury Real Estate Landing Page"
+   943→                              value={p.title}
+   944→                              onChange={(ev) =>
+   945→                                updatePortfolio(p.id, { title: ev.target.value })
+   946→                              }
+   947→                            />
+   948→                          </div>
+   949→                          <div className="grid sm:grid-cols-2 gap-3">
+   950→                            <div className="space-y-1">
+   951→                              <Label className="text-xs">Category</Label>
+   952→                              <Input
+   953→                                placeholder="Web Development"
+   954→                                value={p.category}
+   955→                                onChange={(ev) =>
+   956→                                  updatePortfolio(p.id, { category: ev.target.value })
+   957→                                }
+   958→                              />
+   959→                            </div>
+   960→                            <div className="space-y-1">
+   961→                              <Label className="text-xs">Type</Label>
+   962→                              <Select
+   963→                                value={p.type}
+   964→                                onValueChange={(v) =>
+   965→                                  updatePortfolio(p.id, {
+   966→                                    type: v as PortfolioEntry["type"],
+   967→                                  })
+   968→                                }
+   969→                              >
+   970→                                <SelectTrigger>
+   971→                                  <SelectValue />
+   972→                                </SelectTrigger>
+   973→                                <SelectContent>
+   974→                                  {["image", "video", "audio", "url", "github"].map(
+   975→                                    (t) => (
+   976→                                      <SelectItem key={t} value={t}>
+   977→                                        {t}
+   978→                                      </SelectItem>
+   979→                                    )
+   980→                                  )}
+   981→                                </SelectContent>
+   982→                              </Select>
+   983→                            </div>
+   984→                          </div>
+   985→                          <div className="space-y-1">
+   986→                            <Label className="text-xs">Description</Label>
+   987→                            <Textarea
+   988→                              rows={2}
+   989→                              placeholder="What you built, results achieved…"
+   990→                              value={p.description}
+   991→                              onChange={(ev) =>
+   992→                                updatePortfolio(p.id, {
+   993→                                  description: ev.target.value,
+   994→                                })
+   995→                              }
+   996→                            />
+   997→                          </div>
+   998→                          <div className="grid sm:grid-cols-2 gap-3">
+   999→                            <div className="space-y-1">
+  1000→                              <Label className="text-xs">Your role</Label>
+  1001→                              <Input
+  1002→                                placeholder="Lead Engineer"
+  1003→                                value={p.role}
+  1004→                                onChange={(ev) =>
+  1005→                                  updatePortfolio(p.id, { role: ev.target.value })
+  1006→                                }
+  1007→                              />
+  1008→                            </div>
+  1009→                            <div className="space-y-1">
+  1010→                              <Label className="text-xs">Skills used</Label>
+  1011→                              <Input
+  1012→                                placeholder="Next.js, GSAP"
+  1013→                                value={p.skills}
+  1014→                                onChange={(ev) =>
+  1015→                                  updatePortfolio(p.id, { skills: ev.target.value })
+  1016→                                }
+  1017→                              />
+  1018→                            </div>
+  1019→                          </div>
+  1020→                          <div className="grid sm:grid-cols-2 gap-3">
+  1021→                            <div className="space-y-1">
+  1022→                              <Label className="text-xs">Live URL</Label>
+  1023→                              <Input
+  1024→                                placeholder="https://…"
+  1025→                                value={p.liveUrl}
+  1026→                                onChange={(ev) =>
+  1027→                                  updatePortfolio(p.id, { liveUrl: ev.target.value })
+  1028→                                }
+  1029→                              />
+  1030→                            </div>
+  1031→                            <div className="space-y-1">
+  1032→                              <Label className="text-xs">Repository URL</Label>
+  1033→                              <Input
+  1034→                                placeholder="https://github.com/…"
+  1035→                                value={p.repoUrl}
+  1036→                                onChange={(ev) =>
+  1037→                                  updatePortfolio(p.id, { repoUrl: ev.target.value })
+  1038→                                }
+  1039→                              />
+  1040→                            </div>
+  1041→                          </div>
+  1042→                        </div>
+  1043→                      ))}
+  1044→                    </div>
+  1045→                  </>
+  1046→                )}
+  1047→
+  1048→                {/* === STEP 6: Profile Photo === */}
+  1049→                {step === 5 && (
+  1050→                  <div className="space-y-5">
+  1051→                    <SectionCard
+  1052→                      title="Upload your photo"
+  1053→                      desc="A clear, friendly photo builds trust. JPG/PNG, max 5MB."
+  1054→                    >
+  1055→                      <label
+  1056→                        htmlFor="photo-input"
+  1057→                        className="block cursor-pointer"
+  1058→                      >
+  1059→                        <div
+  1060→                          className={cn(
+  1061→                            "rounded-2xl border-2 border-dashed p-8 flex flex-col items-center justify-center gap-3 transition-colors",
+  1062→                            photoPreview
+  1063→                              ? "border-[#32504d]/40 bg-[#32504d]/5 dark:bg-[#32504d]/15"
+  1064→                              : "border-border hover:border-[#32504d]/40 hover:bg-[#32504d]/5 dark:bg-[#32504d]/15"
+  1065→                          )}
+  1066→                        >
+  1067→                          {photoPreview ? (
+  1068→                            <div className="relative size-28 rounded-full overflow-hidden ring-2 ring-[#32504d]/30">
+  1069→                              <img
+  1070→                                src={photoPreview}
+  1071→                                alt="Profile preview"
+  1072→                                className="size-full object-cover"
+  1073→                              />
+  1074→                            </div>
+  1075→                          ) : (
+  1076→                            <div className="size-20 rounded-full bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center">
+  1077→                              <Upload className="size-7 text-[#32504d] dark:text-[#9bb3ae]" />
+  1078→                            </div>
+  1079→                          )}
+  1080→                          <div className="text-center">
+  1081→                            <p className="text-sm font-semibold">
+  1082→                              {photoPreview ? "Photo added" : "Click to upload"}
+  1083→                            </p>
+  1084→                            <p className="text-[11px] text-muted-foreground">
+  1085→                              Drag & drop or click , visual preview only
+  1086→                            </p>
+  1087→                          </div>
+  1088→                        </div>
+  1089→                        <input
+  1090→                          id="photo-input"
+  1091→                          type="file"
+  1092→                          accept="image/*"
+  1093→                          className="sr-only"
+  1094→                          onChange={(e) => {
+  1095→                            const f = e.target.files?.[0];
+  1096→                            if (f) setPhotoPreview(URL.createObjectURL(f));
+  1097→                          }}
+  1098→                        />
+  1099→                      </label>
+  1100→                      {photoPreview && (
+  1101→                        <div className="flex gap-2 mt-3">
+  1102→                          <Button
+  1103→                            size="sm"
+  1104→                            variant="outline"
+  1105→                            onClick={() =>
+  1106→                              document.getElementById("photo-input")?.click()
+  1107→                            }
+  1108→                          >
+  1109→                            <Upload className="size-3.5" /> Replace
+  1110→                          </Button>
+  1111→                          <Button
+  1112→                            size="sm"
+  1113→                            variant="ghost"
+  1114→                            className="text-rose-500 hover:text-rose-600"
+  1115→                            onClick={() => setPhotoPreview(null)}
+  1116→                          >
+  1117→                            <Trash2 className="size-3.5" /> Remove
+  1118→                          </Button>
+  1119→                        </div>
+  1120→                      )}
+  1121→                    </SectionCard>
+  1122→                    <div className="rounded-xl bg-muted/40 border border-border/60 p-3 text-xs text-muted-foreground">
+  1123→                      <p className="font-medium text-foreground mb-1">Photo tips</p>
+  1124→                      <ul className="list-disc pl-4 space-y-0.5">
+  1125→                        <li>Faces must be clearly visible , no sunglasses</li>
+  1126→                        <li>Use a neutral background and natural lighting</li>
+  1127→                        <li>Square aspect ratio works best (1:1)</li>
+  1128→                      </ul>
+  1129→                    </div>
+  1130→                  </div>
+  1131→                )}
+  1132→
+  1133→                {/* === STEP 7: Verification === */}
+  1134→                {step === 6 && (
+  1135→                  <div className="space-y-5">
+  1136→                    <div className="space-y-1.5">
+  1137→                      <div className="flex items-center justify-between">
+  1138→                        <span className="text-sm font-semibold">
+  1139→                          Verification progress
+  1140→                        </span>
+  1141→                        <span className="text-xs text-muted-foreground">
+  1142→                          {verifComplete}/3 complete
+  1143→                        </span>
+  1144→                      </div>
+  1145→                      <Progress
+  1146→                        value={verifPct}
+  1147→                        className="h-2 [&>div]:bg-[#32504d]"
+  1148→                      />
+  1149→                    </div>
+  1150→
+  1151→                    <div className="space-y-3">
+  1152→                      {/* Email verification */}
+  1153→                      <div className="rounded-xl border border-border/70 p-3.5 flex items-start gap-3">
+  1154→                        <span className="size-9 rounded-lg bg-[#32504d]/10 dark:bg-[#32504d]/20 flex items-center justify-center shrink-0">
+  1155→                          <Mail className="size-4 text-[#32504d] dark:text-[#9bb3ae]" />
+  1156→                        </span>
+  1157→                        <div className="flex-1 min-w-0">
+  1158→                          <div className="flex items-center gap-2">
+  1159→                            <p className="text-sm font-semibold">Email verification</p>
+  1160→                            {verif.email && (
+  1161→                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5">
+  1162→                                <CheckCircle2 className="size-3" />
+  1163→                                Verified
+  1164→                              </Badge>
+  1165→                            )}
+  1166→                          </div>
+  1167→                          <p className="text-[11px] text-muted-foreground mt-0.5">
+  1168→                            Confirm your email to enable account recovery.
+  1169→                          </p>
+  1170→                          <Button
+  1171→                            size="sm"
+  1172→                            variant={verif.email ? "ghost" : "outline"}
+  1173→                            className="mt-2"
+  1174→                            disabled={verif.email}
+  1175→                            onClick={() => setVerif((v) => ({ ...v, email: true }))}
+  1176→                          >
+  1177→                            {verif.email ? "Done" : "Verify now"}
+  1178→                          </Button>
+  1179→                        </div>
+  1180→                      </div>
+  1181→
+  1182→                      {/* Phone (OTP) */}
+  1183→                      <div className="rounded-xl border border-border/70 p-3.5 flex items-start gap-3">
+  1184→                        <span className="size-9 rounded-lg bg-[#475959]/10 dark:bg-[#475959]/20 flex items-center justify-center shrink-0">
+  1185→                          <Phone className="size-4 text-[#475959] dark:text-[#94a8a4]" />
+  1186→                        </span>
+  1187→                        <div className="flex-1 min-w-0">
+  1188→                          <div className="flex items-center gap-2">
+  1189→                            <p className="text-sm font-semibold">Phone (OTP)</p>
+  1190→                            {verif.phone && (
+  1191→                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5">
+  1192→                                <CheckCircle2 className="size-3" />
+  1193→                                Verified
+  1194→                              </Badge>
+  1195→                            )}
+  1196→                          </div>
+  1197→                          <p className="text-[11px] text-muted-foreground mt-0.5">
+  1198→                            We&apos;ll text a 6-digit code to your number.
+  1199→                          </p>
+  1200→                          {!verif.phone && otpSent && (
+  1201→                            <div className="mt-2 space-y-2">
+  1202→                              <Input
+  1203→                                placeholder="Enter 6-digit code (try 123456)"
+  1204→                                value={otp}
+  1205→                                onChange={(e) => setOtp(e.target.value)}
+  1206→                                className="h-9"
+  1207→                              />
+  1208→                              <Button
+  1209→                                size="sm"
+  1210→                                variant="outline"
+  1211→                                onClick={() => {
+  1212→                                  if (otp === "123456") {
+  1213→                                    setVerif((v) => ({ ...v, phone: true }));
+  1214→                                    setOtp("");
+  1215→                                  } else {
+  1216→                                    toast.error("Wrong code , try 123456");
+  1217→                                  }
+  1218→                                }}
+  1219→                              >
+  1220→                                Confirm code
+  1221→                              </Button>
+  1222→                            </div>
+  1223→                          )}
+  1224→                          {!verif.phone && !otpSent && (
+  1225→                            <Button
+  1226→                              size="sm"
+  1227→                              variant="outline"
+  1228→                              className="mt-2"
+  1229→                              onClick={() => {
+  1230→                                setOtpSent(true);
+  1231→                                toast.success("Demo OTP sent: 123456");
+  1232→                              }}
+  1233→                            >
+  1234→                              Send OTP
+  1235→                            </Button>
+  1236→                          )}
+  1237→                        </div>
+  1238→                      </div>
+  1239→
+  1240→                      {/* Identity upload */}
+  1241→                      <div className="rounded-xl border border-border/70 p-3.5 flex items-start gap-3">
+  1242→                        <span className="size-9 rounded-lg bg-[#2b3d3d]/10 dark:bg-[#2b3d3d]/25 flex items-center justify-center shrink-0">
+  1243→                          <IdCard className="size-4 text-[#2b3d3d] dark:text-[#94a8a4]" />
+  1244→                        </span>
+  1245→                        <div className="flex-1 min-w-0">
+  1246→                          <div className="flex items-center gap-2">
+  1247→                            <p className="text-sm font-semibold">
+  1248→                              Identity verification
+  1249→                            </p>
+  1250→                            {verif.identity && (
+  1251→                              <Badge className="bg-[#32504d]/10 dark:bg-[#32504d]/20 text-[#32504d] dark:text-[#9bb3ae] gap-0.5">
+  1252→                                <CheckCircle2 className="size-3" />
+  1253→                                Uploaded
+  1254→                              </Badge>
+  1255→                            )}
+  1256→                          </div>
+  1257→                          <p className="text-[11px] text-muted-foreground mt-0.5">
+  1258→                            Upload your CIN or passport (visual demo only).
+  1259→                          </p>
+  1260→                          <label
+  1261→                            htmlFor="id-input"
+  1262→                            className="inline-flex items-center gap-1.5 mt-2 text-xs rounded-md border border-input bg-background px-3 h-8 cursor-pointer hover:bg-muted/40"
+  1263→                          >
+  1264→                            <Upload className="size-3" /> Upload document
+  1265→                          </label>
+  1266→                          <input
+  1267→                            id="id-input"
+  1268→                            type="file"
+  1269→                            className="sr-only"
+  1270→                            onChange={() => setVerif((v) => ({ ...v, identity: true }))}
+  1271→                          />
+  1272→                        </div>
+  1273→                      </div>
+  1274→                    </div>
+  1275→                  </div>
+  1276→                )}
+  1277→
+  1278→                {/* === STEP 8: Review & Submit === */}
+  1279→                {step === 7 && (
+  1280→                  <div className="space-y-4">
+  1281→                    <div className="flex items-center justify-between gap-3">
+  1282→                      <div>
+  1283→                        <h3 className="text-sm font-semibold">Review your application</h3>
+  1284→                        <p className="text-[11px] text-muted-foreground">
+  1285→                          Make sure everything looks good , you can edit any step
+  1286→                          before submitting.
+  1287→                        </p>
+  1288→                      </div>
+  1289→                      <Button
+  1290→                        size="sm"
+  1291→                        variant="outline"
+  1292→                        onClick={() => setShowPreview((s) => !s)}
+  1293→                      >
+  1294→                        <Eye className="size-3.5" />
+  1295→                        {showPreview ? "Hide preview" : "Preview public profile"}
+  1296→                      </Button>
+  1297→                    </div>
+  1298→
+  1299→                    <AnimatePresence>
+  1300→                      {showPreview && (
+  1301→                        <motion.div
+  1302→                          initial={{ opacity: 0, height: 0 }}
+  1303→                          animate={{ opacity: 1, height: "auto" }}
+  1304→                          exit={{ opacity: 0, height: 0 }}
+  1305→                          className="rounded-xl border border-[#32504d]/30 dark:border-[#32504d]/30 bg-gradient-to-br from-[#32504d]/5 to-transparent p-4"
+  1306→                        >
+  1307→                          <div className="flex items-center gap-3">
+  1308→                            {photoPreview ? (
+  1309→                              <img
+  1310→                                src={photoPreview}
+  1311→                                alt="Profile preview"
+  1312→                                className="size-14 rounded-full object-cover ring-2 ring-[#32504d]/30"
+  1313→                              />
+  1314→                            ) : (
+  1315→                              <div className="size-14 rounded-full bg-[#32504d]/20 dark:bg-[#32504d]/30 flex items-center justify-center text-[#32504d] dark:text-[#9bb3ae]">
+  1316→                                <User className="size-5" />
+  1317→                              </div>
+  1318→                            )}
+  1319→                            <div>
+  1320→                              <p className="font-semibold">
+  1321→                                {personal.firstName || "New"}{" "}
+  1322→                                {personal.lastName || "Freelancer"}
+  1323→                              </p>
+  1324→                              <p className="text-xs text-muted-foreground">
+  1325→                                {prof.title || "Your professional title"}
+  1326→                              </p>
+  1327→                              <p className="text-[11px] text-muted-foreground">
+  1328→                                @{personal.username || "username"} ·{" "}
+  1329→                                {personal.city || "Tunis"}, {personal.country}
+  1330→                              </p>
+  1331→                            </div>
+  1332→                          </div>
+  1333→                        </motion.div>
+  1334→                      )}
+  1335→                    </AnimatePresence>
+  1336→
+  1337→                    <div className="grid sm:grid-cols-2 gap-3">
+  1338→                      <SectionCard title="Personal">
+  1339→                        <ul className="text-xs text-muted-foreground space-y-1">
+  1340→                          <li>
+  1341→                            <span className="text-foreground font-medium">Name:</span>{" "}
+  1342→                            {personal.firstName || ","} {personal.lastName}
+  1343→                          </li>
+  1344→                          <li>
+  1345→                            <span className="text-foreground font-medium">
+  1346→                              Username:
+  1347→                            </span>{" "}
+  1348→                            @{personal.username || ","}
+  1349→                          </li>
+  1350→                          <li>
+  1351→                            <span className="text-foreground font-medium">
+  1352→                              Location:
+  1353→                            </span>{" "}
+  1354→                            {personal.city || ","}, {personal.country}
+  1355→                          </li>
+  1356→                          <li>
+  1357→                            <span className="text-foreground font-medium">
+  1358→                              Phone:
+  1359→                            </span>{" "}
+  1360→                            {personal.phone || ","}
+  1361→                          </li>
+  1362→                          <li>
+  1363→                            <span className="text-foreground font-medium">
+  1364→                              Languages:
+  1365→                            </span>{" "}
+  1366→                            {languages.join(", ") || ","}
+  1367→                          </li>
+  1368→                        </ul>
+  1369→                      </SectionCard>
+  1370→
+  1371→                      <SectionCard title="Professional">
+  1372→                        <ul className="text-xs text-muted-foreground space-y-1">
+  1373→                          <li>
+  1374→                            <span className="text-foreground font-medium">
+  1375→                              Title:
+  1376→                            </span>{" "}
+  1377→                            {prof.title || ","}
+  1378→                          </li>
+  1379→                          <li>
+  1380→                            <span className="text-foreground font-medium">
+  1381→                              Category:
+  1382→                            </span>{" "}
+  1383→                            {categories.find((c) => c.id === prof.categoryId)?.name ||
+  1384→                              ","}
+  1385→                          </li>
+  1386→                          <li>
+  1387→                            <span className="text-foreground font-medium">
+  1388→                              Experience:
+  1389→                            </span>{" "}
+  1390→                            {prof.years}y
+  1391→                          </li>
+  1392→                          <li>
+  1393→                            <span className="text-foreground font-medium">
+  1394→                              Hourly:
+  1395→                            </span>{" "}
+  1396→                            {prof.hourlyRate} TND
+  1397→                          </li>
+  1398→                          <li>
+  1399→                            <span className="text-foreground font-medium">
+  1400→                              Starting:
+  1401→                            </span>{" "}
+  1402→                            {prof.startingPrice} TND
+  1403→                          </li>
+  1404→                          <li>
+  1405→                            <span className="text-foreground font-medium">
+  1406→                              Availability:
+  1407→                            </span>{" "}
+  1408→                            {prof.availability}
+  1409→                          </li>
+  1410→                        </ul>
+  1411→                      </SectionCard>
+  1412→
+  1413→                      <SectionCard title={`Skills (${selectedSkills.length})`}>
+  1414→                        {selectedSkills.length > 0 ? (
+  1415→                          <div className="flex flex-wrap gap-1">
+  1416→                            {selectedSkills.map((s) => (
+  1417→                              <Badge
+  1418→                                key={s}
+  1419→                                variant="outline"
+  1420→                                className="bg-[#32504d]/5 dark:bg-[#32504d]/15 text-[#32504d] dark:text-[#9bb3ae] text-[10px]"
+  1421→                              >
+  1422→                                {s}
+  1423→                              </Badge>
+  1424→                            ))}
+  1425→                          </div>
+  1426→                        ) : (
+  1427→                          <p className="text-xs text-muted-foreground">None selected</p>
+  1428→                        )}
+  1429→                      </SectionCard>
+  1430→
+  1431→                      <SectionCard title={`Experience (${experiences.filter((e) => e.position || e.company).length})`}>
+  1432→                        {experiences.filter((e) => e.position || e.company).length === 0 ? (
+  1433→                          <p className="text-xs text-muted-foreground">None added</p>
+  1434→                        ) : (
+  1435→                          <ul className="text-xs space-y-1">
+  1436→                            {experiences
+  1437→                              .filter((e) => e.position || e.company)
+  1438→                              .map((e, i) => (
+  1439→                                <li key={e.id} className="text-muted-foreground">
+  1440→                                  <span className="text-foreground font-medium">
+  1441→                                    {e.position || ","}
+  1442→                                  </span>{" "}
+  1443→                                  @ {e.company || ","}
+  1444→                                  <span className="text-[10px] ml-1">#{i + 1}</span>
+  1445→                                </li>
+  1446→                              ))}
+  1447→                          </ul>
+  1448→                        )}
+  1449→                      </SectionCard>
+  1450→
+  1451→                      <SectionCard title={`Portfolio (${portfolio.filter((p) => p.title).length})`}>
+  1452→                        {portfolio.filter((p) => p.title).length === 0 ? (
+  1453→                          <p className="text-xs text-muted-foreground">None added</p>
+  1454→                        ) : (
+  1455→                          <ul className="text-xs space-y-1">
+  1456→                            {portfolio
+  1457→                              .filter((p) => p.title)
+  1458→                              .map((p) => (
+  1459→                                <li key={p.id} className="text-foreground">
+  1460→                                  {p.title}{" "}
+  1461→                                  <span className="text-muted-foreground">
+  1462→                                    ({p.type})
+  1463→                                  </span>
+  1464→                                </li>
+  1465→                              ))}
+  1466→                          </ul>
+  1467→                        )}
+  1468→                      </SectionCard>
+  1469→
+  1470→                      <SectionCard title="Verification">
+  1471→                        <ul className="text-xs space-y-1">
+  1472→                          <li>
+  1473→                            Email:{" "}
+  1474→                            {verif.email ? (
+  1475→                              <span className="text-[#32504d] dark:text-[#9bb3ae]">✓ verified</span>
+  1476→                            ) : (
+  1477→                              <span className="text-muted-foreground">pending</span>
+  1478→                            )}
+  1479→                          </li>
+  1480→                          <li>
+  1481→                            Phone:{" "}
+  1482→                            {verif.phone ? (
+  1483→                              <span className="text-[#32504d] dark:text-[#9bb3ae]">✓ verified</span>
+  1484→                            ) : (
+  1485→                              <span className="text-muted-foreground">pending</span>
+  1486→                            )}
+  1487→                          </li>
+  1488→                          <li>
+  1489→                            Identity:{" "}
+  1490→                            {verif.identity ? (
+  1491→                              <span className="text-[#32504d] dark:text-[#9bb3ae]">✓ uploaded</span>
+  1492→                            ) : (
+  1493→                              <span className="text-muted-foreground">pending</span>
+  1494→                            )}
+  1495→                          </li>
+  1496→                        </ul>
+  1497→                      </SectionCard>
+  1498→                    </div>
+  1499→
+  1500→                    <div className="rounded-xl border border-border bg-muted/30 p-3 flex gap-2.5">
+  1501→                      <CheckCircle2 className="size-4 text-[#32504d] dark:text-[#9bb3ae] shrink-0 mt-0.5" />
+  1502→                      <p className="text-xs text-muted-foreground">
+  1503→                        By submitting, you confirm the information above is accurate.
+  1504→                        Our admin team reviews applications within 48 hours. Verified
+  1505→                        freelancers get a Top Rated badge and priority placement.
+  1506→                      </p>
+  1507→                    </div>
+  1508→                  </div>
+  1509→                )}
+  1510→              </motion.div>
+  1511→            </AnimatePresence>
+  1512→          </div>
+  1513→
+  1514→          {/* Sticky footer */}
+  1515→          <div className="border-t border-border/60 bg-card/60 px-5 sm:px-7 py-3 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+  1516→            <Button
+  1517→              size="sm"
+  1518→              variant="ghost"
+  1519→              className="text-muted-foreground w-full sm:w-auto sm:mr-auto"
+  1520→              onClick={() => {
+  1521→                closeOnboarding();
+  1522→                toast.info("Progress saved , resume anytime from your dashboard.");
+  1523→              }}
+  1524→            >
+  1525→              Save & continue later
+  1526→            </Button>
+  1527→            <Button
+  1528→              size="sm"
+  1529→              variant="outline"
+  1530→              className="w-full sm:w-auto"
+  1531→              onClick={back}
+  1532→              disabled={step === 0}
+  1533→            >
+  1534→              <ArrowLeft className="size-3.5" /> Back
+  1535→            </Button>
+  1536→            {step < TOTAL_STEPS - 1 ? (
+  1537→              <Button
+  1538→                size="sm"
+  1539→                className="w-full sm:w-auto bg-[#2b3d3d] hover:bg-[#192d2f] text-white"
+  1540→                onClick={next}
+  1541→              >
+  1542→                Next <ArrowRight className="size-3.5" />
+  1543→              </Button>
+  1544→            ) : (
+  1545→              <Button
+  1546→                size="sm"
+  1547→                className="w-full sm:w-auto bg-[#32504d] hover:bg-[#2b3d3d] text-white"
+  1548→                onClick={handleSubmit}
+  1549→              >
+  1550→                <Send className="size-3.5" /> Submit for Review
+  1551→              </Button>
+  1552→            )}
+  1553→          </div>
+  1554→        </DialogContent>
+  1555→      </DialogPortal>
+  1556→    </Dialog>
+  1557→  );
+  1558→}
+  1559→

@@ -51,6 +51,7 @@ import { Reveal, Section, SectionHeading } from "@/components/khidma/reveal";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useApp } from "@/lib/store";
+import { useT } from "@/lib/use-t";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -213,6 +214,7 @@ function LiftCard({
 
 function FeaturedWinner() {
   const openFreelancer = useApp((s) => s.openFreelancer);
+  const { t } = useT();
   return (
     <Reveal>
       <Card className="overflow-hidden p-0 border-border/60 bg-khidma-gradient text-white relative">
@@ -244,14 +246,14 @@ function FeaturedWinner() {
             </div>
             <Badge className="bg-amber-400/20 text-amber-200 border-amber-300/30 uppercase tracking-wider text-[10px]">
               <Crown className="size-3" />
-              Freelancer of the Year 2025
+              {t("section.awards.freelancerOfYear")}
             </Badge>
           </div>
 
           {/* Name + quote + stats + CTA */}
           <div className="flex flex-col justify-center">
             <p className="text-xs uppercase tracking-[0.2em] text-white/60">
-              Khidma Awards 2025 · Featured Winner
+              {t("section.awards.featuredWinner")}
             </p>
             <h3 className="mt-1 font-display text-2xl sm:text-3xl font-bold text-white">
               Amira Ben Salah
@@ -313,13 +315,14 @@ function FeaturedWinner() {
  * -------------------------------------------------------------------------- */
 
 export function AwardsSection() {
+  const { t } = useT();
   return (
     <Section
       id="awards"
       className="bg-muted/30"
     >
       <SectionHeading
-        eyebrow="KHIDMA AWARDS 2025"
+        eyebrow={t("section.eyebrow.khidmaAwards")}
         title={
           <>
             Celebrating the best of{" "}
@@ -328,7 +331,7 @@ export function AwardsSection() {
             </span>
           </>
         }
-        description="Every year, we honor the freelancers who went above and beyond. Nominations are open to all verified members."
+        description={t("section.awards.description")}
       />
 
       {/* === Featured winner === */}
@@ -364,7 +367,7 @@ export function AwardsSection() {
                         accent.badge
                       )}
                     >
-                      Winner 2025
+                      {t("section.awards.winner2025")}
                     </Badge>
                   </div>
                   <h3 className="font-display text-base font-bold text-foreground leading-snug">
@@ -393,13 +396,11 @@ export function AwardsSection() {
                 <Trophy className="size-5" />
               </span>
               <h3 className="font-display text-lg font-bold text-foreground">
-                Nominate a freelancer for 2026
+                {t("section.awards.nominateTitle")}
               </h3>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Know a Khidma freelancer who deserves recognition? Submit their
-              name and a short note about why they should win next year. Open
-              to all verified members.
+              {t("section.awards.nominateBody")}
             </p>
             <button
               type="button"
@@ -411,7 +412,7 @@ export function AwardsSection() {
               }
               className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-md bg-[#32504d] hover:bg-[#2b3d3d] text-white text-sm font-semibold h-10 px-4 transition-colors self-start"
             >
-              Submit nomination
+              {t("section.awards.submitNomination")}
               <ArrowRight className="size-3.5" />
             </button>
           </Card>
