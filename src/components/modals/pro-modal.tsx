@@ -71,7 +71,7 @@ export function ProModal() {
       <DialogPortal>
         <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
         <DialogContent
-          className="max-w-md w-[calc(100%-2rem)] p-0 gap-0 overflow-hidden"
+          className="max-w-md w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] p-0 gap-0 overflow-hidden"
           aria-describedby={undefined}
           showCloseButton
         >

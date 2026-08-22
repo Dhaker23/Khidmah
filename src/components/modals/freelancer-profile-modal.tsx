@@ -314,7 +314,7 @@ export function FreelancerProfileModal() {
       <DialogPortal>
         <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
         <DialogContent
-          className="p-0 gap-0 max-w-5xl w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
+          className="p-0 gap-0 max-w-5xl w-[calc(100%-1rem)] sm:w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
           aria-describedby={undefined}
           showCloseButton
         >
@@ -484,7 +484,7 @@ export function FreelancerProfileModal() {
           {/* Tabs */}
           <div className="px-5 sm:px-7 pt-3 border-b border-border/60">
             <Tabs value={tab} onValueChange={setTab}>
-              <TabsList className="bg-transparent p-0 h-auto gap-1 w-full justify-start overflow-x-auto">
+              <TabsList className="bg-transparent p-0 h-auto gap-1 w-full justify-start overflow-x-auto scrollbar-thin">
                 {[
                   { v: "overview", l: "Overview" },
                   { v: "portfolio", l: `Portfolio (${f.portfolio.length})` },
@@ -495,7 +495,7 @@ export function FreelancerProfileModal() {
                   <TabsTrigger
                     key={t.v}
                     value={t.v}
-                    className="rounded-md data-[state=active]:bg-[#32504d]/10 dark:bg-[#32504d]/20 data-[state=active]:text-[#32504d] dark:text-[#9bb3ae] data-[state=active]:shadow-none text-xs px-3 h-8"
+                    className="rounded-md data-[state=active]:bg-[#32504d]/10 dark:bg-[#32504d]/20 data-[state=active]:text-[#32504d] dark:text-[#9bb3ae] data-[state=active]:shadow-none text-xs px-2.5 sm:px-3 h-8 whitespace-nowrap shrink-0"
                   >
                     {t.l}
                   </TabsTrigger>

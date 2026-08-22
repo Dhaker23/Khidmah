@@ -908,7 +908,7 @@ export function ApiDocsModal() {
       <DialogPortal>
         <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
         <DialogContent
-          className="max-w-4xl w-[calc(100%-2rem)] h-[85vh] p-0 gap-0 overflow-hidden flex flex-col"
+          className="max-w-4xl w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] h-[85vh] p-0 gap-0 overflow-hidden flex flex-col"
           aria-describedby={undefined}
           showCloseButton={false}
         >

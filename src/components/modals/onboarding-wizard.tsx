@@ -284,7 +284,7 @@ export function OnboardingWizard() {
       <DialogPortal>
         <DialogOverlay className="bg-[#192d2f]/70 backdrop-blur-sm" />
         <DialogContent
-          className="p-0 gap-0 max-w-4xl w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
+          className="p-0 gap-0 max-w-4xl w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-h-[92vh] flex flex-col overflow-hidden"
           aria-describedby={undefined}
           showCloseButton
         >
